@@ -1,0 +1,13 @@
+{
+	"name": "protoblast",
+	"description": "Handy functions for several classes' prototype",
+	"version": "0.1.0",
+	"author": "Jelle De Loecker <jelle@codedor.be>",
+	"keywords": ["prototype", "util", "functional", "server", "client", "browser"],
+	"main": "./lib/init.js",
+	"repository": "git@github.com:skerit/protoblast.git",
+	"license": "MIT",
+	"engines": {
+		"node": ">=0.10"
+	}
+}
