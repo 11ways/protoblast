@@ -7,6 +7,9 @@
 	"main": "./lib/init.js",
 	"repository": "git@github.com:skerit/protoblast.git",
 	"license": "MIT",
+	"scripts": {
+		"test": "node_modules/.bin/mocha --reporter spec"
+	},
 	"devDependencies": {
 		"mocha": "1.20.x"
 	},
