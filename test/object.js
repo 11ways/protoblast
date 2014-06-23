@@ -76,4 +76,110 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.assign(target, obj1, obj2, ...)', function() {
+		it('should inject objn properties into the target object', function() {
+
+			var target = {},
+			    obj1   = {one: 1, two: 2},
+			    obj2   = {three: 3};
+
+			Object.assign(target, obj1, obj2);
+
+			assert.equal(1, target.one);
+			assert.equal(3, target.three);
+		});
+	});
+
+	describe('.objectify(source, recursive, value)', function() {
+
+		it('should convert an array of objects to one object', function() {
+
+			var arr = [{one: 1}, {two: 2}, {three: 3}, 'four']
+			    convert = Object.objectify(arr);
+
+			assert.equal(1, convert.one);
+			assert.equal(3, convert.three);
+			assert.equal(true, convert.four);
+		});
+	});
+
+	describe('.each(obj, fnc)', function() {
+
+		it('should execute the given function for each key-value pair', function() {
+
+			var obj = {one: 1, two: 2, three: 3},
+			    count = 0;
+
+			Object.each(obj, function(value, key) {
+				count += value;
+			});
+
+			assert.equal(6, count);
+		});
+	});
+
+	describe('.map(obj, fnc)', function() {
+
+		it('should execute the given function for each key-value pair and return the result as a new object', function() {
+
+			var obj = {one: 1, two: 2, three: 3},
+			    result;
+
+			result = Object.map(obj, function(value, key) {
+				return value * 2;
+			});
+
+			assert.equal(2, result.one);
+			assert.equal(6, result.three);
+		});
+	});
+
+	describe('.getValueKey(target, value)', function() {
+
+		it('should return the key of a value in an object', function() {
+
+			var obj = {one: 1, two: 2, three: 3};
+
+			assert.equal('two', Object.getValueKey(obj, 2));
+		});
+
+		it('should return strict false if the key is not in the object', function() {
+
+			var obj = {one: 1, two: 2, three: 3};
+
+			assert.strictEqual(false, Object.getValueKey(obj, 66));
+		});
+
+		it('should return the index of a value in an array', function() {
+
+			var arr = [47,49,2,66,33];
+
+			assert.equal(3, Object.getValueKey(arr, 66));
+		});
+	});
+
+
+	describe('.hasValue(target, value)', function() {
+
+		it('should return true if the value is inside the object', function() {
+
+			var obj = {one: 1, two: 2, three: 3};
+
+			assert.equal(true, Object.hasValue(obj, 2));
+			assert.equal(false, Object.hasValue(obj, 99));
+		});
+
+		it('should return false if the value is not inside the object', function() {
+			var obj = {one: 1, two: 2, three: 3};
+			assert.equal(false, Object.hasValue(obj, 99));
+		});
+
+		it('should return true if the value is inside the array', function() {
+
+			var arr = [47,49,2,66,33];
+
+			assert.equal(true, Object.hasValue(arr, 33));
+		});
+	});
+
 });
