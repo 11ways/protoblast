@@ -1,3 +1,7 @@
+## 0.1.2 (WIP)
+
+* Added Array#insert(index, value, ...)
+
 ## 0.1.1 (2014-06-23)
 
 * Added basic client-side support

@@ -110,6 +110,24 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#insert(index, value, ...)', function() {
+		it('should insert the value in the original array at the given index', function() {
+			var a = [0,1,2,3],
+			    inserted = a.insert(2, 'inserted');
+
+			assert.equal(a, inserted, 'The array is not modified in place');
+			assert.equal('0,1,inserted,2,3', inserted.join());
+		});
+
+		it('should insert all the values given', function() {
+			var a = [0,1,2,3],
+			    inserted = a.insert(2, 'i1', 'i2');
+
+			assert.equal(a, inserted, 'The array is not modified in place');
+			assert.equal('0,1,i1,i2,2,3', inserted.join());
+		});
+	});
+
 	describe('#shared(secondArray)', function() {
 		it('should return the shared values between 2 arrays as an array', function() {
 
