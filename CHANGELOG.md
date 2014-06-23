@@ -1,4 +1,4 @@
-## 0.1.1 (WIP)
+## 0.1.1 (2014-06-23)
 
 * Added basic client-side support
 * Added toSource methods
