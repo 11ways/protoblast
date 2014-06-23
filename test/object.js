@@ -158,6 +158,21 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.hasProperty(target, propertyName)', function() {
+
+		it('should return true if the object has this property', function() {
+
+			var obj = {one: 1, falsy: false, zero: 0, undef: undefined};
+
+			assert.equal(true, Object.hasProperty(obj, 'one'));
+			assert.equal(true, Object.hasProperty(obj, 'falsy', 'Falsy values should also be present'));
+			assert.equal(true, Object.hasProperty(obj, 'zero', 'Falsy values should also be present'));
+			assert.equal(true, Object.hasProperty(obj, 'undef', 'Properties with the specific "undefined" value are also true'));
+
+			assert.equal(false, Object.hasProperty(obj, 'doesnotexist'));
+		});
+	});
+
 
 	describe('.hasValue(target, value)', function() {
 

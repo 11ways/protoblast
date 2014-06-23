@@ -1,6 +1,7 @@
 ## 0.1.2 (WIP)
 
 * Added Array#insert(index, value, ...)
+* Added Object.hasProperty(obj, propertyName)
 
 ## 0.1.1 (2014-06-23)
 
