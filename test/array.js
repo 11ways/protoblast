@@ -126,6 +126,14 @@ describe('Array', function() {
 			assert.equal(a, inserted, 'The array is not modified in place');
 			assert.equal('0,1,i1,i2,2,3', inserted.join());
 		});
+
+		it('should insert the values at the wanted index, even if the array is not long enough', function() {
+			var a = [0,1,2,3],
+			    inserted = a.insert(6, 6, 7,8);
+
+			assert.equal(a, inserted, 'The array is not modified in place');
+			assert.equal('0,1,2,3,,6,7,8', inserted.join());
+		});
 	});
 
 	describe('#shared(secondArray)', function() {
