@@ -2,6 +2,8 @@
 
 * Added Array#insert(index, value, ...)
 * Added Object.hasProperty(obj, propertyName)
+* Added String#truncate(length, word, ellipsis)
+* Added String#stripTags()
 
 ## 0.1.1 (2014-06-23)
 

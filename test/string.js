@@ -9,6 +9,29 @@ describe('String', function() {
 		});
 	});
 
+	describe('#stripTags()', function() {
+		it('should remove HTML tags from the string', function() {
+			var original = '<b>This is a <br/>bold string</b>';
+
+			assert.strictEqual('This is a bold string', original.stripTags());
+		});
+	});
+
+	describe('#truncate(length, word, ellipsis)', function() {
+		it('should truncate a string', function() {
+			var original = 'This string is deemed a bit too longified to be put on the screen of the user!',
+			    simple   = original.truncate(40, false),
+			    word     = original.truncate(40),
+			    ell      = original.truncate(40, true, ' (cont)'),
+			    noell    = original.truncate(40, false, false);
+
+			assert.strictEqual('This string is deemed a bit too longi...', simple);
+			assert.strictEqual('This string is deemed a bit too...', word);
+			assert.strictEqual('This string is deemed a bit too (cont)', ell);
+			assert.strictEqual('This string is deemed a bit too longifie', noell);
+		});
+	});
+
 	describe('#capitals()', function() {
 		it('should return the amount of capitals in the string', function() {
 			assert.strictEqual(3, 'This Is A test'.capitals());
