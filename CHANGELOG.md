@@ -4,6 +4,7 @@
 * Added Object.hasProperty(obj, propertyName)
 * Added String#truncate(length, word, ellipsis)
 * Added String#stripTags()
+* Added Date.isDate(variable)
 
 ## 0.1.1 (2014-06-23)
 
