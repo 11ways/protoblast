@@ -5,6 +5,7 @@
 * Added String#truncate(length, word, ellipsis)
 * Added String#stripTags()
 * Added Date.isDate(variable)
+* Object.path(obj, path) now also accepts an array or multiple arguments
 
 ## 0.1.1 (2014-06-23)
 

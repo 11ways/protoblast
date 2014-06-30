@@ -33,12 +33,28 @@ describe('Object', function() {
 	});
 
 	describe('.path(obj, path)', function() {
-		it('should get the value of the given property path', function() {
+		it('should get the value of the given property path (as a string)', function() {
 
 			var obj = {well: {test: {property: 'one'}}};
 
 			assert.equal('one', Object.path(obj, 'well.test.property'));
 			assert.equal(undefined, Object.path(obj, 'does.not.exist'));
+		});
+
+		it('should get the value of the given property path (as an array)', function() {
+
+			var obj = {well: {test: {property: 'one'}}};
+
+			assert.equal('one', Object.path(obj, ['well', 'test', 'property']));
+			assert.equal(undefined, Object.path(obj, ['does'], ['not'], ['exist']));
+		});
+
+		it('should get the value of the given property path (as arguments)', function() {
+
+			var obj = {well: {test: {property: 'one'}}};
+
+			assert.equal('one', Object.path(obj, 'well', 'test', 'property'));
+			assert.equal(undefined, Object.path(obj, 'does', 'not', 'exist'));
 		});
 	});
 
