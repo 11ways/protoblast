@@ -6,6 +6,7 @@
 * Added String#stripTags()
 * Added Date.isDate(variable)
 * Object.path(obj, path) now also accepts an array or multiple arguments
+* Add Array.range(start, stop, step) method, which behaves like Python's range()
 
 ## 0.1.1 (2014-06-23)
 

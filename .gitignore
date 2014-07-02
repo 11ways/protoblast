@@ -19,6 +19,7 @@ v8.log
 # The generated client file
 client-file.js
 client-file-common.js
+scratch.js
 
 # Ignore coverage results
 /coverage/

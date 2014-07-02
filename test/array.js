@@ -89,6 +89,59 @@ describe('Array', function() {
 		});
 	});
 
+	describe('.range(start, stop, step)', function() {
+
+		it('should return an array containing arithmetic progressions', function() {
+			var arr = Array.range(0, 10, 1);
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+		});
+
+		it('should be able to only receive the stop parameter', function() {
+			var arr = Array.range(10);
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+		});
+
+		it('should be able to fill in the step parameter', function() {
+			var arr = Array.range(0, 10);
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+		});
+
+		it('should honour use other steps', function() {
+			var arr = Array.range(0, 10, 2);
+			assert.equal('0,2,4,6,8', arr.join());
+		});
+
+		it('should return an empty array for impossible steps', function() {
+			var arr = Array.range(0, 10, -1);
+			assert.equal('', arr.join());
+		});
+
+		it('should allow negative steps for counting down', function() {
+			var arr = Array.range(10, 0, -1);
+			assert.equal('10,9,8,7,6,5,4,3,2,1', arr.join());
+		});
+
+		it('should default non-numeric steps to 1', function() {
+			var arr = Array.range(0, 10, 'X');
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+		});
+
+		it('should handle string arguments', function() {
+
+			var arr = Array.range('10');
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+
+			arr = Array.range('0', '10', '1');
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+
+			arr = Array.range('0', '10');
+			assert.equal('0,1,2,3,4,5,6,7,8,9', arr.join());
+
+			arr = Array.range('0', '10', '-1');
+			assert.equal('', arr.join());
+		});
+	});
+
 	describe('#toSource()', function() {
 		it('should return the source code representation of the array', function() {
 			var arr = [0,1,2];
