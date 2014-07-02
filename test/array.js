@@ -163,6 +163,26 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#closest(goal)', function() {
+		it('should return the closest value in the array', function() {
+			var arr = Array.range(0, 100000, 33);
+
+			assert.equal(3465, arr.closest(3470));
+		});
+
+		it('should support negative goals', function() {
+			var arr = Array.range(0, 100000, 33);
+
+			assert.equal(0, arr.closest(-1));
+		});
+
+		it('should return the first value when a non-numeric string is passed', function() {
+			var arr = Array.range(0, 100000, 33);
+
+			assert.equal(0, arr.closest('a'));
+		});
+	});
+
 	describe('#insert(index, value, ...)', function() {
 		it('should insert the value in the original array at the given index', function() {
 			var a = [0,1,2,3],

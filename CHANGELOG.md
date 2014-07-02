@@ -7,6 +7,7 @@
 * Added Date.isDate(variable)
 * Object.path(obj, path) now also accepts an array or multiple arguments
 * Add Array.range(start, stop, step) method, which behaves like Python's range()
+* Add Array#closest(goal) method to find the closest value to the given goal
 
 ## 0.1.1 (2014-06-23)
 
