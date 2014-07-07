@@ -35,6 +35,7 @@ describe('String', function() {
 			assert.strictEqual('', sentence.after());
 			assert.strictEqual('', sentence.after(function(){}));
 			assert.strictEqual('', sentence.after(false));
+			assert.strictEqual('', sentence.after('that', function(){}));
 		});
 	});
 
@@ -73,6 +74,7 @@ describe('String', function() {
 			assert.strictEqual('', sentence.before());
 			assert.strictEqual('', sentence.before(function(){}));
 			assert.strictEqual('', sentence.before(false));
+			assert.strictEqual('', sentence.before('that', function(){}));
 		});
 	});
 
