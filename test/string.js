@@ -38,6 +38,15 @@ describe('String', function() {
 		});
 	});
 
+	describe('#afterLast(needle)', function() {
+
+		var sentence = 'This is the string that contains the that needle that we need';
+
+		it('should return the string after the last occurence of the needle', function() {
+			assert.strictEqual(' we need', sentence.afterLast('that'));
+		});
+	});
+
 	describe('#before(needle, first)', function() {
 
 		var sentence = 'This is the string that contains the that needle that we need';
@@ -46,11 +55,11 @@ describe('String', function() {
 			assert.strictEqual('This is the string ', sentence.before('that'));
 		});
 
-		it('should return the string after the last occurence of the needle', function() {
+		it('should return the string before the last occurence of the needle', function() {
 			assert.strictEqual('This is the string that contains the that needle ', sentence.before('that', false));
 		});
 
-		it('should return the string after the second occurence of the needle', function() {
+		it('should return the string before the second occurence of the needle', function() {
 			assert.strictEqual('This is the string that contains the ', sentence.before('that', 2));
 			assert.strictEqual('This is the string that contains the that needle ', sentence.before('that', 3));
 		});
@@ -64,6 +73,15 @@ describe('String', function() {
 			assert.strictEqual('', sentence.before());
 			assert.strictEqual('', sentence.before(function(){}));
 			assert.strictEqual('', sentence.before(false));
+		});
+	});
+
+	describe('#beforeLast(needle)', function() {
+		
+		var sentence = 'This is the string that contains the that needle that we need';
+
+		it('should return the string before the last occurence of the needle', function() {
+			assert.strictEqual('This is the string that contains the that needle ', sentence.beforeLast('that'));
 		});
 	});
 

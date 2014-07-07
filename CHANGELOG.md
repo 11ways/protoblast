@@ -9,6 +9,7 @@
 * Add Array.range(start, stop, step) method, which behaves like Python's range()
 * Add Array#closest(goal) method to find the closest value to the given goal
 * Added String#before(needle, first) and String#after(needle, first)
+* Added String#beforeLast(needle) and String#afterLast(needle)
 
 ## 0.1.1 (2014-06-23)
 
