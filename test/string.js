@@ -9,6 +9,64 @@ describe('String', function() {
 		});
 	});
 
+	describe('#after(needle, first)', function() {
+
+		var sentence = 'This is the string that contains the that needle that we need';
+
+		it('should return the string after the first occurence of the needle', function() {
+			assert.strictEqual(' contains the that needle that we need', sentence.after('that'));
+		});
+
+		it('should return the string after the last occurence of the needle', function() {
+			assert.strictEqual(' we need', sentence.after('that', false));
+		});
+
+		it('should return the string after the wanted occurence of the needle', function() {
+			assert.strictEqual(' needle that we need', sentence.after('that', 2));
+			assert.strictEqual(' we need', sentence.after('that', 3));
+		});
+
+		it('should return an empty string if an occurence is wanted that is not there', function() {
+			assert.strictEqual('', sentence.after('that', 4));
+			assert.strictEqual('', sentence.after('castle'));
+		});
+
+		it('should return an empty string for illegal parameters', function() {
+			assert.strictEqual('', sentence.after());
+			assert.strictEqual('', sentence.after(function(){}));
+			assert.strictEqual('', sentence.after(false));
+		});
+	});
+
+	describe('#before(needle, first)', function() {
+
+		var sentence = 'This is the string that contains the that needle that we need';
+
+		it('should return the string before the first occurence of the needle', function() {
+			assert.strictEqual('This is the string ', sentence.before('that'));
+		});
+
+		it('should return the string after the last occurence of the needle', function() {
+			assert.strictEqual('This is the string that contains the that needle ', sentence.before('that', false));
+		});
+
+		it('should return the string after the second occurence of the needle', function() {
+			assert.strictEqual('This is the string that contains the ', sentence.before('that', 2));
+			assert.strictEqual('This is the string that contains the that needle ', sentence.before('that', 3));
+		});
+
+		it('should return an empty string if an occurence is wanted that is not there', function() {
+			assert.strictEqual('', sentence.before('that', 4));
+			assert.strictEqual('', sentence.before('castle'));
+		});
+
+		it('should return an empty string for illegal parameters', function() {
+			assert.strictEqual('', sentence.before());
+			assert.strictEqual('', sentence.before(function(){}));
+			assert.strictEqual('', sentence.before(false));
+		});
+	});
+
 	describe('#stripTags()', function() {
 		it('should remove HTML tags from the string', function() {
 			var original = '<b>This is a <br/>bold string</b>';
