@@ -13,6 +13,7 @@
 * Added Object.isObject(obj)
 * Added Object.isPlainObject(obj)
 * Added Object.isPrimitiveObject(obj)
+* Added String.serializeAttributes(obj)
 
 ## 0.1.1 (2014-06-23)
 
