@@ -19,6 +19,84 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.isObject(obj)', function() {
+		it('should return true for regular objects', function() {
+			assert.equal(true, Object.isObject({}));
+			assert.equal(true, Object.isObject(new Object()));
+		});
+
+		it('should return true for arrays', function() {
+			assert.equal(true, Object.isObject([]));
+			assert.equal(true, Object.isObject(new Array()));
+		});
+
+		it('should return true for the object form of primitives', function() {
+			assert.equal(true, Object.isObject(new String()));
+			assert.equal(true, Object.isObject(new Number()));
+			assert.equal(true, Object.isObject(new Boolean()));
+		});
+
+		it('should return false for null', function() {
+			assert.equal(false, Object.isObject(null));
+		});
+
+		it('should return false for primitives', function() {
+			assert.equal(false, Object.isObject(''));
+			assert.equal(false, Object.isObject(1));
+			assert.equal(false, Object.isObject(true));
+		});
+	});
+
+	describe('.isPlainObject(obj)', function() {
+		it('should return true for plain objects', function() {
+
+			var obj  = new Object(),
+			    obj2 = {
+				one: 1,
+				two: 2,
+				three: 3
+			};
+
+			assert.equal(true, Object.isPlainObject(obj));
+			assert.equal(true, Object.isPlainObject(obj2));
+		});
+
+		it('should return false for other objects', function() {
+
+			var arr = [],
+			    str = new String(),
+			    nr  = new Number();
+
+			assert.equal(false, Object.isPlainObject(arr));
+			assert.equal(false, Object.isPlainObject(str));
+			assert.equal(false, Object.isPlainObject(nr));
+		});
+	});
+
+	describe('.isPrimitiveObject(obj)', function() {
+		it('should return true for the object form of primitives', function() {
+			assert.equal(true, Object.isPrimitiveObject(new String()));
+			assert.equal(true, Object.isPrimitiveObject(new Number()));
+			assert.equal(true, Object.isPrimitiveObject(new Boolean()));
+		});
+
+		it('should return false for other objects', function() {
+			assert.equal(false, Object.isPrimitiveObject([]));
+			assert.equal(false, Object.isPrimitiveObject({}));
+		});
+
+		it('should return false for regular primitives', function() {
+
+			assert.equal(false, Object.isPrimitiveObject(0));
+			assert.equal(false, Object.isPrimitiveObject(''));
+			assert.equal(false, Object.isPrimitiveObject(false));
+
+			assert.equal(false, Object.isPrimitiveObject(1));
+			assert.equal(false, Object.isPrimitiveObject('a'));
+			assert.equal(false, Object.isPrimitiveObject(true));
+		});
+	});
+
 	describe('.divide(obj)', function() {
 		it('should create a new object for every key-value and wrap them in an array', function() {
 
