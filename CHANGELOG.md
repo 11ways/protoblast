@@ -14,6 +14,7 @@
 * Added Object.isPlainObject(obj)
 * Added Object.isPrimitiveObject(obj)
 * Added String.serializeAttributes(obj)
+* Added String#encodeHTML and String#decodeHTML
 
 ## 0.1.1 (2014-06-23)
 

@@ -95,6 +95,22 @@ describe('String', function() {
 		});
 	});
 
+	describe('#encodeHTML()', function() {
+		it('should encode certain characters to safe HTML code', function() {
+			var original = '<string> & foo © bar ≠ baz 𝌆 qux';
+
+			assert.strictEqual('&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux', original.encodeHTML());
+		});
+	});
+
+	describe('#decodeHTML()', function() {
+		it('should decode certain escaped HTML entities', function() {
+			var original = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux&quot;&amp;';
+
+			assert.strictEqual('"<string> & foo © bar ≠ baz 𝌆 qux"&', original.decodeHTML());
+		});
+	});
+
 	describe('#truncate(length, word, ellipsis)', function() {
 		it('should truncate a string', function() {
 			var original = 'This string is deemed a bit too longified to be put on the screen of the user!',
