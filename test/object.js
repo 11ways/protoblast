@@ -97,6 +97,23 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.flatten(obj)', function() {
+		it('flatten an object', function() {
+
+			var obj = {
+				one: 1,
+				settings: {
+					two: 2,
+					sub: {
+						three: 3
+					}
+				}
+			};
+
+			assert.equal('{"one":1,"settings.two":2,"settings.sub.three":3}', JSON.stringify(Object.flatten(obj)));
+		});
+	});
+
 	describe('.divide(obj)', function() {
 		it('should create a new object for every key-value and wrap them in an array', function() {
 
