@@ -66,10 +66,22 @@ describe('Object', function() {
 			var arr = [],
 			    str = new String(),
 			    nr  = new Number();
+			    testclass = function testclass(){},
+			    testobj = new testclass();
 
 			assert.equal(false, Object.isPlainObject(arr));
 			assert.equal(false, Object.isPlainObject(str));
 			assert.equal(false, Object.isPlainObject(nr));
+			assert.equal(false, Object.isPlainObject(testobj));
+		});
+
+		it('should return false for primitives', function() {
+			assert.equal(false, Object.isPlainObject(1));
+			assert.equal(false, Object.isPlainObject('a'));
+			assert.equal(false, Object.isPlainObject(true));
+			assert.equal(false, Object.isPlainObject(undefined));
+			assert.equal(false, Object.isPlainObject(null));
+			assert.equal(false, Object.isPlainObject(NaN));
 		});
 	});
 
