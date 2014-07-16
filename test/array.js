@@ -209,6 +209,20 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#unique()', function() {
+		it('should return all the unique values', function() {
+			var a = [1,2,1,3,6,2];
+
+			assert.equal('1,2,3,6', a.unique().join(','));
+		});
+
+		it('should return objects even when they have the same properties', function() {
+			var a = [1,1, {a:1}, {a:1}];
+
+			assert.equal('1,[object Object],[object Object]', a.unique().join(','));
+		});
+	});
+
 	describe('#shared(secondArray)', function() {
 		it('should return the shared values between 2 arrays as an array', function() {
 
