@@ -18,6 +18,7 @@
 * Added Object.flatten(obj)
 * Added Array#unique()
 * Added Function#curry()
+* Added Iterator class and Array#createIterator()
 
 ## 0.1.1 (2014-06-23)
 
