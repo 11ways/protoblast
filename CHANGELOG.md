@@ -17,6 +17,7 @@
 * Added String#encodeHTML and String#decodeHTML
 * Added Object.flatten(obj)
 * Added Array#unique()
+* Added Function#curry()
 
 ## 0.1.1 (2014-06-23)
 

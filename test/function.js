@@ -40,4 +40,21 @@ describe('Function', function() {
 		});
 	});
 
+	describe('#curry()', function() {
+		it('should create a function that already contains pre-filled-in arguments', function() {
+
+			var adder,
+			    addTen;
+
+			adder = function adder(a, b) {
+				return a+b;
+			}
+
+			addTen = adder.curry(10);
+
+			assert.equal(adder(10,5), addTen(5));
+			assert.equal(adder.name, addTen.name);
+		});
+	});
+
 });
