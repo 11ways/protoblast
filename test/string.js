@@ -95,6 +95,17 @@ describe('String', function() {
 		});
 	});
 
+	describe('#dissect(openTag, closeTag)', function() {
+		it('dissect a string into parts in- and outside of the given delimiters', function() {
+
+			var original = 'This <% is a %> test',
+			    arr      = original.dissect('<%', '%>'),
+			    expected = '[{"type":"normal","lineStart":0,"lineEnd":0,"content":"This "},{"type":"inside","lineStart":0,"lineEnd":0,"content":" is a "},{"type":"normal","lineStart":0,"lineEnd":0,"content":" test"}]';
+
+			assert.strictEqual(expected, JSON.stringify(arr));
+		});
+	});
+
 	describe('#encodeHTML()', function() {
 		it('should encode certain characters to safe HTML code', function() {
 			var original = '<string> & foo © bar ≠ baz 𝌆 qux';
