@@ -139,6 +139,18 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.dissect(obj)', function() {
+		it('should act like divide, but also store the key and value as properties', function() {
+
+			var obj = {
+				one: 1,
+				two: 2,
+			};
+
+			assert.equal('[{"key":"one","value":1},{"key":"two","value":2}]', JSON.stringify(Object.dissect(obj)));
+		});
+	});
+
 	describe('.path(obj, path)', function() {
 		it('should get the value of the given property path (as a string)', function() {
 

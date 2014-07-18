@@ -19,6 +19,8 @@
 * Added Array#unique()
 * Added Function#curry()
 * Added Iterator class and Array#createIterator()
+* Added Deck class (ordered object)
+* Added unit tests for Iterator & Deck
 
 ## 0.1.1 (2014-06-23)
 
