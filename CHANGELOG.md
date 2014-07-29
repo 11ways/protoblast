@@ -25,6 +25,7 @@
 * Added RegExp.interpret(pattern)
 * Added RegExp#getPattern()
 * Added RegExp#getFlags()
+* Added RegExp.combine(r1, r2, ... rn)
 
 ## 0.1.1 (2014-06-23)
 
