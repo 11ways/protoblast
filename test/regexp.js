@@ -37,4 +37,13 @@ describe('RegExp', function() {
 		});
 	});
 
+	describe('#getPattern()', function() {
+		it('should return the pattern part of the regex', function() {
+
+			var rx = /search/i;
+
+			assert.equal('search', rx.getPattern());
+		});
+	});
+
 });

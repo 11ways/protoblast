@@ -23,6 +23,7 @@
 * Added unit tests for Iterator & Deck
 * Added String#dissect(open, close)
 * Added RegExp.interpret(pattern)
+* Added RegExp#getPattern()
 
 ## 0.1.1 (2014-06-23)
 
