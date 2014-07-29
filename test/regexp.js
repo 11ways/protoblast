@@ -12,6 +12,22 @@ describe('RegExp', function() {
 		});
 	});
 
+	describe('.interpret(pattern)', function() {
+		it('should convert a string pattern to a regex', function() {
+
+			var pWithMod = '/a|b/gi',
+			    pWithout = 'a|b',
+			    pNoDel   = '/a|b/',
+			    rWithMod = RegExp.interpret(pWithMod),
+			    rWithout = RegExp.interpret(pWithout),
+			    rNoDel   = RegExp.interpret(pNoDel);
+
+			assert.equal(pWithMod, rWithMod.toString());
+			assert.equal('/a|b/', rNoDel.toString());
+			assert.equal('/a|b/', rWithout.toString());
+		});
+	});
+
 	describe('#toSource()', function() {
 		it('should return the source code representation of the regex', function() {
 
