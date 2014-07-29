@@ -46,4 +46,13 @@ describe('RegExp', function() {
 		});
 	});
 
+	describe('#getFlags()', function() {
+		it('should return the flags used in the regex', function() {
+
+			var rx = /search/i;
+
+			assert.equal('i', rx.getFlags());
+		});
+	});
+
 });
