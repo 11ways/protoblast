@@ -26,7 +26,8 @@
 * Added RegExp#getPattern()
 * Added RegExp#getFlags()
 * Added RegExp.combine(r1, r2, ... rn)
-* Added Function#tokenize(throwErrors)
+* Added Function#tokenize(addType, throwErrors)
+* Added Function.tokenize(source, addType, throwErrors) and Function.getTokenType(str)
 
 ## 0.1.1 (2014-06-23)
 
