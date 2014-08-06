@@ -28,6 +28,7 @@
 * Added RegExp.combine(r1, r2, ... rn)
 * Added Function#tokenize(addType, throwErrors)
 * Added Function.tokenize(source, addType, throwErrors) and Function.getTokenType(str)
+* Added JSONPath, added Object.extract using that class
 
 ## 0.1.1 (2014-06-23)
 
