@@ -29,6 +29,7 @@
 * Added Function#tokenize(addType, throwErrors)
 * Added Function.tokenize(source, addType, throwErrors) and Function.getTokenType(str)
 * Added JSONPath, added Object.extract using that class
+* Added Number.random(min, max)
 
 ## 0.1.1 (2014-06-23)
 
