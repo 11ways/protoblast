@@ -30,6 +30,7 @@
 * Added Function.tokenize(source, addType, throwErrors) and Function.getTokenType(str)
 * Added JSONPath, added Object.extract using that class
 * Added Number.random(min, max)
+* Speed up String#count and add String#replaceAll that doesn't use regexes
 
 ## 0.1.1 (2014-06-23)
 
