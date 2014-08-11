@@ -32,6 +32,8 @@
 * Added Number.random(min, max)
 * Speed up String#count and add String#replaceAll that doesn't use regexes
 * Added Math methods: mean, median, variance and (standard) deviation
+* Started adding Benchmarking functions
+* Added (asynchronous) function flow controls
 
 ## 0.1.1 (2014-06-23)
 
