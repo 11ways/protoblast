@@ -34,6 +34,7 @@
 * Added Math methods: mean, median, variance and (standard) deviation
 * Started adding Benchmarking functions
 * Added (asynchronous) function flow controls
+* Added Number#humanize method
 
 ## 0.1.1 (2014-06-23)
 
