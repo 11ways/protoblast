@@ -33,4 +33,14 @@ describe('Number', function() {
 		});
 	});
 
+	describe('#humanize(delimiter, separator)', function() {
+		it('should humanize a number', function() {
+			assert.equal('1,840,774.5', 1840774.5.humanize());
+		});
+
+		it('should humanize a number with given parameters', function() {
+			assert.equal('1 840 774,5', 1840774.5.humanize(' ', ','));
+		});
+	});
+
 });
