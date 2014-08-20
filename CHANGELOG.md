@@ -34,6 +34,7 @@
 * Added Math methods: mean, median, variance and (standard) deviation
 * Started adding Benchmarking functions
 * Added (asynchronous) function flow controls
+* Update inflection rules (Ben Lin's From node.inflection, https://github.com/dreamerslab/node.inflection)
 
 ## 0.1.1 (2014-06-23)
 
