@@ -1,3 +1,5 @@
+## 0.1.3 (WIP)
+
 ## 0.1.2 (2014-08-28)
 
 * Added Array#insert(index, value, ...)
