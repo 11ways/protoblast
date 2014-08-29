@@ -1,5 +1,12 @@
 ## 0.1.3 (WIP)
 
+* Added Array#sum(property, map)
+* Math.deviation should actually have been 'standardDeviation'
+* Added the correct Math.deviation
+* Math.variance has been modified, now accepts second parameter for bias
+* Added a (fast!) Math.pearson correlation score function, based on 
+  Matt West's <matt.west@kojilabs.com> original function
+
 ## 0.1.2 (2014-08-28)
 
 * Added Array#insert(index, value, ...)
