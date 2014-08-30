@@ -6,6 +6,10 @@
 * Math.variance has been modified, now accepts second parameter for bias
 * Added a (fast!) Math.pearson correlation score function, based on 
   Matt West's <matt.west@kojilabs.com> original function
+* Added Math.spearman
+* Added Array#flashsort() for faster sorting
+* All Math functions that need sorting now use flashsort
+* Added Math benchmarks
 
 ## 0.1.2 (2014-08-28)
 
