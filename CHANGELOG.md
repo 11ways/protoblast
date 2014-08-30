@@ -10,6 +10,7 @@
 * Added Array#flashsort() for faster sorting
 * All Math functions that need sorting now use flashsort
 * Added Math benchmarks
+* Added clipping functions to Number, Array and Math
 
 ## 0.1.2 (2014-08-28)
 
