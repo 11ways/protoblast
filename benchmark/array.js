@@ -1,5 +1,17 @@
 var Blast  = require('../index.js')();
 
+suite ('Array (builtins)', function() {
+
+	bench('#slice(0)', function() {
+		[17, 17, 3, 2, 4, 8, 1, 0, 3, 1, 7, 12, 6, 13, 2, 14, 6].slice(0);
+	});
+
+	bench('#slice()', function() {
+		[17, 17, 3, 2, 4, 8, 1, 0, 3, 1, 7, 12, 6, 13, 2, 14, 6].slice();
+	});
+
+});
+
 suite('Array', function() {
 
 	var arr = [0,1,2,3,10,30,90, "string", {}],

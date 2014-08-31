@@ -11,6 +11,10 @@
 * All Math functions that need sorting now use flashsort
 * Added Math benchmarks
 * Added clipping functions to Number, Array and Math
+* Added Object.size(variable)
+* Added String#slug()
+* Fixed lots of bugs in Function.series and Function.parallel
+* Fixed all `arguments` leaks, greatly improving performance
 
 ## 0.1.2 (2014-08-28)
 

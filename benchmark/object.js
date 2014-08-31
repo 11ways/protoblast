@@ -3,7 +3,8 @@ var Blast  = require('../index.js')();
 suite('Object', function() {
 
 	var obj = {one: 1, test: {me: 1}, three: 3},
-	    arr = [1,2,3, {test: 1}, {again: 2}];
+	    arr = [1,2,3, {test: 1}, {again: 2}],
+	    longObj = Object.mapKeys(Array.range(50), 'str');
 
 	var data = [
 	{Wallpaper: {
@@ -39,6 +40,18 @@ suite('Object', function() {
 
 	bench('.isPrimitiveObject(obj)', function() {
 		Object.isPrimitiveObject(obj);
+	});
+
+	bench('.size(obj) - 3 keys', function() {
+		Object.size(obj);
+	});
+
+	bench('.size(obj) - 50 keys', function() {
+		Object.size(longObj);
+	});
+
+	bench('.size("string")', function() {
+		Object.size("string");
 	});
 
 	bench('.flatten(obj)', function() {

@@ -109,6 +109,49 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.size(variable)', function() {
+
+		var arr = [1,2,3,4,5],
+		    obj = {a: 1, b: 2, c: 3, d: 4, e: 5},
+		    str = 'four',
+		    nr = 22;
+
+		it('should return an array\'s length', function() {
+			assert.equal(5, Object.size(arr));
+		});
+
+		it('should count the keys inside an object', function() {
+			assert.equal(5, Object.size(obj));
+		});
+
+		it('should return the length of a string', function() {
+			assert.equal(4, Object.size(str));
+			assert.equal(4, Object.size(new String(str)));
+		});
+
+		it('should return the value of a number', function() {
+			assert.equal(22, Object.size(nr), 'Primitive numbers should return their value');
+			assert.equal(22, Object.size(new Number(nr)), 'Number objects should return their value');
+		});
+
+		it('should return the value of a boolean', function() {
+			assert.equal(0, Object.size(false));
+			assert.equal(1, Object.size(true));
+
+			assert.equal(0, Object.size(new Boolean(false)));
+			assert.equal(1, Object.size(new Boolean(true)));
+		});
+
+		it('should return 0 for falsy values', function() {
+			assert.equal(0, Object.size());
+			assert.equal(0, Object.size(undefined));
+			assert.equal(0, Object.size(null));
+			assert.equal(0, Object.size(false));
+			assert.equal(0, Object.size(''));
+		});
+
+	});
+
 	describe('.flatten(obj)', function() {
 		it('flatten an object', function() {
 
