@@ -15,6 +15,7 @@
 * Added String#slug()
 * Fixed lots of bugs in Function.series and Function.parallel
 * Fixed all `arguments` leaks, greatly improving performance
+* Fixed IE bugs, added Function#name getter for IE
 
 ## 0.1.2 (2014-08-28)
 
