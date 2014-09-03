@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('RegExp', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('.escape(string)', function() {
 		it('should escape a string so it can be used inside a regex', function() {

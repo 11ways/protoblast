@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Function Flow', function() {
 
@@ -9,34 +9,38 @@ describe('Function Flow', function() {
 	    pObjTasks = {},
 	    i;
 
-	Array.range(4).forEach(function(i) {
+	before(function() {
+		Blast  = require('../index.js')();
+	
+		Array.range(4).forEach(function(i) {
 
-		pArrTasks[i] = function(next) {
-			Blast.setImmediate(function() {
-				next(null, 'result-' + i);
-			});
-		};
+			pArrTasks[i] = function(next) {
+				Blast.setImmediate(function() {
+					next(null, 'result-' + i);
+				});
+			};
 
-		pObjTasks['Named task ' + i] = function(next) {
-			Blast.setImmediate(function() {
-				next(null, 'result-' + i);
-			});
-		};
+			pObjTasks['Named task ' + i] = function(next) {
+				Blast.setImmediate(function() {
+					next(null, 'result-' + i);
+				});
+			};
 
-		// Only schedule 2 tasks for the series benchmarks
-		if (i > 1) return;
+			// Only schedule 2 tasks for the series benchmarks
+			if (i > 1) return;
 
-		arrTasks[i] = function(next) {
-			Blast.setImmediate(function() {
-				next(null, 'result-' + i);
-			});
-		};
+			arrTasks[i] = function(next) {
+				Blast.setImmediate(function() {
+					next(null, 'result-' + i);
+				});
+			};
 
-		objTasks['Named task ' + i] = function(next) {
-			Blast.setImmediate(function() {
-				next(null, 'result-' + i);
-			});
-		};
+			objTasks['Named task ' + i] = function(next) {
+				Blast.setImmediate(function() {
+					next(null, 'result-' + i);
+				});
+			};
+		});
 	});
 
 	describe('.series(arrayTasks, callback)', function() {

@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Array', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('.cast(variable)', function() {
 		it('should return an array parameter without modifying it', function() {
@@ -144,8 +148,16 @@ describe('Array', function() {
 
 	describe('#toSource()', function() {
 		it('should return the source code representation of the array', function() {
-			var arr = [0,1,2];
-			assert.equal('[0,1,2]', arr.toSource());
+
+			var arr = [0,1,2],
+			    src = arr.toSource(),
+			    match;
+
+			if ('[0,1,2]' == src || '[0, 1, 2]' == src) {
+				match = true;
+			}
+
+			assert.equal(match, true);
 		});
 	});
 

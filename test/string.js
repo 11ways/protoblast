@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('String', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('#toSource()', function() {
 		it('should return the source code representation of the string', function() {

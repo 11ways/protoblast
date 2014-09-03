@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('String Inflections', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('#pluralize()', function() {
 		it('should return the plural representation of the string', function() {

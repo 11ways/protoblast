@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Number', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('.random(min, max)', function() {
 		it('should return a random number', function() {

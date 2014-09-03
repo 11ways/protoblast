@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Date', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('.create()', function() {
 		it('should return a new date object', function() {

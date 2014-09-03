@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Deck', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('new Deck()', function() {
 		it('should return an empty deck', function() {

@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Deck', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('new Iterator()', function() {
 		it('should return a new iterator', function() {

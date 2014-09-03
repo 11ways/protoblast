@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Function', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('.create(name, fnc)', function() {
 		it('should return a new named function', function() {

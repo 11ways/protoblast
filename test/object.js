@@ -1,7 +1,11 @@
 var assert = require('assert'),
-    Blast  = require('../index.js')();
+    Blast;
 
 describe('Object', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
 
 	describe('#toSource()', function() {
 		it('should return the source code representation of the object', function() {
@@ -14,8 +18,8 @@ describe('Object', function() {
 			    };
 
 			assert.equal('({})', ({}).toSource());
-			assert.equal('({"one": 1,"str": "str"})', simple.toSource())
-			assert.equal('({"json": JSON,"fnc": (function (){return 1;}),"regex": /search/i})', complex.toSource())
+			assert.equal('({"one": 1,"str": "str"})'.replace(/"| /g, ''), simple.toSource().replace(/"| /g, ''))
+			assert.equal('({"json": JSON,"fnc": (function (){return 1;}),"regex": /search/i})'.replace(/"| /g, ''), complex.toSource().replace(/"| /g, ''))
 		});
 	});
 
