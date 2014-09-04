@@ -1,5 +1,6 @@
 var Blast = require('../index.js')(),
     BlastPath = require.resolve('../index.js'),
+    browserify = require('browserify'),
     assert = require('assert'),
     base = __dirname + '/../',
     git = require('git-rev'),
@@ -15,26 +16,35 @@ var desireds = {
 	firefox: {browserName: 'firefox'},
 	explorer: {browserName: 'internet explorer'},
 	ie7: {browserName: 'internet explorer', version: '7'},
-	ie8: {browserName: 'internet explorer', version: '9'},
+	ie8: {browserName: 'internet explorer', version: '8'},
 	ie9: {browserName: 'internet explorer', version: '9'},
-	ie10: {browserName: 'internet explorer', version: '10'}
+	ie10: {browserName: 'internet explorer', version: '10'},
+	ie11: {browserName: 'internet explorer', version: '11'}
 };
 
 var browserKey = process.env.BROWSER || 'chrome';
 var desired = desireds[browserKey];
 
+if (!desired) {
+	pr('Could not find browserconfig for "' + String(browserKey).bold + '"');
+	process.exit();
+}
+
 var blastPath = Blast.getClientPath(true);
 var blastClient = ''+fs.readFileSync(blastPath);
 var mocha = ''+fs.readFileSync(base + 'node_modules/mocha/mocha.js');
-
-var browserify = require('browserify');
 
 var blastFile  = ''+fs.readFileSync(Blast.getClientPath(true)),
     mochaFile  = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.js'),
     mochaStyle = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.css'),
     testBrow   = browserify(),
-    username = process.env.SAUCE_USERNAME,
-    accessKey = process.env.SAUCE_ACCESS_KEY;
+    username = process.env.SAUCE_PROTOBLAST_USERNAME || process.env.SAUCE_USERNAME,
+    accessKey = process.env.SAUCE_PROTOBLAST_ACCESS_KEY || process.env.SAUCE_ACCESS_KEY;
+
+if (!username || !accessKey) {
+	pr('Could not find username or accesskey!'.bold.red);
+	process.exit();
+}
 
 // Add the sauceindex file
 testBrow.require(__dirname + '/sauceindex.js', {expose: '../index.js'});
@@ -86,8 +96,8 @@ describe('Configuring browser:', function() {
 
 	browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
 
-	// Don't timeout, it can take a while
-	this.timeout(0);
+	// Give it 500 seconds to timeout
+	this.timeout(500000);
 	this.slow(2500);
 
 	it('preparing the test bundle', function(next) {
@@ -127,6 +137,9 @@ describe('Configuring browser:', function() {
 	});
 
 	it('adding protoblast file', function() {
+
+		this.timeout(30000);
+
 		// Add protoblast
 		return browser.safeExecute(blastFile);
 	});

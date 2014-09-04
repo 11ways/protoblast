@@ -11,8 +11,11 @@
 		"test": "node_modules/.bin/mocha --reporter spec"
 	},
 	"devDependencies": {
+		"matcha": "skerit/matcha",
 		"mocha": "1.20.x",
-		"matcha": "skerit/matcha"
+		"git-rev": "0.2.1",
+		"browserify": "5.11.0",
+		"wd": "0.3.x"
 	},
 	"engines": {
 		"node": ">=0.10"
