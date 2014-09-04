@@ -12,6 +12,8 @@ function pr(message) {
 }
 
 var desireds = {
+	iphone: {browserName: 'iphone'},
+	android: {browserName: 'android'},
 	chrome: {browserName: 'chrome'},
 	firefox: {browserName: 'firefox'},
 	explorer: {browserName: 'internet explorer'},
