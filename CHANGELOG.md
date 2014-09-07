@@ -20,6 +20,7 @@
 * Blast.defineValue can now take an array of names to assign same value to
   multiple properties
 * Added Informer class, an advanced event emitter based on HawkEvents
+* Added URL class (for node.js & IE9) + URL.parse()
 
 ## 0.1.2 (2014-08-28)
 
