@@ -17,6 +17,9 @@
 * Fixed all `arguments` leaks, greatly improving performance
 * Fixed IE bugs, added Function#name getter for IE
 * Added Selenium/Saucelabs testing
+* Blast.defineValue can now take an array of names to assign same value to
+  multiple properties
+* Added Informer class, an advanced event emitter based on HawkEvents
 
 ## 0.1.2 (2014-08-28)
 
