@@ -21,6 +21,7 @@
   multiple properties
 * Added Informer class, an advanced event emitter based on HawkEvents
 * Added URL class (for node.js & IE9) + URL.parse()
+* Added Blast.inherits function, like node's util.inherits
 
 ## 0.1.2 (2014-08-28)
 
