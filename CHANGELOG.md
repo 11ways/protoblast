@@ -23,6 +23,8 @@
 * Added URL class (for node.js & IE9) + URL.parse()
 * Added Blast.inherits function, like node's util.inherits
 * Added Object.checksum and Object.alike
+* Informer can now handle async events
+* Added RegExp.execAll
 
 ## 0.1.2 (2014-08-28)
 
