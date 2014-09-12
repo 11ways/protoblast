@@ -84,6 +84,9 @@ describe('Informer', function() {
 		});
 	});
 
+	/**
+	 * Emitting data
+	 */
 	describe('emit("simple", data, ...)', function() {
 		it('should execute the simple listeners synchronously', function() {
 			tester.emit('simple');
