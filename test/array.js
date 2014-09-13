@@ -161,6 +161,130 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#fill(value, start, end)', function() {
+
+		it('should fill an array completely when start or end is undefined', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(1);
+			assert.equal('1,1,1,1,1', arr+'', 'Values are not being filled correctly: ' + arr);
+
+			brr.fill(1, undefined, undefined);
+
+			assert.equal('1,1,1,1,1', brr+'', '`start` & `end` should be allowed to be explicitly undefined');
+		});
+
+		it('should respect the start index', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, 2);
+			assert.equal('0,0,1,1,1', arr+'');
+
+			brr.fill(0);
+			brr.fill(1, '2');
+
+			assert.equal('0,0,1,1,1', brr+'', '`start` strings should be cast to numbers');
+		});
+
+		it('should allow negative start index', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, -2);
+			assert.equal('0,0,0,1,1', arr+'');
+
+			brr.fill(0);
+			brr.fill(1, '-2');
+
+			assert.equal('0,0,0,1,1', brr+'', '`start` strings should be cast to numbers');
+		});
+
+		it('should respect the end index', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, 2, 4);
+			assert.equal('0,0,1,1,0', arr+'');
+
+			brr.fill(0);
+			brr.fill(1, '2', '4');
+
+			assert.equal('0,0,1,1,0', brr+'', '`end` strings should be cast to numbers');
+		});
+
+		it('should allow negative end index', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, 0, -2);
+			assert.equal('1,1,1,0,0', arr+'');
+
+			brr.fill(0);
+			brr.fill(1, '0', '-2');
+
+			assert.equal('1,1,1,0,0', brr+'', '`end` strings should be cast to numbers');
+		});
+
+		it('should cast boolean indices to 0 or 1', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+
+			arr.fill(1, false, false);
+			assert.equal('0,0,0,0,0', arr+'');
+
+			arr.fill(1, false, true);
+			assert.equal('1,0,0,0,0', arr+'');
+
+			arr.fill(5, true, true);
+			assert.equal('1,0,0,0,0', arr+'');
+		});
+
+		it('should set invalid start or end indices to 0', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, 'a', 'b');
+			assert.equal('0,0,0,0,0', arr+'');
+
+			arr.fill(1, 2, 'b');
+			assert.equal('0,0,0,0,0', arr+'');
+
+			arr.fill(1, 'a', 2);
+			assert.equal('1,1,0,0,0', arr+'');
+		});
+
+		it('should never modify the length of an array', function() {
+
+			var arr = new Array(5),
+			    brr = new Array(5);
+
+			arr.fill(0);
+			arr.fill(1, 0, 10);
+			assert.equal('1,1,1,1,1', arr+'');
+
+			brr.fill(0);
+			brr.fill(1, 0, '10');
+			assert.equal('1,1,1,1,1', brr+'');
+		});
+
+	});
+
 	describe('#first()', function() {
 		it('should return the first value in the array', function() {
 			assert.equal(6, [6,4,7,3,47].first());
