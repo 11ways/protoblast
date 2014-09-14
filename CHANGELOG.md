@@ -30,6 +30,8 @@
 * Added shim for ES6's Array#fill(value, start, end)
 * Added Function.inherits, Function#extend and Function#setMethod
 * Added shim for ES6's String#codePointAt(position)
+* Fixed typo in variable name in flashsort
+* Added String compression, using Pieroxy's original lz-string
 
 ## 0.1.2 (2014-08-28)
 
