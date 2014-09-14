@@ -33,6 +33,8 @@
 * Fixed typo in variable name in flashsort
 * Added String compression, using Pieroxy's original lz-string
 * Added String#escapeUnicode(), to get the complete escaped string
+* Removed the HTML Entities from the string_entities script file,
+  and added a (compressed) file called 'string_compressed_entities.js'
 
 ## 0.1.2 (2014-08-28)
 
