@@ -32,6 +32,7 @@
 * Added shim for ES6's String#codePointAt(position)
 * Fixed typo in variable name in flashsort
 * Added String compression, using Pieroxy's original lz-string
+* Added String#escapeUnicode(), to get the complete escaped string
 
 ## 0.1.2 (2014-08-28)
 
