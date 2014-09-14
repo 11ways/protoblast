@@ -29,6 +29,7 @@
   but if wanted this can be disabled by passing a boolean false as first arg
 * Added shim for ES6's Array#fill(value, start, end)
 * Added Function.inherits, Function#extend and Function#setMethod
+* Added shim for ES6's String#codePointAt(position)
 
 ## 0.1.2 (2014-08-28)
 

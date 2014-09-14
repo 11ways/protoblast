@@ -13,6 +13,104 @@ describe('String', function() {
 		});
 	});
 
+	// Tets by Mathias Bynens' codePointAt shim
+	describe('#codePointAt(position)', function() {
+		
+		var sentence = 'This is the string that contains the that needle that we need';
+
+		it('should take 1 argument', function() {
+			assert.strictEqual(1, String.prototype.codePointAt.length);
+		});
+
+		it('should handle strings that start with a BMP symbol', function() {
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(''), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt('_'), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(-Infinity), undefined);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(-1), undefined);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(-0), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(0), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(3), 0x1D306);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(4), 0xDF06);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(5), 0x64);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(42), undefined);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(Infinity), undefined);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(Infinity), undefined);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(NaN), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(false), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(null), 0x61);
+			assert.strictEqual('abc\uD834\uDF06def'.codePointAt(undefined), 0x61);
+		});
+
+		it('should handle strings that start with an astral symbol', function() {
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(''), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt('1'), 0xDF06);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt('_'), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(-1), undefined);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(-0), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(0), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(1), 0xDF06);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(42), undefined);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(false), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(null), 0x1D306);
+			assert.strictEqual('\uD834\uDF06def'.codePointAt(undefined), 0x1D306);
+		});
+
+		it('should handle lone high surrogates', function() {
+			assert.strictEqual('\uD834abc'.codePointAt(''), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt('_'), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(-1), undefined);
+			assert.strictEqual('\uD834abc'.codePointAt(-0), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(0), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(false), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(NaN), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(null), 0xD834);
+			assert.strictEqual('\uD834abc'.codePointAt(undefined), 0xD834);
+		});
+
+		it('should handle low surrogates', function() {
+			assert.strictEqual('\uDF06abc'.codePointAt(''), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt('_'), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(-1), undefined);
+			assert.strictEqual('\uDF06abc'.codePointAt(-0), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(0), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(false), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(NaN), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(null), 0xDF06);
+			assert.strictEqual('\uDF06abc'.codePointAt(undefined), 0xDF06);
+		});
+
+		it('should throw expected errors', function() {
+
+			assert.throws(function() { String.prototype.codePointAt.call(null); }, TypeError);
+			assert.throws(function() { String.prototype.codePointAt.call(null, 4); }, TypeError);
+
+			assert.throws(function() { String.prototype.codePointAt.call(undefined); }, TypeError);
+			assert.throws(function() { String.prototype.codePointAt.call(undefined, 4); }, TypeError);
+			
+			assert.strictEqual(String.prototype.codePointAt.call(42, 0), 0x34);
+			assert.strictEqual(String.prototype.codePointAt.call(42, 1), 0x32);
+			assert.strictEqual(String.prototype.codePointAt.call({ 'toString': function() { return 'abc'; } }, 2), 0x63);
+			var tmp = 0;
+			assert.strictEqual(String.prototype.codePointAt.call({ 'toString': function() { ++tmp; return String(tmp); } }, 0), 0x31);
+			assert.strictEqual(tmp, 1);
+
+			assert.throws(function() { String.prototype.codePointAt.apply(undefined); }, TypeError);
+			assert.throws(function() { String.prototype.codePointAt.apply(undefined, [4]); }, TypeError);
+			assert.throws(function() { String.prototype.codePointAt.apply(null); }, TypeError);
+			assert.throws(function() { String.prototype.codePointAt.apply(null, [4]); }, TypeError);
+			assert.strictEqual(String.prototype.codePointAt.apply(42, [0]), 0x34);
+			assert.strictEqual(String.prototype.codePointAt.apply(42, [1]), 0x32);
+			assert.strictEqual(String.prototype.codePointAt.apply({ 'toString': function() { return 'abc'; } }, [2]), 0x63);
+			tmp = 0;
+			assert.strictEqual(String.prototype.codePointAt.apply({ 'toString': function() { ++tmp; return String(tmp); } }, [0]), 0x31);
+			assert.strictEqual(tmp, 1);
+		});
+	});
+
 	describe('#after(needle, first)', function() {
 
 		var sentence = 'This is the string that contains the that needle that we need';
@@ -123,6 +221,24 @@ describe('String', function() {
 			var original = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux&quot;&amp;';
 
 			assert.strictEqual('"<string> & foo © bar ≠ baz 𝌆 qux"&', original.decodeHTML());
+		});
+
+		it('should leave non-existing entities alone', function() {
+			var original = '&whatisthis;Test&doesntexist;';
+
+			assert.strictEqual('&whatisthis;Test&doesntexist;', original.decodeHTML());
+		});
+
+		it('should only decode entities that end with a semicolon', function() {
+			var original = '&Aacute &Aacute;;';
+
+			assert.strictEqual('&Aacute \u00C1;', original.decodeHTML());
+		});
+
+		it('should be case sensitive', function() {
+			var original = '&Afr; &afr;';
+
+			assert.strictEqual('\uD835\uDD04 \uD835\uDD1E', original.decodeHTML());
 		});
 	});
 
