@@ -1,4 +1,4 @@
-## 0.1.3 (WIP)
+## 0.1.3 (2014-09-15)
 
 * Added Array#sum(property, map)
 * Math.deviation should actually have been 'standardDeviation'
