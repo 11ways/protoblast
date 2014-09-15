@@ -1,3 +1,7 @@
+## 0.1.4 (WIP)
+
+* Everything is now defined with `configurable` and `writable` set to true
+
 ## 0.1.3 (2014-09-15)
 
 * Added Array#sum(property, map)
