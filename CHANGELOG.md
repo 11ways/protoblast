@@ -1,6 +1,9 @@
 ## 0.1.4 (WIP)
 
 * Everything is now defined with `configurable` and `writable` set to true
+* Added Array#include and Array#flatten (which behaves differently then Object.flatten)
+* Turned URL#toString into a shim
+* Added Array#employ, for when Array#map is too verbose
 
 ## 0.1.3 (2014-09-15)
 
