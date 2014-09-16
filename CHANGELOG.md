@@ -4,6 +4,7 @@
 * Added Array#include and Array#flatten (which behaves differently then Object.flatten)
 * Turned URL#toString into a shim
 * Added Array#employ, for when Array#map is too verbose
+* Added Function.until, .doUntil and .while (sharing code with .doWhile)
 
 ## 0.1.3 (2014-09-15)
 
