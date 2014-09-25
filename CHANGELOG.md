@@ -7,6 +7,7 @@
 * Added Function.until, .doUntil and .while (sharing code with .doWhile)
 * BUGFIX: String#dissect will no longer throw an error on empty strings
 * Added Function.benchmarkCSSRule for the browser
+* Added Function#setProperty, for property getters & setters
 
 ## 0.1.3 (2014-09-15)
 
