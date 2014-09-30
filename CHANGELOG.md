@@ -8,6 +8,9 @@
 * BUGFIX: String#dissect will no longer throw an error on empty strings
 * Added Function.benchmarkCSSRule for the browser
 * Added Function#setProperty, for property getters & setters
+* Added Function#prepareProperty, which sets the value through a getter
+  on first get, and removes the getter after that
+* Added Function#setStatic methods
 
 ## 0.1.3 (2014-09-15)
 
