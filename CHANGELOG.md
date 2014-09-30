@@ -11,6 +11,7 @@
 * Added Function#prepareProperty, which sets the value through a getter
   on first get, and removes the getter after that
 * Added Function#setStatic methods
+* Added Object.inject (assign for non-enumerables) and multiple inheritance
 
 ## 0.1.3 (2014-09-15)
 
