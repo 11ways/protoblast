@@ -14,6 +14,7 @@
 * Added Object.inject (assign for non-enumerables) and multiple inheritance
 * Allow Deck to return sorted arrays without cloning (slicing) them
 * Improve performance of Object.hasProperty
+* Extended classes also inherit static properties (but do not share instances)
 
 ## 0.1.3 (2014-09-15)
 
