@@ -15,6 +15,9 @@
 * Allow Deck to return sorted arrays without cloning (slicing) them
 * Improve performance of Object.hasProperty
 * Extended classes also inherit static properties (but do not share instances)
+* Extended classes are also saved in Blast.Classes
+* Function.inherits now allows strings. If the given class name isn't available
+  yet, it will be extended once it is.
 
 ## 0.1.3 (2014-09-15)
 
