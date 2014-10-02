@@ -18,6 +18,7 @@
 * Extended classes are also saved in Blast.Classes
 * Function.inherits now allows strings. If the given class name isn't available
   yet, it will be extended once it is.
+* Added String#controllerClassName and String#modelClassName
 
 ## 0.1.3 (2014-09-15)
 
