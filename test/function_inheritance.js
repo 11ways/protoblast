@@ -97,4 +97,32 @@ describe('Inheritance', function() {
 		});
 	});
 
+	describe('#setStatic(fnc)', function() {
+
+		it('should set a static property on the class constructor', function() {
+			TestClass.setStatic('staticText', 'text');
+			assert.equal(TestClass.staticText, 'text');
+		});
+
+		it('should set a static method on the class constructor', function() {
+			TestClass.setStatic('staticMethod', function staticMethod() {
+				return this;
+			});
+
+			assert.equal('function', typeof TestClass.staticMethod);
+		});
+
+		it('should have the constructor as the context in static methods', function() {
+			assert.equal(TestClass, TestClass.staticMethod());
+		});
+
+		it('should pass down static properties & methods to extended classes', function() {
+
+			var ExtendedClass = TestClass.extend(function ExtendedClass() {});
+
+			assert.equal(ExtendedClass, ExtendedClass.staticMethod(), 'Static method was not inherited');
+		});
+
+	});
+
 });
