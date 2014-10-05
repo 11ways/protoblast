@@ -20,6 +20,9 @@
   yet, it will be extended once it is.
 * Added String#controllerClassName and String#modelClassName
 * Add Date#stripTime and Date#stripDate
+* If an Informer event is emitted and the last argument is a function,
+  it will always be seen as a callback. If you just want to emit a function
+  a null will have to be appended
 
 ## 0.1.3 (2014-09-15)
 
