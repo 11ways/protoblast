@@ -119,6 +119,19 @@ describe('Informer', function() {
 		});
 	});
 
+	describe('addListener("typeName", listener, context)', function() {
+
+		it('should fire the listener with the given context', function() {
+
+			var aTest = new Blast.Classes.Informer(),
+			    context = {othercontext: true};
+
+			aTest.on('test', function() {
+				assert.equal(true, this.othercontext);
+			}, context);
+		});
+	});
+
 	/**
 	 * Emitting data
 	 */
