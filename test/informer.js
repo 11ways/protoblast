@@ -84,6 +84,41 @@ describe('Informer', function() {
 		});
 	});
 
+	describe('addListener("type", listener) - asynchronous', function() {
+
+		it('should perform the listeners in serie', function(done) {
+			var aTest = new Blast.Classes.Informer(),
+			    val = 0;
+
+			aTest.on('test', function t1() {
+
+				var next = this.wait('series'),
+				    curval = val; // Get the value as it is now (should be 0)
+
+				Blast.setImmediate(function() {
+					val = curval + 1;
+					next();
+				});
+			});
+
+			aTest.on('test', function t2() {
+
+				var next = this.wait('series'),
+				    curval = val; // Get the value as it is now (should run after t1 is done, so is 1)
+
+				Blast.setImmediate(function() {
+					val = curval + 1;
+					next();
+				});
+			});
+
+			aTest.emit('test', function() {
+				assert.equal(val, 2);
+				done();
+			});
+		});
+	});
+
 	/**
 	 * Emitting data
 	 */
