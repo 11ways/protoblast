@@ -31,6 +31,16 @@ describe('String Inflections', function() {
 		});
 	});
 
+	describe('#modelClassName()', function() {
+		it('should return the model name representation of the string, with the Model postfix', function() {
+			assert.strictEqual('NewsModel', 'news'.modelClassName());
+			assert.strictEqual('NewsModel', 'newsModel'.modelClassName());
+			assert.strictEqual('NewsModel', 'news_model'.modelClassName());
+			assert.strictEqual('UserModel', 'user'.modelClassName());
+			assert.strictEqual('AppModel', 'app'.modelClassName());
+		});
+	});
+
 	describe('#controllerName(postfix)', function() {
 		it('should return the controller name representation of the string', function() {
 
@@ -40,6 +50,20 @@ describe('String Inflections', function() {
 			assert.strictEqual('News', 'news'.controllerName());
 			assert.strictEqual('Users', 'user'.controllerName());
 			assert.strictEqual('ContactInfos', 'contact_info'.controllerName());
+		});
+	});
+
+	describe('#controllerClassName(postfix)', function() {
+		it('should return the controller name representation of the string, with the Controller postfix', function() {
+
+			assert.strictEqual('AppController', 'app'.controllerClassName());
+			assert.strictEqual('StaticController', 'static'.controllerClassName());
+
+			assert.strictEqual('NewsController', 'news'.controllerClassName());
+			assert.strictEqual('NewsController', 'newsController'.controllerClassName());
+			assert.strictEqual('NewsController', 'news_controller'.controllerClassName());
+			assert.strictEqual('UsersController', 'user'.controllerClassName());
+			assert.strictEqual('ContactInfosController', 'contact_info'.controllerClassName());
 		});
 	});
 
