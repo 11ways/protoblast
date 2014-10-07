@@ -724,7 +724,7 @@ describe('Informer', function() {
 			}, 10);
 		});
 	});
-return
+
 	describe('afterOnce(type, listener)', function() {
 
 		it('should fire after being attached if an event has been emitted in the past', function() {
