@@ -24,6 +24,18 @@ describe('Informer', function() {
 		it('should return a new informer', function() {
 			assert.equal(0, tester.filterSeen.length);
 		});
+
+		it('should emit an event when new listeners are added', function(done) {
+
+			var test = new Informer();
+
+			test.on('newListener', function(type) {
+				assert.equal('test', type);
+				done();
+			});
+
+			test.on('test', function(){});
+		});
 	});
 
 	describe('addListener(type, listener)', function() {
@@ -649,8 +661,70 @@ describe('Informer', function() {
 			assert.equal(2, afterCount, 'Listener did not fire for new event');
 			assert.equal(false, !!wasPast, 'Context indicated it came from the past, but it did not');
 		});
-	});
 
+		it('should throw an error when the listener is not a function', function() {
+
+			var error;
+
+			try {
+				tester.after('nofunction', 1, null)
+			} catch(err) {
+				error = err;
+			}
+
+			assert.equal(true, !!error);
+		});
+
+		it('should wait if the event has not been seen yet', function(done) {
+
+			var a = 0;
+
+			tester.after('futureEvent', function() {
+				assert.equal(0, a);
+				done();
+			});
+
+			a = 10;
+
+			setTimeout(function() {
+				a = 0;
+				tester.emit('futureEvent');
+			}, 10);
+		});
+
+		it('should also work with filter objects', function(done) {
+
+			var a = 0,
+			    finished = false;
+
+			tester.after({type:'afterObject', future: 'a'}, function(type) {
+				assert.equal(0, a);
+
+				if (finished) {
+					return done();
+				}
+
+				finished = true;
+			});
+
+			a = 10;
+
+			setTimeout(function() {
+				a = 0;
+				tester.emit({type: 'afterObject', future: 'a'});
+
+				tester.after({type: 'afterObject'}, function() {
+
+					if (finished) {
+						return done();
+					}
+
+					finished = true;
+				});
+			}, 10);
+		});
+	});
+return
 	describe('afterOnce(type, listener)', function() {
 
 		it('should fire after being attached if an event has been emitted in the past', function() {
