@@ -15,6 +15,14 @@ describe('Deck', function() {
 		});
 	});
 
+	describe('Deck.create()', function() {
+		it('should return a new, empty deck', function() {
+			var d = Deck.create();
+
+			assert.equal(0, d.insertCount);
+		});
+	});
+
 	describe('#set(key, value, weight)', function() {
 		it('should register the value with the given key and optional weight', function() {
 			
