@@ -25,6 +25,19 @@ describe('Deck', function() {
 		});
 	});
 
+	describe('#has(key)', function() {
+		it('should return true or false, depending on the key being present', function() {
+			
+			var d = new Deck();
+			d.set('mykey', 47);
+			d.set('undef', undefined);
+
+			assert.equal(true, d.has('mykey'));
+			assert.equal(true, d.has('undef'));
+			assert.equal(false, d.has('madeup'));
+		});
+	});
+
 	describe('#get(key)', function() {
 		it('should return the value of the wanted key', function() {
 			
