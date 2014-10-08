@@ -27,6 +27,7 @@
 * Add Deck#clone() method
 * Add Deck#has(key) method
 * Deck#get(key, def) now can set the key's value if it has not been set yet
+* Add Deck.create() static method
 
 ## 0.1.3 (2014-09-15)
 
