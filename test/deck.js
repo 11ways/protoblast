@@ -166,4 +166,44 @@ describe('Deck', function() {
 		});
 	});
 
+	describe('#clone()', function() {
+
+		it('should clone the deck (but not the values)', function() {
+
+			var temp,
+			    clone,
+			    ori = new Deck(),
+			    i;
+
+			ori.push('a', 10);
+			ori.push('b', 9);
+			ori.push('0', 900);
+
+			temp = ori.getSorted();
+
+			// Test sorting before (heavier values come first)
+			assert.equal('0,a,b', temp.join(','));
+
+			// Clone the original deck
+			clone = ori.clone();
+
+			// Fuck with the original object's weight
+			for (i = 0; i < ori.array.length; i++) {
+				ori.array[i].weight = 10;
+			}
+
+			ori.sorted = ori.sortedItems = false;
+
+			temp = ori.getSorted();
+
+			// Everything has the same weight, so order should be insertion order
+			assert.equal('a,b,0', temp.join(','));
+
+			// Now get the sorted items of the clone
+			temp = clone.getSorted();
+
+			// Those should still be the original order
+			assert.equal('0,a,b', temp.join(','));
+		});
+	});
 });
