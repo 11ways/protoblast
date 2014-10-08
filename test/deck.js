@@ -48,6 +48,25 @@ describe('Deck', function() {
 		});
 	});
 
+	describe('#get(key, defaultValue)', function() {
+		it('should return the key\'s value if present, or set the defaultValue', function() {
+
+			var d = new Deck();
+			d.set('predef', 1);
+
+			assert.equal(1, d.get('predef', 99));
+			assert.equal(99, d.get('nodef', 99));
+			assert.equal(99, d.get('nodef', 55));
+		});
+
+		it('should execute defaultValue functions', function() {
+
+			var d = new Deck();
+
+			assert.equal(''+{}, d.get('nodef', Object));
+		});
+	});
+
 	describe('#getById(key)', function() {
 		it('should return the value of the wanted id', function() {
 			
