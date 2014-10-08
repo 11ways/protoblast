@@ -25,6 +25,7 @@
   a null will have to be appended
 * Informer listeners can now have a context attached
 * Add Deck#clone() method
+* Add Deck#has(key) method
 
 ## 0.1.3 (2014-09-15)
 
