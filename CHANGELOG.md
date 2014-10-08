@@ -24,6 +24,7 @@
   it will always be seen as a callback. If you just want to emit a function
   a null will have to be appended
 * Informer listeners can now have a context attached
+* Add Deck#clone() method
 
 ## 0.1.3 (2014-09-15)
 
