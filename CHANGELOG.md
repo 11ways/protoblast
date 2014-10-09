@@ -29,6 +29,7 @@
 * Deck#get(key, def) now can set the key's value if it has not been set yet
 * Add Deck.create() static method
 * Add Object.setPath({}, path, value)
+* Add JSON.dry and JSON.undry (circular & reviver support)
 
 ## 0.1.3 (2014-09-15)
 
