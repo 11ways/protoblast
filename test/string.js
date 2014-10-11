@@ -380,6 +380,28 @@ describe('String', function() {
 		});
 	});
 
+	describe('#assignments()', function() {
+		it('should return assignments inside the string', function() {
+
+			var str = '{this} and {that} are {placeholders}',
+			    arr = str.assignments();
+
+			assert.strictEqual('this,that,placeholders', arr.join());
+		});
+	});
+
+	describe('#assign()', function() {
+		it('should replace placeholders inside the string', function() {
+
+			var str = '{me} and {that} are {placeholders}',
+			    result = str.assign({me: 'me', that: 'him', placeholders: 'happy'}),
+			    multiple = '{me} and {me} for {that} {that} {that}';
+
+			assert.strictEqual('me and him are happy', result);
+			assert.strictEqual('a and a for b b b', multiple.assign({me: 'a', that: 'b'}));
+		});
+	});
+
 	describe('#score()', function() {
 		it('should see how alike 2 string are', function() {
 
