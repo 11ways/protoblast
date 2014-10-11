@@ -30,6 +30,7 @@
 * Add Deck.create() static method
 * Add Object.setPath({}, path, value)
 * Add JSON.dry and JSON.undry (circular & reviver support)
+* Add String#assign and String#assignments
 
 ## 0.1.3 (2014-09-15)
 
