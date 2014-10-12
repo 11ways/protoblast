@@ -32,6 +32,7 @@
 * Add JSON.dry and JSON.undry (circular & reviver support)
 * Add String#assign and String#assignments
 * Add Iterator#reset, to go back to the beginning
+* Deck now implements the ES6 iterator protocol by inheriting our Iterator class
 
 ## 0.1.3 (2014-09-15)
 
