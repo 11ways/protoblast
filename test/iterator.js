@@ -55,4 +55,24 @@ describe('Deck', function() {
 			assert.equal('xyz', test);
 		});
 	});
+
+	describe('reset()', function() {
+		it('should move the iterator to the beginning', function() {
+
+			var arr = ['a', 'b'],
+			    iter = new Iterator(arr),
+			    test = '';
+
+			// Move to the end
+			iter.next();
+			iter.next();
+
+			assert.equal(false, iter.hasNext());
+
+			// Reset, move to the beginning
+			iter.reset();
+
+			assert.equal(true, iter.hasNext());
+		});
+	});
 });
