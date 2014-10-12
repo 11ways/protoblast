@@ -254,6 +254,33 @@ describe('Deck', function() {
 		});
 	});
 
+	describe('#toDry() & .unDry()', function() {
+
+		it('should be used when DRY-ing the object', function() {
+
+			var d = new Deck(),
+			    dry,
+			    json,
+			    undry;
+
+			d.push('val1');
+			d.push('first', 500);
+			d.set('mykey', 'keyval');
+
+			json = JSON.stringify(d);
+			dry = JSON.dry(d);
+
+			assert.equal(true, dry.length < json.length, 'Dry string is larger than regular JSON string');
+			assert.equal(true, !!dry.length, 'Dry string is empty');
+
+			undry = JSON.undry(dry);
+
+			assert.equal(true, undry instanceof Deck);
+			assert.equal('keyval', undry.get('mykey'));
+			assert.equal(d.insertCount, undry.insertCount);
+		});
+	});
+
 	describe('#clone()', function() {
 
 		it('should clone the deck (but not the values)', function() {
