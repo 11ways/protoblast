@@ -13,7 +13,7 @@ describe('Deck', function() {
 			var arr = [],
 			    iter = new Iterator(arr);
 
-			assert.equal(0, iter.nextIndex);
+			assert.equal(0, iter._iterNextIndex);
 		});
 	});
 
