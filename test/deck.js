@@ -3,6 +3,8 @@ var assert = require('assert'),
 
 describe('Deck', function() {
 
+	var itDeck;
+
 	before(function() {
 		Blast  = require('../index.js')();
 	});
@@ -203,6 +205,52 @@ describe('Deck', function() {
 			iter = d.createIteratorItems();
 
 			assert.equal('Iterator', iter.constructor.name);
+		});
+	});
+
+	describe('#next() - Iterator protocol', function() {
+		it('should return items upon each call, sorted by their weight', function() {
+
+			itDeck = new Deck();
+
+			itDeck.push('val1');
+			itDeck.push('last', 0);
+			itDeck.push('val2');
+			itDeck.push('first', 500);
+
+			assert.equal('first', itDeck.next().value);
+			assert.equal('val1', itDeck.next().value);
+			assert.equal('val2', itDeck.next().value);
+			assert.equal('last', itDeck.next().value);
+			assert.equal(true, itDeck.next().done);
+		});
+	});
+
+	describe('#reset() - Iterator protocol', function() {
+		it('should reset the iterator index', function() {
+
+			itDeck.reset();
+
+			assert.equal('first', itDeck.next().value);
+			assert.equal('val1', itDeck.next().value);
+			assert.equal('val2', itDeck.next().value);
+			assert.equal('last', itDeck.next().value);
+			assert.equal(true, itDeck.next().done);
+		});
+	});
+
+	describe('#hasNext() - Iterator protocol', function() {
+		it('should return true if there is a next item available', function() {
+
+			itDeck.reset();
+
+			assert.equal('first', itDeck.next().value);
+			assert.equal(true, itDeck.hasNext());
+			assert.equal('val1', itDeck.next().value);
+			assert.equal('val2', itDeck.next().value);
+			assert.equal('last', itDeck.next().value);
+			assert.equal(false, itDeck.hasNext());
+			assert.equal(true, itDeck.next().done);
 		});
 	});
 
