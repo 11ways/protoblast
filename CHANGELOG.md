@@ -33,6 +33,7 @@
 * Add String#assign and String#assignments
 * Add Iterator#reset, to go back to the beginning
 * Deck now implements the ES6 iterator protocol by inheriting our Iterator class
+* Function.parallel now also has a non-async mode
 
 ## 0.1.3 (2014-09-15)
 

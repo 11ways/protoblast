@@ -260,4 +260,71 @@ describe('Function Flow', function() {
 			}});
 		});
 	});
+
+	describe('.parallel(limit, tasks, callback)', function() {
+		it('should limit the amount of tasks running side by side', function(done) {
+
+			var tasks = [],
+			    running = 0,
+			    max = 0,
+			    i;
+
+			for (i = 0; i < 15; i++) {
+				tasks[i] = function(next) {
+					running++;
+
+					setTimeout(function() {
+						if (running > max) max = running;
+						running--;
+						next();
+					}, 10);
+				};
+			}
+
+			Function.parallel(3, tasks, function(err) {
+				assert.equal(3, max, 'There were more than 3 tasks running at the same time');
+				done();
+			});
+		});
+	});
+
+	describe('.parallel(noAsync, limit, tasks, callback)', function() {
+		it('should execute the functions immediately, without setImmediate', function(done) {
+
+			var tasks = [],
+			    running = 0,
+			    max = 0,
+			    i;
+
+			for (i = 0; i < 15; i++) {
+				tasks[i] = function(next) {
+					running++;
+
+					setTimeout(function() {
+						running--;
+						next();
+					}, 10);
+				};
+			}
+
+			Function.parallel(false, tasks, function(err) {
+				assert.equal(15, max, 'Only ' + max + ' tasks out of 15 have already executed');
+
+				// Now with limit
+				running = 0;
+				max = 0;
+
+				Function.parallel(false, 5, tasks, function(err) {
+
+					assert.equal(5, max, max + ' functions have executed, but expected 5');
+
+					done();
+				})
+				
+				max = running;
+			});
+
+			max = running;
+		});
+	});
 });
