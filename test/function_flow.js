@@ -326,5 +326,16 @@ describe('Function Flow', function() {
 
 			max = running;
 		});
+
+		it('should handle synchronous functions', function() {
+
+			Function.parallel(false, function one(next) {
+				next();
+			}, function two(next) {
+				next();
+			}, function done(err) {
+				assert.equal(false, !!err, err);
+			});
+		});
 	});
 });
