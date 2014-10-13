@@ -106,6 +106,19 @@ describe('Function Flow', function() {
 				done();
 			});
 		});
+
+		it('should not require a callback', function(done) {
+
+			Function.series([function(next) {
+				next(null);
+			}, function(next) {
+				next(null);
+
+				setTimeout(function() {
+					done();
+				}, 10);
+			}]);
+		});
 	});
 
 	describe('.series(objectTasks, callback)', function() {
@@ -134,6 +147,19 @@ describe('Function Flow', function() {
 
 				done();
 			});
+		});
+
+		it('should not require a callback', function(done) {
+
+			Function.series({a: function(next) {
+				next(null);
+			}, b: function(next) {
+				next(null);
+
+				setTimeout(function() {
+					done();
+				}, 10);
+			}});
 		});
 	});
 
@@ -178,6 +204,19 @@ describe('Function Flow', function() {
 				done();
 			});
 		});
+
+		it('should not require a callback', function(done) {
+
+			Function.parallel([function(next) {
+				next(null);
+			}, function(next) {
+				next(null);
+
+				setTimeout(function() {
+					done();
+				}, 10);
+			}]);
+		});
 	});
 
 	describe('.parallel(objectTasks, callback)', function() {
@@ -206,6 +245,19 @@ describe('Function Flow', function() {
 
 				done();
 			});
+		});
+
+		it('should not require a callback', function(done) {
+
+			Function.parallel({a: function(next) {
+				next(null);
+			}, b: function(next) {
+				next(null);
+
+				setTimeout(function() {
+					done();
+				}, 10);
+			}});
 		});
 	});
 });
