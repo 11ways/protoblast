@@ -34,6 +34,8 @@
 * Add Iterator#reset, to go back to the beginning
 * Deck now implements the ES6 iterator protocol by inheriting our Iterator class
 * Function.parallel now also has a non-async mode
+* Add Function.hinder, which executes a worker and only afterwards executes
+  other tasks added to it
 
 ## 0.1.3 (2014-09-15)
 

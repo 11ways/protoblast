@@ -338,4 +338,28 @@ describe('Function Flow', function() {
 			});
 		});
 	});
+
+	describe('.hinder(forceAsync, worker, options)', function() {
+		it('should execute the function, and wait for it to finish before executing the others', function(done) {
+
+			var result = '',
+			    hinder;
+
+			hinder = Function.hinder(function worker(done) {
+				setTimeout(function() {
+					result += 'w';
+					done();
+				}, 20);
+			});
+
+			hinder.push(function test() {
+				result += 'test';
+				assert.equal('wtest', result);
+
+				hinder.push(function afterDone() {
+					done();
+				});
+			});
+		});
+	});
 });
