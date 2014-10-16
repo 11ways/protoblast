@@ -9,6 +9,12 @@ describe('Math', function() {
 
 	var originalNumbers = [17, 17, 3, 2, 4, 8, 1, 0, 3, 1, 7, 12, 6, 13, 2, 14, 6]; // Sum is 116
 
+	describe('.toSource()', function() {
+		it('should return the source code representation of the Math object', function() {
+			assert.equal('Math', Math.toSource());
+		});
+	});
+
 	describe('.Median(numbers)', function() {
 
 		it('should return the median value of the numbers without changing the original array', function() {
@@ -25,12 +31,25 @@ describe('Math', function() {
 			assert.equal(pre, post, 'The original array was modified');
 
 		});
-
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the Math object', function() {
-			assert.equal('Math', Math.toSource());
+	describe('.lowest(numbers, amount)', function() {
+		it('should return the wanted amount of numbers', function() {
+
+			var numbers = [1,99,3,470,5,2,63],
+			    lowest  = Math.lowest(numbers, 3);
+
+			assert.equal('1,2,3', lowest.join(','));
+		});
+	});
+
+	describe('.highest(numbers, amount)', function() {
+		it('should return the wanted amount of numbers', function() {
+
+			var numbers = [1,99,3,470,5,2,63],
+			    highest  = Math.highest(numbers, 3);
+
+			assert.equal('63,99,470', highest.join(','));
 		});
 	});
 
