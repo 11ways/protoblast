@@ -25,4 +25,25 @@ describe('URL', function() {
 		});
 	});
 
+	describe('#clone()', function() {
+
+		it('should clone and return a new URL object', function() {
+
+			var ori = URL.parse('http://www.codedor.be/test'),
+			    clone = ori.clone();
+
+			assert.equal('http://www.codedor.be/test', ori+'');
+			assert.equal('http://www.codedor.be/test', clone+'');
+
+			ori.addQuery('param', 'A');
+
+			assert.equal('http://www.codedor.be/test?param=A', ori+'');
+			assert.equal('http://www.codedor.be/test', clone+'');
+
+			clone.addQuery('param', 'CLONE');
+
+			assert.equal('http://www.codedor.be/test?param=A', ori+'');
+			assert.equal('http://www.codedor.be/test?param=CLONE', clone+'');
+		});
+	});
 });
