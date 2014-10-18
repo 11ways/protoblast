@@ -53,4 +53,15 @@ describe('Math', function() {
 		});
 	});
 
+	describe('.clip(numbers, lowest, highest)', function() {
+		it('should return array with clipped numbers', function() {
+
+			var numbers = [1,99,3,470,5,2,63],
+			    clipped  = Math.clip(numbers, 3, 5);
+
+			assert.equal('3,5,3,5,5,3,5', clipped.join(','));
+			assert.equal('1,99,3,470,5,2,63', numbers.join(','), 'Original array was modified');
+		});
+	});
+
 });
