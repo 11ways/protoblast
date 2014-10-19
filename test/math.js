@@ -64,4 +64,14 @@ describe('Math', function() {
 		});
 	});
 
+	describe('.sum(numbers)', function() {
+		it('should sum up all the numbers', function() {
+
+			var numbers = [1,2,3,4,5],
+			    sum  = Math.sum(numbers);
+
+			assert.equal(15, sum);
+		});
+	});
+
 });
