@@ -36,6 +36,7 @@
 * Function.parallel now also has a non-async mode
 * Add Function.hinder, which executes a worker and only afterwards executes
   other tasks added to it
+* Add Function.thrower, a dummy function that can throw an error
 
 ## 0.1.3 (2014-09-15)
 
