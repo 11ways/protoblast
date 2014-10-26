@@ -329,11 +329,35 @@ describe('Function Flow', function() {
 
 		it('should handle synchronous functions', function() {
 
+			var counter = 0;
+
 			Function.parallel(false, function one(next) {
+				counter++;
 				next();
 			}, function two(next) {
+				counter++;
 				next();
 			}, function done(err) {
+				assert.equal(2, counter);
+				assert.equal(false, !!err, err);
+			});
+		});
+
+		it('should not fire functions twice', function() {
+
+			var counter = 0;
+
+			Function.parallel(false, function one(next) {
+				counter++;
+				next();
+			}, function two(next) {
+				counter++;
+				next();
+			}, function three(next) {
+				counter++;
+				next();
+			}, function done(err) {
+				assert.equal(3, counter);
 				assert.equal(false, !!err, err);
 			});
 		});
