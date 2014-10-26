@@ -343,7 +343,7 @@ describe('Function Flow', function() {
 			});
 		});
 
-		it('should not fire functions twice', function() {
+		it('should not fire functions twice when full synchronous', function() {
 
 			var counter = 0;
 
@@ -356,6 +356,26 @@ describe('Function Flow', function() {
 			}, function three(next) {
 				counter++;
 				next();
+			}, function done(err) {
+				assert.equal(3, counter);
+				assert.equal(false, !!err, err);
+			});
+		});
+
+		it('should not fire functions twice when mixed a/synchronous', function() {
+
+			var counter = 0;
+
+			Function.parallel(false, function one(next) {
+				counter++;
+				next();
+			}, function two(next) {
+				counter++;
+				next();
+			}, function three(next) {
+				counter++;
+
+				setTimeout(next, 4);
 			}, function done(err) {
 				assert.equal(3, counter);
 				assert.equal(false, !!err, err);
