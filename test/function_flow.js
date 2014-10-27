@@ -65,6 +65,38 @@ describe('Function Flow', function() {
 		});
 	});
 
+	describe('.timebomb(timer, callback)', function() {
+
+		// timebomb can also work without a callback, but that can't be tested in mocha
+		it('should throw an error after 100ms when no timer was given', function(done) {
+			Function.timebomb(function exploded(err) {
+				assert.equal('Error: Timeout of 100ms was reached', err+'');
+				done();
+			});
+		});
+
+		it('should throw an error after the given amount of time', function(done) {
+			Function.timebomb(10, function exploded(err) {
+				assert.equal('Error: Timeout of 10ms was reached', err+'');
+				done();
+			});
+		});
+
+		it('should throw nothing when defused in time', function(done) {
+
+			var bomb = Function.timebomb(50);
+
+			setTimeout(function defuseit() {
+				var result = bomb.defuse();
+
+				assert.equal(true, result);
+				assert.equal(true, bomb.defused);
+				assert.equal(false, bomb.exploded);
+				done();
+			}, 4);
+		});
+	});
+
 	describe('.series(arrayTasks, callback)', function() {
 
 		it('should perform the tasks in series and callback results', function(done) {

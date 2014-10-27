@@ -39,6 +39,7 @@
 * Add Function.thrower, a dummy function that can throw an error
 * Add static String methods: encodeURI, decodeURI, decodeJSONURI, decodeCookie
 * Add basic Crypto class, for generating UIDs
+* Add Function.timebomb(timer, callback)
 
 ## 0.1.3 (2014-09-15)
 
