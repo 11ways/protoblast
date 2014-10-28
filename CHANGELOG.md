@@ -40,6 +40,7 @@
 * Add static String methods: encodeURI, decodeURI, decodeJSONURI, decodeCookie
 * Add basic Crypto class, for generating UIDs
 * Add Function.timebomb(timer, callback)
+* Add String#fowler, which generates a fnv1-a hash
 
 ## 0.1.3 (2014-09-15)
 
