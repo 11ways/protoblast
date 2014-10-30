@@ -47,6 +47,14 @@ describe('Array', function() {
 			assert.strictEqual("str", cast[0]);
 		});
 
+		it('should not treat String objects as arrays', function() {
+
+			var original = new String("str"),
+			    cast = Array.cast(original);
+
+			assert.equal("str", cast[0]);
+		});
+
 		it('should wrap a number parameter in an array', function() {
 
 			var original = 10,
@@ -157,7 +165,14 @@ describe('Array', function() {
 				match = true;
 			}
 
-			assert.equal(match, true);
+			assert.equal(match, true, 'Source does not match');
+
+			src = arr.toSource(true);
+			assert.equal(4, src.count('\n'));
+
+			src = [].toSource();
+
+			assert.equal('[]', src);
 		});
 	});
 
@@ -187,6 +202,11 @@ describe('Array', function() {
 
 			brr.fill(0);
 			brr.fill(1, '2');
+
+			arr.fill(0);
+			arr.fill(1, 6, 7);
+
+			assert.equal('0,0,0,0,0', arr+'', 'Should ignore start strings that are bigger than length');
 
 			assert.equal('0,0,1,1,1', brr+'', '`start` strings should be cast to numbers');
 		});
@@ -285,17 +305,81 @@ describe('Array', function() {
 
 	});
 
-	describe('#first()', function() {
+	describe('#first(nr, page)', function() {
 		it('should return the first value in the array', function() {
 			assert.equal(6, [6,4,7,3,47].first());
 			assert.equal(1, [1,5,99].first());
 		});
+
+		it('should return the wanted page', function() {
+
+			var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+			assert.equal(1, arr.first(1).length, 'When given a number, first should return an array');
+			assert.equal('0,1', arr.first(2), 'Should have returned the first 2 items');
+			assert.equal('2,3', arr.first(2, 1), 'Should have returned the second page');
+		});
 	});
 
-	describe('#last()', function() {
+	describe('#last(nr, page)', function() {
 		it('should return the last value in the array', function() {
 			assert.equal(47, [0,4,7,3,47].last());
 			assert.equal(99, [0,5,99].last());
+		});
+
+		it('should return the wanted page', function() {
+
+			var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+			assert.equal(1, arr.last(1).length, 'When given a number, first should return an array');
+			assert.equal('8,9', arr.last(2), 'Should have returned the first 2 items');
+			assert.equal('6,7', arr.last(2, 1), 'Should have returned the second page');
+		});
+	});
+
+	describe('#sum(property, map)', function() {
+
+		it('should sum up all the numbers', function() {
+
+			var arr = [0, 1, 2, 3];
+
+			assert.equal(6, arr.sum());
+		});
+
+		it('should pass the values to a given function', function() {
+
+			var arr = ['a', 'b', 'c'],
+			    sum;
+
+			sum = arr.sum(function code(value) {
+				return value.charCodeAt(0);
+			});
+
+			assert.equal(294, sum);
+
+			assert.throws(function() {arr.sum(null, true)}, TypeError);
+		});
+
+		it('should sum a certain property of the values', function() {
+
+			var arr = [{nr: 0}, {nr: 1}, {nr: 2}],
+			    sum;
+
+			sum = arr.sum('nr');
+
+			assert.equal(3, sum);
+		});
+
+		it('should sum a certain property of the values and pass it through the function', function() {
+
+			var arr = [{nr: 'a'}, {nr: 'b'}, {nr: 'c'}],
+			    sum;
+
+			sum = arr.sum('nr', function code(value) {
+				return value.charCodeAt(0);
+			});
+
+			assert.equal(294, sum);
 		});
 	});
 
