@@ -403,6 +403,20 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#max()', function() {
+		it('should return the highest value in the array', function() {
+			var arr = [0, 1, 2, 3, -1, 60, 20];
+			assert.equal(60, arr.max());
+		});
+	});
+
+	describe('#min()', function() {
+		it('should return the lowest value in the array', function() {
+			var arr = [0, 1, 2, 3, -1, 60, 20];
+			assert.equal(-1, arr.min());
+		});
+	});
+
 	describe('#insert(index, value, ...)', function() {
 		it('should insert the value in the original array at the given index', function() {
 			var a = [0,1,2,3],
@@ -426,6 +440,59 @@ describe('Array', function() {
 
 			assert.equal(a, inserted, 'The array is not modified in place');
 			assert.equal('0,1,2,3,,6,7,8', inserted.join());
+		});
+	});
+
+	describe('#include(index, values)', function() {
+		it('should include an array at the given values', function() {
+
+			var original = [0, 1, 2, 3, 4, 5],
+			    second = [99, 98, 97, 96],
+			    result;
+
+			result = original.include(2, second);
+
+			assert.equal('0,1,99,98,97,96,2,3,4,5', result+'');
+			assert.equal(result+'', original+'', 'Original array was not modified');
+			assert.equal('99,98,97,96', second+'', 'Second array was modified');
+		});
+
+		it('should include a single value', function() {
+			var original = [0,1,2],
+			    result = original.include(1, 'a');
+
+			assert.equal('0,a,1,2', result+'');
+		});
+
+		it('should enlargen original arrays', function() {
+			var original = [0,1,2],
+			    result = original.include(5, 'a');
+
+			assert.equal('0,1,2,,,a', result+'');
+		});
+
+		it('should allow multiple arrays', function() {
+			var original = [0,1,2],
+			    result = original.include(3, [3,4], [5,6]);
+
+			assert.equal('0,1,2,3,4,5,6', result+'');
+		});
+	});
+
+	describe('#flatten()', function() {
+		it('should return a single dimension copy of the array', function() {
+
+			var original = [0,1,[2,3,[4,5,[6,7]]], 8, [9,10]],
+			    result = original.flatten();
+
+			assert.equal('0,1,2,3,4,5,6,7,8,9,10', original+'');
+			assert.equal(false, original == result);
+		});
+
+		it('should return objects even when they have the same properties', function() {
+			var a = [1,1, {a:1}, {a:1}];
+
+			assert.equal('1,[object Object],[object Object]', a.unique().join(','));
 		});
 	});
 
@@ -474,6 +541,20 @@ describe('Array', function() {
 
 			// The order of the subtraction is important
 			assert.equal(5, subtract.length);
+		});
+	});
+
+	describe('#employ(args, obj, function)', function() {
+		it('apply the given function', function() {
+
+			var args = [[1, 'a'], [2, 'b'], [3, 'c']],
+			    result = '';
+
+			args.employ(['$1', '$0'], function(character, number) {
+				result += character + number;
+			});
+
+			assert.equal('a1b2c3', result);
 		});
 	});
 
