@@ -34,6 +34,12 @@ describe('Math', function() {
 	});
 
 	describe('.lowest(numbers, amount)', function() {
+
+		it('should return the lowest number', function() {
+			var numbers = [99,6,41,32,7];
+			assert.equal(6, Math.lowest(numbers));
+		});
+
 		it('should return the wanted amount of numbers', function() {
 
 			var numbers = [1,99,3,470,5,2,63],
@@ -44,6 +50,12 @@ describe('Math', function() {
 	});
 
 	describe('.highest(numbers, amount)', function() {
+
+		it('should return the highest number', function() {
+			var numbers = [99,6,41,32,7];
+			assert.equal(99, Math.highest(numbers));
+		});
+
 		it('should return the wanted amount of numbers', function() {
 
 			var numbers = [1,99,3,470,5,2,63],
