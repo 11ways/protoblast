@@ -113,6 +113,22 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.isPrimitive(value)', function() {
+		it('should return true for primitive values', function() {
+			assert.equal(true, Object.isPrimitive('test'));
+			assert.equal(true, Object.isPrimitive(true));
+			assert.equal(true, Object.isPrimitive(1));
+		});
+
+		it('should return false for other objects', function() {
+			assert.equal(false, Object.isPrimitive([]));
+			assert.equal(false, Object.isPrimitive({}));
+			assert.equal(false, Object.isPrimitive(new String()));
+			assert.equal(false, Object.isPrimitive(new Number()));
+			assert.equal(false, Object.isPrimitive(new Boolean()));
+		});
+	});
+
 	describe('.size(variable)', function() {
 
 		var arr = [1,2,3,4,5],
