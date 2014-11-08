@@ -19,6 +19,25 @@ describe('Function', function() {
 		});
 	});
 
+	describe('.tokenize(source, addType, throwError)', function() {
+		it('should tokenize a function', function() {
+
+			var tokens,
+			    fnc;
+
+			fnc = function fname(a, b) {
+				return a+b;
+			};
+
+			tokens = Function.tokenize(fnc, true);
+
+			assert.equal('keyword', tokens[0].type);
+			assert.equal('function', tokens[0].value);
+			assert.equal('name', tokens[2].type);
+			assert.equal('fname', tokens[2].value);
+		});
+	});
+
 	describe('#methodize()', function() {
 		it('should create a new function that calls the given function with current "this" context as the first argument', function() {
 
