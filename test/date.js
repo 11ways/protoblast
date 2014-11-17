@@ -98,6 +98,18 @@ describe('Date', function() {
 		});
 	});
 
+	describe('#subtract(amount, unit)', function() {
+		var a;
+
+		before(function() {
+			a = new Date('2014-11-15T12:49:29.382Z');
+		});
+
+		it('should subtract the wanted amount of unit from the date', function() {
+			assert.equal('2014-11-15T12:49:29.381Z', a.clone().subtract(1, 'millisecond').toJSON());
+		});
+	});
+
 	describe('#startOf(unit)', function() {
 		var a,
 		    b;
