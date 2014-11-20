@@ -42,6 +42,7 @@
 * Add Function.timebomb(timer, callback)
 * Add String#fowler, which generates a fnv1-a hash
 * Add Date methods to simplify date manipulation
+* Add Date#format method
 
 ## 0.1.3 (2014-09-15)
 
