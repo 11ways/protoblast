@@ -510,6 +510,22 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#unique(path)', function() {
+		it('should return all the unique values', function() {
+			var a = [
+				{id: 'a'},
+				{id: 'b'},
+				{id: 'a'},
+				{id: 'c'},
+				{id: 'a'},
+				{id: 'c'},
+				{id: 'd'},
+			];
+
+			assert.equal(4, a.unique('id').length);
+		});
+	});
+
 	describe('#shared(secondArray)', function() {
 		it('should return the shared values between 2 arrays as an array', function() {
 
