@@ -1,3 +1,7 @@
+## 0.1.5 (WIP)
+
+* Make sure Function.series does not fire the callback multiple times
+
 ## 0.1.4 (2014-12-07)
 
 * Everything is now defined with `configurable` and `writable` set to true
