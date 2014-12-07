@@ -1,4 +1,4 @@
-## 0.1.4 (WIP)
+## 0.1.4 (2014-12-07)
 
 * Everything is now defined with `configurable` and `writable` set to true
 * Added Array#include and Array#flatten (which behaves differently then Object.flatten)
