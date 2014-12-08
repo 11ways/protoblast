@@ -3,6 +3,7 @@
 * Make sure Function.series does not fire the callback multiple times
 * Modify Array#unique to allow a path be checked for duplicates
 * Add Array#sortByPath to save the user from writing unwieldy sort functions
+* Add the wrapper created with Function.create to the source function
 
 ## 0.1.4 (2014-12-07)
 
