@@ -17,6 +17,15 @@ describe('Function', function() {
 			assert.equal('ReturnOne', fnc.name);
 			assert.equal(1, fnc());
 		});
+
+		it('should have a reference to the newly wrapped function', function() {
+
+			var fnc = Function.create('ReturnWrapperName', function med() {
+				return med.wrapper.name;
+			});
+
+			assert.equal('ReturnWrapperName', fnc());
+		});
 	});
 
 	describe('.tokenize(source, addType, throwError)', function() {
