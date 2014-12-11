@@ -86,4 +86,17 @@ describe('Math', function() {
 		});
 	});
 
+	describe('.overlaps(a1, b1, a2, b2)', function() {
+		it('should see if the given ranges overlap', function() {
+
+			assert.equal(true, Math.overlaps(3,7, 1, 4));
+			assert.equal(true, Math.overlaps(3,7, 1, 3));
+			assert.equal(true, Math.overlaps(3,7, 6, 10));
+			assert.equal(false, Math.overlaps(1,3, 6, 10));
+			assert.equal(false, Math.overlaps(1,3, -10, 0));
+			assert.equal(false, Math.overlaps(10,20, 1, 9));
+			assert.equal(true, Math.overlaps(10,20, 1, 11));
+		});
+	});
+
 });
