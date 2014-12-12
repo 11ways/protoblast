@@ -6,6 +6,7 @@
 * Add the wrapper created with Function.create to the source function
 * Add Informer.isInformer & Iterator.isIterator static methods
 * Add Math.overlaps() to see if 2 ranges overlap
+* Add String#normalizeAcronyms, which removes dots from acronyms
 
 ## 0.1.4 (2014-12-07)
 
