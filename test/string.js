@@ -402,6 +402,21 @@ describe('String', function() {
 		});
 	});
 
+	describe('#normalizeAcronyms()', function() {
+		it('remove points from acronyms', function() {
+
+			assert.strictEqual('Agents Of SHIELD', 'Agents Of S.H.I.E.L.D.'.normalizeAcronyms());
+			assert.strictEqual('Agents Of SHIELD', 'Agents Of S.H.I.E.L.D'.normalizeAcronyms());
+			assert.strictEqual('Agents Of SHIELD.ext', 'Agents Of S.H.I.E.L.D.ext'.normalizeAcronyms());
+			assert.strictEqual('Agents Of SHIELD.EXT', 'Agents Of S.H.I.E.L.D.EXT'.normalizeAcronyms());
+
+			assert.strictEqual('The CIA is not a part of the FBI', 'The C.I.A. is not a part of the F.B.I.'.normalizeAcronyms());
+			assert.strictEqual('The CIA is not a part of the FBI', 'The C.I.A is not a part of the F.B.I'.normalizeAcronyms());
+			assert.strictEqual('The CIA is not a part of the FBI.ext', 'The C.I.A is not a part of the F.B.I.ext'.normalizeAcronyms());
+
+		});
+	});
+
 	describe('#score()', function() {
 		it('should see how alike 2 string are', function() {
 
