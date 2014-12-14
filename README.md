@@ -2,11 +2,9 @@
 
 [![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
 [![Build Status](https://secure.travis-ci.org/skerit/protoblast.png?branch=master)](http://travis-ci.org/skerit/protoblast)
-[![Selenium Test Status](https://saucelabs.com/buildstatus/skerit-protoblast)](https://saucelabs.com/u/skerit-protoblast)
 
-[![Selenium Test Status](https://saucelabs.com/browser-matrix/skerit-protoblast.svg)](https://saucelabs.com/u/skerit-protoblast)
-
-Handy functions for several classes' prototype
+Extend native objects with helpful methods to speed up development,
+or leave the native objects alone and use bound methods.
 
 ## Installation
 
@@ -15,7 +13,7 @@ Handy functions for several classes' prototype
 ## Features
 
 * Targeted for node.js & optimal performance, but perfectly usable in the browser
-* A way to use all new methods without modifying any native prototypes
+* A way to use all new methods without modifying native prototypes
 
 ## Todo
 

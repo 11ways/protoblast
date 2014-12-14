@@ -1,4 +1,4 @@
-## 0.1.5 (WIP)
+## 0.1.5 (2014-12-14)
 
 * Make sure Function.series does not fire the callback multiple times
 * Modify Array#unique to allow a path be checked for duplicates
