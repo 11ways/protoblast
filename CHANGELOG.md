@@ -1,3 +1,9 @@
+## 0.1.6 (WIP)
+
+* Function#prepareProperty now passes along a function to the given setter
+  which queues given functions to run after the property has been set.
+  This happens synchronously (otherwise setImmediate should be used).
+
 ## 0.1.5 (2014-12-14)
 
 * Make sure Function.series does not fire the callback multiple times
