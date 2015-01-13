@@ -1,5 +1,6 @@
 ## 0.1.6 (WIP)
 
+* Add option to capitalize each word when using String#titleize
 * Function#prepareProperty now passes along a function to the given setter
   which queues given functions to run after the property has been set.
   This happens synchronously (otherwise setImmediate should be used).
