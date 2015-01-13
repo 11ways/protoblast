@@ -3,6 +3,7 @@
 * Function#prepareProperty now passes along a function to the given setter
   which queues given functions to run after the property has been set.
   This happens synchronously (otherwise setImmediate should be used).
+* Function inheritance now uses nextTick instead of setImmediate
 
 ## 0.1.5 (2014-12-14)
 
