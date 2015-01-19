@@ -1,6 +1,7 @@
 ## 0.1.6 (WIP)
 
 * Add option to capitalize each word when using String#titleize
+* Add Object.walk, the recursive version of Object.each
 
 ## 0.1.5 (2014-12-14)
 
