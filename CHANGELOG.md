@@ -7,6 +7,7 @@
 * Function inheritance now uses nextTick instead of setImmediate
 * Add Object.walk, the recursive version of Object.each
 * Object.hasProperty should no longer fail on non-objects
+* Allow 'Infinity' for cookie expires & maxage values
 
 ## 0.1.5 (2014-12-14)
 
