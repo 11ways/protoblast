@@ -5,6 +5,7 @@
   which queues given functions to run after the property has been set.
   This happens synchronously (otherwise setImmediate should be used).
 * Function inheritance now uses nextTick instead of setImmediate
+* Add Object.walk, the recursive version of Object.each
 * Object.hasProperty should no longer fail on non-objects
 
 ## 0.1.5 (2014-12-14)
