@@ -9,6 +9,7 @@
 * Object.hasProperty should no longer fail on non-objects
 * Allow 'Infinity' for cookie expires & maxage values
 * Add JSON.clone, to quickly clone something using regular JSON
+* JSON.dry should play nicer with new objects returned from toJSON
 
 ## 0.1.5 (2014-12-14)
 
