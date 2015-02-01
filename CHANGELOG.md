@@ -10,6 +10,7 @@
 * Allow 'Infinity' for cookie expires & maxage values
 * Add JSON.clone, to quickly clone something using regular JSON
 * Fix JSON.dry, had problems with the chain when using toJSON
+* Fix: Function.doUntil runs while the test is falsy, not truthy
 
 ## 0.1.5 (2014-12-14)
 
