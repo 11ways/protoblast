@@ -11,6 +11,7 @@
 * Add JSON.clone, to quickly clone something using regular JSON
 * Fix JSON.dry, had problems with the chain when using toJSON
 * Fix: Function.doUntil runs while the test is falsy, not truthy
+* Add Function.regulate and Function.count, improve String#encodeHTML
 
 ## 0.1.5 (2014-12-14)
 
