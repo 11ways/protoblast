@@ -1,4 +1,4 @@
-## 0.1.6 (WIP)
+## 0.1.6 (2015-02-27)
 
 * Add option to capitalize each word when using String#titleize
 * Function#prepareProperty now passes along a function to the given setter
