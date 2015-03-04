@@ -1,3 +1,7 @@
+## 0.1.7 (2015-03-04)
+
+* Fixed event listeners: stop() is now available in the context
+
 ## 0.1.6 (2015-02-27)
 
 * Add option to capitalize each word when using String#titleize
