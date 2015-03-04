@@ -131,6 +131,42 @@ describe('Informer', function() {
 		});
 	});
 
+	describe('addListener("type", listener) -- stop propagation', function() {
+
+		it('should stop propagation', function() {
+
+			var aTest = new Blast.Classes.Informer(),
+			    val = 0;
+
+			aTest.on('test', function t1() {
+
+				// Increment the value
+				val++;
+
+				// Stop propagation
+				this.stop();
+			});
+
+			// Add some other listeners
+			aTest.on('test', function shouldnotrun() {
+				// Increment value
+				val++;
+			});
+
+			// Add some other listeners
+			aTest.on('test', function shouldnotruneither() {
+				// Increment value
+				val++;
+			});
+
+			aTest.emit('test');
+			assert.equal(1, val);
+
+			aTest.emit('test');
+			assert.equal(2, val);
+		});
+	});
+
 	describe('addListener("typeName", listener, context)', function() {
 
 		it('should fire the listener with the given context', function() {

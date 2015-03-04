@@ -1,6 +1,6 @@
 ## 0.1.7 (2015-03-04)
 
-* Fixed event listeners: stop() is now available in the context
+* Fixed event listeners stop() context function
 
 ## 0.1.6 (2015-02-27)
 
