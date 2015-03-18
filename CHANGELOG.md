@@ -2,6 +2,7 @@
 
 * Added Function.forEach.parallel
 * Added Informer#forwardEvent
+* Added Math.lowpass
 
 ## 0.1.7 (2015-03-04)
 
