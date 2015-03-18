@@ -2,7 +2,8 @@
 
 * Added Function.forEach.parallel
 * Added Informer#forwardEvent
-* Added Math.lowpass
+* Added Math.lowpass and Math.interpolate
+* Added Math.plotdate and Date.difference
 
 ## 0.1.7 (2015-03-04)
 
