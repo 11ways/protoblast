@@ -4,6 +4,7 @@
 * Added Informer#forwardEvent
 * Added Math.lowpass and Math.interpolate
 * Added Math.plotdate and Date.difference
+* Make it possible to set class-wide event listeners
 
 ## 0.1.7 (2015-03-04)
 
