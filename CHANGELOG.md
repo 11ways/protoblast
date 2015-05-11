@@ -5,6 +5,11 @@
 * Added Math.lowpass and Math.interpolate
 * Added Math.plotdate and Date.difference
 * Make it possible to set class-wide event listeners
+* Add tryCatch function
+* Informer event functions now also have a reference to the original context
+  under the 'that' property
+* Object.isPrimitiveObject checks if constructor exists before getting its name
+* Object.checksum handles circular references from now on
 
 ## 0.1.7 (2015-03-04)
 
