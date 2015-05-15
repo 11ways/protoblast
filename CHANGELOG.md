@@ -1,4 +1,4 @@
-## 0.1.8 (WIP)
+## 0.1.8 (2015-05-16)
 
 * Added Function.forEach.parallel
 * Added Informer#forwardEvent
@@ -10,6 +10,7 @@
   under the 'that' property
 * Object.isPrimitiveObject checks if constructor exists before getting its name
 * Object.checksum handles circular references from now on
+* Add FunctionQueue class, which can be created through Function.createQueue()
 * Add throttle & sorting to the FunctionQueue
 
 ## 0.1.7 (2015-03-04)
