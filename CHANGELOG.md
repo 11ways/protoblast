@@ -10,6 +10,7 @@
   under the 'that' property
 * Object.isPrimitiveObject checks if constructor exists before getting its name
 * Object.checksum handles circular references from now on
+* Add throttle & sorting to the FunctionQueue
 
 ## 0.1.7 (2015-03-04)
 
