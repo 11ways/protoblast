@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Handy functions for several classes' prototype",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"author": "Jelle De Loecker <jelle@codedor.be>",
 	"keywords": ["prototype", "util", "functional", "server", "client", "browser"],
 	"main": "./lib/init.js",

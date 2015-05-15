@@ -1,3 +1,5 @@
+## 0.1.9 (WIP)
+
 ## 0.1.8 (2015-05-16)
 
 * Added Function.forEach.parallel
