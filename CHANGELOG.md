@@ -1,5 +1,7 @@
 ## 0.1.9 (WIP)
 
+* Add FunctionQueue#destroy()
+
 ## 0.1.8 (2015-05-16)
 
 * Added Function.forEach.parallel
