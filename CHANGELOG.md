@@ -1,6 +1,9 @@
 ## 0.1.9 (WIP)
 
 * Add FunctionQueue#destroy()
+* FunctionQueue's throttle & limit functionality now can be combined to
+  execute functions in batches
+* Object#path doesn't split individual arguments anymore
 
 ## 0.1.8 (2015-05-16)
 
