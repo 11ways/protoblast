@@ -5,6 +5,7 @@
   execute functions in batches
 * Object#path doesn't split individual arguments anymore
 * Added Function.throttle(fnc, ms, immediate)
+* FunctionQueue's will only be sorted when dirty
 
 ## 0.1.8 (2015-05-16)
 
