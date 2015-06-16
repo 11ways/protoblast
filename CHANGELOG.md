@@ -7,6 +7,9 @@
 * Added Function.throttle(fnc, ms, immediate)
 * FunctionQueue's will only be sorted when dirty
 * Bugfixes in non-global mode
+* Class constructors now have a `children` array property,
+  with direct descendants only
+* Static class properties are now also added to already existing children
 
 ## 0.1.8 (2015-05-16)
 
