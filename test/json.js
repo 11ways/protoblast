@@ -12,7 +12,7 @@ describe('JSON', function() {
 
 	describe('#toSource()', function() {
 		it('should return the source code representation of the JSON object', function() {
-			assert.equal('JSON', JSON.toSource());
+			assert.equal(JSON.toSource(), 'JSON');
 		});
 	});
 
