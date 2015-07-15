@@ -291,6 +291,60 @@ describe('Function Flow', function() {
 				}, 10);
 			}});
 		});
+
+		it('should catch thrown errors', function(done) {
+
+			Function.parallel({a: function(next) {
+				next(null);
+			}, b: function(next) {
+				throw new Error();
+			}}, function isdone(err) {
+				assert.equal(!!err, true);
+				done();
+			});
+		});
+
+		it('should stop on first error', function(done) {
+
+			Function.parallel({a: function(next) {
+				setTimeout(function() {
+					return next(new Error('a'));
+				}, 15);
+			}, b: function(next) {
+				setTimeout(function() {
+					return next(new Error('b'));
+				}, 10);
+			}, c: function(next) {
+				setTimeout(function() {
+					return next(new Error('c'));
+				}, 5);
+			}}, function isdone(err) {
+				assert.equal(!!err, true);
+				setTimeout(done, 10);
+			});
+		});
+
+		it('should ignore next being called multiple times', function(done) {
+
+			Function.parallel({a: function(next) {
+				setTimeout(function() {
+					return next(new Error('a'));
+				}, 15);
+			}, b: function(next) {
+				setTimeout(function() {
+					next(new Error('b'));
+					next(new Error('b2'));
+				}, 10);
+			}, c: function(next) {
+				setTimeout(function() {
+					next(new Error('c'));
+					next(new Error('c2'));
+				}, 5);
+			}}, function isdone(err) {
+				assert.equal(!!err, true);
+				setTimeout(done, 10);
+			});
+		});
 	});
 
 	describe('.parallel(limit, tasks, callback)', function() {
@@ -435,6 +489,133 @@ describe('Function Flow', function() {
 				hinder.push(function afterDone() {
 					done();
 				});
+			});
+		});
+	});
+
+	describe('.while(test, task, callback)', function() {
+		it('should execute task while test is true', function(done) {
+
+			var i = 0;
+
+			Function.while(function test() {
+				return i < 5;
+			}, function task(next) {
+				i++;
+				next();
+			}, function whileIsDone() {
+				assert.equal(5, i);
+				done();
+			});
+		});
+
+		it('should stop when an error is thrown', function(done) {
+
+			var i = 0;
+
+			Function.while(function test() {
+				return i < 5;
+			}, function task(next) {
+				i++;
+
+				if (i == 3) {
+					throw new Error();
+				}
+
+				next();
+			}, function whileIsDone(err) {
+				assert.equal(3, i);
+				assert.equal(!!err, true);
+
+				setTimeout(done, 10);
+			});
+		});
+
+		it('should stop when an error is passed to the `next` function', function(done) {
+
+			var i = 0;
+
+			Function.while(function test() {
+				return i < 5;
+			}, function task(next) {
+				i++;
+
+				if (i == 3) {
+					return next(new Error());
+				}
+
+				next();
+			}, function whileIsDone(err) {
+				assert.equal(3, i);
+				assert.equal(!!err, true);
+
+				setTimeout(done, 10);
+			});
+		});
+	});
+
+	describe('.forEach(data, task, callback)', function(done) {
+		it('should handle arrays', function(done) {
+
+			var arr = [{nr: 1}, {nr: 2}, {nr: 3}],
+			    count = 0;
+
+			Function.forEach(arr, function task(value, index, next) {
+				count++;
+
+				assert.equal(value.nr, index+1);
+
+				next();
+			}, function finished(err) {
+				assert.equal(count, 3);
+				assert.equal(!!err, false);
+				done();
+			});
+		});
+
+		it('should stop on thrown error', function(done) {
+
+			var arr = [{nr: 1}, {nr: 2}, {nr: 3}, {nr: 4}],
+			    count = 0;
+
+			Function.forEach(arr, function task(value, index, next) {
+				count++;
+
+				assert.equal(value.nr, index+1);
+
+				if (index == 2) {
+					throw new Error();
+				}
+
+				next();
+			}, function finished(err) {
+
+				assert.equal(!!err, true);
+				
+				setTimeout(done, 10);
+			});
+		});
+
+		it('should execute finished function only once', function(done) {
+
+			var arr = [{nr: 1}, {nr: 2}, {nr: 3}, {nr: 4}],
+			    count = 0;
+
+			Function.forEach(arr, function task(value, index, next) {
+				count++;
+
+				assert.equal(value.nr, index+1);
+
+				if (index > 1) {
+					return setTimeout(function() {
+						next(new Error('Error ' + index));
+					}, 3 + index);
+				} else {
+					next();
+				}
+			}, function finished(err) {
+				assert.equal(!!err, true);
+				setTimeout(done, 10);
 			});
 		});
 	});

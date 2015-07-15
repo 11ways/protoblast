@@ -13,6 +13,7 @@
 * `Object.setPath` now also creates arrays when encountering numeric keys
 * `Informer` properties are still created when first requested, but no longer 
   with `Object.defineProperty`
+* Fixed bug where FunctionQueue's lastEnd time was not being set
 
 ## 0.1.8 (2015-05-16)
 
