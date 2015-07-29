@@ -1,22 +1,22 @@
 var assert   = require('assert');
 
-// describe('Blast(false)', function() {
+describe('Blast(false)', function() {
 
-// 	var Blast    = require('../index.js'),
-// 	    blastObj = Blast(false),
-// 	    modifiedProto;
+	var Blast    = require('../index.js'),
+	    blastObj = Blast(false),
+	    modifiedProto;
 
-// 	modifiedProto = !!(String.prototype.startsWith && Object.divide);
+	modifiedProto = !!(String.prototype.startsWith && Object.divide);
 
-// 	it('should not modify the prototype', function() {
-// 		assert.equal(false, modifiedProto);
-// 	});
+	it('should not modify the prototype', function() {
+		assert.equal(modifiedProto, false);
+	});
 
-// 	it('should have returned bound functions', function() {
-// 		var bound = !!(blastObj.Bound.String.startsWith);
-// 		assert.equal(true, bound);
-// 	});
-// });
+	it('should have returned bound functions', function() {
+		var bound = !!(blastObj.Bound.String.startsWith);
+		assert.equal(bound, true);
+	});
+});
 
 describe('Blast()', function() {
 
