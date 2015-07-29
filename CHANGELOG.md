@@ -1,4 +1,4 @@
-## 0.1.9 (WIP)
+## 0.1.9 (2015-07-29)
 
 * Add FunctionQueue#destroy()
 * FunctionQueue's throttle & limit functionality now can be combined to
