@@ -24,12 +24,12 @@ describe('Crypto', function() {
 			    three = parseInt(pieces[2], 16);
 
 			// First part should be the date
-			assert.equal(true, (now - time) >= 0);
-			assert.equal(true, (now - time) < 100);
+			assert.equal((now - time) >= 0, true);
+			assert.equal((now - time) < 100, true);
 
 			// 2 last parts should be valid numbers
-			assert.equal(true, two == two);
-			assert.equal(true, three == three);
+			assert.equal(two == two, true);
+			assert.equal(three == three, true);
 		});
 	});
 });

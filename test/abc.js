@@ -27,6 +27,6 @@ describe('Blast()', function() {
 	});
 
 	it('should modify prototype when no parameter is given', function() {
-		assert.equal(true, !!String.prototype.startsWith);
+		assert.equal(!!String.prototype.startsWith, true);
 	});
 });

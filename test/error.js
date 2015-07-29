@@ -13,25 +13,25 @@ describe('Error', function() {
 			    src = e.toSource(),
 			    begin = '(new Error("msg", ';
 
-			assert.equal(begin, e.toSource().slice(0,18));
+			assert.equal(e.toSource().slice(0,18), begin);
 
 			var line = new Error('msg');
 			line.lineNumber = 0;
 			src = line.toSource();
 
-			assert.equal('(new Error("msg", undefined))', src);
+			assert.equal(src, '(new Error("msg", undefined))');
 
 			line = new Error('msg');
 			line.lineNumber = null;
 			src = line.toSource();
 
-			assert.equal('(new Error("msg", undefined))', src);
+			assert.equal(src, '(new Error("msg", undefined))');
 
 			line = new Error('msg');
 			line.lineNumber = 10;
 			src = line.toSource();
 
-			assert.equal('(new Error("msg", undefined, 10))', src);
+			assert.equal(src, '(new Error("msg", undefined, 10))');
 		});
 	});
 
@@ -42,8 +42,8 @@ describe('Error', function() {
 			    str = JSON.dry(e),
 			    revive = JSON.undry(str);
 
-			assert.equal(e.message, revive.message, 'Message is not equal');
-			assert.equal(e.stack, revive.stack, 'Stack is not equal');
+			assert.equal(revive.message, e.message, 'Message is not equal');
+			assert.equal(revive.stack, e.stack, 'Stack is not equal');
 		});
 	});
 });

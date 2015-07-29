@@ -14,8 +14,8 @@ describe('Function', function() {
 				return 1;
 			});
 
-			assert.equal('ReturnOne', fnc.name);
-			assert.equal(1, fnc());
+			assert.equal(fnc.name, 'ReturnOne');
+			assert.equal(fnc(), 1);
 		});
 
 		it('should have a reference to the newly wrapped function', function() {
@@ -24,7 +24,7 @@ describe('Function', function() {
 				return med.wrapper.name;
 			});
 
-			assert.equal('ReturnWrapperName', fnc());
+			assert.equal(fnc(), 'ReturnWrapperName');
 		});
 	});
 
@@ -40,10 +40,10 @@ describe('Function', function() {
 
 			tokens = Function.tokenize(fnc, true);
 
-			assert.equal('keyword', tokens[0].type);
-			assert.equal('function', tokens[0].value);
-			assert.equal('name', tokens[2].type);
-			assert.equal('fname', tokens[2].value);
+			assert.equal(tokens[0].type, 'keyword');
+			assert.equal(tokens[0].value, 'function');
+			assert.equal(tokens[2].type, 'name');
+			assert.equal(tokens[2].value, 'fname');
 		});
 	});
 
@@ -56,8 +56,8 @@ describe('Function', function() {
 
 			test.fnc = methodized;
 
-			assert.equal(undefined, fnc({}));
-			assert.equal('TEST', test.fnc());
+			assert.equal(fnc({}), undefined);
+			assert.equal(test.fnc(), 'TEST');
 		});
 	});
 
@@ -67,8 +67,8 @@ describe('Function', function() {
 			var fnc = function(){return this.zever;},
 			    methodized = fnc.unmethodize();
 
-			assert.equal(undefined, fnc());
-			assert.equal('TEST', methodized({zever: 'TEST'}));
+			assert.equal(fnc(), undefined);
+			assert.equal(methodized({zever: 'TEST'}), 'TEST');
 		});
 	});
 
@@ -84,8 +84,8 @@ describe('Function', function() {
 
 			addTen = adder.curry(10);
 
-			assert.equal(adder(10,5), addTen(5));
-			assert.equal(adder.name, addTen.name);
+			assert.equal(addTen(5), adder(10, 5));
+			assert.equal(addTen.name, adder.name);
 		});
 	});
 

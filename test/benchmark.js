@@ -23,16 +23,16 @@ describe('Benchmark', function() {
 
 			console.log = old;
 
-			assert.equal(true, result.iterations > 1);
-			assert.equal(true, result.max > 1);
-			assert.equal(true, result.ops > 1);
-			assert.equal(true, result.median > 1);
-			assert.equal(true, result.mean > 1);
-			assert.equal(true, isFinite(result.deviation));
-			assert.equal(true, isFinite(result.samplecount));
-			assert.equal(true, isFinite(result.samplehit));
-			assert.equal(true, captured.length > 0);
-			assert.equal(true, captured.indexOf('indexOfTest') > 0, 'Function name was not found in the captured message');
+			assert.equal(result.iterations > 1, true);
+			assert.equal(result.max > 1, true);
+			assert.equal(result.ops > 1, true);
+			assert.equal(result.median > 1, true);
+			assert.equal(result.mean > 1, true);
+			assert.equal(isFinite(result.deviation), true);
+			assert.equal(isFinite(result.samplecount), true);
+			assert.equal(isFinite(result.samplehit), true);
+			assert.equal(captured.length > 0, true);
+			assert.equal(captured.indexOf('indexOfTest') > 0, true, 'Function name was not found in the captured message');
 		});
 	});
 });

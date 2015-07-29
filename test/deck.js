@@ -13,7 +13,7 @@ describe('Deck', function() {
 		it('should return an empty deck', function() {
 			var d = new Deck();
 
-			assert.equal(0, d.insertCount);
+			assert.equal(d.insertCount, 0);
 		});
 	});
 
@@ -21,7 +21,7 @@ describe('Deck', function() {
 		it('should return a new, empty deck', function() {
 			var d = Deck.create();
 
-			assert.equal(0, d.insertCount);
+			assert.equal(d.insertCount, 0);
 		});
 	});
 
@@ -31,7 +31,7 @@ describe('Deck', function() {
 			var d = new Deck();
 			d.set('mykey', 47);
 
-			assert.equal(47, d.get('mykey'));
+			assert.equal(d.get('mykey'), 47);
 		});
 	});
 
@@ -42,9 +42,9 @@ describe('Deck', function() {
 			d.set('mykey', 47);
 			d.set('undef', undefined);
 
-			assert.equal(true, d.has('mykey'));
-			assert.equal(true, d.has('undef'));
-			assert.equal(false, d.has('madeup'));
+			assert.equal(d.has('mykey'), true);
+			assert.equal(d.has('undef'), true);
+			assert.equal(d.has('madeup'), false);
 		});
 	});
 
@@ -54,7 +54,7 @@ describe('Deck', function() {
 			var d = new Deck();
 			d.set('mykey', 47);
 
-			assert.equal(47, d.get('mykey'));
+			assert.equal(d.get('mykey'), 47);
 		});
 	});
 
@@ -64,16 +64,16 @@ describe('Deck', function() {
 			var d = new Deck();
 			d.set('predef', 1);
 
-			assert.equal(1, d.get('predef', 99));
-			assert.equal(99, d.get('nodef', 99));
-			assert.equal(99, d.get('nodef', 55));
+			assert.equal(d.get('predef', 99), 1);
+			assert.equal(d.get('nodef', 99), 99);
+			assert.equal(d.get('nodef', 55), 99);
 		});
 
 		it('should execute defaultValue functions', function() {
 
 			var d = new Deck();
 
-			assert.equal(''+{}, d.get('nodef', Object));
+			assert.equal(d.get('nodef', Object), ''+{});
 		});
 	});
 
@@ -83,7 +83,7 @@ describe('Deck', function() {
 			var d = new Deck();
 			d.set('mykey', 47);
 
-			assert.equal(47, d.getById(0));
+			assert.equal(d.getById(0), 47);
 		});
 	});
 
@@ -97,7 +97,7 @@ describe('Deck', function() {
 			d.push('c');
 			d.push('d');
 
-			assert.equal('a,b,c,d', d.getSorted().join(','));
+			assert.equal(d.getSorted().join(','), 'a,b,c,d');
 		});
 
 		it('should return the sorted values by weight', function() {
@@ -109,7 +109,7 @@ describe('Deck', function() {
 			d.push('d', 100);
 			d.set('a', 'a', 400);
 
-			assert.equal('a,b,c,d', d.getSorted().join(','));
+			assert.equal(d.getSorted().join(','), 'a,b,c,d');
 		});
 	});
 
@@ -128,7 +128,7 @@ describe('Deck', function() {
 				result += val;
 			});
 
-			assert.equal('abcd', result);
+			assert.equal(result, 'abcd');
 		});
 	});
 
@@ -149,7 +149,7 @@ describe('Deck', function() {
 				if (result.length == 2) return true;
 			});
 
-			assert.equal('ab', result);
+			assert.equal(result, 'ab');
 		});
 	});
 
@@ -170,7 +170,7 @@ describe('Deck', function() {
 				if (result.length == 2) return false;
 			});
 
-			assert.equal('ab', result);
+			assert.equal(result, 'ab');
 		});
 	});
 
@@ -187,7 +187,7 @@ describe('Deck', function() {
 
 			iter = d.createIterator();
 
-			assert.equal('Iterator', iter.constructor.name);
+			assert.equal(iter.constructor.name, 'Iterator');
 		});
 	});
 
@@ -204,7 +204,7 @@ describe('Deck', function() {
 
 			iter = d.createIteratorItems();
 
-			assert.equal('Iterator', iter.constructor.name);
+			assert.equal(iter.constructor.name, 'Iterator');
 		});
 	});
 
@@ -218,11 +218,11 @@ describe('Deck', function() {
 			itDeck.push('val2');
 			itDeck.push('first', 500);
 
-			assert.equal('first', itDeck.next().value);
-			assert.equal('val1', itDeck.next().value);
-			assert.equal('val2', itDeck.next().value);
-			assert.equal('last', itDeck.next().value);
-			assert.equal(true, itDeck.next().done);
+			assert.equal(itDeck.next().value, 'first');
+			assert.equal(itDeck.next().value, 'val1');
+			assert.equal(itDeck.next().value, 'val2');
+			assert.equal(itDeck.next().value, 'last');
+			assert.equal(itDeck.next().done, true);
 		});
 	});
 
@@ -231,11 +231,11 @@ describe('Deck', function() {
 
 			itDeck.reset();
 
-			assert.equal('first', itDeck.next().value);
-			assert.equal('val1', itDeck.next().value);
-			assert.equal('val2', itDeck.next().value);
-			assert.equal('last', itDeck.next().value);
-			assert.equal(true, itDeck.next().done);
+			assert.equal(itDeck.next().value, 'first');
+			assert.equal(itDeck.next().value, 'val1');
+			assert.equal(itDeck.next().value, 'val2');
+			assert.equal(itDeck.next().value, 'last');
+			assert.equal(itDeck.next().done, true);
 		});
 	});
 
@@ -244,13 +244,13 @@ describe('Deck', function() {
 
 			itDeck.reset();
 
-			assert.equal('first', itDeck.next().value);
-			assert.equal(true, itDeck.hasNext());
-			assert.equal('val1', itDeck.next().value);
-			assert.equal('val2', itDeck.next().value);
-			assert.equal('last', itDeck.next().value);
-			assert.equal(false, itDeck.hasNext());
-			assert.equal(true, itDeck.next().done);
+			assert.equal(itDeck.next().value, 'first');
+			assert.equal(itDeck.hasNext(), true);
+			assert.equal(itDeck.next().value, 'val1');
+			assert.equal(itDeck.next().value, 'val2');
+			assert.equal(itDeck.next().value, 'last');
+			assert.equal(itDeck.hasNext(), false);
+			assert.equal(itDeck.next().done, true);
 		});
 	});
 
@@ -270,14 +270,14 @@ describe('Deck', function() {
 			json = JSON.stringify(d);
 			dry = JSON.dry(d);
 
-			assert.equal(true, dry.length < json.length, 'Dry string is larger than regular JSON string');
-			assert.equal(true, !!dry.length, 'Dry string is empty');
+			assert.equal(dry.length < json.length, true, 'Dry string is larger than regular JSON string');
+			assert.equal(!!dry.length, true, 'Dry string is empty');
 
 			undry = JSON.undry(dry);
 
-			assert.equal(true, undry instanceof Deck);
-			assert.equal('keyval', undry.get('mykey'));
-			assert.equal(d.insertCount, undry.insertCount);
+			assert.equal(undry instanceof Deck, true);
+			assert.equal(undry.get('mykey'), 'keyval');
+			assert.equal(undry.insertCount, d.insertCount);
 		});
 	});
 
@@ -297,7 +297,7 @@ describe('Deck', function() {
 			temp = ori.getSorted();
 
 			// Test sorting before (heavier values come first)
-			assert.equal('0,a,b', temp.join(','));
+			assert.equal(temp.join(','), '0,a,b');
 
 			// Clone the original deck
 			clone = ori.clone();
@@ -312,13 +312,13 @@ describe('Deck', function() {
 			temp = ori.getSorted();
 
 			// Everything has the same weight, so order should be insertion order
-			assert.equal('a,b,0', temp.join(','));
+			assert.equal(temp.join(','), 'a,b,0');
 
 			// Now get the sorted items of the clone
 			temp = clone.getSorted();
 
 			// Those should still be the original order
-			assert.equal('0,a,b', temp.join(','));
+			assert.equal(temp.join(','), '0,a,b');
 		});
 	});
 });

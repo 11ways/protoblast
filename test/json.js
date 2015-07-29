@@ -31,7 +31,7 @@ describe('JSON', function() {
 			json = JSON.stringify(obj);
 			dry = JSON.dry(obj);
 
-			assert.equal(true, dry.length < json.length, 'Dry string is not shorter than JSON string');
+			assert.equal(dry.length < json.length, true, 'Dry string is not shorter than JSON string');
 
 			undry = JSON.undry(dry);
 
@@ -48,7 +48,7 @@ describe('JSON', function() {
 			dry = JSON.dry(obj);
 			dryCirc = dry;
 
-			assert.equal('{"test":true,"arr":[0,1,2],"circle":"~"}', dry);
+			assert.equal(dry, '{"test":true,"arr":[0,1,2],"circle":"~"}');
 
 			obj.deep = {obj: obj};
 			dryCirc2 = JSON.dry(obj);
@@ -71,8 +71,8 @@ describe('JSON', function() {
 			temp = JSON.parse(dry);
 			ntemp = JSON.parse(ndry);
 
-			assert.equal('__Protoblast.Classes.Deck', temp.path);
-			assert.equal('__Protoblast.Classes.Deck', ntemp.nonroot.path);
+			assert.equal(temp.path, '__Protoblast.Classes.Deck');
+			assert.equal(ntemp.nonroot.path, '__Protoblast.Classes.Deck');
 		});
 	});
 
@@ -85,11 +85,11 @@ describe('JSON', function() {
 
 			undry = JSON.undry(dryCirc);
 
-			assert.equal(true, undry === undry.circle, 'Circular reference in undried object is gone');
+			assert.equal(undry === undry.circle, true, 'Circular reference in undried object is gone');
 
 			undry2 = JSON.undry(dryCirc2);
 
-			assert.equal(true, undry2 === undry2.deep.obj, 'Deep circular reference in undried object is gone');
+			assert.equal(undry2 === undry2.deep.obj, true, 'Deep circular reference in undried object is gone');
 		});
 
 		it('should use undry on dried objects that need to be revived', function() {
@@ -103,7 +103,7 @@ describe('JSON', function() {
 
 			undry = JSON.undry(dry);
 
-			assert.equal(true, undry.mydeck instanceof Deck);
+			assert.equal(undry.mydeck instanceof Deck, true);
 		});
 
 		it('should also be able to revive root objects', function() {
@@ -117,7 +117,7 @@ describe('JSON', function() {
 
 			undry = JSON.undry(dry);
 
-			assert.equal(true, undry instanceof Deck);
+			assert.equal(undry instanceof Deck, true);
 		});
 
 		it('should handle complicated revive structures', function() {
@@ -142,9 +142,9 @@ describe('JSON', function() {
 			undry = JSON.undry(dry);
 			sub = undry.get('subdeck');
 
-			assert.equal(true, undry instanceof Deck);
-			assert.equal(true, sub instanceof Deck);
-			assert.equal(true, undry.get('arr') === sub.get('arr'));
+			assert.equal(undry instanceof Deck, true);
+			assert.equal(sub instanceof Deck, true);
+			assert.equal(undry.get('arr') === sub.get('arr'), true);
 		});
 	});
 

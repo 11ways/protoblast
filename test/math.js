@@ -11,7 +11,7 @@ describe('Math', function() {
 
 	describe('.toSource()', function() {
 		it('should return the source code representation of the Math object', function() {
-			assert.equal('Math', Math.toSource());
+			assert.equal(Math.toSource(), 'Math');
 		});
 	});
 
@@ -27,8 +27,8 @@ describe('Math', function() {
 			result = Math.median(numbers);
 			post = ''+numbers;
 
-			assert.equal(6, result, 'Median value is wrong');
-			assert.equal(pre, post, 'The original array was modified');
+			assert.equal(result, 6, 'Median value is wrong');
+			assert.equal(post, pre, 'The original array was modified');
 
 		});
 	});
@@ -37,7 +37,7 @@ describe('Math', function() {
 
 		it('should return the lowest number', function() {
 			var numbers = [99,6,41,32,7];
-			assert.equal(6, Math.lowest(numbers));
+			assert.equal(Math.lowest(numbers), 6);
 		});
 
 		it('should return the wanted amount of numbers', function() {
@@ -45,7 +45,7 @@ describe('Math', function() {
 			var numbers = [1,99,3,470,5,2,63],
 			    lowest  = Math.lowest(numbers, 3);
 
-			assert.equal('1,2,3', lowest.join(','));
+			assert.equal(lowest.join(','), '1,2,3');
 		});
 	});
 
@@ -53,7 +53,7 @@ describe('Math', function() {
 
 		it('should return the highest number', function() {
 			var numbers = [99,6,41,32,7];
-			assert.equal(99, Math.highest(numbers));
+			assert.equal(Math.highest(numbers), 99);
 		});
 
 		it('should return the wanted amount of numbers', function() {
@@ -61,7 +61,7 @@ describe('Math', function() {
 			var numbers = [1,99,3,470,5,2,63],
 			    highest  = Math.highest(numbers, 3);
 
-			assert.equal('63,99,470', highest.join(','));
+			assert.equal(highest.join(','), '63,99,470');
 		});
 	});
 
@@ -71,8 +71,8 @@ describe('Math', function() {
 			var numbers = [1,99,3,470,5,2,63],
 			    clipped  = Math.clip(numbers, 3, 5);
 
-			assert.equal('3,5,3,5,5,3,5', clipped.join(','));
-			assert.equal('1,99,3,470,5,2,63', numbers.join(','), 'Original array was modified');
+			assert.equal(clipped.join(','), '3,5,3,5,5,3,5');
+			assert.equal(numbers.join(','), '1,99,3,470,5,2,63', 'Original array was modified');
 		});
 	});
 
@@ -82,20 +82,20 @@ describe('Math', function() {
 			var numbers = [1,2,3,4,5],
 			    sum  = Math.sum(numbers);
 
-			assert.equal(15, sum);
+			assert.equal(sum, 15);
 		});
 	});
 
 	describe('.overlaps(a1, b1, a2, b2)', function() {
 		it('should see if the given ranges overlap', function() {
 
-			assert.equal(true, Math.overlaps(3,7, 1, 4));
-			assert.equal(true, Math.overlaps(3,7, 1, 3));
-			assert.equal(true, Math.overlaps(3,7, 6, 10));
-			assert.equal(false, Math.overlaps(1,3, 6, 10));
-			assert.equal(false, Math.overlaps(1,3, -10, 0));
-			assert.equal(false, Math.overlaps(10,20, 1, 9));
-			assert.equal(true, Math.overlaps(10,20, 1, 11));
+			assert.equal(Math.overlaps(3,7, 1, 4), true);
+			assert.equal(Math.overlaps(3,7, 1, 3), true);
+			assert.equal(Math.overlaps(3,7, 6, 10), true);
+			assert.equal(Math.overlaps(1,3, 6, 10), false);
+			assert.equal(Math.overlaps(1,3, -10, 0), false);
+			assert.equal(Math.overlaps(10,20, 1, 9), false);
+			assert.equal(Math.overlaps(10,20, 1, 11), true);
 		});
 	});
 
