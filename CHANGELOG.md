@@ -1,3 +1,8 @@
+## 0.1.10 (WIP)
+
+* Add `Blast.loaded`, which will execute after initial scripts have finished
+* `Function.constitute` will still execute ASAP, but using `Blast.loaded`
+
 ## 0.1.9 (2015-07-29)
 
 * Add FunctionQueue#destroy()
