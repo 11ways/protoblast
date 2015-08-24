@@ -2,6 +2,7 @@
 
 * Add `Blast.loaded`, which will execute after initial scripts have finished
 * `Function.constitute` will still execute ASAP, but using `Blast.loaded`
+* `Array.cast` will handle <select> elements properly from now on
 
 ## 0.1.9 (2015-07-29)
 
