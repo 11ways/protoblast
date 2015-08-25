@@ -96,6 +96,21 @@ describe('JSON', function() {
 			assert.equal(undried.zero, 0, '#toJSON was not respected');
 			assert.equal(undried.one, undried.two, 'References have been messed up');
 		});
+
+		it('should drop functions', function() {
+
+			var undried,
+			    dried,
+			    fnc = function test() {},
+			    obj = {a: fnc, b: 1}
+
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(JSON.dry(fnc), undefined, 'Function should be returned as undefined');
+			assert.equal(undried.a, undefined, 'Functions should be returned as undefined');
+			assert.equal(undried.b, 1, 'Other property did not revive');
+		});
 	});
 
 	describe('.undry()', function() {
