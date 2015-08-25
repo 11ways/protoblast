@@ -207,6 +207,20 @@ describe('JSON', function() {
 
 			assert.equal(undried.last, undried.x);
 		});
+
+		it('should handle the safe character', function() {
+
+			var undried,
+			    input = 'This is ~not~ undefined',
+			    dried = JSON.dry(input),
+			    driedtwo = JSON.dry({a: input});
+
+			undried = JSON.undry(dried);
+
+			assert.equal(driedtwo, '{"a":"This is \\\\x7enot\\\\x7e undefined"}', 'Special chars in an object should be escaped');
+			assert.equal(dried, JSON.stringify(input), 'Special chars should not be escaped in a regular string');
+			assert.equal(undried, input);
+		});
 	});
 
 });
