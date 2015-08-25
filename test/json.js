@@ -142,9 +142,33 @@ describe('JSON', function() {
 			undry = JSON.undry(dry);
 			sub = undry.get('subdeck');
 
-			assert.equal(undry instanceof Deck, true);
-			assert.equal(sub instanceof Deck, true);
-			assert.equal(undry.get('arr') === sub.get('arr'), true);
+			assert.equal(undry instanceof Deck, true, 'Undried object should be a Deck instance');
+			assert.equal(sub instanceof Deck, true, 'Sub entry of object should also be a Deck instance');
+			assert.equal(undry.get('arr') === sub.get('arr'), true, 'Array in both Decks should be a reference');
+		});
+
+		it('should handle recursive links first returned by a toJSON call', function() {
+
+			var undried,
+			    dried,
+			    root,
+			    a,
+			    x;
+
+			a = {a: 'a'};
+			x = {toJSON: function() {return a}};
+			y = {toJSON: function() {return 'y'}};
+
+			root = {
+				x: x,
+				y: y,
+				last: a
+			};
+
+			dried = JSON.dry(root);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.last, undried.x);
 		});
 	});
 
