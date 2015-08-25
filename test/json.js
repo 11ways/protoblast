@@ -74,6 +74,28 @@ describe('JSON', function() {
 			assert.equal(temp.path, '__Protoblast.Classes.Deck');
 			assert.equal(ntemp.nonroot.path, '__Protoblast.Classes.Deck');
 		});
+
+		it('should handle #toJSON calls properly', function() {
+
+			var undried,
+			    dried,
+			    obj,
+			    a;
+
+			a = {a: 1};
+
+			obj = {
+				zero: {toJSON: function(){return 0}},
+				one: a,
+				two: a
+			};
+
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.zero, 0, '#toJSON was not respected');
+			assert.equal(undried.one, undried.two, 'References have been messed up');
+		});
 	});
 
 	describe('.undry()', function() {
