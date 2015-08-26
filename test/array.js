@@ -302,7 +302,39 @@ describe('Array', function() {
 			brr.fill(1, 0, '10');
 			assert.equal(brr+'', '1,1,1,1,1');
 		});
+	});
 
+	describe('#move(oldIndex, newIndex)', function() {
+		it('should move elements', function() {
+			var arr = [0, 1, 2, 3, 4];
+			arr.move(0, 3);
+
+			assert.equal(arr.join(','), '1,2,3,0,4');
+		});
+
+		it('should find elements first', function() {
+
+			var arr = ['a', 'b', 'c', 'd'];
+			arr.move('a', 'c');
+
+			assert.equal(arr.join(','), 'b,c,a,d');
+		});
+
+		it('should do nothing if it can\'t find the value', function() {
+
+			var arr = ['a', 'b', 'c'];
+			arr.move('a', 'x');
+
+			assert.equal(arr.join(','), 'a,b,c');
+		});
+
+		it('should enlarge arrays if needed', function() {
+
+			var arr = ['a', 'b', 'c'];
+			arr.move(-1, 5);
+
+			assert.equal(arr.join(','), 'a,b,,,,c');
+		});
 	});
 
 	describe('#first(nr, page)', function() {
@@ -485,14 +517,16 @@ describe('Array', function() {
 			var original = [0,1,[2,3,[4,5,[6,7]]], 8, [9,10]],
 			    result = original.flatten();
 
-			assert.equal(original+'', '0,1,2,3,4,5,6,7,8,9,10');
+			assert.equal(original.length, 5, 'Original array was modified');
+			assert.equal(result.length, 11, 'Array was not flattened');
 			assert.equal(original == result, false);
 		});
 
-		it('should return objects even when they have the same properties', function() {
-			var a = [1,1, {a:1}, {a:1}];
+		it('should honour the recursive limit', function() {
+			var original = [0, 1, [2, [3, 4]]],
+			    result = original.flatten(1);
 
-			assert.equal(a.unique().join(','), '1,[object Object],[object Object]');
+			assert.equal(result.length, 4);
 		});
 	});
 
@@ -534,6 +568,15 @@ describe('Array', function() {
 			    shared = a.shared(b);
 
 			assert.equal(shared.length, 2);
+		});
+
+		it('should cast values first', function() {
+
+			var a = ['1', '2', '3', '4'],
+			    b = ['1.1', '2.0', '3.3', '4.0'],
+			    shared = a.shared(b, Number);
+
+			assert.equal(JSON.stringify(shared), '["2","4"]');
 		});
 	});
 
@@ -609,6 +652,50 @@ describe('Array', function() {
 			assert.equal(clean, a);
 
 			assert.equal(clean.length, 6);
+		});
+	});
+
+	describe('#sortByPath', function() {
+
+		it('should sort the given path', function() {
+
+			var arr = [
+				{a: 3},
+				{a: 1},
+				{a: 2},
+				{a: 0}
+			];
+
+			arr.sortByPath('a');
+
+			assert.equal('[{"a":3},{"a":2},{"a":1},{"a":0}]', JSON.stringify(arr));
+		});
+
+		it('should reverse the sort', function() {
+			var arr = [
+				{a: 3},
+				{a: 1},
+				{a: 2},
+				{a: 0}
+			];
+
+			arr.sortByPath(1, 'a');
+
+			assert.equal('[{"a":0},{"a":1},{"a":2},{"a":3}]', JSON.stringify(arr));
+		});
+
+		it('should sort multiple paths', function() {
+
+			var arr = [
+				{a: 0, b: 1},
+				{a: 0, b: 0},
+				{a: 5, b: 1},
+				{a: 5, b: 0}
+			];
+
+			arr.sortByPath(['a', 'b']);
+
+			assert.equal('[{"a":5,"b":1},{"a":5,"b":0},{"a":0,"b":1},{"a":0,"b":0}]', JSON.stringify(arr));
 		});
 	});
 

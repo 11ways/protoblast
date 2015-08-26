@@ -23,6 +23,42 @@ describe('Date', function() {
 		});
 	});
 
+	describe('.difference(unit, start, end, startOfUnit', function() {
+
+		var a = new Date("2015-08-26T14:39:05.745Z"),
+		    b = new Date("2015-08-14T10:31:10.045Z");
+
+		it('should return the difference in ms', function() {
+
+			var diff = Date.difference(a, b);
+			
+			assert.equal(diff, -1051675700);
+		});
+
+		it('should return the difference in seconds', function() {
+
+			var diff = Date.difference('seconds', a, b);
+
+			assert.equal(diff, -1051675.7);
+		});
+
+		it('should return the difference in minutes', function() {
+			var diff = Date.difference('minutes', a, b);
+
+			assert.equal(diff, -17527.928333333333);
+		});
+
+		it('should go to the start of the day', function() {
+
+			var diff = Date.difference('days', a, b),
+			    sdiff = Date.difference('days', a, b, true);
+
+			assert.equal(diff, -12.172172453703704);
+			assert.equal(sdiff, -12);
+		});
+
+	});
+
 	describe('#toSource()', function() {
 		it('should return the source code representation of the date', function() {
 			var d = new Date(1);
