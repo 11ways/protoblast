@@ -1,10 +1,14 @@
-# Protoblast
+# ![protoblast](http://protoblast.develry.be/media/static/protoblast-small.svg?width=30) Protoblast
 
 [![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
 [![Build Status](https://secure.travis-ci.org/skerit/protoblast.png?branch=master)](http://travis-ci.org/skerit/protoblast)
 
 Extend native objects with helpful methods to speed up development,
 or leave the native objects alone and use bound methods.
+
+## Getting started
+
+For more information and API documentation, visit the [Protoblast homepage](http://protoblast.develry.be).
 
 ## Installation
 

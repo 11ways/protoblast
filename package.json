@@ -1,11 +1,12 @@
 {
 	"name": "protoblast",
 	"description": "Add useful methods to native objects",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": ["prototype", "util", "functional", "server", "client", "browser"],
 	"main": "./lib/init.js",
-	"repository": "git@github.com:skerit/protoblast.git",
+	"repository": "skerit/protoblast",
+	"homepage": "http://protoblast.develry.be/",
 	"license": "MIT",
 	"scripts": {
 		"test": "node_modules/.bin/mocha --reporter spec"

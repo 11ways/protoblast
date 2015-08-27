@@ -1,10 +1,11 @@
-## 0.1.10 (WIP)
+## 0.1.10 (2015-08-27)
 
 * Add `Blast.loaded`, which will execute after initial scripts have finished
 * `Function.constitute` will still execute ASAP, but using `Blast.loaded`
 * `Array.cast` will handle <select> elements properly from now on
 * `JSON.dry` uses JSON-js from now on, so `toDry` can come before `toJSON`
 * Add `JSON.registerDrier` and `JSON.registerUndrier`
+* Add link to homepage http://protoblast.develry.be
 
 ## 0.1.9 (2015-07-29)
 

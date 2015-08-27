@@ -21,8 +21,7 @@ describe('Deck', function() {
 		it('should see if there is a next item', function() {
 
 			var arr = ['a', 'b', 'c'],
-			    iter = new Iterator(arr),
-			    test = '';
+			    iter = new Iterator(arr);
 
 			assert.equal(true, iter.hasNext());
 		});
