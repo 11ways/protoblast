@@ -1,3 +1,7 @@
+## 0.1.11 (WIP)
+
+* `String#slug` now removes diacritics and separator repeats
+
 ## 0.1.10 (2015-08-27)
 
 * Add `Blast.loaded`, which will execute after initial scripts have finished
