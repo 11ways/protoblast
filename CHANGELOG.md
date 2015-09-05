@@ -1,6 +1,7 @@
 ## 0.1.11 (WIP)
 
 * `String#slug` now removes diacritics and separator repeats
+* Improve `Object.merge`, still not ready for release though
 
 ## 0.1.10 (2015-08-27)
 
