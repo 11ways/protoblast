@@ -2,6 +2,9 @@
 
 * `String#slug` now removes diacritics and separator repeats
 * Improve `Object.merge`, still not ready for release though
+* Add `getChildren` method to class functions
+* Make class constitutions happen in order
+  (child constitution would happen before the parent's)
 
 ## 0.1.10 (2015-08-27)
 
