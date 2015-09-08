@@ -6,6 +6,7 @@
 * Make class constitutions happen in order
   (child constitution would happen before the parent's)
 * Don't use broken URLConstructor objects on legacy browsers
+* `Array#include` now appends when no index is given
 
 ## 0.1.10 (2015-08-27)
 

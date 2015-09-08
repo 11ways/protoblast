@@ -509,6 +509,13 @@ describe('Array', function() {
 
 			assert.equal(result+'', '0,1,2,3,4,5,6');
 		});
+
+		it('should append when no index is given', function() {
+			var original = [0,1,2],
+			    result = original.include([3,4], [5,6]);
+
+			assert.equal(result+'', '0,1,2,3,4,5,6');
+		});
 	});
 
 	describe('#flatten()', function() {
