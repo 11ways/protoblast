@@ -5,6 +5,7 @@
 * Add `getChildren` method to class functions
 * Make class constitutions happen in order
   (child constitution would happen before the parent's)
+* Don't use broken URLConstructor objects on legacy browsers
 
 ## 0.1.10 (2015-08-27)
 
