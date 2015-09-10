@@ -7,6 +7,8 @@
   (child constitution would happen before the parent's)
 * Don't use broken URLConstructor objects on legacy browsers
 * `Array#include` now appends when no index is given
+* `Date.create` now accepts a value
+* `Date.difference` now uses `Date.create` instead of `new Date`
 
 ## 0.1.10 (2015-08-27)
 
