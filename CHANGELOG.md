@@ -9,6 +9,8 @@
 * `Array#include` now appends when no index is given
 * `Date.create` now accepts a value
 * `Date.difference` now uses `Date.create` instead of `new Date`
+* `Array#include` correctly handles single argument
+* Added `Object.first`
 
 ## 0.1.10 (2015-08-27)
 
