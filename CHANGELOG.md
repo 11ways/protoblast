@@ -11,6 +11,8 @@
 * `Date.difference` now uses `Date.create` instead of `new Date`
 * `Array#include` correctly handles single argument
 * Added `Object.first`
+* Use `#valueOf()` when getting object checksums,
+  fixes `Date` instances getting the same checksums
 
 ## 0.1.10 (2015-08-27)
 
