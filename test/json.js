@@ -217,7 +217,7 @@ describe('JSON', function() {
 
 			undried = JSON.undry(dried);
 
-			assert.equal(driedtwo, '{"a":"This is \\\\x7enot\\\\x7e undefined"}', 'Special chars in an object should be escaped');
+			assert.equal(driedtwo, '{"a":"This is \\\\x7enot~ undefined"}', 'The first special char should be escaped');
 			assert.equal(dried, JSON.stringify(input), 'Special chars should not be escaped in a regular string');
 			assert.equal(undried, input);
 		});
