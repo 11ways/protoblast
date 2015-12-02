@@ -17,6 +17,7 @@
 * Fix JSON-dry special char bug
 * Decode HTML when slugifying a string
 * Improve `Object.setPath`
+* Add `Object.formPath` and `Object.setFormPath`
 
 ## 0.1.10 (2015-08-27)
 
