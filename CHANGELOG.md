@@ -19,6 +19,7 @@
 * Improve `Object.setPath`
 * Add `Object.formPath` and `Object.setFormPath`
 * `JSON.clone` is now much more performant than the old method
+* Properties set on a Deck instance now also get JSON-dried
 
 ## 0.1.10 (2015-08-27)
 
