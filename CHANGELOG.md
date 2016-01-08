@@ -20,6 +20,7 @@
 * Add `Object.formPath` and `Object.setFormPath`
 * `JSON.clone` is now much more performant than the old method
 * Properties set on a Deck instance now also get JSON-dried
+* Fix pushed tasks in `Function.hinder` object
 
 ## 0.1.10 (2015-08-27)
 
