@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Add useful methods to native objects",
-	"version": "0.1.11",
+	"version": "0.1.12-alpha",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": ["prototype", "util", "functional", "server", "client", "browser"],
 	"repository": "skerit/protoblast",
