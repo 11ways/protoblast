@@ -1,5 +1,7 @@
 ## 0.1.12 (WIP)
 
+* Begin adding NW.js support
+
 ## 0.1.11 (2016-01-08)
 
 * `String#slug` now removes diacritics and separator repeats
