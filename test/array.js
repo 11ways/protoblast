@@ -608,6 +608,18 @@ describe('Array', function() {
 			// The order of the subtraction is important
 			assert.equal(subtract.length, 5);
 		});
+
+		it('cast the variables before subtracting', function() {
+
+			var a = [0,1,2,47,99,100.5],
+			    subtract;
+
+			// This should cast the 100.5 to 100 before matching
+			subtract = a.subtract(100, parseInt);
+
+			// The order of the subtraction is important
+			assert.equal(subtract.length, 5);
+		});
 	});
 
 	describe('#employ(args, obj, function)', function() {

@@ -56,6 +56,85 @@ describe('Date', function() {
 			assert.equal(diff, -12.172172453703704);
 			assert.equal(sdiff, -12);
 		});
+	});
+
+	describe('#format()', function() {
+
+		var date = new Date('2015-08-26T14:39:05.745Z');
+
+		it('should format the date using the specified methos', function() {
+
+			var a = new Date(date),
+			    b = new Date('2016-08-26T14:39:05.745Z'),
+			    c = new Date('2016-01-01T18:39:05.745Z'),
+			    d = new Date('2016-08-26T06:39:05.745Z'),
+			    e = new Date('2016-01-26T06:39:05.745Z'),
+			    f = new Date('2016-01-03T06:39:05.745Z'),
+			    g = new Date('2016-10-26T06:39:05.745Z')
+
+			// Days
+			assert.equal(a.format('d'), '26');
+			assert.equal(c.format('d'), '01');
+			assert.equal(a.format('j'), '26');
+			assert.equal(c.format('j'), '1');
+
+			assert.equal(c.format('D'), 'Fri');
+			assert.equal(c.format('l'), 'Friday');
+			assert.equal(c.format('N'), '5');
+			assert.equal(f.format('N'), '7', 'Sunday should return 7');
+			assert.equal(f.format('w'), '0', 'Sunday should return 0');
+			assert.equal(c.format('S'), 'st');
+			assert.equal(b.format('S'), 'th');
+			assert.equal(c.format('z'), '1');
+			assert.equal(e.format('z'), '26');
+			assert.equal(e.format('W'), '4');
+			assert.equal(c.format('W'), '53');
+
+			// Months
+			assert.equal(a.format('F'), 'August', 'Should return the full month name');
+			assert.equal(a.format('m'), '08', 'Should return zero-padded month number');
+			assert.equal(g.format('m'), '10', 'Should return zero-padded month number');
+			assert.equal(a.format('M'), 'Aug', 'Should return short month name');
+			assert.equal(a.format('n'), '8', 'Should return month number');
+			assert.equal(a.format('t'), '31', 'Should return days in the month');
+
+			// Years
+			assert.equal(a.format('L'), false, 'Should return false: 2015 is not a leap year');
+			assert.equal(b.format('L'), true, 'Should return true: 2016 is a leap year');
+			assert.equal(c.format('o'), '2015', 'The week is part of the previous year, so that year should be returned');
+			assert.equal(a.format('Y'), '2015', 'Should return the full year');
+			assert.equal(a.format('y'), '15', 'Should return the year in 2-digits');
+
+			// Time
+			assert.equal(a.format('a'), 'pm', 'Should return pm');
+			assert.equal(a.format('A'), 'PM', 'Should return PM');
+			assert.equal(d.format('a'), 'am', 'Should return am');
+			assert.equal(d.format('A'), 'AM', 'Should return AM');
+			assert.equal(a.format('B'), '652', 'Should return the swatch time');
+
+			// Skip hour tests, because of timezone stuff
+			// assert.equal(a.format('g'), '2');
+			// assert.equal(a.format('G'), '14');
+			// assert.equal(a.format('h'), '02');
+			// assert.equal(a.format('H'), '14');
+
+			assert.equal(a.format('i'), '39');
+			assert.equal(a.format('s'), '05');
+			assert.equal(a.format('u'), '745');
+
+			// Timezone
+			assert.equal(a.format('e'), 'Not Yet Supported');
+			assert.equal(a.format('I'), true, 'DST should be true');
+			assert.equal(e.format('I'), false, 'DST should be false');
+			assert.equal(e.format('O'), '+0100', 'Difference to GMT');
+			assert.equal(e.format('P'), '+01:00', 'Difference to GMT with colon');
+
+			// Date/Time
+			assert.equal(a.format('c'), '2015-08-26T16:39:05+02:00');
+			assert.equal(a.format('r'), 'Wed Aug 26 2015 16:39:05 GMT+0200 (CEST)');
+			assert.equal(e.format('U'), '1453790345.745');
+		});
+
 
 	});
 

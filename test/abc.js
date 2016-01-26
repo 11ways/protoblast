@@ -3,8 +3,12 @@ var assert   = require('assert');
 describe('Blast(false)', function() {
 
 	var Blast    = require('../index.js'),
-	    blastObj = Blast(false),
+	    blastObj,
 	    modifiedProto;
+
+	Blast.unit_test = true;
+
+	blastObj = Blast(false);
 
 	modifiedProto = !!(String.prototype.startsWith && Object.divide);
 
