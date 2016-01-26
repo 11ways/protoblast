@@ -1,7 +1,8 @@
 # ![protoblast](http://protoblast.develry.be/media/static/protoblast-small.svg?width=30) Protoblast
 
 [![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
-[![Build Status](https://secure.travis-ci.org/skerit/protoblast.png?branch=master)](http://travis-ci.org/skerit/protoblast)
+[![Build Status](https://secure.travis-ci.org/skerit/protoblast.png?branch=master)](http://travis-ci.org/skerit/protoblast) 
+[![Coverage Status](https://coveralls.io/repos/github/skerit/protoblast/badge.svg?branch=master)](https://coveralls.io/github/skerit/protoblast?branch=master)
 
 Extend native objects with helpful methods to speed up development,
 or leave the native objects alone and use bound methods.

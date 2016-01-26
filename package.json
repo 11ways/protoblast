@@ -3,7 +3,14 @@
 	"description": "Add useful methods to native objects",
 	"version": "0.1.12-alpha",
 	"author": "Jelle De Loecker <jelle@develry.be>",
-	"keywords": ["prototype", "util", "functional", "server", "client", "browser"],
+	"keywords": [
+		"prototype",
+		"util",
+		"functional",
+		"server",
+		"client",
+		"browser"
+	],
 	"repository": "skerit/protoblast",
 	"homepage": "http://protoblast.develry.be/",
 	"license": "MIT",
@@ -11,10 +18,11 @@
 		"test": "node_modules/.bin/mocha --reporter spec"
 	},
 	"devDependencies": {
+		"browserify": "5.11.0",
+		"coveralls": "^2.11.6",
+		"git-rev": "0.2.1",
 		"matcha": "skerit/matcha",
 		"mocha": "1.20.x",
-		"git-rev": "0.2.1",
-		"browserify": "5.11.0",
 		"wd": "0.3.x"
 	},
 	"engines": {
