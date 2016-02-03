@@ -1,4 +1,4 @@
-## 0.1.12 (WIP)
+## 0.1.12 (2016-02-03)
 
 * Begin adding NW.js support
 * `Date#format('L')` now returns a boolean instead of a string
