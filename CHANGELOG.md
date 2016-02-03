@@ -2,6 +2,7 @@
 
 * Begin adding NW.js support
 * `Date#format('L')` now returns a boolean instead of a string
+* Always modify prototypes of classes made by Protoblast itself (URL fixes)
 
 ## 0.1.11 (2016-01-08)
 
