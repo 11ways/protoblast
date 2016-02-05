@@ -1,5 +1,7 @@
 ## 0.1.13 (WIP)
 
+* `JSON.clone` will now also look for `#dryClone(wm)` and `#clone()` methods
+
 ## 0.1.12 (2016-02-03)
 
 * Begin adding NW.js support
