@@ -1,5 +1,6 @@
-## 0.1.13 (WIP)
+## 0.2.0 (WIP)
 
+* Minor version bump because of added namespaces to `Function.inherits`
 * `JSON.clone` will now also look for `#dryClone(wm)` and `#clone()` methods
 
 ## 0.1.12 (2016-02-03)
