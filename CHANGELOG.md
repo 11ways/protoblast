@@ -5,6 +5,7 @@
 * Fix bug in `JSONPath`
 * `String#fillPlaceholders` can now remove used values from the given object
 * Add `Date#setTimestring` to set the time in order of '12:00:00'
+* The date 't' format should now return the number of days in the given month
 
 ## 0.1.12 (2016-02-03)
 
