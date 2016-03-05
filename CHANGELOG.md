@@ -4,6 +4,7 @@
 * `JSON.clone` will now also look for `#dryClone(wm)` and `#clone()` methods
 * Fix bug in `JSONPath`
 * `String#fillPlaceholders` can now remove used values from the given object
+* Add `Date#setTimestring` to set the time in order of '12:00:00'
 
 ## 0.1.12 (2016-02-03)
 
