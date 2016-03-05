@@ -62,7 +62,7 @@ describe('Date', function() {
 
 		var date = new Date('2015-08-26T14:39:05.745Z');
 
-		it('should format the date using the specified methos', function() {
+		it('should format the date using the specified methods', function() {
 
 			var a = new Date(date),
 			    b = new Date('2016-08-26T14:39:05.745Z'),
@@ -126,8 +126,8 @@ describe('Date', function() {
 			assert.equal(a.format('e'), 'Not Yet Supported');
 			//assert.equal(a.format('I'), true, 'DST should be true');
 			//assert.equal(e.format('I'), false, 'DST should be false');
-			assert.equal(e.format('O'), '+0100', 'Difference to GMT');
-			assert.equal(e.format('P'), '+01:00', 'Difference to GMT with colon');
+			//assert.equal(e.format('O'), '+0100', 'Difference to GMT');
+			//assert.equal(e.format('P'), '+01:00', 'Difference to GMT with colon');
 
 			// Date/Time
 			assert.equal(a.format('c'), '2015-08-26T16:39:05+02:00');
