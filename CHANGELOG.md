@@ -2,6 +2,7 @@
 
 * Minor version bump because of added namespaces to `Function.inherits`
 * `JSON.clone` will now also look for `#dryClone(wm)` and `#clone()` methods
+* `JSON.clone` second parameter is an optional method name to use for cloning
 * Fix bug in `JSONPath`
 * `String#fillPlaceholders` can now remove used values from the given object
 * Add `Date#setTimestring` to set the time in order of '12:00:00'
