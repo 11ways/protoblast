@@ -9,6 +9,7 @@
 * The date 't' format should now return the number of days in the given month
 * Added `JSON.safeParse`
 * `Function.hinder` can now call pushed tasks with an error and other data
+* `toDry` methods no longer need to return a 'path' property for undrying
 
 ## 0.1.12 (2016-02-03)
 
