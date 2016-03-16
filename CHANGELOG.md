@@ -8,6 +8,7 @@
 * Add `Date#setTimestring` to set the time in order of '12:00:00'
 * The date 't' format should now return the number of days in the given month
 * Added `JSON.safeParse`
+* `Function.hinder` can now call pushed tasks with an error and other data
 
 ## 0.1.12 (2016-02-03)
 
