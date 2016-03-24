@@ -13,6 +13,8 @@
 * When the function passed to `Object.walk` returns false, it won't recurse
 * Added `Object.getPropertyDescriptor`, which will look for a descriptor
   up the prototype chain
+* Getter and setter functions will now also receive a `super` property
+  reference to the function they're overriding
 
 ## 0.1.12 (2016-02-03)
 
