@@ -11,6 +11,8 @@
 * `Function.hinder` can now call pushed tasks with an error and other data
 * `toDry` methods no longer need to return a 'path' property for undrying
 * When the function passed to `Object.walk` returns false, it won't recurse
+* Added `Object.getPropertyDescriptor`, which will look for a descriptor
+  up the prototype chain
 
 ## 0.1.12 (2016-02-03)
 
