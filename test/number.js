@@ -12,7 +12,8 @@ describe('Number', function() {
 
 			var def = Number.random(),
 			    dec = Number.random(0,10),
-			    neg = Number.random(-10,0);
+			    neg = Number.random(-10,0),
+			    max = Number.random(1000);
 
 			assert.equal(true, def > -1, 'Default should return an integer above -1');
 			assert.equal(true, def < 101, 'Default should return an integer under 101');
@@ -22,6 +23,9 @@ describe('Number', function() {
 
 			assert.equal(true, neg > -11, '(0,10) should return an integer above -11');
 			assert.equal(true, neg < 1, '(0,10) should return an integer under 1');
+
+			assert.equal(true, max > -1, '(1000) should return an integer above -1');
+			assert.equal(true, max < 1001, '(1000) should return an integer under 1001');
 		});
 	});
 
@@ -83,6 +87,29 @@ describe('Number', function() {
 	describe('#clip(lowest, highest)', function() {
 		it('should call Number.clip and return the result', function() {
 			assert.equal(50, (288).clip(1, 50));
+		});
+	});
+
+	describe('#toByte(to)', function() {
+		it('should interpret the number as bytes and convert to another byte factor', function() {
+			var KiB = 1024,
+			    GiB = 1073741824;
+
+			assert.equal(1, KiB.toByte('kib'), '1024 should be 1 kib');
+			assert.equal(1, GiB.toByte('gib'), 'Should be 1 gib');
+			assert.equal(1.1, GiB.toByte('gb'), 'Should be 1.1 gb (not gib)');
+		});
+	});
+
+	describe('#toByte(from, to)', function() {
+		it('should interpret the number as given byte factor and convert to another factor', function() {
+			var a = 1024,
+			    b = 1073741824;
+
+			assert.equal(1, a.toByte('b', 'kib'), '1024 should be 1 kib');
+			assert.equal(1, a.toByte('gib', 'tib'), '1024 gib should be 1 tib');
+			assert.equal(1, a.toByte('gb', 'tb'));
+			assert.equal(1024, 1024..toByte(1, 1), 'When to is not a string, default to bytes');
 		});
 	});
 
