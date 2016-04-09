@@ -15,6 +15,10 @@
   up the prototype chain
 * Getter and setter functions will now also receive a `super` property
   reference to the function they're overriding
+* `Function.setStatic` properties can now be overwritten
+* `Function.setStatic` can now optionally not be inherited
+* Add `Blast.createObjectId` for the browser
+* Checksumming a null value won't throw an error anymore
 
 ## 0.1.12 (2016-02-03)
 
