@@ -15,7 +15,7 @@ describe('Math', function() {
 		});
 	});
 
-	describe('.Median(numbers)', function() {
+	describe('.median(numbers)', function() {
 
 		it('should return the median value of the numbers without changing the original array', function() {
 
@@ -29,7 +29,28 @@ describe('Math', function() {
 
 			assert.equal(result, 6, 'Median value is wrong');
 			assert.equal(post, pre, 'The original array was modified');
+		});
 
+		it('should use the arguments', function() {
+			assert.equal(Math.median(4, 9, 3), 4);
+			assert.equal(Math.median(1, 2, 4, 9), 3);
+		});
+	});
+
+	describe('.mean(numbers)', function() {
+
+		it('should return the mean value of the numbers', function() {
+
+			var numbers = originalNumbers.slice(0),
+			    result;
+
+			result = Math.mean([1, 4, 10]);
+
+			assert.equal(result, 5, 'The mean value should be 5');
+		});
+
+		it('should use the arguments', function() {
+			assert.equal(Math.mean(1, 4, 10), 5);
 		});
 	});
 
@@ -82,7 +103,11 @@ describe('Math', function() {
 			var numbers = [1,2,3,4,5],
 			    sum  = Math.sum(numbers);
 
-			assert.equal(sum, 15);
+			assert.equal(15, sum);
+		});
+
+		it('should sum up all the given arguments', function() {
+			assert.equal(15, Math.sum(1, 2, 3, 4, 5));
 		});
 	});
 

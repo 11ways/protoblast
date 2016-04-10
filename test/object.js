@@ -23,6 +23,46 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.getPropertyDescriptor(target, key)', function() {
+
+		var TestClass,
+		    descriptor,
+		    own;
+
+		// Create the test class
+		TestClass = function TestClass() {};
+
+		// Create the descriptor
+		descriptor = {
+			value: function testMethod() {}
+		};
+
+		// Set some properties
+		Object.defineProperty(TestClass.prototype, 'testMethod', descriptor);
+
+		// Get the property descriptor using the native method
+		own = Object.getOwnPropertyDescriptor(TestClass.prototype, 'testMethod');
+
+		it('should return the wanted property descriptor, like native method', function() {
+			var desc = Object.getPropertyDescriptor(TestClass.prototype, 'testMethod');
+			assert.equal(own.value, desc.value);
+		});
+
+		it('should look for the descriptor in the prototype property if a function is given', function() {
+			var desc = Object.getPropertyDescriptor(TestClass, 'testMethod');
+			assert.equal(own.value, desc.value);
+		});
+
+		it('should look even further up the chain until it finds something', function() {
+
+			var desc,
+			    obj = new TestClass();
+
+			desc = Object.getPropertyDescriptor(obj, 'testMethod');
+			assert.equal(own.value, desc.value);
+		});
+	});
+
 	describe('.isObject(obj)', function() {
 		it('should return true for regular objects', function() {
 			assert.equal(true, Object.isObject({}));
@@ -393,6 +433,21 @@ describe('Object', function() {
 
 			assert.equal(true, Object.hasValue(arr, 33));
 		});
+	});
+
+	describe('.first()', function() {
+		it('should return the first value it sees in the object', function() {
+			assert.equal(47, Object.first({a: 47}));
+		});
+
+		it('should return index 0 of an array', function() {
+			assert.equal(55, Object.first([55, 23]));
+		});
+
+		it('should return the object itself if it is empty', function() {
+			var a = {};
+			assert.equal(a, Object.first(a));
+		})
 	});
 
 });
