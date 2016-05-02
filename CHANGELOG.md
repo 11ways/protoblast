@@ -19,6 +19,7 @@
 * `Function.setStatic` can now optionally not be inherited
 * Add `Blast.createObjectId` for the browser
 * Checksumming a null value won't throw an error anymore
+* `Object.merge` should now correctly assign objects over primitive values
 
 ## 0.1.12 (2016-02-03)
 
