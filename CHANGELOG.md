@@ -1,3 +1,5 @@
+## 0.2.1 (WIP)
+
 ## 0.2.0 (2016-05-02)
 
 * Minor version bump because of added namespaces to `Function.inherits`
