@@ -1,5 +1,8 @@
 ## 0.2.1 (WIP)
 
+* Add `queue_drop` option to FunctionQueue, which will limit amount of items
+  in a function queue by dropping older added tasks
+
 ## 0.2.0 (2016-05-02)
 
 * Minor version bump because of added namespaces to `Function.inherits`
