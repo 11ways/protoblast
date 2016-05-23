@@ -2,6 +2,8 @@
 
 * Add `queue_drop` option to FunctionQueue, which will limit amount of items
   in a function queue by dropping older added tasks
+* Add `Array.likeArray` to determine if an object is like an array
+* `Object.dissect` will only add numeric array properties to the result
 
 ## 0.2.0 (2016-05-02)
 
