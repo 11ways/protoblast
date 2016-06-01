@@ -4,6 +4,7 @@
   in a function queue by dropping older added tasks
 * Add `Array.likeArray` to determine if an object is like an array
 * `Object.dissect` will only add numeric array properties to the result
+* Added `Blast.setTimeout` and `Blast.setSchedule` for more precise timers
 
 ## 0.2.0 (2016-05-02)
 
