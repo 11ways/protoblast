@@ -5,6 +5,7 @@
 * Add `Array.likeArray` to determine if an object is like an array
 * `Object.dissect` will only add numeric array properties to the result
 * Added `Blast.setTimeout` and `Blast.setSchedule` for more precise timers
+* ADd `String.randomMac` to generate a random mac address
 
 ## 0.2.0 (2016-05-02)
 
