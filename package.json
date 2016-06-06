@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Add useful methods to native objects",
-	"version": "0.2.1",
+	"version": "0.2.2-alpha",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": [
 		"prototype",
@@ -27,5 +27,6 @@
 	},
 	"engines": {
 		"node": ">=0.10"
-	}
+	},
+	"private": true
 }

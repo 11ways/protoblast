@@ -1,3 +1,5 @@
+## 0.2.2 (WIP)
+
 ## 0.2.1 (2016-06-06)
 
 * Add `queue_drop` option to FunctionQueue, which will limit amount of items
