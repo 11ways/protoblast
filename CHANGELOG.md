@@ -5,7 +5,9 @@
 * Add `Array.likeArray` to determine if an object is like an array
 * `Object.dissect` will only add numeric array properties to the result
 * Added `Blast.setTimeout` and `Blast.setSchedule` for more precise timers
-* ADd `String.randomMac` to generate a random mac address
+* Add `String.randomMac` to generate a random mac address
+* Add `Function.getNamespace` to get/create a namespace object
+* `Blast.DEBUG` is now true if there is a DEBUG environment variable
 
 ## 0.2.0 (2016-05-02)
 
