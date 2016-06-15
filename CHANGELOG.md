@@ -1,5 +1,7 @@
 ## 0.2.2 (WIP)
 
+* Added `Informer#unsee` method, so 'after' and such can be reset
+
 ## 0.2.1 (2016-06-06)
 
 * Add `queue_drop` option to FunctionQueue, which will limit amount of items
