@@ -1,6 +1,7 @@
 ## 0.2.2 (WIP)
 
 * Added `Informer#unsee` method, so 'after' and such can be reset
+* Added `Number#bitAt` method, to return the bit at the specified position
 
 ## 0.2.1 (2016-06-06)
 
