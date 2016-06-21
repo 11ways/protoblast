@@ -3,8 +3,32 @@ var assert = require('assert'),
 
 describe('Array', function() {
 
+	var empty_array = [],
+	    full_array = [0, 1, 2];
+
 	before(function() {
 		Blast  = require('../index.js')();
+	});
+
+	describe('.likeArray(variable)', function() {
+		it('should return true if it is an array', function() {
+			assert.equal(true, Array.likeArray(empty_array));
+		});
+
+		it('should return true if it is an arguments object', function() {
+			assert.equal(true, Array.likeArray(arguments));
+		});
+
+		it('should return true if it is an array-like object', function(){
+			assert.equal(true, Array.likeArray({length: 1}));
+		});
+
+		it('should return false if it is not an array-like object', function() {
+			assert.equal(false, Array.likeArray(null));
+			assert.equal(false, Array.likeArray({}));
+			assert.equal(false, Array.likeArray(true));
+			assert.equal(false, Array.likeArray('string'));
+		});
 	});
 
 	describe('.cast(variable)', function() {
@@ -335,6 +359,15 @@ describe('Array', function() {
 
 			assert.equal(arr.join(','), 'a,b,,,,c');
 		});
+
+		it('should allow negative new indexes', function() {
+
+			var arr = [0, 1, 2, 3];
+			arr.move(1, -1);
+
+			assert.equal(arr.join(','), '0,2,3,1');
+
+		});
 	});
 
 	describe('#first(nr, page)', function() {
@@ -412,6 +445,22 @@ describe('Array', function() {
 			});
 
 			assert.equal(sum, 294);
+		});
+	});
+
+	describe('#clip(lowest, highest)', function() {
+		it('should clip lowest values', function() {
+			var arr = [0, 2, 55, 3, 76];
+			arr.clip(3);
+
+			assert.equal(arr.join(','), '3,3,55,3,76');
+		});
+
+		it('should clip highest values', function() {
+			var arr = [0, 2, 55, 78, 64];
+			arr.clip(null, 55);
+
+			assert.equal(arr.join(','), '0,2,55,55,55');
 		});
 	});
 
@@ -622,20 +671,6 @@ describe('Array', function() {
 		});
 	});
 
-	describe('#employ(args, obj, function)', function() {
-		it('apply the given function', function() {
-
-			var args = [[1, 'a'], [2, 'b'], [3, 'c']],
-			    result = '';
-
-			args.employ(['$1', '$0'], function(character, number) {
-				result += character + number;
-			});
-
-			assert.equal(result, 'a1b2c3');
-		});
-	});
-
 	describe('#exclusive(secondArray)', function() {
 		it('return all the values that are in the first array or in the second array, but not in both', function() {
 
@@ -687,7 +722,22 @@ describe('Array', function() {
 
 			arr.sortByPath('a');
 
-			assert.equal('[{"a":3},{"a":2},{"a":1},{"a":0}]', JSON.stringify(arr));
+			assert.equal(JSON.stringify(arr), '[{"a":3},{"a":2},{"a":1},{"a":0}]');
+		});
+
+		it('should be stable', function() {
+
+			var arr = [
+				{a: 3},
+				{a: 1, s: 0},
+				{a: 1, s: 1},
+				{a: 0}
+			];
+
+			arr.sortByPath('a');
+
+			assert.equal(JSON.stringify(arr), '[{"a":3},{"a":1,"s":0},{"a":1,"s":1},{"a":0}]');
+
 		});
 
 		it('should reverse the sort', function() {
@@ -700,7 +750,7 @@ describe('Array', function() {
 
 			arr.sortByPath(1, 'a');
 
-			assert.equal('[{"a":0},{"a":1},{"a":2},{"a":3}]', JSON.stringify(arr));
+			assert.equal(JSON.stringify(arr), '[{"a":0},{"a":1},{"a":2},{"a":3}]');
 		});
 
 		it('should sort multiple paths', function() {
@@ -714,7 +764,7 @@ describe('Array', function() {
 
 			arr.sortByPath(['a', 'b']);
 
-			assert.equal('[{"a":5,"b":1},{"a":5,"b":0},{"a":0,"b":1},{"a":0,"b":0}]', JSON.stringify(arr));
+			assert.equal(JSON.stringify(arr), '[{"a":5,"b":1},{"a":5,"b":0},{"a":0,"b":1},{"a":0,"b":0}]');
 		});
 	});
 
