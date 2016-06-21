@@ -4,6 +4,7 @@
 * Added `Number#bitAt` method, to return the bit at the specified position
 * `Array#clip` 'highest' value is now optional
 * `Array#employ` has been removed
+* `Function.benchmark` will now calculate overhead based on self-created dummies
 
 ## 0.2.1 (2016-06-06)
 
