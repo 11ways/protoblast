@@ -1,7 +1,9 @@
-## 0.2.2 (WIP)
+## 0.3.0 (WIP)
 
 * Added `Informer#unsee` method, so 'after' and such can be reset
 * Added `Number#bitAt` method, to return the bit at the specified position
+* `Array#clip` 'highest' value is now optional
+* `Array#employ` has been removed
 
 ## 0.2.1 (2016-06-06)
 
