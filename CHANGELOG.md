@@ -5,6 +5,10 @@
 * `Array#clip` 'highest' value is now optional
 * `Array#employ` has been removed
 * `Function.benchmark` will now calculate overhead based on self-created dummies
+* If another Protoblast instance is detected during loading, it will only be
+  returned if the major & minor version is the same and the patch is higher.
+  Otherwise, a new instance is created. This is only the case in the
+  non-global-modifying mode.
 
 ## 0.2.1 (2016-06-06)
 
