@@ -1,4 +1,4 @@
-## 0.3.0 (WIP)
+## 0.3.0 (2016-06-22)
 
 * Added `Informer#unsee` method, so 'after' and such can be reset
 * Added `Number#bitAt` method, to return the bit at the specified position

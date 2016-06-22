@@ -1,7 +1,7 @@
 var assert = require('assert'),
     Blast;
 
-describe('Deck', function() {
+describe('Iterator', function() {
 
 	before(function() {
 		Blast  = require('../index.js')();
