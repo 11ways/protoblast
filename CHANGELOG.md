@@ -1,5 +1,7 @@
 ## 0.3.1 (WIP)
 
+* Add static `Number.calculateNormalizeFactors` and `Number.normalize` methods
+
 ## 0.3.0 (2016-06-22)
 
 * Added `Informer#unsee` method, so 'after' and such can be reset
