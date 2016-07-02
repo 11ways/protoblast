@@ -1,6 +1,9 @@
 ## 0.3.1 (WIP)
 
+* Fix protoblast version bug
 * Add static `Number.calculateNormalizeFactors` and `Number.normalize` methods
+* Add `Math.removeOutliers(arr)` which returns a new array without outliers
+* Add `Number.denormalize`
 
 ## 0.3.0 (2016-06-22)
 
