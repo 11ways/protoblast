@@ -1,4 +1,4 @@
-## 0.3.1 (WIP)
+## 0.3.1 (2016-07-02)
 
 * Fix protoblast version bug
 * Add static `Number.calculateNormalizeFactors` and `Number.normalize` methods
