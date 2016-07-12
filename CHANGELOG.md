@@ -1,5 +1,9 @@
 ## 0.3.2 (WIP)
 
+* `asyncLoop` functions (like Function.while) will new execute test
+  and task function in the same tick, in stead of first checking
+  the test, then doing the task on the next tick
+
 ## 0.3.1 (2016-07-02)
 
 * Fix protoblast version bug
