@@ -4,6 +4,8 @@
   and task function in the same tick, in stead of first checking
   the test, then doing the task on the next tick
 * `Object.checksum` no longer skips undefined values in objects
+* fix: child classes with a different namespace than the parent
+  are now actually stored in that namespace
 
 ## 0.3.1 (2016-07-02)
 
