@@ -6,6 +6,7 @@
 * `Object.checksum` no longer skips undefined values in objects
 * fix: child classes with a different namespace than the parent
   are now actually stored in that namespace
+* `String#decodeHTML()` should now handle hexadecimal entities properly
 
 ## 0.3.1 (2016-07-02)
 
