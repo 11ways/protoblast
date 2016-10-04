@@ -9,7 +9,7 @@ describe('String', function() {
 
 	describe('#toSource()', function() {
 		it('should return the source code representation of the string', function() {
-			assert.strictEqual('(new String("TEST"))', 'TEST'.toSource());
+			assert.strictEqual('TEST'.toSource(), '(new String("TEST"))');
 		});
 	});
 
@@ -19,7 +19,7 @@ describe('String', function() {
 		var sentence = 'This is the string that contains the that needle that we need';
 
 		it('should take 1 argument', function() {
-			assert.strictEqual(1, String.prototype.codePointAt.length);
+			assert.strictEqual(String.prototype.codePointAt.length, 1);
 		});
 
 		it('should handle strings that start with a BMP symbol', function() {

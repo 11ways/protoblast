@@ -1,12 +1,16 @@
-## 0.3.2 (WIP)
+## 0.3.2 (2016-10-04)
 
-* `asyncLoop` functions (like Function.while) will new execute test
+* `asyncLoop` functions (like Function.while) will now execute test
   and task function in the same tick, in stead of first checking
   the test, then doing the task on the next tick
 * `Object.checksum` no longer skips undefined values in objects
 * fix: child classes with a different namespace than the parent
   are now actually stored in that namespace
 * `String#decodeHTML()` should now handle hexadecimal entities properly
+* Make sure an Object has the `hasOwnProperty` method before using it in JSON-Dry
+* `Object.checksum` should also checksumize RegExps correctly
+* `RegExp.interpret` now also accepts flags as second parameter
+* Decompress HTML entities on-the-fly
 
 ## 0.3.1 (2016-07-02)
 
