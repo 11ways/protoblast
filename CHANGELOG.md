@@ -1,3 +1,5 @@
+## 0.3.3 (WIP)
+
 ## 0.3.2 (2016-10-04)
 
 * `asyncLoop` functions (like Function.while) will now execute test
