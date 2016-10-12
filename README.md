@@ -7,27 +7,15 @@
 Extend native objects with helpful methods to speed up development,
 or leave the native objects alone and use bound methods.
 
-## Getting started
-
-For more information and API documentation, visit the [Protoblast homepage](http://protoblast.develry.be).
-
 ## Installation
 
     $ npm install protoblast
 
-## Features
+## Documentation
 
-* Targeted for node.js & optimal performance, but perfectly usable in the browser
-* A way to use all new methods without modifying native prototypes
+For more information and API documentation, visit the [Protoblast homepage](http://protoblast.develry.be).
 
-## Todo
-
-* Write documentation (currently a WIP)
-* Write more unit tests (coverage is currently around 60%)
-* Finish browser unit tests
-* ...
-
-## Use
+## Getting Started
 
 You can use Protoblast in 2 ways.
 
@@ -37,11 +25,12 @@ This is the easiest way to use all the new methods & shims.
 Ideal for internal or big projects.
 
 ```javascript
+// Require protoblast and execute the returned function
 require('protoblast')();
 
-// Now new native methods have been added
 var arr = [5,9,3,4,1];
 
+// New native methods, like flashsort, will have been added
 arr.flashsort();
 // [1, 3, 4, 5, 9]
 ```
@@ -55,11 +44,12 @@ It's more verbose, but should be the way to use Protoblast in redistributable
 modules.
 
 ```javascript
+// Require protoblast and execute the returned function with `false` as parameter
 var Blast = require('protoblast')(false);
 
-// Now new native methods have been added
 var arr = [5,9,3,4,1];
 
+// Native objects will have been left alone, they can be accessed like this:
 Blast.Bound.Array.flashsort(arr);
 // [1, 3, 4, 5, 9]
 ```

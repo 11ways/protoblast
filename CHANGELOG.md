@@ -1,5 +1,7 @@
 ## 0.3.3 (WIP)
 
+* `JSON.dry` now also honours the `space` parameter
+
 ## 0.3.2 (2016-10-04)
 
 * `asyncLoop` functions (like Function.while) will now execute test
@@ -101,7 +103,7 @@
 
 * Add `Blast.loaded`, which will execute after initial scripts have finished
 * `Function.constitute` will still execute ASAP, but using `Blast.loaded`
-* `Array.cast` will handle <select> elements properly from now on
+* `Array.cast` will handle select elements properly from now on
 * `JSON.dry` uses JSON-js from now on, so `toDry` can come before `toJSON`
 * Add `JSON.registerDrier` and `JSON.registerUndrier`
 * Add link to homepage http://protoblast.develry.be
