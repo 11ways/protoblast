@@ -1,3 +1,5 @@
+## 0.3.4 (WIP)
+
 ## 0.3.3 (2016-10-14)
 
 * `JSON.dry` now also honours the `space` parameter
