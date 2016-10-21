@@ -1,5 +1,7 @@
 ## 0.3.4 (WIP)
 
+* Fix bug in `Object.checksum` using `valueOf` on an object without prototype
+
 ## 0.3.3 (2016-10-14)
 
 * `JSON.dry` now also honours the `space` parameter
