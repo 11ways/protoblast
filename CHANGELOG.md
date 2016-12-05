@@ -2,6 +2,7 @@
 
 * Fix bug in `Object.checksum` using `valueOf` on an object without prototype
 * Fix constructors not getting static methods when in non-native-modifying mode
+* Fix: `unmethodize` and `methodize` shouldn't get stuck in a loop because of the function name
 
 ## 0.3.3 (2016-10-14)
 
