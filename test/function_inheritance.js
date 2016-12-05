@@ -38,7 +38,7 @@ describe('Inheritance', function() {
 
 		it('should throw an error when no keyname can be found', function() {
 
-			var anon = function () {},
+			var anon = (function() {return function(){}}()),
 			    xerr;
 
 			try {
