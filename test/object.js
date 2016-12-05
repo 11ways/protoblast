@@ -212,6 +212,49 @@ describe('Object', function() {
 
 	});
 
+	describe('.alike(a, b)', function() {
+
+		var a  = {alpha: 'alpha', b: 1},
+		    b  = {alpha: 'alpha', b: 1},
+		    c  = {alpha: 'alpha', b: 1, extra: true},
+		    d  = {alpha: 'beta',  b: 1},
+		    e  = {alpha: 'alpha', b: 1, extra: undefined},
+		    f  = {b: 1, alpha: 'alpha'},
+		    aa = {a: 1, ref: a},
+		    ab = {a: 1, ref: b};
+
+		it('should return true when both objects are the same reference', function() {
+			assert.equal(true, Object.alike(a, a));
+		});
+
+		it('should return true when both object are identical', function() {
+			assert.equal(true, Object.alike(a, b));
+			assert.equal(true, Object.alike(b, a));
+			assert.equal(true, Object.alike(aa, ab));
+			assert.equal(true, Object.alike(ab, aa));
+		});
+
+		it('should return true when identical objects have different order', function() {
+			assert.equal(true, Object.alike(a, f));
+			assert.equal(true, Object.alike(f, a));
+		});
+
+		it('should return false when objects have different amount of entries', function() {
+			assert.equal(false, Object.alike(a, c));
+			assert.equal(false, Object.alike(c, a));
+		});
+
+		it('should return false when the values are not the same', function() {
+			assert.equal(false, Object.alike(a, d));
+			assert.equal(false, Object.alike(d, a));
+		});
+
+		it('should return true when the values are the same, ignoring undefined values', function() {
+			assert.equal(true, Object.alike(a, e));
+			assert.equal(true, Object.alike(e, a));
+		});
+	});
+
 	describe('.flatten(obj)', function() {
 		it('flatten an object', function() {
 
