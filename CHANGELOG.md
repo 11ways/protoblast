@@ -5,6 +5,8 @@
 * Fix: `unmethodize` and `methodize` shouldn't get stuck in a loop because of the function name
 * Test: creating an anonymous function is a bit harder in new node versions
 * Improve `Object.alike` performance and add tests
+* Added 4th parameter to `Function.inherits` that skips constitutors when falsy
+* Fixed bug where constitutors would be executed twice for delayed inheritance
 
 ## 0.3.3 (2016-10-14)
 
