@@ -7,6 +7,7 @@
 * Improve `Object.alike` performance and add tests
 * Added 4th parameter to `Function.inherits` that skips constitutors when falsy
 * Fixed bug where constitutors would be executed twice for delayed inheritance
+* Add `String.decodeAttributes`
 
 ## 0.3.3 (2016-10-14)
 
