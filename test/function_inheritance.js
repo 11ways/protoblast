@@ -122,7 +122,120 @@ describe('Inheritance', function() {
 
 			assert.equal(ExtendedClass, ExtendedClass.staticMethod(), 'Static method was not inherited');
 		});
-
 	});
 
+	describe('.constitute(fnc)', function() {
+
+		var ConstituteTestBase,
+		    i = 0;
+
+		before(function() {
+			ConstituteTestBase = Blast.Bound.Function.inherits(function ConstituteTestBase() {});
+		});
+
+		it('should execute on the class', function(done) {
+
+			var done_count = 0;
+
+			ConstituteTestBase.constitute(function doFirst() {
+
+				if (!this.first_count) {
+					this.first_count = 0;
+				}
+
+				// This should remain 1, we'll test that later
+				this.first_count++;
+
+				this.first_time = i++;
+				done_count++;
+			});
+
+			ConstituteTestBase.constitute(function doSecond() {
+
+				if (!this.second_count) {
+					this.second_count = 0;
+				}
+
+				// This should remain 1, we'll test that later
+				this.second_count++;
+
+				this.second_time = i++;
+				done_count++;
+
+				if (done_count == 2 && this.second_count == 1) {
+					done();
+				}
+			});
+		});
+
+		it('should execute in the expected order', function(done) {
+
+			var CTOne,
+			    CTTwo,
+			    i = 0;
+
+			// This will inherit a class that doesn't exist yet
+			CTTwo = Blast.Bound.Function.inherits('CTOne', function CTTwo() {});
+			CTTwo.constitute(function doThird() {
+				this.third_time = i++;
+				checker();
+			});
+
+			// This is the main class
+			setTimeout(function() {
+				CTOne = Blast.Bound.Function.inherits(function CTOne() {});
+				CTOne.constitute(function doFirst() {
+					this.first_time = i++;
+					checker();
+				});
+
+				CTOne.constitute(function doSecond() {
+					this.second_time = i++;
+					checker();
+				});
+			}, 10);
+
+			// This will check if everything is happening in the correct order
+			function checker() {
+
+				if (i == 1) {
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, undefined);
+					assert.equal(CTOne.third_time, undefined);
+				} else if (i == 2) {
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+				} else if (i == 3) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, undefined);
+					assert.equal(CTTwo.third_time, undefined);
+				} else if (i == 4) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, 3);
+					assert.equal(CTTwo.third_time, undefined);
+				} else if (i == 5) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, 3);
+					assert.equal(CTTwo.third_time, 4);
+					done();
+				}
+			}
+		});
+	});
 });
