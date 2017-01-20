@@ -1,3 +1,5 @@
+## 0.3.5 (WIP)
+
 ## 0.3.4 (2017-01-21)
 
 * Fix bug in `Object.checksum` using `valueOf` on an object without prototype
