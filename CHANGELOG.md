@@ -1,4 +1,4 @@
-## 0.3.4 (WIP)
+## 0.3.4 (2017-01-21)
 
 * Fix bug in `Object.checksum` using `valueOf` on an object without prototype
 * Fix constructors not getting static methods when in non-native-modifying mode
