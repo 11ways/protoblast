@@ -1,4 +1,8 @@
-## 0.3.5 (WIP)
+## 0.3.5 (2017-01-21)
+
+* Fixed `String#endsWith` so empty strings will return true
+* Make `String#endsWith` and `String#startsWith` shims
+* Protoblast with complain about overwriting properties when in debug mode
 
 ## 0.3.4 (2017-01-21)
 
