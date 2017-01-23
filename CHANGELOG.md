@@ -1,5 +1,7 @@
 ## 0.3.6 (WIP)
 
+* Inheritance schedule fixes
+
 ## 0.3.5 (2017-01-21)
 
 * Fixed `String#endsWith` so empty strings will return true
