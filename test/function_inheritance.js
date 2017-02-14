@@ -13,6 +13,94 @@ describe('Inheritance', function() {
 		};
 	});
 
+	describe('.inherits(parent, namespace, constructor)', function() {
+		it('should inherit from multiple parents', function() {
+
+			var Multiple,
+			    instance;
+
+			Multiple = Function.inherits(['Deck', 'Informer'], function Multiple() {
+				this.constructed = true
+			});
+
+			instance = new Multiple();
+
+			assert.equal(true, instance.constructed, 'The constructor did not execute');
+			assert.equal(Deck.prototype.set, instance.set, 'The class did not inherit from Deck');
+			assert.equal(Informer.prototype.emit, instance.emit, 'The class did not inherit from Informer');
+		});
+
+		it('should inherit from parents with multiple parents', function() {
+
+			var Deep,
+			    instance;
+
+			Deep = Function.inherits('Multiple', function Deep() {});
+
+			instance = new Deep();
+
+			assert.equal(Deck.prototype.set, instance.set, 'The class did not inherit from Deck');
+			assert.equal(Informer.prototype.emit, instance.emit, 'The class did not inherit from Informer');
+		});
+
+		it('should inherit from multiple parents that are children', function() {
+
+			var instance,
+			    Deeper,
+			    Top,
+			    Mid;
+
+			Top = Function.inherits('Informer', function Top() {});
+
+			Top.setMethod(function testMe() {
+				return 'Top';
+			});
+
+			Top.setMethod(function topMethod() {
+				return 'Top';
+			});
+
+			Top.setMethod(function deepMethod() {
+				return 'Top';
+			});
+
+			Top.setMethod(function concatMethod() {
+				return 'Top';
+			});
+
+			Mid = Function.inherits('Top', function Mid() {});
+			Mid.setMethod(function testMe() {
+				return 'Mid';
+			});
+
+			Mid.setMethod(function deepMethod() {
+				return 'Mid';
+			});
+
+			Mid.setMethod(function concatMethod() {
+				return concatMethod.super.call(this) + 'Mid';
+			});
+
+			Deeper = Function.inherits(['Deck', 'Mid'], function Deeper() {});
+			Deeper.setMethod(function deepMethod() {
+				return 'Deep';
+			});
+
+			Deeper.setMethod(function concatMethod() {
+				return concatMethod.super.call(this) + 'Deep';
+			});
+
+			instance = new Deeper();
+
+			assert.equal(Deck.prototype.set, instance.set, 'The class did not inherit from Deck');
+			assert.equal(Informer.prototype.emit, instance.emit, 'The class did not inherit from Informer');
+			assert.equal('Top', instance.topMethod());
+			assert.equal('Mid', instance.testMe());
+			assert.equal('Deep', instance.deepMethod());
+			assert.equal('TopMidDeep', instance.concatMethod());
+		});
+	});
+
 	describe('#setMethod(key, fnc)', function() {
 		it('should set a method on the current function', function() {
 

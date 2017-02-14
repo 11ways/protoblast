@@ -1,6 +1,10 @@
 ## 0.3.6 (WIP)
 
 * Inheritance schedule fixes
+* Fix URL class in Cordova
+* Added `Blast.isEdge` to detect and fix Edge issues
+* More attempts to fix the URL class in IE/Edge
+* Fix multiple inheritance shallowly inheriting second parent
 
 ## 0.3.5 (2017-01-21)
 
