@@ -5,6 +5,7 @@
 * Added `Blast.isEdge` to detect and fix Edge issues
 * More attempts to fix the URL class in IE/Edge
 * Fix multiple inheritance shallowly inheriting second parent
+* `JSON.undry` will now parse `null` strings correctly
 
 ## 0.3.5 (2017-01-21)
 
