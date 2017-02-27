@@ -6,6 +6,7 @@
 * More attempts to fix the URL class in IE/Edge
 * Fix multiple inheritance shallowly inheriting second parent
 * `JSON.undry` will now parse `null` strings correctly
+* `Function.throttle` has a new parameter `reset_on_call`, to delay execution as long as it's being called on.
 
 ## 0.3.5 (2017-01-21)
 
