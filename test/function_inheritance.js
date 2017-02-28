@@ -256,7 +256,7 @@ describe('Inheritance', function() {
 			});
 		});
 
-		it('should execute in the expected order', function(done) {
+		it('should not constitute before a non-existing parent class', function(done) {
 
 			var CTOne,
 			    CTTwo,
@@ -321,6 +321,139 @@ describe('Inheritance', function() {
 					assert.equal(CTTwo.first_time, 2);
 					assert.equal(CTTwo.second_time, 3);
 					assert.equal(CTTwo.third_time, 4);
+					done();
+				}
+			}
+		});
+
+		it('should execute in the expected order', function(done) {
+
+			var DTOne,
+			    DTTwo,
+			    DTThree,
+			    DTOther,
+			    tasks = [],
+			    i = 0;
+
+			var _originalLoaded = Blast.loaded;
+
+			Blast.loaded = function(fnc) {
+				tasks.push(fnc);
+			}
+
+			// This is the main class
+			DTOne = Blast.Bound.Function.inherits(function DTOne() {});
+			DTOne.constitute(function doFirst() {
+				this.first_time = i++;
+				checker();
+			});
+
+			// This will inherit a class that doesn't exist yet
+			DTThree = Blast.Bound.Function.inherits('DTTwo', function DTThree() {});
+			DTThree.constitute(function doThird() {
+				this.third_time = i++;
+				checker();
+			});
+
+			// This is the non-existing class
+			DTTwo = Blast.Bound.Function.inherits('DTOne', function DTTwo() {});
+			DTTwo.constitute(function doSecond() {
+				this.second_time = i++;
+				checker();
+			});
+
+			// This is another, non-related class
+			// This should run AFTER DTThree
+			DTOther = Blast.Bound.Function.inherits(function DTOther() {});
+			DTOther.constitute(function doAfterThree() {
+				this.fourth_time = i++;
+				checker();
+			});
+
+			Blast.loaded = _originalLoaded;
+
+			// Simulate the 'loaded' event
+			Blast.setImmediate(function forcingLoaded() {
+				for (var j = 0; j < tasks.length; j++) {
+					if (tasks[j]) tasks[j]();
+				}
+			});
+
+			// This will check if everything is happening in the correct order
+			function checker() {
+
+				if (i == 1) {
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+				} else if (i == 2) {
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+				} else if (i == 3) {
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+					assert.equal(DTTwo.second_time, 2);
+				} else if (i == 4) {
+
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+					assert.equal(DTTwo.second_time, 2);
+
+					assert.equal(DTThree.first_time, 3);
+				} else if (i == 5) {
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+					assert.equal(DTTwo.second_time, 2);
+
+					assert.equal(DTThree.first_time, 3);
+					assert.equal(DTThree.second_time, 4);
+					
+				} else if (i == 6) {
+
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+					assert.equal(DTTwo.second_time, 2);
+
+					assert.equal(DTThree.first_time, 3);
+					assert.equal(DTThree.second_time, 4);
+					assert.equal(DTThree.third_time, 5);
+					
+				} else if (i == 7) {
+
+					assert.equal(DTOne.first_time, 0);
+					assert.equal(DTOne.second_time, undefined);
+					assert.equal(DTOne.third_time, undefined);
+					assert.equal(DTOne.fourth_time, undefined);
+
+					assert.equal(DTTwo.first_time, 1);
+					assert.equal(DTTwo.second_time, 2);
+
+					assert.equal(DTThree.first_time, 3);
+					assert.equal(DTThree.second_time, 4);
+					assert.equal(DTThree.third_time, 5);
+
+					assert.equal(DTOther.fourth_time, 6);
 					done();
 				}
 			}
