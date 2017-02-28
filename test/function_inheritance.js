@@ -256,11 +256,10 @@ describe('Inheritance', function() {
 			});
 		});
 
-		it('should execute in the expected order', function(done) {
+		it('should not constitute before a non-existing parent class', function(done) {
 
 			var CTOne,
 			    CTTwo,
-			    CTOther,
 			    i = 0;
 
 			// This will inherit a class that doesn't exist yet
@@ -269,10 +268,6 @@ describe('Inheritance', function() {
 				this.third_time = i++;
 				checker();
 			});
-
-			// This is another, non-related class
-			CTOther = Blast.Bound.Function.inherits(function CTOther() {});
-			//CTOther.constitute(function do)
 
 			// This is the main class
 			setTimeout(function() {
@@ -331,7 +326,7 @@ describe('Inheritance', function() {
 			}
 		});
 
-		it('should execute in the expected order for this too', function(done) {
+		it('should execute in the expected order', function(done) {
 
 			var DTOne,
 			    DTTwo,
@@ -349,8 +344,6 @@ describe('Inheritance', function() {
 			// This is the main class
 			DTOne = Blast.Bound.Function.inherits(function DTOne() {});
 			DTOne.constitute(function doFirst() {
-				console.log('__ First for', this.name);
-
 				this.first_time = i++;
 				checker();
 			});
@@ -358,7 +351,6 @@ describe('Inheritance', function() {
 			// This will inherit a class that doesn't exist yet
 			DTThree = Blast.Bound.Function.inherits('DTTwo', function DTThree() {});
 			DTThree.constitute(function doThird() {
-				console.log('__ Third for', this.name);
 				this.third_time = i++;
 				checker();
 			});
@@ -366,7 +358,6 @@ describe('Inheritance', function() {
 			// This is the non-existing class
 			DTTwo = Blast.Bound.Function.inherits('DTOne', function DTTwo() {});
 			DTTwo.constitute(function doSecond() {
-				console.log('__ Second for', this.name);
 				this.second_time = i++;
 				checker();
 			});
@@ -375,18 +366,18 @@ describe('Inheritance', function() {
 			// This should run AFTER DTThree
 			DTOther = Blast.Bound.Function.inherits(function DTOther() {});
 			DTOther.constitute(function doAfterThree() {
-				console.log('__ Other for', this.name);
 				this.fourth_time = i++;
 				checker();
 			});
 
 			Blast.loaded = _originalLoaded;
 
-			console.log('-------- forcing loaded -----', DTThree)
-
-			for (var j = 0; j < tasks.length; j++) {
-				if (tasks[j]) tasks[j]();
-			}
+			// Simulate the 'loaded' event
+			Blast.setImmediate(function forcingLoaded() {
+				for (var j = 0; j < tasks.length; j++) {
+					if (tasks[j]) tasks[j]();
+				}
+			});
 
 			// This will check if everything is happening in the correct order
 			function checker() {
