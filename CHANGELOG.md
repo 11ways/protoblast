@@ -8,6 +8,11 @@
 * `JSON.undry` will now parse `null` strings correctly
 * `Function.throttle` has a new parameter `reset_on_call`, to delay execution as long as it's being called on.
 * Classes will now constitute in an expected order. Classes that inherit a not-yet-existing parent won't be pushed to the end of the queue anymore.
+* `Object.size()` will now always return a number
+* `Object.size()` will now also work on RegExp and Date objects
+* The `Request` class will callback with an error for status codes >= 400
+* Added `Number#formatMoney(decimal_count, decimal_separator, thousand_separator)`
+* The `Function.thrower` dummy callback will no longer throw falsy values
 
 ## 0.3.5 (2017-01-21)
 
