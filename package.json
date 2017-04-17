@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.3.6-alpha",
+	"version": "0.3.6",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": [
 		"prototype",
@@ -19,15 +19,14 @@
 	},
 	"main": "lib/init.js",
 	"devDependencies": {
-		"browserify": "5.11.0",
-		"coveralls": "^2.11.6",
-		"git-rev": "0.2.1",
-		"matcha": "skerit/matcha",
-		"mocha": "1.20.x",
-		"wd": "0.3.x"
+		"browserify" : "5.11.0",
+		"coveralls"  : "^2.11.6",
+		"git-rev"    : "0.2.1",
+		"matcha"     : "skerit/matcha",
+		"mocha"      : "1.20.x",
+		"wd"         : "0.3.x"
 	},
 	"engines": {
 		"node": ">=0.11"
-	},
-	"private": true
+	}
 }

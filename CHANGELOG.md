@@ -1,4 +1,4 @@
-## 0.3.6 (WIP)
+## 0.3.6 (2017-04-17)
 
 * Inheritance schedule fixes
 * Fix URL class in Cordova
