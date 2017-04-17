@@ -113,4 +113,13 @@ describe('Number', function() {
 		});
 	});
 
+	describe('#formatMoney(precision, decimal_sep, thousand_sep)', function() {
+
+		it('should round correctly', function() {
+			assert.equal(10.055.formatMoney(2), '10.06');
+			assert.equal(35.855.formatMoney(2), '35.86');
+			assert.equal(1.005.formatMoney(2), '1.01');
+		});
+	});
+
 });

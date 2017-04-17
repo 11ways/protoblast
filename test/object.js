@@ -210,6 +210,15 @@ describe('Object', function() {
 			assert.equal(0, Object.size(''));
 		});
 
+		it('should return the numeric value of a date', function() {
+			var date = new Date(1000);
+			assert.equal(1000, Object.size(date));
+		});
+
+		it('should return the length of a RegExp\'s string representation', function() {
+			var regex = /myregex/i;
+			assert.equal(10, Object.size(regex));
+		});
 	});
 
 	describe('.alike(a, b)', function() {
