@@ -380,6 +380,55 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.merge(target, obj1, obj2, ...)', function() {
+		it('should recursively inject objn properties into the target object', function() {
+
+			var target = {one: {a: 1, b: 1, c: 1}},
+			    obj1   = {one: {b: 2, c: 2}},
+			    obj2   = {one: {c: 3}};
+
+			Object.merge(target, obj1, obj2);
+
+			assert.equal(1, target.one.a);
+			assert.equal(2, target.one.b);
+			assert.equal(3, target.one.c);
+		});
+
+		it('should handle RegExps correctly', function() {
+
+			var target = {one: {a: 1, b: 1}},
+			    obj1   = {one: {b: /r/i}};
+
+			Object.merge(target, obj1);
+
+			assert.equal(1, target.one.a);
+			assert.equal('/r/i', target.one.b.toSource());
+		});
+
+		it('should handle Dates correctly', function() {
+
+			var date = new Date(),
+			    target = {one: {a: 1, b: 1}},
+			    obj1   = {one: {b: date}};
+
+			Object.merge(target, obj1);
+
+			assert.equal(1, target.one.a);
+			assert.equal(true, target.one.b == date);
+		});
+
+		it('should handle Dates correctly in the root', function() {
+
+			var date = new Date(),
+			    target = {},
+			    obj1   = {a: date};
+
+			Object.merge(target, obj1);
+
+			assert.equal(true, target.a == date);
+		});
+	});
+
 	describe('.objectify(source, recursive, value)', function() {
 
 		it('should convert an array of objects to one object', function() {
