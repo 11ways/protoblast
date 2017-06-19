@@ -3,6 +3,7 @@
 * Added `Object.isSelfContained`, which returns true in case of Date, RegExp, String objects, ...
 * `Object.merge` will now treat RegExps and Dates as a single variable, and not as an object that also needs to be merged
 * Added `Math.calculateDistance` to calculate the distance between 2 sets of coordinates
+* Added `Array#shuffle`, which shuffles an array in place
 
 ## 0.3.6 (2017-04-17)
 
