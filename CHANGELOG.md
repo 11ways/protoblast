@@ -5,6 +5,10 @@
 * Added `Math.calculateDistance` to calculate the distance between 2 sets of coordinates
 * Added `Array#shuffle`, which shuffles an array in place
 * Added `SeededRng` class for random numbers that repeat
+* Added `get_stream` option to `Request#http_request`, which returns the correct output stream (same `res` object or `gzip`) instead of the body
+* `Blast.fetch` is now also available in the browser
+* `Object.isPlainObject` will now return true for objects without a prototype
+* Redirected requests will no longer fail when being redirected to a path without hostname
 
 ## 0.3.6 (2017-04-17)
 
