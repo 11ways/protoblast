@@ -124,4 +124,21 @@ describe('Math', function() {
 		});
 	});
 
+	describe('.calculateDistance(lat1, lon1, lat2, lon2)', function() {
+		it('should calculate the distance between 2 coordinates', function() {
+
+			var result,
+			    // Lennik
+			    lat1 = 50.822449,
+			    lon1 = 4.153749,
+			    // Gent
+			    lat2 = 51.056828,
+			    lon2 = 3.723817;
+
+			result = Math.calculateDistance(lat1, lon1, lat2, lon2);
+
+			assert.equal(39833.347841518036, result);
+		});
+	});
+
 });
