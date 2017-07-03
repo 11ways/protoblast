@@ -137,7 +137,16 @@ describe('Math', function() {
 
 			result = Math.calculateDistance(lat1, lon1, lat2, lon2);
 
-			assert.equal(39833.347841518036, result);
+			assert.equal(result, 39833.347841518036);
+		});
+	});
+
+	describe('.createSeededRng(seed)', function() {
+		it('should create a seeded Random Number Generator', function() {
+			var instance = Math.createSeededRng();
+
+			assert.equal(instance.multiplier, 1664525);
+			assert.equal(typeof instance.random, 'function');
 		});
 	});
 
