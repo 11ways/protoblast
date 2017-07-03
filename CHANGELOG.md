@@ -1,6 +1,7 @@
 ## 0.3.8 (WIP)
 
 * Add `Function.isNameAllowed(name)` which checks if a name is allowed
+* Added very basic `WeakMap` polyfill
 
 ## 0.3.7 (2017-07-03)
 
