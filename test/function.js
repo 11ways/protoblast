@@ -47,6 +47,27 @@ describe('Function', function() {
 		});
 	});
 
+	describe('.isNameAllowed(name)', function() {
+		it('should return true for allowed names', function() {
+			assert.equal(Function.isNameAllowed('zever'), true);
+			assert.equal(Function.isNameAllowed('jelle'), true);
+		});
+
+		it('should return false for reserved names', function() {
+			assert.equal(Function.isNameAllowed('delete'), false);
+			assert.equal(Function.isNameAllowed('continue'), false);
+			assert.equal(Function.isNameAllowed('new'), false);
+			assert.equal(Function.isNameAllowed('typeof'), false);
+		});
+
+		it('should return false for names starting with numbers', function() {
+			assert.equal(Function.isNameAllowed('3delete'), false);
+			assert.equal(Function.isNameAllowed('3continue'), false);
+			assert.equal(Function.isNameAllowed('3new'), false);
+			assert.equal(Function.isNameAllowed('3typeof'), false);
+		});
+	});
+
 	describe('#methodize()', function() {
 		it('should create a new function that calls the given function with current "this" context as the first argument', function() {
 
