@@ -1,4 +1,4 @@
-## 0.3.7 (WIP)
+## 0.3.7 (2017-07-03)
 
 * Added `Object.isSelfContained`, which returns true in case of Date, RegExp, String objects, ...
 * `Object.merge` will now treat RegExps and Dates as a single variable, and not as an object that also needs to be merged
