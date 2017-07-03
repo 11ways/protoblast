@@ -768,6 +768,29 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#shuffle', function() {
+		it('should randomly shuffle the array', function() {
+
+			var arr = [0,1,2,3,4,5,6,7,8,9],
+			    str = arr.join(',');
+
+			arr.shuffle();
+
+			assert.notEqual(arr.join(','), str, 'The array was not shuffled');
+		});
+
+		it('should allow the use of an object that generates random numbers', function() {
+
+			var rng = new Blast.Classes.SeededRng('protoblast'),
+			    arr = [0,1,2,3,4,5,6,7,8,9];
+
+			// Shuffle the array using the seeded rng
+			arr.shuffle(rng);
+
+			assert.equal(arr.join(','), '5,4,3,8,0,1,6,7,2,9');
+		});
+	});
+
 	describe('#createIterator()', function() {
 
 		var arr = ['a', 'b', 'c', 'd'];
