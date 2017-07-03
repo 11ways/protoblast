@@ -380,6 +380,34 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.isSelfContained(target)', function() {
+		it('should return true for self contained objects', function() {
+
+			var string = new String('a'),
+			    number = new Number(1),
+			    bool   = new Boolean(1),
+			    regexp = /test/i,
+			    date   = new Date();
+
+			assert.equal(true, Object.isSelfContained(string));
+			assert.equal(true, Object.isSelfContained(number));
+			assert.equal(true, Object.isSelfContained(bool));
+			assert.equal(true, Object.isSelfContained(regexp));
+			assert.equal(true, Object.isSelfContained(date));
+
+			// Primitives are also considered to be self contained
+			assert.equal(true, Object.isSelfContained('string'));
+			assert.equal(true, Object.isSelfContained(1));
+			assert.equal(true, Object.isSelfContained(true));
+
+			// Null is also self contained
+			assert.equal(true, Object.isSelfContained(null));
+
+			// Regular objects are not self contained
+			assert.equal(false, Object.isSelfContained({}));
+		});
+	});
+
 	describe('.merge(target, obj1, obj2, ...)', function() {
 		it('should recursively inject objn properties into the target object', function() {
 
