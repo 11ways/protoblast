@@ -10,6 +10,7 @@
 * `Object.isPlainObject` will now return true for objects without a prototype
 * Redirected requests will no longer fail when being redirected to a path without hostname
 * `String#fowler` should now produce correct hashes
+* Make `Crypto.randomBytes` return an Int8Array in the browser
 
 ## 0.3.6 (2017-04-17)
 

@@ -32,4 +32,46 @@ describe('Crypto', function() {
 			assert.equal(three == three, true);
 		});
 	});
+
+	describe('.randomBytes(bytesize)', function() {
+		it('should return a buffer of the given amount of bytes', function() {
+
+			var result = Crypto.randomBytes(4);
+
+			assert.equal(result.length, 4);
+		});
+
+		it('should allow the use of callbacks', function(done) {
+			Crypto.randomBytes(4, function(err, res) {
+
+				if (err) {
+					throw err;
+				}
+
+				assert.equal(res.length, 4);
+				done();
+			});
+		});
+	});
+
+	describe('.randomHex(bytesize)', function() {
+		it('should return a hex of the given amount of bytes', function() {
+
+			var result = Crypto.randomHex(4);
+
+			assert.equal(result.length, 8);
+		});
+
+		it('should allow the use of callbacks', function(done) {
+			Crypto.randomHex(4, function(err, res) {
+
+				if (err) {
+					throw err;
+				}
+
+				assert.equal(res.length, 8);
+				done();
+			});
+		});
+	});
 });
