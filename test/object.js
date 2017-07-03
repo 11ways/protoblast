@@ -107,16 +107,21 @@ describe('Object', function() {
 
 		it('should return false for other objects', function() {
 
-			var arr = [],
-			    str = new String(),
-			    nr  = new Number();
+			var arr       = [],
+			    date      = new Date(),
+			    regex     = /r/i,
+			    str       = new String(),
+			    nr        = new Number();
 			    testclass = function testclass(){},
-			    testobj = new testclass();
+			    testobj   = new testclass();
 
-			assert.equal(false, Object.isPlainObject(arr));
-			assert.equal(false, Object.isPlainObject(str));
-			assert.equal(false, Object.isPlainObject(nr));
-			assert.equal(false, Object.isPlainObject(testobj));
+			assert.equal(Object.isPlainObject(arr),     false);
+			assert.equal(Object.isPlainObject(str),     false);
+			assert.equal(Object.isPlainObject(nr),      false);
+			assert.equal(Object.isPlainObject(testobj), false);
+
+			assert.equal(Object.isPlainObject(date),    false);
+			assert.equal(Object.isPlainObject(regex),   false);
 		});
 
 		it('should return false for primitives', function() {
