@@ -102,7 +102,7 @@ describe('JSON', function() {
 			var undried,
 			    dried,
 			    fnc = function test() {},
-			    obj = {a: fnc, b: 1}
+			    obj = {a: fnc, b: 1};
 
 			dried = JSON.dry(obj);
 			undried = JSON.undry(dried);
@@ -110,6 +110,102 @@ describe('JSON', function() {
 			assert.equal(JSON.dry(fnc), undefined, 'Function should be returned as undefined');
 			assert.equal(undried.a, undefined, 'Functions should be returned as undefined');
 			assert.equal(undried.b, 1, 'Other property did not revive');
+		});
+
+		it('should use formatting spaces if given', function() {
+
+			var expected,
+			    nr_dried,
+			    undried,
+			    dried,
+			    obj;
+
+			obj = {
+				a: [{b: 1}],
+				c: {d: 1}
+			};
+
+			expected = '{\n  "a": [\n    {\n      "b": 1\n    }\n  ],\n  "c": {\n    "d": 1\n  }\n}';
+
+			dried = JSON.dry(obj, null, '  ');
+			nr_dried = JSON.dry(obj, null, 2);
+
+			undried = JSON.undry(dried);
+
+			assert.equal(dried, expected);
+			assert.equal(nr_dried, expected);
+
+			assert.equal(undried.c.d, obj.c.d);
+			assert.equal(undried.a[0].b, obj.a[0].b);
+		});
+
+		it('should handle Infinity', function() {
+
+			var undried,
+			    dried,
+			    obj;
+
+			obj = {
+				a : 1,
+				b : Infinity,
+				c : -Infinity
+			};
+
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.a, 1);
+			assert.equal(undried.b, Infinity);
+			assert.equal(undried.c, -Infinity);
+		});
+
+		it('should handle RegExp', function() {
+
+			var undried,
+			    dried,
+			    obj;
+
+			obj = {
+				regex : /test/i
+			};
+
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.regex.constructor.name, 'RegExp');
+			assert.equal(undried.regex+'', '/test/i');
+
+			obj = /rooted/i;
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.constructor.name, 'RegExp');
+			assert.equal(undried+'', '/rooted/i');
+		});
+
+		it('should handle dates', function() {
+
+			var undried,
+			    dried,
+			    obj;
+
+			obj = {
+				date : new Date()
+			};
+
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.date.constructor.name, 'Date');
+			assert.equal(undried.date+'', obj.date+'');
+
+			obj = obj.date;
+			dried = JSON.dry(obj);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.constructor.name, 'Date');
+			assert.equal(undried+'', obj+'');
+
 		});
 	});
 
@@ -220,6 +316,110 @@ describe('JSON', function() {
 			assert.equal(driedtwo, '{"a":"This is \\\\x7enot~ undefined"}', 'The first special char should be escaped');
 			assert.equal(dried, JSON.stringify(input), 'Special chars should not be escaped in a regular string');
 			assert.equal(undried, input);
+		});
+	});
+
+	describe('.clone()', function() {
+
+		it('should deep clone objects', function() {
+
+			var original,
+			    clone;
+
+			original = {
+				date   : new Date(),
+				nr     : 1,
+				arr    : [null],
+				regex  : /test/i
+			};
+
+			original.circle = original;
+
+			clone = JSON.clone(original);
+
+			assert.equal(clone.date.constructor.name, 'Date');
+			assert.equal(clone.date+'', original.date+'');
+
+			assert.equal(clone.nr, original.nr);
+			assert.equal(clone.arr[0], original.arr[0]);
+
+			assert.equal(clone.regex.constructor.name, 'RegExp');
+
+			assert.equal(clone.circle, clone);
+		});
+
+		it('should use a clone method if it is available on the target', function() {
+
+			var original,
+			    clone;
+
+			original = {
+				clone: function() {
+					return 1;
+				}
+			};
+
+			clone = JSON.clone(original);
+
+			assert.equal(clone, 1);
+		});
+	});
+
+	describe('.registerDrier()', function() {
+		it('should allow the use of custom drier logic', function() {
+
+			var instance,
+			    undried,
+			    dried;
+
+			JSON.registerDrier('CustomDrierTestClass', function dryTest(holder, key, value) {
+				return {zever: 'notbla'};
+			}, {add_path: false});
+
+			instance = new CustomDrierTestClass();
+
+			dried = JSON.dry(instance);
+			undried = JSON.undry(dried);
+
+			assert.equal(undried.zever, 'notbla');
+
+			function CustomDrierTestClass() {
+				this.zever = 'bla';
+			}
+		});
+
+		it('should also be used for clones', function() {
+
+			var instance,
+			    clone;
+
+			JSON.registerDrier('CustomDrierTestClass', function dryTest(holder, key, value) {
+				return {zever: 'notbla'};
+			}, {add_path: false});
+
+			instance = new CustomDrierTestClass();
+
+			clone = JSON.clone(instance);
+
+			assert.equal(clone.zever, 'notbla');
+
+			function CustomDrierTestClass() {
+				this.zever = 'bla';
+			}
+		});
+	});
+
+	describe('.safeParse()', function() {
+		it('should parse json without throwing errors', function() {
+
+			var one,
+			    two;
+
+			one = JSON.safeParse('{"a":1}');
+			two = JSON.safeParse('{broken:broken}');
+
+			assert.equal(one.a, 1);
+			assert.equal(two, null);
 		});
 	});
 
