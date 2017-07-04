@@ -2,6 +2,8 @@
 
 * Add `Function.isNameAllowed(name)` which checks if a name is allowed
 * Added very basic `WeakMap` polyfill
+* Add `Function.getArgumentNames`
+* Allow ability to add Function driers
 
 ## 0.3.7 (2017-07-03)
 
