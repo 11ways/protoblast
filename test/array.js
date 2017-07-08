@@ -785,6 +785,50 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#findByPath(path, value)', function() {
+
+		it('find the given value in the given path and return that entry', function() {
+
+			var google,
+			    develry,
+			    arr,
+			    ne,
+			    fb;
+
+			arr = [
+				null,
+				{
+					name : 'facebook',
+					link : 'http://www.facebook.com'
+				},
+				1,
+				{
+					name : 'google',
+					link : 'http://www.google.be'
+				},
+				false,
+				{
+					name : 'deredactie',
+					link : 'http://www.deredactie.be'
+				},
+				{
+					name : 'develry',
+					link : 'http://www.develry.be'
+				}
+			];
+
+			google = arr.findByPath('name', 'google');
+			develry = arr.findByPath('name', 'develry');
+			fb = arr.findByPath('name', 'facebook');
+			ne = arr.findByPath('name', 'doesnotexist');
+
+			assert.equal(google, arr[3]);
+			assert.equal(develry, arr[6]);
+			assert.equal(fb, arr[1]);
+			assert.equal(ne, null);
+		});
+	});
+
 	describe('#shuffle', function() {
 		it('should randomly shuffle the array', function() {
 
