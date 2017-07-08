@@ -766,6 +766,23 @@ describe('Array', function() {
 
 			assert.equal(JSON.stringify(arr), '[{"a":5,"b":1},{"a":5,"b":0},{"a":0,"b":1},{"a":0,"b":0}]');
 		});
+
+		it('should allow changing the direction for multiple paths', function() {
+
+			var arr = [
+				{a: 0, b: 1},
+				{a: 0, b: 3},
+				{a: 0, b: 2},
+				{a: 0, b: 0},
+				{a: 5, b: 1},
+				{a: 5, b: 0},
+				{a: 5, b: 2},
+			];
+
+			arr.sortByPath(-1, 'a', 1, 'b');
+
+			assert.equal(JSON.stringify(arr), '[{"a":5,"b":0},{"a":5,"b":1},{"a":5,"b":2},{"a":0,"b":0},{"a":0,"b":1},{"a":0,"b":2},{"a":0,"b":3}]');
+		});
 	});
 
 	describe('#shuffle', function() {

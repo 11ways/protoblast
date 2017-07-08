@@ -5,6 +5,7 @@
 * Add `Function.getArgumentNames`
 * Allow ability to add Function driers
 * Added `Number.isNumeric(input)`
+* `Array#sortByPath` will now interpret numbers as new directions
 
 ## 0.3.7 (2017-07-03)
 
