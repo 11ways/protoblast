@@ -62,6 +62,23 @@ describe('Number', function() {
 		});
 	});
 
+	describe('.isNumeric(input)', function() {
+
+		it('should return true for numerical strings', function() {
+			assert.equal(Number.isNumeric('1'), true);
+			assert.equal(Number.isNumeric('10'), true);
+			assert.equal(Number.isNumeric('0xFF'), true);
+			assert.equal(Number.isNumeric('10.5'), true);
+			assert.equal(Number.isNumeric(' 10'), true);
+		});
+
+		it('should return false for non numerical strings, or containing text', function() {
+			assert.equal(Number.isNumeric('1a'), false);
+			assert.equal(Number.isNumeric('46.3a'), false);
+			assert.equal(Number.isNumeric('text'), false);
+		});
+	});
+
 	describe('#toSource()', function() {
 		it('should return the source code representation of the number', function() {
 			assert.equal('(new Number(5))', (5).toSource());
