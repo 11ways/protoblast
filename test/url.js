@@ -11,17 +11,17 @@ describe('URL', function() {
 		it('should create a new URL object', function() {
 
 			var simple = URL.parse('/test'),
-			    hard = URL.parse('http://www.codedor.be:8080/page?page=1&filter=test');
+			    hard = URL.parse('http://www.develry.be:8080/page?page=1&filter=test');
 
-			assert.equal('/test', simple.pathname);
+			assert.equal(simple.pathname, '/test');
 
-			assert.equal('/page', hard.pathname);
-			assert.equal('www.codedor.be:8080', hard.host);
-			assert.equal('8080', hard.port);
-			assert.equal('http:', hard.protocol);
-			assert.equal('?page=1&filter=test', hard.search);
-			assert.equal('www.codedor.be', hard.hostname);
-			assert.equal('http://www.codedor.be', hard.origin);
+			assert.equal(hard.pathname, '/page');
+			assert.equal(hard.host, 'www.develry.be:8080');
+			assert.equal(hard.port, '8080');
+			assert.equal(hard.protocol, 'http:');
+			assert.equal(hard.search, '?page=1&filter=test');
+			assert.equal(hard.hostname, 'www.develry.be');
+			assert.equal(hard.origin, 'http://www.develry.be');
 		});
 	});
 
@@ -29,21 +29,60 @@ describe('URL', function() {
 
 		it('should clone and return a new URL object', function() {
 
-			var ori = URL.parse('http://www.codedor.be/test'),
+			var ori = URL.parse('http://www.develry.be/test'),
 			    clone = ori.clone();
 
-			assert.equal('http://www.codedor.be/test', ori+'');
-			assert.equal('http://www.codedor.be/test', clone+'');
+			assert.equal(ori+'', 'http://www.develry.be/test');
+			assert.equal(clone+'', 'http://www.develry.be/test');
 
 			ori.addQuery('param', 'A');
 
-			assert.equal('http://www.codedor.be/test?param=A', ori+'');
-			assert.equal('http://www.codedor.be/test', clone+'');
+			assert.equal(ori+'', 'http://www.develry.be/test?param=A');
+			assert.equal(clone+'', 'http://www.develry.be/test');
 
 			clone.addQuery('param', 'CLONE');
 
-			assert.equal('http://www.codedor.be/test?param=A', ori+'');
-			assert.equal('http://www.codedor.be/test?param=CLONE', clone+'');
+			assert.equal(ori+'', 'http://www.develry.be/test?param=A');
+			assert.equal(clone+'', 'http://www.develry.be/test?param=CLONE');
+		});
+	});
+
+	describe('#addQuery(name, value)', function() {
+
+		it('should add the value to the url', function() {
+
+			var ori = URL.parse('http://www.develry.be');
+
+			ori.addQuery('name', 'value');
+
+			assert.equal(String(ori), 'http://www.develry.be/?name=value');
+		});
+
+		it('should overwrite the value if it already exists', function() {
+
+			var ori = URL.parse('http://www.develry.be');
+
+			ori.addQuery('name', 'value');
+			ori.addQuery('name', 'newvalue');
+
+			assert.equal(String(ori), 'http://www.develry.be/?name=newvalue');
+		});
+
+		it('should add multiple values if it is an array', function() {
+
+			var ori = URL.parse('http://www.develry.be');
+
+			ori.addQuery('name', ['one', 'two']);
+
+			assert.equal(String(ori), 'http://www.develry.be/?name%5B0%5D=one&name%5B1%5D=two');
+		});
+
+		it('should delete values when null is given', function() {
+
+			var ori = URL.parse('http://www.develry.be/?name=ok');
+
+			ori.addQuery('name', null);
+			assert.equal(String(ori), 'http://www.develry.be/');
 		});
 	});
 });

@@ -7,6 +7,7 @@
 * Added `Number.isNumeric(input)`
 * `Array#sortByPath` will now interpret numbers as new directions
 * Added `Array#findByPath(path, value)`
+* `URL#addQuery` will no longer iterate over non-plain objects
 
 ## 0.3.7 (2017-07-03)
 
