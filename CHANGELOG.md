@@ -8,6 +8,7 @@
 * `Array#sortByPath` will now interpret numbers as new directions
 * Added `Array#findByPath(path, value)`
 * `URL#addQuery` will no longer iterate over non-plain objects
+* Add `limit` parameter to `Object.walk` to limit the recursiveness
 
 ## 0.3.7 (2017-07-03)
 
