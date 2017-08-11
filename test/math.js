@@ -54,6 +54,35 @@ describe('Math', function() {
 		});
 	});
 
+	describe('.standardize(numbers)', function() {
+
+		it('should return the standardized values of the input', function() {
+
+			var output,
+			    input;
+
+			// Prepare the input values
+			input = [0, 1, 3];
+
+			// Get the standardized output
+			output = Math.standardize(input);
+
+			assert.equal(Math.mean(output), 0, 'The mean value of standardized values should always be 0');
+
+			// The standardDeviation of standardized values should be 1,
+			// but these examples give 0.999... That's just a floating point rounding error thing
+		});
+
+		it('should use the arguments', function() {
+			var output;
+
+			// Get the standardized output
+			output = Math.standardize(0, 1, 3);
+
+			assert.equal(Math.mean(output), 0, 'The mean value of standardized values should always be 0');
+		});
+	});
+
 	describe('.lowest(numbers, amount)', function() {
 
 		it('should return the lowest number', function() {
@@ -147,6 +176,35 @@ describe('Math', function() {
 
 			assert.equal(instance.multiplier, 1664525);
 			assert.equal(typeof instance.random, 'function');
+		});
+	});
+
+	describe('.interpolate(numbers, newlength)', function() {
+		it('should interpolate missing numbers', function() {
+
+			var input = [0, 10],
+			    three = Math.interpolate(input, 3),
+			    five = Math.interpolate(input, 5);
+
+			assert.equal(three.join(','), '0,5,10');
+			assert.equal(five.join(','), '0,2.5,5,7.5,10');
+		});
+	});
+
+	describe('.removeOutliers(numbers, clip)', function() {
+		it('should remove outliers', function() {
+
+			var numbers = [99, 2, 4, 5, 7, 1],
+			    output = Math.removeOutliers(numbers);
+
+			assert.equal(output.join(','), '2,4,5,7,1');
+		});
+
+		it('should clip outliers to their highest allowed value', function() {
+			var numbers = [99, 2, 4, 5, 7, 1],
+			    output = Math.removeOutliers(numbers, true);
+
+			assert.equal(output.join(','), '10.5,2,4,5,7,1');
 		});
 	});
 
