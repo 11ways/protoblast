@@ -9,6 +9,10 @@
 * Added `Array#findByPath(path, value)`
 * `URL#addQuery` will no longer iterate over non-plain objects
 * Add `limit` parameter to `Object.walk` to limit the recursiveness
+* Add `String#splitOnce` and `String#splitLimit`
+* Fix `Function.inherits` not adding static methods on time
+* Fix `Math.removeOutliers` so it isn't too generous
+* Add `String#splitOnce(separator)` and `String#splitLimit(separator, times)`
 
 ## 0.3.7 (2017-07-03)
 

@@ -7,6 +7,53 @@ describe('String', function() {
 		Blast  = require('../index.js')();
 	});
 
+	describe('.serializeAttributes(obj)', function() {
+		it('should return serialized attributes as a string', function() {
+
+			var output,
+			    obj;
+
+			obj = {
+				a : 1,
+				b : 2
+			};
+
+			output = String.serializeAttributes(obj);
+
+			assert.equal(output, 'a="1" b="2"');
+		});
+	});
+
+	describe('.decodeAttributes(value, separator)', function() {
+		it('should return an object', function() {
+
+			var input = 'a="1", b="2"',
+			    obj;
+
+			obj = String.decodeAttributes(input);
+
+			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+		});
+
+		it('should allow another separator', function() {
+
+			var input = 'a="1"; b="2"',
+			    obj;
+
+			obj = String.decodeAttributes(input, ';');
+
+			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+		});
+	});
+
+	describe('.encodeCookie(name, value, options)', function() {
+		it('should return a valid cookie string', function() {
+			var output = String.encodeCookie('cookiename', 'myvalue', {path: '/mypath'});
+
+			assert.equal(output, 'cookiename=myvalue; path=/mypath');
+		});
+	});
+
 	describe('#toSource()', function() {
 		it('should return the source code representation of the string', function() {
 			assert.strictEqual('TEST'.toSource(), '(new String("TEST"))');
