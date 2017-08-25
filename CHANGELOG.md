@@ -1,5 +1,6 @@
 ## 0.3.9 (WIP)
 
+* `String.encodeCookie` will use `encodeURI` for the path & domain
 * `Function.methodize` should set the original function as the unmethodized one
 * `Function.unmethodize` should set the original function as the methodized one
 
