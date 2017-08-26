@@ -169,7 +169,27 @@ describe('Function', function() {
 			assert.equal(test.fnc(), 'TEST');
 		});
 
-		it('should return the earlier methodized function', function() {
+		it('should handle arguments as expected', function() {
+
+			var methodized,
+			    test;
+
+			function myFnc(obj, addition) {
+				return obj.number + addition;
+			}
+
+			methodized = myFnc.methodize();
+
+			test = {
+				number : 1,
+				myFnc  : methodized
+			};
+
+			assert.equal(String(myFnc({}, 5)), 'NaN');
+			assert.equal(test.myFnc(4), 5);
+		});
+
+		it('should cache earlier methodized functions', function() {
 
 			var fnc = function(){},
 			    m1,
@@ -179,6 +199,30 @@ describe('Function', function() {
 			m2 = fnc.methodize();
 
 			assert.equal(m1, m2);
+		});
+
+		it('allows setting the wrapper name', function() {
+
+			var methodized;
+
+			function myFnc(){}
+			function m_fnc(){}
+			function toTestDelete(){}
+
+			assert.equal(myFnc.methodize('bla').name, 'bla');
+			assert.equal(m_fnc.methodize().name, '_m_fnc');
+			assert.equal(toTestDelete.methodize('delete').name, '_delete');
+		});
+
+		it('should set the original function as the unmethodized one', function() {
+
+			var methodized;
+
+			function myFnc(){}
+
+			methodized = myFnc.methodize();
+
+			assert.equal(methodized.unmethodize(), myFnc);
 		});
 	});
 
@@ -191,6 +235,27 @@ describe('Function', function() {
 			assert.equal(fnc(), undefined);
 			assert.equal(methodized({zever: 'TEST'}), 'TEST');
 		});
+
+		it('should be able to set the wrapper name', function() {
+
+			function myFnc(){};
+			function bla_fnc(){};
+			function u_fnc(){};
+			function toTestDelete(){};
+
+			assert.equal(myFnc.unmethodize().name, 'myFnc');
+			assert.equal(bla_fnc.unmethodize('bla').name, 'bla');
+			assert.equal(u_fnc.unmethodize('u_fnc').name, '_u_fnc');
+			assert.equal(toTestDelete.unmethodize('delete').name, '_delete');
+		});
+	});
+
+	describe('#listenTo(event, context)', function() {
+
+		it('should subscribe to the event on the given context', function() {
+
+		});
+
 	});
 
 	describe('#curry()', function() {

@@ -1,5 +1,8 @@
 ## 0.3.9 (WIP)
 
+* `Function.methodize` should set the original function as the unmethodized one
+* `Function.unmethodize` should set the original function as the methodized one
+
 ## 0.3.8 (2017-08-11)
 
 * Add `Function.isNameAllowed(name)` which checks if a name is allowed
