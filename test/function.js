@@ -45,6 +45,81 @@ describe('Function', function() {
 			assert.equal(tokens[2].type, 'name');
 			assert.equal(tokens[2].value, 'fname');
 		});
+
+		it('should recognize invalid tokens', function() {
+
+			var tokens,
+			    source = 'function €(){vra é #}';
+
+			tokens = Function.tokenize(source, true);
+
+			assert.equal(tokens[0].type, 'keyword');
+			assert.equal(tokens[2].type, 'invalid');
+			assert.equal(tokens[10].type, 'invalid');
+		});
+
+		it('should only return the values when addType is false or not set', function() {
+
+			var tokens,
+			    source = 'function() {return 1}';
+
+			tokens = Function.tokenize(source);
+
+			assert.equal(tokens[0], 'function');
+			assert.equal(tokens[2], ')');
+			assert.equal(tokens[3], ' ');
+		});
+
+		it('is also available on the function', function() {
+
+			var tokens;
+
+			function myFnc() {};
+
+			tokens = myFnc.tokenize();
+
+			assert.equal(tokens[0], 'function');
+			assert.equal(tokens[6], '{');
+		});
+	});
+
+	describe('.getArgumentNames(fnc)', function() {
+
+		it('should return the argument names of a function', function() {
+
+			var names;
+
+			names = Function.getArgumentNames(function test(alpha, beta) {
+				return null;
+			});
+
+			assert.equal(names[0], 'alpha');
+			assert.equal(names[1], 'beta');
+			assert.equal(names.length, 2);
+		});
+
+		it('should return empty array when no name is set', function() {
+
+			var names = Function.getArgumentNames(function test() {});
+
+			assert.equal(names.length, 0);
+		});
+
+		it('should return empty array when there is only a space', function() {
+
+			var names = Function.getArgumentNames(function test( ) {});
+
+			assert.equal(names.length, 0);
+		});
+
+		it('should also accept a string', function() {
+
+			var names = Function.getArgumentNames(`function test(alpha, beta) {}`);
+
+			assert.equal(names[0], 'alpha');
+			assert.equal(names[1], 'beta');
+			assert.equal(names.length, 2);
+		});
 	});
 
 	describe('.isNameAllowed(name)', function() {
@@ -68,6 +143,19 @@ describe('Function', function() {
 		});
 	});
 
+	describe('#getBodySource()', function() {
+		it('should return the source code of the body', function() {
+
+			var body;
+
+			function myFnc() {return 1 + 1;};
+
+			body = myFnc.getBodySource();
+
+			assert.equal(body, 'return 1 + 1;');
+		});
+	});
+
 	describe('#methodize()', function() {
 		it('should create a new function that calls the given function with current "this" context as the first argument', function() {
 
@@ -79,6 +167,18 @@ describe('Function', function() {
 
 			assert.equal(fnc({}), undefined);
 			assert.equal(test.fnc(), 'TEST');
+		});
+
+		it('should return the earlier methodized function', function() {
+
+			var fnc = function(){},
+			    m1,
+			    m2;
+
+			m1 = fnc.methodize();
+			m2 = fnc.methodize();
+
+			assert.equal(m1, m2);
 		});
 	});
 
