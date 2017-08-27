@@ -114,7 +114,7 @@ describe('Function', function() {
 
 		it('should also accept a string', function() {
 
-			var names = Function.getArgumentNames(`function test(alpha, beta) {}`);
+			var names = Function.getArgumentNames('function test(alpha, beta) {}');
 
 			assert.equal(names[0], 'alpha');
 			assert.equal(names[1], 'beta');
