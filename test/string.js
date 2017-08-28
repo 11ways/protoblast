@@ -395,13 +395,20 @@ describe('String', function() {
 
 	describe('#numberHash()', function() {
 		it('should return the numeric hash of the string', function() {
-			assert.strictEqual(3556498, 'test'.numberHash());
+			assert.strictEqual('test'.numberHash(), 3556498);
 		});
 	});
 
 	describe('#checksum()', function() {
 		it('should return the crc32 hash of the string', function() {
-			assert.strictEqual(3632233996, 'test'.checksum());
+			assert.strictEqual('test'.checksum(), 3632233996);
+		});
+	});
+
+	describe('#fowler()', function() {
+		it('should return the fnv-1a hash of the string', function() {
+			assert.strictEqual('simple'.fowler(), 375816319);
+			assert.strictEqual('protoblast'.fowler(), 556809709);
 		});
 	});
 

@@ -848,7 +848,7 @@ describe('Array', function() {
 			// Shuffle the array using the seeded rng
 			arr.shuffle(rng);
 
-			assert.equal(arr.join(','), '5,4,3,8,0,1,6,7,2,9');
+			assert.equal(arr.join(','), '0,9,7,8,6,2,4,5,3,1');
 		});
 	});
 

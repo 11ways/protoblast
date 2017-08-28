@@ -1,5 +1,7 @@
 ## 0.3.10 (WIP)
 
+* Fix `String#fowler()` checksum generation
+
 ## 0.3.9 (2017-08-27)
 
 * `String.encodeCookie` will use `encodeURI` for the path & domain

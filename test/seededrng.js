@@ -42,9 +42,9 @@ describe('SeededRng', function() {
 
 			var instance = new Blast.Classes.SeededRng('protoblast');
 
-			assert.equal(instance.random(), 0.9534672123845667);
-			assert.equal(instance.random(), 0.24776239367201924);
-			assert.equal(instance.random(), 0.9343948906753212);
+			assert.equal(instance.random(), 0.19023933447897434);
+			assert.equal(instance.random(), 0.36429158761166036);
+			assert.equal(instance.random(), 0.6909372718073428);
 		});
 
 		it('should be able to be JSON-DRIED', function() {
@@ -54,7 +54,7 @@ describe('SeededRng', function() {
 			    json;
 
 			// Test first random number
-			assert.equal(instance.random(), 0.9534672123845667);
+			assert.equal(instance.random(), 0.19023933447897434);
 
 			// Dry it
 			json = JSON.dry(instance);
@@ -69,7 +69,7 @@ describe('SeededRng', function() {
 			assert.equal(cloned.constructor.name, 'SeededRng');
 
 			// The cloned value should pick up where the the original one left of
-			assert.equal(cloned.random(), 0.24776239367201924);
+			assert.equal(cloned.random(), 0.36429158761166036);
 		});
 	});
 });
