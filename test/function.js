@@ -254,8 +254,148 @@ describe('Function', function() {
 
 		it('should subscribe to the event on the given context', function() {
 
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			result = listener.listenTo('test', emitter);
+			false_result = listener.listenTo('test');
+
+			emitter.emit('test', 'alpha');
+
+			assert.equal(output, 'alpha');
+			assert.equal(result, true);
+			assert.equal(false_result, false);
+
+			emitter.emit('test', 'zever');
+			assert.equal(output, 'zever');
 		});
 
+		it('should subscribe using addEventListener', function() {
+
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			emitter.addEventListener = emitter.addListener;
+			emitter.addListener = null;
+
+			result = listener.listenTo('test', emitter);
+			false_result = listener.listenTo('test');
+
+			emitter.emit('test', 'alpha');
+
+			assert.equal(output, 'alpha');
+			assert.equal(result, true);
+			assert.equal(false_result, false);
+		});
+
+		it('should subscribe using listen', function() {
+
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			emitter.listen = emitter.addListener;
+			emitter.addListener = null;
+
+			result = listener.listenTo('test', emitter);
+			false_result = listener.listenTo('test');
+
+			emitter.emit('test', 'alpha');
+
+			assert.equal(output, 'alpha');
+			assert.equal(result, true);
+			assert.equal(false_result, false);
+		});
+
+		it('should subscribe using on', function() {
+
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			emitter.on = emitter.addListener;
+			emitter.addListener = null;
+
+			result = listener.listenTo('test', emitter);
+			false_result = listener.listenTo('test');
+
+			emitter.emit('test', 'alpha');
+
+			assert.equal(output, 'alpha');
+			assert.equal(result, true);
+			assert.equal(false_result, false);
+		});
+
+		it('should return false if the listener is not found', function() {
+
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			emitter.addListener = null;
+			emitter.on = null;
+
+			result = listener.listenTo('test', emitter);
+
+			assert.equal(result, false);
+		});
+	});
+
+	describe('#unListen(event, context)', function() {
+
+		it('should subscribe to the event on the given context', function() {
+
+			var emitter = new Informer(),
+			    false_result,
+			    result,
+			    output;
+
+			function listener(input) {
+				output = input;
+			}
+
+			result = listener.listenTo('test', emitter);
+			false_result = listener.listenTo('test');
+
+			emitter.emit('test', 'alpha');
+
+			assert.equal(output, 'alpha');
+			assert.equal(result, true);
+			assert.equal(false_result, false);
+
+			listener.unListen('test', emitter);
+			emitter.emit('test', 'zever');
+
+			// Output should still be alpha
+			assert.equal(output, 'alpha');
+		});
 	});
 
 	describe('#curry()', function() {
@@ -275,4 +415,51 @@ describe('Function', function() {
 		});
 	});
 
+	describe('.tryCatch(fnc, args, context)', function() {
+
+		it('should return the original value when no errors occur', function() {
+
+			var result;
+
+			result = Function.tryCatch(function() {
+				return 'alpha';
+			});
+
+			assert.equal(result, 'alpha');
+		});
+
+		it('should catch errors and return them', function() {
+
+			var result;
+
+			result = Function.tryCatch(function() {
+				return _does_not_exist + 1;
+			});
+
+			assert.equal(result.constructor.name, 'ReferenceError');
+		});
+
+		it('should apply the given args', function() {
+
+			var result;
+
+			result = Function.tryCatch(function(a, b) {
+				return a+b;
+			}, [1, 2]);
+
+			assert.equal(result, 3);
+		});
+
+		it('should apply the given context', function() {
+
+			var result;
+
+			result = Function.tryCatch(function() {
+				return this.a + this.b;
+			}, null, {a: 1, b: 2});
+
+			assert.equal(result, 3);
+		});
+
+	});
 });
