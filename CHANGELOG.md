@@ -4,6 +4,7 @@
 * Fix `String#numberHash()`, it's now slower than `String#checksum()` but still faster than `String#fowler()`
 * `Object.checksum` will now split strings in 2 for checksuming, this decreases collisions without affecting speed
 * Use same collision improvement in `Object.checksum` on objects, arrays & regexps.
+* `String#checkum` now accepts a `start` and `end` parameter
 
 ## 0.3.9 (2017-08-27)
 
