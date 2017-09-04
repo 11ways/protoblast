@@ -584,4 +584,54 @@ describe('Object', function() {
 		})
 	});
 
+	// Everytime something changes to the checksum algorithm,
+	// these will have to be updated
+	describe('.checksum(obj)', function() {
+
+		it('should checksum strings', function() {
+			assert.equal(Object.checksum('this is a string'), 'S16-1jtzwzb16ayzzy');
+		});
+
+		it('should prevent certain crc32 collisions', function() {
+
+			var plumless = Object.checksum('plumless'),
+			    buckeroo = Object.checksum('buckeroo');
+
+			assert.equal(plumless, 'S8-ih5e8qnphp9e');
+			assert.equal(buckeroo, 'S8-e48f7xl4l4hb');
+		});
+
+		it('split strings in two, but unevenly', function() {
+
+			var collisiontesta = 'plumlessplumless',
+			    collisiontestb = 'buckeroobuckeroo';
+
+			assert.equal(Object.checksum(collisiontesta), 'S16-sb4hmd26lb02');
+			assert.equal(Object.checksum(collisiontestb), 'S16-sb4hm1leshhz');
+		});
+
+		it('checksums objects', function() {
+			assert.equal(Object.checksum({a: 1}), 'O1-S3-1skjwarew80jg');
+		});
+
+		it('should ignore property order in regular objects', function() {
+			assert.equal(Object.checksum({b: 1, a: 1}), Object.checksum({a: 1, b: 1}));
+		});
+
+		it('also ignored order in arrays', function() {
+			assert.equal(Object.checksum([1, 2]), Object.checksum([2, 1]));
+		});
+
+		it('handles recursive objects', function() {
+
+			var a = {
+				a: 1
+			};
+
+			a.b = a;
+
+			assert.notEqual(Object.checksum(a), Object.checksum({a: 1}));
+		});
+	});
+
 });
