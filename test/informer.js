@@ -794,9 +794,60 @@ describe('Informer', function() {
 			tester.on(sType, function(){});
 			tester.on(fType, function(){});
 
-			assert.equal(2, tester.listeners(fType).length, 'Should only have 2 listeners');
-			assert.equal(1, tester.listeners(sType).length, 'Should only have 1 listener');
+			assert.equal(tester.listeners(fType).length, 2, 'Should only have 2 listeners');
+			assert.equal(tester.listeners(sType).length, 1, 'Should only have 1 listener');
+		});
+
+		it('should mess with the seen entries', function() {
+
+			var tester = new Informer();
+
+			tester.on('test', function() {});
+
+			assert.equal(tester.listeners('test').length, 1);
+			assert.equal(tester.hasBeenSeen('test'), false);
 		});
 	});
 
+	describe('unsee(type)', function() {
+
+		it('should unsee the given string type', function() {
+			var tester = new Informer();
+
+			tester.emit('test', 'alpha');
+
+			assert.equal(tester.hasBeenSeen('test'), true);
+
+			tester.unsee('test');
+
+			assert.equal(tester.hasBeenSeen('test'), false);
+		});
+
+		it('should unsee the filter type', function() {
+			var tester = new Informer();
+
+			tester.emit({
+				type  : 'test',
+				extra : 'extra'
+			}, 'alpha');
+
+			assert.equal(tester.hasBeenSeen('test'), true);
+			assert.equal(tester.hasBeenSeen({extra: 'extra'}), true);
+
+			tester.unsee({extra: 'test'});
+			assert.equal(tester.hasBeenSeen({extra: 'extra'}), true);
+
+			tester.unsee({extra: 'extra'});
+			assert.equal(tester.hasBeenSeen({extra: 'extra'}), false);
+
+			tester.emit({
+				type  : 'test',
+				extra : 'extra'
+			}, 'alpha');
+
+			// A simple string unsee should also remove from the filterseen
+			tester.unsee('test');
+			assert.equal(tester.hasBeenSeen({extra: 'extra'}), false);
+		});
+	});
 });

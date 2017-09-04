@@ -5,6 +5,9 @@
 * `Object.checksum` will now split strings in 2 for checksuming, this decreases collisions without affecting speed
 * Use same collision improvement in `Object.checksum` on objects, arrays & regexps.
 * `String#checkum` now accepts a `start` and `end` parameter
+* `Informer#queryListeners(type, mark_as_seen)` will now honor the `mark_as_seen` parameter
+* `Informer#hasBeenSeen` should now also work when no listeners have been attached
+* `Informer#unsee` will now also accept filter objects
 
 ## 0.3.9 (2017-08-27)
 
