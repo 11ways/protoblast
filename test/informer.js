@@ -38,6 +38,34 @@ describe('Informer', function() {
 		});
 	});
 
+	describe('.isInformer(obj)', function() {
+		it('should return true for pure informers', function() {
+			assert.equal(Informer.isInformer(tester), true);
+		});
+
+		it('should return true for children', function() {
+			var q = new Blast.Classes.FunctionQueue();
+			assert.equal(Informer.isInformer(q), true);
+		});
+
+		it('should return false for regular objects', function() {
+			assert.equal(Informer.isInformer({}), false);
+			assert.equal(Informer.isInformer(null), false);
+			assert.equal(Informer.isInformer(1), false);
+		});
+
+		it('should return true for multiple inheritance', function() {
+			var Test = Function.inherits(['Array', 'Informer'], function MInformerTest() {});
+			var b = new Test();
+
+			assert.equal(Informer.isInformer(b), true);
+
+			// Should this ever become true,
+			// something probably has gone wrong with the inheritance
+			assert.equal(b instanceof Informer, false);
+		});
+	});
+
 	describe('addListener(type, listener)', function() {
 
 		it('should have an alias named `on`', function() {
@@ -848,6 +876,47 @@ describe('Informer', function() {
 			// A simple string unsee should also remove from the filterseen
 			tester.unsee('test');
 			assert.equal(tester.hasBeenSeen({extra: 'extra'}), false);
+		});
+	});
+
+	describe('#emitOnce(type, data)', function() {
+		it('should emit the event only once', function() {
+			var tester = new Informer(),
+			    result = 0;
+
+			tester.on('test', function onTest() {
+				result++;
+			});
+
+			tester.emitOnce('test');
+			assert.equal(result, 1);
+
+			tester.emitOnce('test');
+			assert.equal(result, 1);
+		});
+
+		it('should emit it again after it has been unseen', function() {
+
+			var tester = new Informer(),
+			    result = 0;
+
+			tester.on('test', function onTest() {
+				result++;
+			});
+
+			tester.emitOnce('test');
+			assert.equal(result, 1);
+
+			tester.emitOnce('test');
+			assert.equal(result, 1);
+
+			tester.unsee('test');
+
+			tester.emitOnce('test');
+			assert.equal(result, 2);
+
+			tester.emitOnce('test');
+			assert.equal(result, 2);
 		});
 	});
 });
