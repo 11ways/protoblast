@@ -8,6 +8,8 @@
 * `Informer#queryListeners(type, mark_as_seen)` will now honor the `mark_as_seen` parameter
 * `Informer#hasBeenSeen` should now also work when no listeners have been attached
 * `Informer#unsee` will now also accept filter objects
+* Added `FunctionQueue#force(fnc, args, options)` which will forcefully run the given function on the queue, even if the limit is reached.
+* Made `FunctionQueue` run more asynchronous when `add`-ing of `force`-ing after it has already started
 
 ## 0.3.9 (2017-08-27)
 

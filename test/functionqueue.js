@@ -50,14 +50,14 @@ describe('FunctionQueue', function() {
 				setTimeout(function() {
 					result += '1';
 					next();
-				}, 20);
+				}, 10);
 			});
 
 			queue.add(function tasktwo(next) {
 				setTimeout(function() {
 					result += '2';
 					next();
-				}, 10);
+				}, 5);
 			});
 
 			queue.add(function taskthree(next) {
@@ -68,33 +68,53 @@ describe('FunctionQueue', function() {
 					timer_end = Date.now();
 
 					next();
-				}, 20);
+				}, 10);
 			});
 		});
 
 		it('should not add the task if the id has already been seen', function(done) {
 			var q = new FunctionQueue(),
-			    result = '';
+			    test = '';
 
 			q.add(function task(next) {
-				result += '1';
+				test += '1';
 				next();
 			}, null, {id: 'a'});
 
 			q.add(function task(next) {
-				result += '1';
+				test += '1';
 				next();
 			}, null, {id: 'a'});
 
 			q.add(function tasktwo(next) {
-				result += '2';
+				test += '2';
 				next();
 
-				assert.equal(result, '12');
+				assert.equal(test, '12');
 				done();
 			}, null, {id: 'b'});
 
 			q.start();
+		});
+
+		it('should start the task asynchronously', function(done) {
+
+			var q = new FunctionQueue(),
+			    test = '';
+
+			q.limit = 1;
+			q.start();
+
+			q.add(function first() {
+				test += '1';
+			});
+
+			assert.equal(test, '');
+
+			q.add(function afterFirst() {
+				assert.equal(test, '1');
+				done();
+			});
 		});
 	});
 
@@ -106,8 +126,8 @@ describe('FunctionQueue', function() {
 
 				var total = timer_end - timer_start;
 
-				assert.equal('123', result, 'Tasks did not run in order');
-				assert.equal(true, total > 49, 'Tasks ended too early, not limited?');
+				assert.equal(result, '123', 'Tasks did not run in order');
+				assert.equal(total > 24, true, 'Tasks ended too early, not limited?');
 				done();
 			});
 
@@ -184,6 +204,92 @@ describe('FunctionQueue', function() {
 			queue.start();
 
 			assert.equal(result, '');
+		});
+	});
+
+	describe('#force(fnc)', function() {
+		it('should execute the function even if there is a limit', function(finished) {
+
+			var q = new FunctionQueue(),
+			    result = '';
+
+			q.limit = 1;
+
+			// After adding this one, the limit is already reached
+			// And further adds should not run until it is done
+			q.add(function second(done) {
+				setTimeout(function() {
+					result += '2';
+					done();
+				}, 10);
+			});
+
+			q.add(function third() {
+				result += '3';
+			});
+
+			q.force(function first() {
+				result += '1';
+			});
+
+			q.add(function fourth() {
+				result += '4';
+			});
+
+			q.add(function done() {
+				assert.equal(result, '1234');
+				finished();
+			});
+
+			q.start();
+		});
+
+		it('should execute the function immediately', function(finished) {
+
+			var q = new FunctionQueue(),
+			    result = '';
+
+			q.limit = 1;
+
+			q.add(function second() {
+				result += '2';
+			});
+
+			q.force(function first() {
+				result += '1';
+			});
+
+			q.add(function last() {
+				result += '3';
+
+				assert.equal(result, '123');
+				finished();
+			});
+
+			q.start();
+		});
+
+		it('should execute the function asynchronously, but still before adds', function(finished) {
+			var q = new FunctionQueue(),
+			    test = '';
+
+			q.limit = 1;
+			q.start();
+
+			q.add(function first() {
+				test += '1';
+			});
+
+			q.force(function zero() {
+				test += '0';
+			});
+
+			assert.equal(test, '');
+
+			q.add(function afterFirst() {
+				assert.equal(test, '01');
+				finished();
+			});
 		});
 	});
 });
