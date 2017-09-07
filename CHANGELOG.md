@@ -1,4 +1,4 @@
-## 0.3.10 (WIP)
+## 0.3.10 (2017-09-07)
 
 * Fix `String#fowler()` checksum generation
 * Fix `String#numberHash()`, it's now slower than `String#checksum()` but still faster than `String#fowler()`
