@@ -1,3 +1,5 @@
+## 0.3.11 (WIP)
+
 ## 0.3.10 (2017-09-07)
 
 * Fix `String#fowler()` checksum generation
