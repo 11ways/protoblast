@@ -1,6 +1,7 @@
 ## 0.4.0 (WIP)
 
 * Added `Pledge` class, which is a type of `Promise`
+* `Function.parallel` now returns a `Pledge` instance
 
 ## 0.3.10 (2017-09-07)
 
