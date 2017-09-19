@@ -3,6 +3,7 @@
 * Added `Pledge` class, which is a type of `Promise`
 * `Function.parallel` now returns a `Pledge` instance
 * `Function.create` now also sets the wrapper arguments, so the `length` property matches
+* Added `Informer.setAfterMethod(filter, key, method)`, which is a method that will prevent execution until it has seen the given filter (string or object)
 
 ## 0.3.10 (2017-09-07)
 
