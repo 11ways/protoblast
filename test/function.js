@@ -36,6 +36,22 @@ describe('Function', function() {
 			assert.equal(fnc.length, 2);
 			assert.equal(fnc.name, 'ReturnWrapperName');
 		});
+
+		it('should accept an array as argument names', function() {
+
+			var fnc = Function.create('ReturnWrapperName', ['a', 'b', 'c'], function test() {});
+
+			assert.equal(fnc.length, 3);
+			assert.equal(fnc.name, 'ReturnWrapperName');
+		});
+
+		it('should accept a string as argument names', function() {
+
+			var fnc = Function.create('ReturnWrapperName', 'a, b, c, d', function test() {});
+
+			assert.equal(fnc.length, 4);
+			assert.equal(fnc.name, 'ReturnWrapperName');
+		});
 	});
 
 	describe('.tokenize(source, addType, throwError)', function() {
