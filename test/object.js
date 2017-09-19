@@ -267,6 +267,29 @@ describe('Object', function() {
 			assert.equal(true, Object.alike(a, e));
 			assert.equal(true, Object.alike(e, a));
 		});
+
+		it('should handle recursive objects', function() {
+
+			var a = {};
+			var b = {};
+			var c = {};
+
+			c.a = c;
+			c.b = a;
+			c.c = a;
+
+			a.a = b;
+			a.b = b;
+			a.c = c;
+
+			b.a = c;
+			b.b = b;
+			b.c = a;
+
+			// Even though these are all empty objects,
+			// they are not alike because of the recursiveness
+			assert.equal(Object.alike(a, b), false);
+		});
 	});
 
 	describe('.flatten(obj)', function() {
