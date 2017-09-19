@@ -210,6 +210,68 @@ describe('Inheritance', function() {
 
 			assert.equal(ExtendedClass, ExtendedClass.staticMethod(), 'Static method was not inherited');
 		});
+
+		it('should pass down static properties set on extended classes to its extended classes', function() {
+
+			var MyClass,
+			    EClass;
+
+			MyClass = Function.inherits('Informer', function EEMyClass() {});
+
+			// Add a new static function
+			MyClass.setStatic(function testStatic() {});
+
+			// Create a new extended class
+			EClass = Function.inherits('EEMyClass', function EEExMyClass() {});
+
+			assert.equal(typeof EClass.testStatic, 'function');
+		});
+
+		it('should pass down static properties to other namespaces', function() {
+
+			var MyClass,
+			    EClass;
+
+			MyClass = Function.inherits('Informer', 'SomeNamespace', function NEEMyClass() {});
+
+			// Add a new static function
+			MyClass.setStatic(function testStaticTwo() {});
+
+			// Create a new extended class
+			EClass = Function.inherits('SomeNamespace.NEEMyClass', 'UnitTesting', function EEExMyClass() {});
+
+			assert.equal(typeof EClass.testStaticTwo, 'function');
+		});
+
+		it('should pass down static properties to deeper extensions', function() {
+
+			var BaseClass,
+			    MyClass,
+			    EClass,
+			    XClass,
+			    YClass;
+
+			BaseClass = Function.inherits(function TestingABaseClass() {});
+			BaseClass.setStatic(function setTestOne() {});
+
+			MyClass = Function.inherits('TestingABaseClass', 'SomeNamespace', function NNEEMyClass() {});
+
+			// Create a new extended class
+			EClass = Function.inherits('SomeNamespace.NNEEMyClass', 'UnitTestingTwo', function EEExMyClass() {});
+
+			EClass.setStatic(function setTestTwo() {});
+
+			XClass = Function.inherits('UnitTestingTwo.EEExMyClass', function XClass() {});
+
+			// Add a new static function
+			XClass.setStatic(function testStaticThree() {});
+
+			YClass = Function.inherits('UnitTestingTwo.XClass', function YClass() {});
+
+			assert.equal(typeof YClass.setTestOne, 'function');
+			assert.equal(typeof YClass.setTestTwo, 'function');
+			assert.equal(typeof YClass.testStaticThree, 'function');
+		});
 	});
 
 	describe('.constitute(fnc)', function() {
