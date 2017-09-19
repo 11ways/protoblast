@@ -26,6 +26,16 @@ describe('Function', function() {
 
 			assert.equal(fnc(), 'ReturnWrapperName');
 		});
+
+		it('should have the same amount of arguments', function() {
+
+			var fnc = Function.create('ReturnWrapperName', function test(a, b) {
+
+			});
+
+			assert.equal(fnc.length, 2);
+			assert.equal(fnc.name, 'ReturnWrapperName');
+		});
 	});
 
 	describe('.tokenize(source, addType, throwError)', function() {
