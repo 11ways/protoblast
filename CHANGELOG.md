@@ -2,6 +2,7 @@
 
 * Added `Pledge` class, which is a type of `Promise`
 * `Function.parallel` now returns a `Pledge` instance
+* `Function.create` now also sets the wrapper arguments, so the `length` property matches
 
 ## 0.3.10 (2017-09-07)
 
