@@ -66,6 +66,126 @@ describe('Informer', function() {
 		});
 	});
 
+	describe('.setAfterMethod(filter, key, method)', function() {
+
+		var instance,
+		    MyClass;
+
+		it('should set the given method on the class', function() {
+
+			var fnc;
+
+			// Create the test class
+			MyClass = Function.inherits('Informer', function MyAfterTestClass() {});
+
+			// Add the method
+			fnc = MyClass.setAfterMethod('ready', function someMethodName(a, b, c) {});
+
+			assert.equal(fnc.length, 3);
+			assert.equal(fnc.name, 'someMethodName');
+		});
+
+		it('should wait execution until the event has been seen', function(next) {
+
+			var result;
+
+			MyClass.setAfterMethod('ready', function secondMethod(a) {
+				result = a;
+			});
+
+			instance = new MyClass();
+
+			instance.secondMethod('shouldRunAfterReady');
+
+			// Result should still be undefined!
+			assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+			setTimeout(function doEmitting() {
+
+				// Result should still be undefined!
+				assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+				// Emit the event
+				instance.emit('ready');
+
+				// Result should now be set!
+				assert.equal(result, 'shouldRunAfterReady', 'Method set using `setAfterMethod` did not run after event was fired');
+
+				next();
+			}, 10);
+		});
+
+		it('should also be able to use filter objects', function(next) {
+
+			var result;
+
+			MyClass.setAfterMethod({a: 'x'}, function thirdMethod(a) {
+				result = a;
+			});
+
+			instance = new MyClass();
+
+			instance.thirdMethod('shouldRunAfterFilter');
+
+			// Result should still be undefined!
+			assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+			setTimeout(function doEmitting() {
+
+				// Result should still be undefined!
+				assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+				// Emit the event
+				instance.emit({a: 'x', b: 'y'});
+
+				// Result should now be set!
+				assert.equal(result, 'shouldRunAfterFilter', 'Method set using `setAfterMethod` did not run after filter event was fired');
+
+				next();
+			}, 10);
+		});
+
+		it('should set methods that return pledges', function(next) {
+
+			var pledge_result,
+			    result,
+			    pledge;
+
+			MyClass.setAfterMethod('ready', function pledgeMethod(a) {
+				result = a;
+				return a;
+			});
+
+			instance = new MyClass();
+
+			pledge = instance.pledgeMethod('done');
+
+			pledge.then(function gotValue(a) {
+				pledge_result = a;
+			});
+
+			assert.equal(Blast.Classes.Pledge.isPledge(pledge), true, 'Method did not return a pledge');
+
+			// Result should still be undefined!
+			assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+			setTimeout(function doEmitting() {
+
+				// Result should still be undefined!
+				assert.equal(result, undefined, 'Method set using `setAfterMethod` ran before the event was fired');
+
+				// Emit the event
+				instance.emit('ready');
+
+				// Result should now be set!
+				assert.equal(result, 'done', 'Method set using `setAfterMethod` did not run after filter event was fired');
+				assert.equal(pledge_result, 'done', 'Pledge did not fire then');
+
+				next();
+			}, 10);
+		});
+	});
+
 	describe('addListener(type, listener)', function() {
 
 		it('should have an alias named `on`', function() {
