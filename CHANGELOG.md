@@ -5,6 +5,7 @@
 * `Function.create` now also sets the wrapper arguments, so the `length` property matches
 * Added `Informer.setAfterMethod(filter, key, method)`, which is a method that will prevent execution until it has seen the given filter (string or object)
 * Fix crash when using recursive objects on `Object.alike(a, b)`
+* `Array#flatten` will now preserve the perceived order
 
 ## 0.3.10 (2017-09-07)
 

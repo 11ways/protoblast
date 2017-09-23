@@ -578,6 +578,13 @@ describe('Array', function() {
 			assert.equal(original == result, false);
 		});
 
+		it('should preserve the perceived order', function() {
+			var original = [0,1,[2,3,[4,5,[6,7]]], 8, [9,10]],
+			    result = original.flatten();
+
+			assert.equal(result.join(','), '0,1,2,3,4,5,6,7,8,9,10');
+		});
+
 		it('should honour the recursive limit', function() {
 			var original = [0, 1, [2, [3, 4]]],
 			    result = original.flatten(1);
