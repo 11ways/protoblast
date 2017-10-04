@@ -154,6 +154,43 @@ describe('Date', function() {
 		});
 	});
 
+	describe('#stripTime()', function() {
+		it('should strip the time and return as new date', function() {
+			var a = new Date(),
+			    b = a.stripTime();
+
+			assert.equal(a == b, false);
+			assert.equal((b.getHours() * 60) + b.getTimezoneOffset(), 0);
+		});
+	});
+
+	describe('#stripDate()', function() {
+		it('should strip the date and return as new date', function() {
+			var a = new Date(),
+			    b = a.stripDate();
+
+			assert.equal(a == b, false);
+			assert.equal(b.getFullYear(), 1970);
+		});
+	});
+
+	describe('#setTimestring(time)', function() {
+		it('should set the time of the current instance', function() {
+			var a = new Date();
+
+			a.setTimestring('12:46:47');
+
+			assert.equal(a.getHours(), 12);
+			assert.equal(a.getMinutes(), 46);
+			assert.equal(a.getSeconds(), 47);
+
+			a.setTimestring('12:33');
+
+			assert.equal(a.getMinutes(), 33);
+			assert.equal(a.getSeconds(), 0);
+		});
+	});
+
 	describe('#add(amount, unit)', function() {
 		var a;
 
@@ -223,28 +260,45 @@ describe('Date', function() {
 		it('should subtract the wanted amount of unit from the date', function() {
 			assert.equal(a.clone().subtract(1, 'millisecond').toJSON(), '2014-11-15T12:49:29.381Z');
 		});
+
+		it('should subtract a single amount of the unit if only the unit is given', function() {
+			assert.equal(a.clone().subtract('millisecond').toJSON(), '2014-11-15T12:49:29.381Z');
+		});
+
+		it('should convert the amount to a number', function() {
+			assert.equal(a.clone().subtract('1', 'millisecond').toJSON(), '2014-11-15T12:49:29.381Z');
+		});
+
+		it('should use 1 if an invalid string is given as amount', function() {
+			assert.equal(a.clone().subtract('wut', 'millisecond').toJSON(), '2014-11-15T12:49:29.381Z');
+		});
 	});
 
 	describe('#startOf(unit)', function() {
-		var a,
+		var offset,
+		    a,
 		    b;
 
 		before(function() {
 			a = new Date('2014-11-15T12:49:29.382Z');
 			b = new Date('2014-11-15 12:10:10');
+
+			offset = a.getTimezoneOffset();
+			a.subtract(offset, 'minutes');
+			b.subtract(offset, 'minutes');
 		});
 
 		it('should go to the start of the wanted unit', function() {
 
-			assert.equal(a.clone().startOf('second').toJSON(), '2014-11-15T12:49:29.000Z');
-			assert.equal(a.clone().startOf('minute').toJSON(), '2014-11-15T12:49:00.000Z');
-			assert.equal(a.clone().startOf('hour').toJSON(), '2014-11-15T12:00:00.000Z');
+			assert.equal(a.clone().startOf('second').toJSON(), '2014-11-15T13:49:29.000Z');
+			assert.equal(a.clone().startOf('minute').toJSON(), '2014-11-15T13:49:00.000Z');
+			assert.equal(a.clone().startOf('hour').toJSON(), '2014-11-15T13:00:00.000Z');
 
 			// Go to start of day, this is timezone sensitive
 			//assert.equal('Sat Nov 15 2014 00:00:00 GMT+0200 (EET)', b.clone().startOf('day').toString());
 
-			//assert.equal(a.clone().startOf('month').toJSON(), '2014-11-01T00:00:00.000Z');
-			//assert.equal(a.clone().startOf('year').toJSON(), '2014-01-01T00:00:00.000Z');
+			assert.equal(a.clone().startOf('month').toJSON(), '2014-10-31T23:00:00.000Z');
+			assert.equal(a.clone().startOf('year').toJSON(), '2013-12-31T23:00:00.000Z');
 		});
 	});
 
