@@ -297,8 +297,8 @@ describe('Date', function() {
 			// Go to start of day, this is timezone sensitive
 			//assert.equal('Sat Nov 15 2014 00:00:00 GMT+0200 (EET)', b.clone().startOf('day').toString());
 
-			assert.equal(a.clone().startOf('month').toJSON(), '2014-10-31T23:00:00.000Z');
-			assert.equal(a.clone().startOf('year').toJSON(), '2013-12-31T23:00:00.000Z');
+			assert.equal(a.clone().startOf('month').add(offset, 'minutes').toJSON(), '2014-10-31T22:00:00.000Z');
+			assert.equal(a.clone().startOf('year').add(offset, 'minutes').toJSON(), '2013-12-31T22:00:00.000Z');
 		});
 	});
 
