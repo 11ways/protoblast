@@ -7,6 +7,7 @@
 * Fix crash when using recursive objects on `Object.alike(a, b)`
 * `Array#flatten` will now preserve the perceived order
 * Add support for other HTTP methods in `Request`
+* Add experimental `Informer.setCacheMethod` function
 
 ## 0.3.10 (2017-09-07)
 
