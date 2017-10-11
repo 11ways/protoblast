@@ -277,21 +277,19 @@ describe('Date', function() {
 			b = new Date('2014-11-15 12:10:10');
 
 			offset = a.getTimezoneOffset();
-			a.subtract(offset, 'minutes');
-			b.subtract(offset, 'minutes');
 		});
 
 		it('should go to the start of the wanted unit', function() {
 
-			assert.equal(a.clone().startOf('second').add(offset, 'minutes').toJSON(), '2014-11-15T12:49:29.000Z');
-			assert.equal(a.clone().startOf('minute').add(offset, 'minutes').toJSON(), '2014-11-15T12:49:00.000Z');
-			assert.equal(a.clone().startOf('hour').add(offset, 'minutes').toJSON(), '2014-11-15T12:00:00.000Z');
+			assert.equal(a.clone().startOf('second').toJSON(), (new Date('2014-11-15T12:49:29.000Z')).toJSON());
+			assert.equal(a.clone().startOf('minute').toJSON(), (new Date('2014-11-15T12:49:00.000Z')).toJSON());
+			assert.equal(a.clone().startOf('hour').toJSON(), (new Date('2014-11-15T12:00:00.000Z')).toJSON());
 
 			// Go to start of day, this is timezone sensitive
 			//assert.equal('Sat Nov 15 2014 00:00:00 GMT+0200 (EET)', b.clone().startOf('day').toString());
 
-			assert.equal(a.clone().startOf('month').add(offset, 'minutes').toJSON(), '2014-10-31T22:00:00.000Z');
-			assert.equal(a.clone().startOf('year').add(offset, 'minutes').toJSON(), '2013-12-31T22:00:00.000Z');
+			assert.equal(a.clone().startOf('month').toJSON(), (new Date('2014-10-31T23:00:00.000Z')).toJSON());
+			assert.equal(a.clone().startOf('year').toJSON(), (new Date('2013-12-31T23:00:00.000Z')).toJSON());
 		});
 	});
 
