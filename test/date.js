@@ -283,9 +283,9 @@ describe('Date', function() {
 
 		it('should go to the start of the wanted unit', function() {
 
-			assert.equal(a.clone().startOf('second').toJSON(), '2014-11-15T13:49:29.000Z');
-			assert.equal(a.clone().startOf('minute').toJSON(), '2014-11-15T13:49:00.000Z');
-			assert.equal(a.clone().startOf('hour').toJSON(), '2014-11-15T13:00:00.000Z');
+			assert.equal(a.clone().startOf('second').add(offset, 'minutes').toJSON(), '2014-11-15T12:49:29.000Z');
+			assert.equal(a.clone().startOf('minute').add(offset, 'minutes').toJSON(), '2014-11-15T12:49:00.000Z');
+			assert.equal(a.clone().startOf('hour').add(offset, 'minutes').toJSON(), '2014-11-15T12:00:00.000Z');
 
 			// Go to start of day, this is timezone sensitive
 			//assert.equal('Sat Nov 15 2014 00:00:00 GMT+0200 (EET)', b.clone().startOf('day').toString());
