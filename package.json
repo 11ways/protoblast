@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.4.0-alpha",
+	"version": "0.4.0",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": [
 		"prototype",
@@ -30,7 +30,6 @@
 		"wd"         : "0.3.x"
 	},
 	"engines": {
-		"node": ">=0.11"
-	},
-	"private": true
+		"node": ">=4.8"
+	}
 }
