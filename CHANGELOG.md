@@ -1,3 +1,5 @@
+## 0.4.1 (WIP)
+
 ## 0.4.0 (2017-10-12)
 
 * Added `Pledge` class, which is a type of `Promise`
