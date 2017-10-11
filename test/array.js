@@ -178,28 +178,6 @@ describe('Array', function() {
 		});
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the array', function() {
-
-			var arr = [0,1,2],
-			    src = arr.toSource(),
-			    match;
-
-			if ('[0,1,2]' == src || '[0, 1, 2]' == src) {
-				match = true;
-			}
-
-			assert.equal(match, true, 'Source does not match');
-
-			src = arr.toSource(true);
-			assert.equal(4, src.count('\n'));
-
-			src = [].toSource();
-
-			assert.equal(src, '[]');
-		});
-	});
-
 	describe('#fill(value, start, end)', function() {
 
 		it('should fill an array completely when start or end is undefined', function() {

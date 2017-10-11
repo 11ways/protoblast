@@ -138,13 +138,6 @@ describe('Date', function() {
 
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the date', function() {
-			var d = new Date(1);
-			assert.equal(d.toSource(), '(new Date(1))');
-		});
-	});
-
 	describe('#clone()', function() {
 		it('should return a clone of the date object', function() {
 			var d = new Date(),

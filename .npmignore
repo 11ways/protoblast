@@ -26,3 +26,7 @@ scratch*
 # Ignore coverage results
 /coverage/
 .coveralls.yml
+
+# The samples and test folder shouldn't go on npm
+samples/*
+test/*

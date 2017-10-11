@@ -54,12 +54,6 @@ describe('String', function() {
 		});
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the string', function() {
-			assert.strictEqual('TEST'.toSource(), '(new String("TEST"))');
-		});
-	});
-
 	// Tets by Mathias Bynens' codePointAt shim
 	describe('#codePointAt(position)', function() {
 		

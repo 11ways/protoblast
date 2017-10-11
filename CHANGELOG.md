@@ -8,6 +8,7 @@
 * `Array#flatten` will now preserve the perceived order
 * Add support for other HTTP methods in `Request`
 * Add experimental `Informer.setCacheMethod` function
+* Remove the `#toSource()` methods
 
 ## 0.3.10 (2017-09-07)
 

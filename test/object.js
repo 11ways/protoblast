@@ -7,22 +7,6 @@ describe('Object', function() {
 		Blast  = require('../index.js')();
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the object', function() {
-
-			var simple = {one: 1, str: "str"},
-			    complex = {
-			    	json: JSON,
-			    	fnc: function(){return 1;},
-			    	regex: /search/i
-			    };
-
-			assert.equal('({})', ({}).toSource());
-			assert.equal('({"one": 1,"str": "str"})'.replace(/"| /g, ''), simple.toSource().replace(/"| /g, ''))
-			assert.equal('({"json": JSON,"fnc": (function (){return 1;}),"regex": /search/i})'.replace(/"| /g, ''), complex.toSource().replace(/"| /g, ''))
-		});
-	});
-
 	describe('.getPropertyDescriptor(target, key)', function() {
 
 		var TestClass,
@@ -458,7 +442,7 @@ describe('Object', function() {
 			Object.merge(target, obj1);
 
 			assert.equal(1, target.one.a);
-			assert.equal('/r/i', target.one.b.toSource());
+			assert.equal('/r/i', target.one.b.toString());
 		});
 
 		it('should handle Dates correctly', function() {

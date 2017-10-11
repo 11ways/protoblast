@@ -10,12 +10,6 @@ describe('JSON', function() {
 		Blast  = require('../index.js')();
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the JSON object', function() {
-			assert.equal(JSON.toSource(), 'JSON');
-		});
-	});
-
 	describe('.dry()', function() {
 		it('should stringify the object', function() {
 

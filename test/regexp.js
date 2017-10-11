@@ -32,15 +32,6 @@ describe('RegExp', function() {
 		});
 	});
 
-	describe('#toSource()', function() {
-		it('should return the source code representation of the regex', function() {
-
-			var rx = /search/i;
-
-			assert.equal('/search/i', rx.toSource());
-		});
-	});
-
 	describe('#getPattern()', function() {
 		it('should return the pattern part of the regex', function() {
 
