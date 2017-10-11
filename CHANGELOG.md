@@ -9,6 +9,7 @@
 * Add support for other HTTP methods in `Request`
 * Add experimental `Informer.setCacheMethod` function
 * Remove the `#toSource()` methods
+* `Benchmark` should now calculate correct overhead cost on node 8.x
 
 ## 0.3.10 (2017-09-07)
 
