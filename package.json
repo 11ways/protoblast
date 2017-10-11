@@ -15,13 +15,16 @@
 	"homepage": "https://protoblast.develry.be/",
 	"license": "MIT",
 	"scripts": {
-		"test": "node_modules/.bin/mocha --reporter spec"
+		"test"            : "node_modules/.bin/mocha --reporter spec",
+		"coverage"        : "./node_modules/istanbul/lib/cli.js cover _mocha",
+		"report-coverage" : "cat ./coverage/lcov.info | coveralls"
 	},
 	"main": "lib/init.js",
 	"devDependencies": {
 		"browserify" : "5.11.0",
 		"coveralls"  : "^2.11.6",
 		"git-rev"    : "0.2.1",
+		"istanbul"   : "^0.4.5",
 		"matcha"     : "skerit/matcha",
 		"mocha"      : "1.20.x",
 		"wd"         : "0.3.x"
