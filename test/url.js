@@ -74,7 +74,7 @@ describe('URL', function() {
 
 			ori.addQuery('name', ['one', 'two']);
 
-			assert.equal(String(ori), 'http://www.develry.be/?name%5B0%5D=one&name%5B1%5D=two');
+			assert.equal(String(ori), 'http://www.develry.be/?name[0]=one&name[1]=two');
 		});
 
 		it('should delete values when null is given', function() {
