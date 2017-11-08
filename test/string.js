@@ -226,7 +226,7 @@ describe('String', function() {
 		var sentence = 'This is the string that contains the that needle that we need';
 
 		it('should return the string before the last occurence of the needle', function() {
-			assert.strictEqual('This is the string that contains the that needle ', sentence.beforeLast('that'));
+			assert.strictEqual(sentence.beforeLast('that'), 'This is the string that contains the that needle ');
 		});
 	});
 
@@ -234,7 +234,7 @@ describe('String', function() {
 		it('should remove HTML tags from the string', function() {
 			var original = '<b>This is a <br/>bold string</b>';
 
-			assert.strictEqual('This is a bold string', original.stripTags());
+			assert.strictEqual(original.stripTags(), 'This is a bold string');
 		});
 	});
 
@@ -245,7 +245,7 @@ describe('String', function() {
 			    arr      = original.dissect('<%', '%>'),
 			    expected = '[{"type":"normal","lineStart":0,"lineEnd":0,"content":"This "},{"type":"inside","lineStart":0,"lineEnd":0,"content":" is a "},{"type":"normal","lineStart":0,"lineEnd":0,"content":" test"}]';
 
-			assert.strictEqual(expected, JSON.stringify(arr));
+			assert.strictEqual(JSON.stringify(arr), expected);
 		});
 
 		it('should return an empty array for an empty string', function() {
@@ -254,7 +254,7 @@ describe('String', function() {
 			    arr      = original.dissect('<%', '%>'),
 			    expected = '[]';
 
-			assert.strictEqual(expected, JSON.stringify(arr));
+			assert.strictEqual(JSON.stringify(arr), expected);
 		});
 	});
 
@@ -262,21 +262,28 @@ describe('String', function() {
 		it('should encode certain characters to safe HTML code', function() {
 			var original = '<string> & foo © bar ≠ baz 𝌆 qux';
 
-			assert.strictEqual('&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux', original.encodeHTML());
+			assert.strictEqual(original.encodeHTML(), '&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux');
+		});
+
+		it('should support emojis', function() {
+			var original = '<b>👷</b>';
+			assert.strictEqual(original.encodeHTML(), '&#60;b&#62;&#x1f477;&#60;/b&#62;');
 		});
 	});
 
 	describe('#decodeHTML()', function() {
 		it('should decode certain escaped HTML entities', function() {
 			var original = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux&quot;&amp;';
+			var second = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux&quot;&amp;';
 
-			assert.strictEqual('"<string> & foo © bar ≠ baz 𝌆 qux"&', original.decodeHTML());
+			assert.strictEqual(original.decodeHTML(), '"<string> & foo © bar ≠ baz 𝌆 qux"&');
+			assert.strictEqual(second.decodeHTML(), '"<string> & foo © bar ≠ baz 𝌆 qux"&');
 		});
 
 		it('should leave non-existing entities alone', function() {
 			var original = '&whatisthis;Test&doesntexist;';
 
-			assert.strictEqual('&whatisthis;Test&doesntexist;', original.decodeHTML());
+			assert.strictEqual(original.decodeHTML(), '&whatisthis;Test&doesntexist;');
 		});
 
 		it('should only decode entities that end with a semicolon', function() {
