@@ -349,9 +349,9 @@ describe('Object', function() {
 
 			var obj = {well: {test: {property: 'one', undef: undefined}}};
 
-			assert.equal(true, Object.exists(obj, 'well.test.property'));
-			assert.equal(true, Object.exists(obj, 'well.test.undef', 'Keys with undefined properties should also return true'));
-			assert.equal(false, Object.exists(obj, 'does.not.exist'));
+			assert.equal(Object.exists(obj, 'well.test.property'), true);
+			assert.equal(Object.exists(obj, 'well.test.undef'),    true, 'Keys with undefined properties should also return true');
+			assert.equal(Object.exists(obj, 'does.not.exist'),     false);
 		});
 	});
 
