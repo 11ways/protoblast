@@ -4,6 +4,7 @@
 * `String#encodeHTML` now correctly encodes characters with 2 codepoints (emojis)
 * Fix Crypto on IE11
 * Rewrote `Object.exists` to use `Object.path`
+* Fix `URL#toString`: hashtags now include the actual `#`
 
 ## 0.4.0 (2017-10-12)
 
