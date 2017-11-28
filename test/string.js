@@ -297,6 +297,12 @@ describe('String', function() {
 
 			assert.strictEqual('\uD835\uDD04 \uD835\uDD1E', original.decodeHTML());
 		});
+
+		it('should leave html entities alone', function() {
+			var original = '&quot;Brackets:&quot; <b>keep</b><br>';
+
+			assert.strictEqual(original.decodeHTML(), '"Brackets:" <b>keep</b><br>');
+		});
 	});
 
 	describe('#truncate(length, word, ellipsis)', function() {
