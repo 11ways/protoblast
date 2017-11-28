@@ -7,6 +7,7 @@
 * Fix `URL#toString`: hashtags now include the actual `#`
 * Use the `innerText` method on browsers to decode HTML entities
 * The big HTML entities map is no longer needed on the client side, so it is a normal uncompressed javascript file again
+* Fix `Function.timebomb` to actually set the `exploded` property
 
 ## 0.4.0 (2017-10-12)
 
