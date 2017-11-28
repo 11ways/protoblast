@@ -9,6 +9,7 @@
 * The big HTML entities map is no longer needed on the client side, so it is a normal uncompressed javascript file again
 * Fix `Function.timebomb` to actually set the `exploded` property
 * Enable cutting out code for the client side
+* Remove the string compression code
 
 ## 0.4.0 (2017-10-12)
 
