@@ -10,6 +10,7 @@
 * Fix `Function.timebomb` to actually set the `exploded` property
 * Enable cutting out code for the client side
 * Remove the string compression code
+* `Array#max` and `Array#min` now also accept a path
 
 ## 0.4.0 (2017-10-12)
 

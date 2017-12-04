@@ -462,17 +462,43 @@ describe('Array', function() {
 		});
 	});
 
-	describe('#max()', function() {
+	describe('#max(path)', function() {
 		it('should return the highest value in the array', function() {
 			var arr = [0, 1, 2, 3, -1, 60, 20];
 			assert.equal(arr.max(), 60);
 		});
+
+		it('should return the highest value by path', function() {
+
+			var arr = [
+				{a: 1},
+				{a: 50},
+				{a: 3},
+				{a: 99},
+				{a: 51}
+			];
+
+			assert.equal(arr.max('a').a, 99);
+		});
 	});
 
-	describe('#min()', function() {
+	describe('#min(path)', function() {
 		it('should return the lowest value in the array', function() {
 			var arr = [0, 1, 2, 3, -1, 60, 20];
 			assert.equal(arr.min(), -1);
+		});
+
+		it('should return the lowest value by path', function() {
+
+			var arr = [
+				{a: 1},
+				{a: 50},
+				{a: 3},
+				{a: 99},
+				{a: 51}
+			];
+
+			assert.equal(arr.min('a').a, 1);
 		});
 	});
 
