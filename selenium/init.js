@@ -24,11 +24,11 @@ var desireds = {
 	ie11: {browserName: 'internet explorer', version: '11'}
 };
 
-var browserKey = process.env.BROWSER || 'chrome';
+var browserKey = process.env.BROWSER || 'firefox';
 var desired = desireds[browserKey];
 
 if (!desired) {
-	pr('Could not find browserconfig for "' + String(browserKey).bold + '"');
+	pr('Could not find browserconfig for "' + String(browserKey) + '"');
 	process.exit();
 }
 
@@ -44,7 +44,7 @@ var blastFile  = ''+fs.readFileSync(Blast.getClientPath(true)),
     accessKey = process.env.SAUCE_PROTOBLAST_ACCESS_KEY || process.env.SAUCE_ACCESS_KEY;
 
 if (!username || !accessKey) {
-	pr('Could not find username or accesskey!'.bold.red);
+	pr('Could not find username or accesskey!');
 	process.exit();
 }
 
@@ -120,8 +120,8 @@ describe('Configuring browser:', function() {
 
 		options = Object.assign({}, desired);
 		options.name = 'protoblast';
-		options['record-video'] = false;
-		options['capture-html'] = true;
+		options['recordVideo'] = false;
+		options['captureHtml'] = true;
 
 		return browser.init(options).setAsyncScriptTimeout(30000);
 	});

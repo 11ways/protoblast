@@ -27,7 +27,8 @@
 		"istanbul"   : "^0.4.5",
 		"matcha"     : "skerit/matcha",
 		"mocha"      : "1.20.x",
-		"wd"         : "0.3.x"
+		"uglify-js"  : "3.2.0",
+		"wd"         : "1.4.1"
 	},
 	"engines": {
 		"node": ">=4.8"
