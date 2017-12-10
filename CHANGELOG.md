@@ -12,6 +12,7 @@
 * Remove the string compression code
 * `Array#max` and `Array#min` now also accept a path
 * Static methods are now also set on the `Bound` objects
+* Added `Object.parseDotNotationPath` to turn a path string into an array
 
 ## 0.4.0 (2017-10-12)
 
