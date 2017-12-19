@@ -14,6 +14,7 @@
 * Static methods are now also set on the `Bound` objects
 * Added `Object.parseDotNotationPath` to turn a path string into an array
 * Added `Array#modifyByPath(path, fnc)`
+* Use `Buffer.byteLength` to calculate `Content-Length` headers
 
 ## 0.4.0 (2017-10-12)
 
