@@ -15,6 +15,7 @@
 * Added `Object.parseDotNotationPath` to turn a path string into an array
 * Added `Array#modifyByPath(path, fnc)`
 * Use `Buffer.byteLength` to calculate `Content-Length` headers
+* The `Pledge` returned by `Function.parallel` and `Function.series` will now be resolved with the return value of the callback, if any
 
 ## 0.4.0 (2017-10-12)
 
