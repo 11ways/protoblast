@@ -1,4 +1,4 @@
-## 0.4.1 (WIP)
+## 0.4.1 (2018-01-05)
 
 * Certain characters in URL queries will no longer be encoded, like brackets
 * `String#encodeHTML` now correctly encodes characters with 2 codepoints (emojis)

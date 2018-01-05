@@ -1,4 +1,4 @@
-# ![protoblast](https://protoblast.develry.be/media/static/protoblast-small.svg?width=30) Protoblast
+# ![protoblast](https://protoblast.develry.be/media/static/protoblast-small.png?width=30) Protoblast
 
 [![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
 [![Build Status](https://travis-ci.org/skerit/protoblast.svg?branch=master)](https://travis-ci.org/skerit/protoblast)
@@ -13,7 +13,7 @@ or leave the native objects alone and use bound methods.
 
 ## Documentation
 
-For more information and API documentation, visit the [Protoblast homepage](http://protoblast.develry.be).
+For more information and API documentation, visit the [Protoblast homepage](https://protoblast.develry.be).
 
 ## Getting Started
 
@@ -28,11 +28,11 @@ Ideal for internal or big projects.
 // Require protoblast and execute the returned function
 require('protoblast')();
 
-var arr = [5,9,3,4,1];
+var str = 'Get what we want';
 
-// New native methods, like flashsort, will have been added
-arr.flashsort();
-// [1, 3, 4, 5, 9]
+// New native methods, like after, will have been added
+str.after('what');
+// ' we want'
 ```
 
 ### Use bound functions
@@ -47,9 +47,9 @@ modules.
 // Require protoblast and execute the returned function with `false` as parameter
 var Blast = require('protoblast')(false);
 
-var arr = [5,9,3,4,1];
+var str = 'Get what we want';
 
 // Native objects will have been left alone, they can be accessed like this:
-Blast.Bound.Array.flashsort(arr);
-// [1, 3, 4, 5, 9]
+Blast.Bound.String.after(str, 'what');
+// ' we want'
 ```
