@@ -1,3 +1,7 @@
+## 0.4.2 (WIP)
+
+* `JSON.dry` will no longer add `namespace` or `dry_class` properties if `toDry` has already set them
+
 ## 0.4.1 (2018-01-05)
 
 * Certain characters in URL queries will no longer be encoded, like brackets
