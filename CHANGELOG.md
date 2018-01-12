@@ -4,6 +4,7 @@
 * `JSON.undry` will now accept a dried object that has been parsed using regular `JSON.parse` (this is faster than re-stringifying & undrying it)
 * Fixed the space problem in `JSON.dry`
 * `Object.walk` will now return an object with all the seen objects and a weakmap containing the seen count
+* `Object.walk` can now be called without a task function
 
 ## 0.4.1 (2018-01-05)
 
