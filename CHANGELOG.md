@@ -3,6 +3,7 @@
 * `JSON.dry` will no longer add `namespace` or `dry_class` properties if `toDry` has already set them
 * `JSON.undry` will now accept a dried object that has been parsed using regular `JSON.parse` (this is faster than re-stringifying & undrying it)
 * Fixed the space problem in `JSON.dry`
+* `Object.walk` will now return an object with all the seen objects and a weakmap containing the seen count
 
 ## 0.4.1 (2018-01-05)
 
