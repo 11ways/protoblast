@@ -6,6 +6,7 @@
 * `Object.walk` will now return an object with all the seen objects and a weakmap containing the seen count
 * `Object.walk` can now be called without a task function
 * If DRY references to a value has a shorter path, use that in the future
+* From now on, `json-dry` is its own package once again
 
 ## 0.4.1 (2018-01-05)
 

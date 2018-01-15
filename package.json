@@ -11,6 +11,9 @@
 		"client",
 		"browser"
 	],
+	"dependencies": {
+		"json-dry"  : "~1.0.0"
+	},
 	"repository": "skerit/protoblast",
 	"homepage": "https://protoblast.develry.be/",
 	"license": "MIT",
