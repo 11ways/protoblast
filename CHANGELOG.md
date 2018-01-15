@@ -1,4 +1,4 @@
-## 0.4.2 (WIP)
+## 0.4.2 (2018-01-15)
 
 * `JSON.dry` will no longer add `namespace` or `dry_class` properties if `toDry` has already set them
 * `JSON.undry` will now accept a dried object that has been parsed using regular `JSON.parse` (this is faster than re-stringifying & undrying it)
