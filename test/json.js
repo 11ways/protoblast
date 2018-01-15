@@ -203,6 +203,36 @@ describe('JSON', function() {
 		});
 	});
 
+	describe('.toDryObject()', function() {
+		it('should create an object', function() {
+
+			var original,
+			    dry_obj,
+			    result,
+			    entry;
+
+			original = {
+				date   : new Date(),
+				nr     : 1,
+				arr    : [null],
+				regex  : /test/i,
+				deck   : new Deck()
+			};
+
+			entry = {
+				a: 1
+			};
+
+			original.deck.set('entry', entry);
+
+			dry_obj = JSON.toDryObject(original);
+			result = JSON.undry(dry_obj);
+
+			assert.notEqual(dry_obj.deck.value.dict.entry.value,     entry, 'Same references detected!');
+			assert.equal(Blast.Bound.Object.alike(original, result), true,  'The parsed object should be similar to the original');
+		});
+	});
+
 	describe('.undry()', function() {
 
 		it('should parse circular references', function() {
