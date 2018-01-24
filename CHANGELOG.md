@@ -1,3 +1,7 @@
+## 0.4.3 (WIP)
+
+* Use `Promise.resolve()` based solution for browser-side `nextTick` implementation
+
 ## 0.4.2 (2018-01-15)
 
 * `JSON.dry` will no longer add `namespace` or `dry_class` properties if `toDry` has already set them
