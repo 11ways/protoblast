@@ -1,6 +1,7 @@
 ## 0.4.3 (WIP)
 
-* Use `Promise.resolve()` based solution for browser-side `nextTick` implementation
+* Use `Promise.resolve()` based solution for browser-side `nextTick` implementation (50x faster than using an `Image` error)
+* Add support for using Protoblast in a WebWorker
 
 ## 0.4.2 (2018-01-15)
 
