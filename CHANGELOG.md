@@ -1,8 +1,10 @@
-## 0.4.3 (WIP)
+## 0.5.0 (WIP)
 
 * Use `Promise.resolve()` based solution for browser-side `nextTick` implementation (50x faster than using an `Image` error)
 * Add support for using Protoblast in a WebWorker
 * `Object.divide` will return arrays unchanged
+* Added `RegExp.isRegExp`
+* `Object.setPath` will now no longer replace functions with objects
 
 ## 0.4.2 (2018-01-15)
 
