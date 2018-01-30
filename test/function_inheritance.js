@@ -519,5 +519,19 @@ describe('Inheritance', function() {
 				done();
 			}, 20)
 		});
+
+		it('should inherit the class from the correct namespace', function(done) {
+
+			var FakeBehaviour = Function.inherits(function Behaviour() {});
+			var Descendant = Function.inherits('UnitTesting.Behaviour', function Descendant() {});
+			var RealBehaviour = Function.inherits('Informer', 'UnitTesting', function Behaviour() {});
+			var Fake = Function.inherits('Behaviour', function Fake() {});
+
+			setTimeout(function() {
+				assert.equal(Descendant.super, RealBehaviour);
+				assert.equal(Fake.super, FakeBehaviour);
+				done();
+			}, 20);
+		});
 	});
 });
