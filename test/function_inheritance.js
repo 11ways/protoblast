@@ -401,7 +401,7 @@ describe('Inheritance', function() {
 
 			Blast.loaded = function(fnc) {
 				tasks.push(fnc);
-			}
+			};
 
 			// This is the main class
 			DTOne = Blast.Bound.Function.inherits(function DTOne() {});
@@ -444,70 +444,38 @@ describe('Inheritance', function() {
 			// This will check if everything is happening in the correct order
 			function checker() {
 
-				if (i == 1) {
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-				} else if (i == 2) {
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
+				// This should always be checked
+				assert.equal(DTOne.first_time,  0);
+				assert.equal(DTOne.second_time, undefined);
+				assert.equal(DTOne.third_time,  undefined);
+				assert.equal(DTOne.fourth_time, undefined);
 
+				if (i == 1) {
+					// Already checked
+				} else if (i == 2) {
 					assert.equal(DTTwo.first_time, 1);
 				} else if (i == 3) {
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-
 					assert.equal(DTTwo.first_time, 1);
 					assert.equal(DTTwo.second_time, 2);
 				} else if (i == 4) {
-
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-
 					assert.equal(DTTwo.first_time, 1);
 					assert.equal(DTTwo.second_time, 2);
 
 					assert.equal(DTThree.first_time, 3);
 				} else if (i == 5) {
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-
 					assert.equal(DTTwo.first_time, 1);
 					assert.equal(DTTwo.second_time, 2);
 
 					assert.equal(DTThree.first_time, 3);
 					assert.equal(DTThree.second_time, 4);
-					
 				} else if (i == 6) {
-
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-
 					assert.equal(DTTwo.first_time, 1);
 					assert.equal(DTTwo.second_time, 2);
 
 					assert.equal(DTThree.first_time, 3);
 					assert.equal(DTThree.second_time, 4);
 					assert.equal(DTThree.third_time, 5);
-					
 				} else if (i == 7) {
-
-					assert.equal(DTOne.first_time, 0);
-					assert.equal(DTOne.second_time, undefined);
-					assert.equal(DTOne.third_time, undefined);
-					assert.equal(DTOne.fourth_time, undefined);
-
 					assert.equal(DTTwo.first_time, 1);
 					assert.equal(DTTwo.second_time, 2);
 
