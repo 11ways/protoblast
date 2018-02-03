@@ -7,6 +7,7 @@
 * `Object.setPath` will now no longer replace functions with objects
 * Class namespaces are now functions themselves, will return the class of the same name in the namespace if called
 * When inheriting a class that does not yet exist, the static properties of the main namespace class will already be added to the new constructor
+* Make sure constitutors added during the `doLoaded` phase are executed
 
 ## 0.4.2 (2018-01-15)
 

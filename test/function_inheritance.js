@@ -99,6 +99,51 @@ describe('Inheritance', function() {
 			assert.equal('Deep', instance.deepMethod());
 			assert.equal('TopMidDeep', instance.concatMethod());
 		});
+
+		it('should inherit static properties from grandparent if parent is not yet available', function(done) {
+
+			var Grandparent = Blast.Bound.Function.inherits('Informer', 'Grandparent', function Grandparent() {});
+
+			Grandparent.setStatic(function returnOne() {
+				return 1;
+			});
+
+			// Inherit parent, which doesn't exist yet
+			var Grandchild = Blast.Bound.Function.inherits('Grandparent.Parent', function Grandchild() {});
+
+			// Even though Parent doesn't exist, it should have the returnOne from the grandparent
+			assert.equal(Grandchild.returnOne(), 1);
+
+			// Now create the parent
+			var Parent = Blast.Bound.Function.inherits('Grandparent', function Parent() {});
+
+			assert.equal(Parent.returnOne(), 1);
+
+			// Add a static method to that
+			Parent.setStatic(function returnTwo() {
+				return 2;
+			});
+
+			setTimeout(function() {
+				// The grandchild will only have returnTwo on the next tick
+				assert.equal(Grandchild.returnTwo(), 2);
+				done();
+			}, 20)
+		});
+
+		it('should inherit the class from the correct namespace', function(done) {
+
+			var FakeBehaviour = Function.inherits(function Behaviour() {});
+			var Descendant = Function.inherits('UnitTesting.Behaviour', function Descendant() {});
+			var RealBehaviour = Function.inherits('Informer', 'UnitTesting', function Behaviour() {});
+			var Fake = Function.inherits('Behaviour', function Fake() {});
+
+			setTimeout(function() {
+				assert.equal(Descendant.super, RealBehaviour);
+				assert.equal(Fake.super, FakeBehaviour);
+				done();
+			}, 20);
+		});
 	});
 
 	describe('#setMethod(key, fnc)', function() {
@@ -489,49 +534,79 @@ describe('Inheritance', function() {
 			}
 		});
 
-		it('should inherit static properties from grandparent if parent is not yet available', function(done) {
+		it('should execture constitutors added during constitution', function(done) {
 
-			var Grandparent = Blast.Bound.Function.inherits('Informer', 'Grandparent', function Grandparent() {});
+			var CTM = Blast.Bound.Function.inherits(function ConstituteTestMore() {}),
+			    count = 0;
 
-			Grandparent.setStatic(function returnOne() {
-				return 1;
+			CTM.constitute(function first() {
+				count++;
+
+				this.constitute(function second() {
+					count++;
+					assert.equal(count, 2);
+					setTimeout(moreConstitutors, 5);
+				});
 			});
 
-			// Inherit parent, which doesn't exist yet
-			var Grandchild = Blast.Bound.Function.inherits('Grandparent.Parent', function Grandchild() {});
-
-			// Even though Parent doesn't exist, it should have the returnOne from the grandparent
-			assert.equal(Grandchild.returnOne(), 1);
-
-			// Now create the parent
-			var Parent = Blast.Bound.Function.inherits('Grandparent', function Parent() {});
-
-			assert.equal(Parent.returnOne(), 1);
-
-			// Add a static method to that
-			Parent.setStatic(function returnTwo() {
-				return 2;
-			});
-
-			setTimeout(function() {
-				// The grandchild will only have returnTwo on the next tick
-				assert.equal(Grandchild.returnTwo(), 2);
-				done();
-			}, 20)
+			function moreConstitutors() {
+				CTM.constitute(function third() {
+					count++;
+					assert.equal(count, 3);
+					done();
+				});
+			}
 		});
 
-		it('should inherit the class from the correct namespace', function(done) {
+		it('should execute constitutors added before parent was available', function(done) {
 
-			var FakeBehaviour = Function.inherits(function Behaviour() {});
-			var Descendant = Function.inherits('UnitTesting.Behaviour', function Descendant() {});
-			var RealBehaviour = Function.inherits('Informer', 'UnitTesting', function Behaviour() {});
-			var Fake = Function.inherits('Behaviour', function Fake() {});
+			var GrandParent,
+			    Parent,
+			    Child,
+			    last,
+			    count = 0;
 
-			setTimeout(function() {
-				assert.equal(Descendant.super, RealBehaviour);
-				assert.equal(Fake.super, FakeBehaviour);
-				done();
-			}, 20);
+			GrandParent = Function.inherits(null, 'UnitTesting.Gamma', function Gamma() {});
+
+			GrandParent.constitute(function() {
+				last = 'GrandParent';
+				count++;
+				checker();
+			});
+
+			Child = Function.inherits('UnitTesting.Gamma.Parent', function Child() {});
+
+			Child.constitute(function() {
+				last = 'Child';
+				count++;
+				checker();
+			});
+
+			Parent = Function.inherits('UnitTesting.Gamma', function Parent() {});
+
+			Parent.constitute(function() {
+				last = 'Parent';
+				count++;
+				checker();
+			});
+
+			function checker() {
+
+				if (count == 1) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 2) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 3) {
+					assert.equal(last, 'Parent');
+				} else if (count == 4) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 5) {
+					assert.equal(last, 'Parent');
+				} else if (count == 6) {
+					assert.equal(last, 'Child');
+					done();
+				}
+			}
 		});
 	});
 });
