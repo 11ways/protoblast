@@ -9,6 +9,7 @@
 * When inheriting a class that does not yet exist, the static properties of the main namespace class will already be added to the new constructor
 * Make sure constitutors added during the `doLoaded` phase are executed
 * Add `Pledge#handleCallback` which will handle old-style callbacks
+* Added some more NW.js fixes
 
 ## 0.4.2 (2018-01-15)
 
