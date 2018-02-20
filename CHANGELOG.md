@@ -1,6 +1,9 @@
 ## 0.5.1 (WIP)
 
 * `Function.regulate` will throw an error if no function is given
+* `Blast.require`'d files will now be added to the client script
+* All files required by Blast are now loaded using `"use strict";`
+* Fixed many strict errors
 
 ## 0.5.0 (2018-02-17)
 
