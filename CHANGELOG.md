@@ -4,6 +4,7 @@
 * `Blast.require`'d files will now be added to the client script
 * All files required by Blast are now loaded using `"use strict";`
 * Fixed many strict errors
+* Setting `module.exports` in a Blast file function will have the expected result (when using `Blast.require`)
 
 ## 0.5.0 (2018-02-17)
 
