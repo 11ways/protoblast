@@ -5,6 +5,7 @@
 * All files required by Blast are now loaded using `"use strict";`
 * Fixed many strict errors
 * Setting `module.exports` in a Blast file function will have the expected result (when using `Blast.require`)
+* A `Pledge` will now throw an `Error` if there are no rejection listeners for it
 
 ## 0.5.0 (2018-02-17)
 
