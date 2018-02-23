@@ -7,6 +7,7 @@
 * Setting `module.exports` in a Blast file function will have the expected result (when using `Blast.require`)
 * A `Pledge` will now throw an `Error` if there are no rejection listeners for it
 * Added `Pledge#silentReject` which won't throw an `Error` in case there are no rejection listeners
+* Add context setting as the second parameter to `Blast.nextTick` and `Blast.setImmediate`
 
 ## 0.5.0 (2018-02-17)
 
