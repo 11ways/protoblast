@@ -1,0 +1,2 @@
+ignore:
+  - "lib/weakmap.js"  # ignore weakmap polyfill
