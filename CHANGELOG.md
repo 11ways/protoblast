@@ -1,4 +1,4 @@
-## 0.5.1 (WIP)
+## 0.5.1 (2018-02-24)
 
 * `Function.regulate` will throw an error if no function is given
 * `Blast.require`'d files will now be added to the client script
