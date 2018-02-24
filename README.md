@@ -2,7 +2,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
 [![Build Status](https://travis-ci.org/skerit/protoblast.svg?branch=master)](https://travis-ci.org/skerit/protoblast)
-[![Coverage Status](https://coveralls.io/repos/github/skerit/protoblast/badge.svg?branch=master)](https://coveralls.io/github/skerit/protoblast?branch=master)
+[![Coverage Status](https://codecov.io/gh/skerit/protoblast/branch/master/graph/badge.svg)](https://codecov.io/gh/skerit/protoblast)
 
 Extend native objects with helpful methods to speed up development,
 or leave the native objects alone and use bound methods.
