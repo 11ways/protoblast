@@ -1,11 +1,54 @@
-# ![protoblast](https://protoblast.develry.be/media/static/protoblast-small.png?width=30) Protoblast
+<h1 align="center">
+  <img src="https://protoblast.develry.be/media/static/protoblast-small.png?width=30" alt="Protoblast logo"/>
+  <b>Protoblast</b>
+</h1>
+<div align="center">
+  <!-- CI - TravisCI -->
+  <a href="https://travis-ci.org/skerit/protoblast">
+    <img src="https://travis-ci.org/skerit/protoblast.svg?branch=master" alt="Mac/Linux Build Status" />
+  </a>
 
-[![NPM version](http://img.shields.io/npm/v/protoblast.svg)](https://npmjs.org/package/protoblast) 
-[![Build Status](https://travis-ci.org/skerit/protoblast.svg?branch=master)](https://travis-ci.org/skerit/protoblast)
-[![Coverage Status](https://codecov.io/gh/skerit/protoblast/branch/master/graph/badge.svg)](https://codecov.io/gh/skerit/protoblast)
+  <!-- CI - AppVeyor -->
+  <a href="https://ci.appveyor.com/project/skerit/protoblast">
+    <img src="https://img.shields.io/appveyor/ci/skerit/protoblast/master.svg?label=Windows" alt="Windows Build status" />
+  </a>
 
-Extend native objects with helpful methods to speed up development,
-or leave the native objects alone and use bound methods.
+  <!-- Coverage - Codecov -->
+  <a href="https://codecov.io/gh/skerit/protoblast">
+    <img src="https://img.shields.io/codecov/c/github/skerit/protoblast/master.svg" alt="Codecov Coverage report" />
+  </a>
+
+  <!-- DM - Snyk -->
+  <a href="https://snyk.io/test/github/skerit/protoblast?targetFile=package.json">
+    <img src="https://snyk.io/test/github/skerit/protoblast/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" />
+  </a>
+
+  <!-- DM - David -->
+  <a href="https://david-dm.org/skerit/protoblast">
+    <img src="https://david-dm.org/skerit/protoblast/status.svg" alt="Dependency Status" />
+  </a>
+</div>
+
+<div align="center">
+  <!-- Version - npm -->
+  <a href="https://www.npmjs.com/package/protoblast">
+    <img src="https://img.shields.io/npm/v/protoblast.svg" alt="Latest version on npm" />
+  </a>
+
+  <!-- License - MIT -->
+  <a href="https://github.com/skerit/protoblast#license">
+    <img src="https://img.shields.io/github/license/skerit/protoblast.svg" alt="Project license" />
+  </a>
+</div>
+<br>
+<div align="center">
+  Extend native objects with helpful methods to speed up development
+</div>
+<div align="center">
+  <sub>
+    Coded with ❤️ by <a href="#authors">Jelle De Loecker</a>.
+  </sub>
+</div>
 
 ## Installation
 
