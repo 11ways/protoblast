@@ -3,6 +3,7 @@
 * Fix prototype pollution in `Object.merge`
 * When a `next` method of `Function.parallel` or `Function.series` is called multiple times an error will be thrown
 * `Informer#setCacheMethod` will no longer try to execute a callback if it's not defined
+* If the argument for `Pledge#handleCallback` is truthy but not a function, an error will be thrown
 
 ## 0.5.1 (2018-02-24)
 
