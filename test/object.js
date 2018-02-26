@@ -467,6 +467,20 @@ describe('Object', function() {
 
 			assert.equal(true, target.a == date);
 		});
+
+		it('should protect against malicious payloads', function() {
+
+			var malicious_payload = '{"__proto__":{"oops":"It works !"}}',
+			    a = {};
+
+			// Before parsing anything oops is undefined
+			assert.equal(a.oops, undefined);
+
+			// Assign the malicious payload
+			Object.merge({}, JSON.parse(malicious_payload));
+
+			assert.equal(a.oops, undefined);
+		});
 	});
 
 	describe('.objectify(source, recursive, value)', function() {

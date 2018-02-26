@@ -1,3 +1,7 @@
+## 0.5.2 (WIP)
+
+* Fix prototype pollution in `Object.merge`
+
 ## 0.5.1 (2018-02-24)
 
 * `Function.regulate` will throw an error if no function is given
