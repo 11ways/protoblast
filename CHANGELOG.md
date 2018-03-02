@@ -1,4 +1,4 @@
-## 0.5.2 (WIP)
+## 0.5.2 (2018-03-02)
 
 * Fix prototype pollution in `Object.merge`
 * When a `next` method of `Function.parallel` or `Function.series` is called multiple times an error will be thrown
