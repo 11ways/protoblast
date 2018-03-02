@@ -6,6 +6,7 @@
 * If the argument for `Pledge#handleCallback` is truthy but not a function, an error will be thrown
 * Throw an error when a `Pledge` is resolved with itself
 * Fix the way `Pledge` handles rejections
+* Add `Pledge#addProgressPart(parts)` and `Pledge#reportProgressPart(parts)` to facility progress reporting
 
 ## 0.5.1 (2018-02-24)
 
