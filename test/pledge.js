@@ -51,6 +51,35 @@ describe('Pledge', function() {
 
 			pledge.resolve();
 		});
+	});
 
+	describe('#handleCallback(callback)', function() {
+
+		it('should call the callback when resolving or rejecting', function() {
+			var pledge = new Blast.Classes.Pledge();
+
+			pledge.handleCallback(function done(err, result) {
+				assert.equal(err.message, 'TEST');
+			});
+
+			pledge.reject(new Error('TEST'));
+
+			var pledge_two = new Blast.Classes.Pledge();
+
+			pledge_two.handleCallback(function done(err, result) {
+				assert.equal(result, 'result');
+			});
+
+			pledge_two.resolve('result');
+		});
+
+		it('should ignore falsy values', function() {
+			var pledge = new Blast.Classes.Pledge();
+
+			pledge.handleCallback(null);
+			pledge.handleCallback(false);
+			pledge.handleCallback(0);
+			pledge.handleCallback('');
+		});
 	});
 });
