@@ -1,3 +1,8 @@
+## 0.5.3 (WIP)
+
+* Fix redefining read-ony `URL.prototype` in NW.js & browsers
+* Fix setting undefined `clearImmediate` function
+
 ## 0.5.2 (2018-03-02)
 
 * Fix prototype pollution in `Object.merge`
