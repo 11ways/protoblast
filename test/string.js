@@ -493,4 +493,36 @@ describe('String', function() {
 		});
 	});
 
+	describe('#repeat(count)', function() {
+		it('should repeat the string `count` times', function() {
+			assert.strictEqual('', 'test'.repeat());
+			assert.strictEqual('', 'test'.repeat(0));
+			assert.strictEqual('testtesttest', 'test'.repeat(3));
+		});
+
+		it('should throw an error when the context is null', function() {
+			assert.throws(function() {
+				String.prototype.repeat.call(null, 4);
+			});
+		});
+
+		it('should throw an error when the count is negative', function() {
+			assert.throws(function() {
+				'bla'.repeat(-5);
+			});
+		});
+
+		it('should throw an error when the count is infinity', function() {
+			assert.throws(function() {
+				'bla'.repeat(Infinity);
+			});
+		});
+
+		it('should throw an error when the resulting string would be too big', function() {
+			assert.throws(function() {
+				'bla'.repeat(1 << 28);
+			});
+		});
+	});
+
 });
