@@ -525,4 +525,48 @@ describe('String', function() {
 		});
 	});
 
+	describe('#padStart(target_length, pad_string)', function() {
+		it('should do nothing if the string is long enough already', function() {
+			assert.equal('abc'.padStart(3, '0'), 'abc');
+		});
+
+		it('should pad the string at the start', function() {
+			assert.equal('abc'.padStart(6, '123'), '123abc');
+		});
+
+		it('should pad only part of the string at the start', function() {
+			assert.equal('abc'.padStart(6, '123456'), '123abc');
+		});
+
+		it('should repeat the string to pad', function() {
+			assert.equal('abc'.padStart(6, '0'), '000abc');
+		});
+
+		it('should convert the pad_string to a string', function() {
+			assert.equal('abc'.padStart(6, 1), '111abc');
+		});
+	});
+
+	describe('#padEnd(target_length, pad_string)', function() {
+		it('should do nothing if the string is long enough already', function() {
+			assert.equal('abc'.padEnd(3, '0'), 'abc');
+		});
+
+		it('should pad the string at the start', function() {
+			assert.equal('abc'.padEnd(6, '123'), 'abc123');
+		});
+
+		it('should pad only part of the string at the start', function() {
+			assert.equal('abc'.padEnd(6, '123456'), 'abc123');
+		});
+
+		it('should repeat the string to pad', function() {
+			assert.equal('abc'.padEnd(6, '0'), 'abc000');
+		});
+
+		it('should convert the pad_string to a string', function() {
+			assert.equal('abc'.padEnd(6, 1), 'abc111');
+		});
+	});
+
 });

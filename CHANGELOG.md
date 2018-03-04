@@ -3,6 +3,7 @@
 * Fix redefining read-ony `URL.prototype` in NW.js & browsers
 * Fix setting undefined `clearImmediate` function
 * Added `String#repeat(count)` polyfill
+* Add `String#padStart` and `String#padEnd` polyfills
 
 ## 0.5.2 (2018-03-02)
 
