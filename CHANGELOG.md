@@ -4,6 +4,7 @@
 * Fix setting undefined `clearImmediate` function
 * Added `String#repeat(count)` polyfill
 * Add `String#padStart` and `String#padEnd` polyfills
+* More already-loaded-version workarounds
 
 ## 0.5.2 (2018-03-02)
 
