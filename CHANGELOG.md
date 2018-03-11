@@ -1,4 +1,4 @@
-## 0.5.3 (WIP)
+## 0.5.3 (2018-03-11)
 
 * Fix redefining read-ony `URL.prototype` in NW.js & browsers
 * Fix setting undefined `clearImmediate` function
