@@ -592,16 +592,16 @@ describe('Object', function() {
 
 	describe('.first()', function() {
 		it('should return the first value it sees in the object', function() {
-			assert.equal(47, Object.first({a: 47}));
+			assert.equal(Object.first({a: 47}), 47);
 		});
 
 		it('should return index 0 of an array', function() {
-			assert.equal(55, Object.first([55, 23]));
+			assert.equal(Object.first([55, 23]), 55);
 		});
 
-		it('should return the object itself if it is empty', function() {
-			var a = {};
-			assert.equal(a, Object.first(a));
+		it('should return undefined if the object is empty', function() {
+			assert.equal(Object.first({}), undefined);
+			assert.equal(Object.first([]), undefined);
 		})
 	});
 
