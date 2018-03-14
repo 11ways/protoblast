@@ -1,3 +1,7 @@
+## 0.5.4 (WIP)
+
+* Add `overflow` task to `Function.regulate` which will receive extra calls
+
 ## 0.5.3 (2018-03-11)
 
 * Fix redefining read-ony `URL.prototype` in NW.js & browsers
