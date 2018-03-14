@@ -554,7 +554,7 @@ describe('Function Flow', function() {
 		});
 	});
 
-	describe('.forEach(data, task, callback)', function(done) {
+	describe('.forEach(data, task, callback)', function() {
 		it('should handle arrays', function(done) {
 
 			var arr = [{nr: 1}, {nr: 2}, {nr: 3}],
@@ -617,6 +617,104 @@ describe('Function Flow', function() {
 				assert.equal(!!err, true);
 				setTimeout(done, 10);
 			});
+		});
+	});
+
+	describe('.regulate(fnc, amount, overflow)', function() {
+
+		it('should run the application only once when only a function is given', function() {
+
+			var once,
+			    count = 0;
+
+			var once = Function.regulate(function() {
+				count++;
+			});
+
+			once();
+			assert.equal(count, 1);
+
+			once();
+			assert.equal(count, 1, 'Regulate should have stopped second execution');
+		});
+
+		it('should run the application only the amount of given times', function() {
+
+			var thrice,
+			    count = 0;
+
+			var thrice = Function.regulate(function() {
+				count++;
+			}, 3);
+
+			thrice();
+			assert.equal(count, 1);
+
+			thrice();
+			assert.equal(count, 2);
+
+			thrice();
+			assert.equal(count, 3);
+
+			thrice();
+			assert.equal(count, 3, 'Regulate should have stopped after the third execution');
+		});
+
+		it('should call the overflow function if runing over the maximum amount of times', function() {
+
+			var once,
+			    count = 0,
+			    other = 0;
+
+			var once = Function.regulate(function() {
+				count++;
+			}, function() {
+				other++;
+			});
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 0);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 1);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 2);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 3);
+		});
+
+		it('should pass the extra times it has been called to the overflow function', function() {
+			var once,
+			    count = 0,
+			    other = 0;
+
+			var once = Function.regulate(function() {
+				count++;
+			}, function(extra_times) {
+				other = extra_times;
+			});
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 0);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 1);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 2);
+
+			once();
+			assert.equal(count, 1);
+			assert.equal(other, 3);
 		});
 	});
 });
