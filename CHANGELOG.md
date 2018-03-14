@@ -1,7 +1,8 @@
-## 0.5.4 (WIP)
+## 0.5.4 (2018-03-14)
 
 * Add `overflow` task to `Function.regulate` which will receive extra calls
 * `Object.first` will return `undefined` if it is given an empty object
+* Fix benchmark coverage tests
 
 ## 0.5.3 (2018-03-11)
 
