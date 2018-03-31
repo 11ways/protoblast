@@ -1,3 +1,7 @@
+## 0.5.5 (WIP)
+
+* Fix some reserved words
+
 ## 0.5.4 (2018-03-14)
 
 * Add `overflow` task to `Function.regulate` which will receive extra calls
