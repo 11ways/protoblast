@@ -1,6 +1,7 @@
 ## 0.5.5 (WIP)
 
 * Fix some reserved words
+* Fix `URL#parse` not working on node v10
 
 ## 0.5.4 (2018-03-14)
 
