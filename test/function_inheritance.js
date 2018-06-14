@@ -13,6 +13,37 @@ describe('Inheritance', function() {
 		};
 	});
 
+	describe('.getNamespace(namespace)', function() {
+		it('should return a function', function() {
+
+			var ns = Function.getNamespace('My.New.Namespace.Roxymoron');
+
+			assert.equal(typeof ns, 'function');
+		});
+
+		it('should return a function that throws an error when the class does not exist yet', function() {
+			var ns = Function.getNamespace('My.New.Namespace.Roxymoron');
+
+			assert.throws(function() {
+				ns();
+			}, /Could not find class "Roxymoron" in namespace "My\.New\.Namespace\.Roxymoron"/);
+		});
+
+		it('should return a function that creates an instance of the class of the same name', function() {
+
+			var ns = Function.getNamespace('Test.Existing.Superclass');
+
+			Function.inherits('Informer', 'Test.Existing.Superclass', function Superclass() {
+				this.test = 'OK!';
+			});
+
+			var instance = ns();
+
+			assert.equal(instance.test, 'OK!');
+
+		});
+	});
+
 	describe('.inherits(parent, namespace, constructor)', function() {
 		it('should inherit from multiple parents', function() {
 
