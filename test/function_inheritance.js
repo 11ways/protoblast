@@ -640,4 +640,23 @@ describe('Inheritance', function() {
 			}
 		});
 	});
+
+	describe('.prepareProperty(target, key, getter, enumerable)', function() {
+
+		it('should define a property that gets a value on first get', function() {
+
+			var Test = Function.inherits('Informer', 'Bla.Test', function Test() {
+
+			});
+
+			Test.prepareProperty(function myval() {
+				return Date.now();
+			});
+
+			var instance = new Test(),
+			    init = instance.myval;
+
+			assert.equal(instance.myval, init);
+		});
+	});
 });
