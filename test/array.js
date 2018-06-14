@@ -840,6 +840,72 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#modifyByPath(path, fnc)', function() {
+
+		it('find the values at the given path and execute the function', function() {
+
+			var arr = [],
+			    i;
+
+			for (i = 0; i < 10; i++) {
+				arr.push({
+					deep  : {
+						value : i
+					}
+				});
+
+				arr.push({
+					filler: i
+				});
+			}
+
+			arr.modifyByPath('deep.value', function(value, index) {
+				return index * 2;
+			});
+
+			var entry;
+
+			for (i = 0; i < arr.length; i++) {
+				entry = arr[i];
+
+				if (entry.filler != null) {
+					continue;
+				}
+
+				assert.equal(entry.deep.value, i*2);
+			}
+		});
+
+		it('should do nothing if nothing was found', function() {
+
+			var arr = [{test: 1}],
+			    arr2 = [{test: 1}];
+
+			arr.modifyByPath('test.deep.not.existing', function(value, index) {
+
+			});
+
+			assert.equal(JSON.stringify(arr), JSON.stringify(arr2));
+		});
+
+		it('should do nothing if an invalid path is given', function() {
+			var arr = [];
+
+			arr.modifyByPath('', arr);
+		});
+
+		it('should not modify anything if the return value was undefined', function() {
+			var arr = [{test: 1}],
+			    arr2 = [{test: 1}];
+
+			arr.modifyByPath('test', function(value, index) {
+				return;
+			});
+
+			assert.equal(JSON.stringify(arr), JSON.stringify(arr2));
+		});
+	});
+
 	describe('#shuffle', function() {
 		it('should randomly shuffle the array', function() {
 
