@@ -2,6 +2,8 @@
 
 * Fix some reserved words
 * Fix `URL#parse` not working on node v10
+* Change name of the URL class to RURL, also store under Blast.Classes.URL, because the new URL class is crap anyway.
+* `Function.regulate` returned wrappers now have a `call_count` property
 
 ## 0.5.4 (2018-03-14)
 
