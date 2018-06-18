@@ -1,7 +1,7 @@
 var assert = require('assert'),
     Blast;
 
-describe('URL', function() {
+describe('RURL', function() {
 
 	before(function() {
 		Blast  = require('../index.js')();
@@ -10,8 +10,8 @@ describe('URL', function() {
 	describe('.parse(str)', function() {
 		it('should create a new URL object', function() {
 
-			var simple = URL.parse('/test'),
-			    hard = URL.parse('http://www.develry.be:8080/page?page=1&filter=test');
+			var simple = RURL.parse('/test'),
+			    hard = RURL.parse('http://www.develry.be:8080/page?page=1&filter=test');
 
 			assert.equal(simple.pathname, '/test');
 
@@ -27,9 +27,9 @@ describe('URL', function() {
 
 	describe('#clone()', function() {
 
-		it('should clone and return a new URL object', function() {
+		it('should clone and return a new RURL object', function() {
 
-			var ori = URL.parse('http://www.develry.be/test'),
+			var ori = RURL.parse('http://www.develry.be/test'),
 			    clone = ori.clone();
 
 			assert.equal(ori+'', 'http://www.develry.be/test');
@@ -51,7 +51,7 @@ describe('URL', function() {
 
 		it('should add the value to the url', function() {
 
-			var ori = URL.parse('http://www.develry.be');
+			var ori = RURL.parse('http://www.develry.be');
 
 			ori.addQuery('name', 'value');
 
@@ -60,7 +60,7 @@ describe('URL', function() {
 
 		it('should overwrite the value if it already exists', function() {
 
-			var ori = URL.parse('http://www.develry.be');
+			var ori = RURL.parse('http://www.develry.be');
 
 			ori.addQuery('name', 'value');
 			ori.addQuery('name', 'newvalue');
@@ -70,7 +70,7 @@ describe('URL', function() {
 
 		it('should add multiple values if it is an array', function() {
 
-			var ori = URL.parse('http://www.develry.be');
+			var ori = RURL.parse('http://www.develry.be');
 
 			ori.addQuery('name', ['one', 'two']);
 
@@ -79,7 +79,7 @@ describe('URL', function() {
 
 		it('should delete values when null is given', function() {
 
-			var ori = URL.parse('http://www.develry.be/?name=ok');
+			var ori = RURL.parse('http://www.develry.be/?name=ok');
 
 			ori.addQuery('name', null);
 			assert.equal(String(ori), 'http://www.develry.be/');
