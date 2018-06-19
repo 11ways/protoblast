@@ -22,6 +22,36 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('.resolve(value)', function() {
+		it('should return a pledge that gets resolved asynchronously', function(done) {
+
+			var pledge = Blast.Classes.Pledge.resolve('some_value');
+
+			assert.equal(pledge.state, 0);
+
+			pledge.then(function _done(value) {
+				assert.equal(value, 'some_value');
+				assert.equal(pledge.state, 1);
+				done();
+			});
+		});
+	});
+
+	describe('.reject(err)', function() {
+		it('should return a pledge that gets rejected asynchronously', function(done) {
+
+			var pledge = Blast.Classes.Pledge.reject(new Error('Bla'));
+
+			assert.equal(pledge.state, 0);
+
+			pledge.catch(function _done(err) {
+				assert.equal(err.constructor.name, 'Error');
+				assert.equal(pledge.state, 2);
+				done();
+			});
+		});
+	});
+
 	describe('#then(on_fulfilled, on_rejected)', function() {
 
 		it('should call the on_fulfilled function when it is resolved', function(done) {

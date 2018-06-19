@@ -1,4 +1,8 @@
-## 0.5.5 (WIP)
+## 0.5.6 (WIP)
+
+* Add `Pledge.resolve` and `Pledge.reject`
+
+## 0.5.5 (2018-06-18)
 
 * Fix some reserved words
 * Fix `URL#parse` not working on node v10
