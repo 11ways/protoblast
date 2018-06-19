@@ -3,11 +3,14 @@ var assert = require('assert'),
     Pledge;
 
 describe('Pledge', function() {
+	Blast  = require('../index.js')();
+	Pledge = Blast.Classes.Pledge;
+	this.timeout(400);
 
-	before(function() {
-		Blast  = require('../index.js')();
-		Pledge = Blast.Classes.Pledge;
-	});
+	// before(function() {
+	// 	Blast  = require('../index.js')();
+	// 	Pledge = Blast.Classes.Pledge;
+	// });
 
 	describe('.constructor(executor)', function() {
 
@@ -177,6 +180,92 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('.race', function () {
+		it('should race a single resolved promise', function (done) {
+			Pledge.race([Pledge.resolve('hello')]).then(function (x) {
+				assert.deepEqual(x, 'hello');
+				done();
+			});
+		});
+
+		it('should race a single rejected promise', function (done) {
+			Pledge.race([Pledge.reject('bye')]).then(function () {}, function (r) {
+				assert.deepEqual(r, 'bye');
+				done();
+			});
+		});
+
+		it('should race two resolved promises', function (done) {
+			Pledge.race([Pledge.resolve('hello'), Pledge.resolve('world')]).then(function (x) {
+				assert.deepEqual(x, 'hello');
+				done();
+			});
+		});
+
+		it('should race one delayed and one resolved promise', function (done) {
+			Pledge.race([new Promise(function (resolve) {
+				setTimeout(function () {
+					resolve('hello');
+				}, 50);
+			}), Pledge.resolve('world')]).then(function (x) {
+				assert.deepEqual(x, 'world');
+				done();
+			});
+		});
+
+		it('should race one delayed and one rejected promise', function (done) {
+			Pledge.race([new Pledge(function (resolve) {
+				setTimeout(function () {
+					resolve('hello');
+				}, 50);
+			}), Pledge.reject('bye')]).then(function () {}, function (x) {
+				assert.deepEqual(x, 'bye');
+				done();
+			});
+		});
+
+		it('should race two delayed promises', function (done) {
+			var race = Pledge.race([new Pledge(function (resolve) {
+				setTimeout(function () {
+					resolve('hello');
+				}, 100);
+			}), new Pledge(function (resolve) {
+				setTimeout(function () {
+					resolve('world');
+				}, 50);
+			})]);
+
+			race.then(function (x) {
+				assert.deepEqual(x, 'world');
+
+				race.then(function(x) {
+					assert.deepEqual(x, 'world');
+					done();
+				});
+			});
+		});
+	});
+
+	describe('#resolve(value)', function() {
+		it('should set the value', function(done) {
+
+			var pledge = new Pledge(),
+			    calls = 0;
+
+			pledge.then(function resolved(value) {
+				assert.equal(value, 47);
+
+				pledge.resolve(48);
+				pledge.then(function resolvedAgain(value) {
+					assert.equal(value, 47, 'Value changed after another resolve call');
+					done();
+				});
+			});
+
+			pledge.resolve(47);
+		});
+	});
+
 	describe('#then(on_fulfilled, on_rejected)', function() {
 
 		it('should call the on_fulfilled function when it is resolved', function(done) {
@@ -309,5 +398,33 @@ describe('Pledge', function() {
 			pledge.handleCallback(0);
 			pledge.handleCallback('');
 		});
+	});
+
+	return;
+
+	require('promises-aplus-tests').mocha({
+		resolved: function (value) {
+			return Pledge.resolve(value);
+		},
+		rejected: function (reason) {
+			return Pledge.reject(reason);
+		},
+		deferred: function () {
+			var resolver = null,
+			    rejector = null,
+			    pledge;
+
+			pledge = new Pledge(function (resolve, reject) {
+				resolver = resolve;
+				rejector = reject;
+			});
+
+			return {
+				promise : pledge,
+				resolve : resolver,
+				reject  : rejector
+			};
+		},
+		Promise: Pledge
 	});
 });
