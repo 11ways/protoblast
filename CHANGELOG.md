@@ -1,6 +1,7 @@
 ## 0.5.6 (WIP)
 
 * Add `Pledge.resolve` and `Pledge.reject`
+* `Function.parallel` and `Function.series` now accept an array of Pledges/Promises
 
 ## 0.5.5 (2018-06-18)
 
