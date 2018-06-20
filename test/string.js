@@ -342,13 +342,43 @@ describe('String', function() {
 		});
 	});
 
+	describe('#startsWithAny(str)', function() {
+		it('should return true if the main string starts with any of the given strings', function() {
+			assert.strictEqual(true, 'polkadot'.startsWithAny(['wrong', 'polka']));
+		});
+
+		it('should accept single strings', function() {
+			assert.strictEqual(true, 'polkadot'.startsWithAny('polk'));
+			assert.strictEqual(false, 'polkadot'.startsWithAny('something'));
+		});
+
+		it('should return false if the main string does not start with any of the given strings', function() {
+			assert.strictEqual(false, 'polkadot'.startsWith(['olka', 'somethingelse']));
+		});
+	});
+
 	describe('#endsWith(str)', function() {
 		it('should return true if the main string ends with the given string', function() {
 			assert.strictEqual(true, 'polkadot'.endsWith('dot'));
 		});
 
 		it('should return false if the main string does not end with the given string', function() {
-			assert.strictEqual(false, 'polkadot'.startsWith('somethingelse'));
+			assert.strictEqual(false, 'polkadot'.endsWith('somethingelse'));
+		});
+	});
+
+	describe('#endsWithAny(str)', function() {
+		it('should return true if the main string ends with any of the given strings', function() {
+			assert.strictEqual(true, 'polkadot'.endsWithAny(['wrong', 'dot']));
+		});
+
+		it('should accept single strings', function() {
+			assert.strictEqual(true, 'polkadot'.endsWithAny('dot'));
+			assert.strictEqual(false, 'polkadot'.endsWithAny('polk'));
+		});
+
+		it('should return false if the main string does not end with any of the given strings', function() {
+			assert.strictEqual(false, 'polkadot'.endsWithAny(['olka', 'somethingelse']));
 		});
 	});
 

@@ -5,6 +5,7 @@
 * Add `Pledge.all` support & some more rejection fixes
 * Add `Pledge.race` and make it so a Pledge's state can't change
 * Make `Pledge` class global (if allowed)
+* Add `String#startsWithAny` and `String#endsWithAny`
 
 ## 0.5.5 (2018-06-18)
 
