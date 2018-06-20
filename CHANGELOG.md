@@ -3,7 +3,8 @@
 * Add `Pledge.resolve` and `Pledge.reject`
 * `Function.parallel` and `Function.series` now accept an array of Pledges/Promises
 * Add `Pledge.all` support & some more rejection fixes
-* Add `Pledge.race` and make it so the state can't change
+* Add `Pledge.race` and make it so a Pledge's state can't change
+* Make `Pledge` class global (if allowed)
 
 ## 0.5.5 (2018-06-18)
 
