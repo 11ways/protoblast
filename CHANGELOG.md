@@ -1,3 +1,7 @@
+## 0.5.7 (WIP)
+
+* Update `RURL#href` everytime `RURL#addQuery` is called
+
 ## 0.5.6 (2018-06-20)
 
 * Add `Pledge.resolve` and `Pledge.reject`
