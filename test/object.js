@@ -4,7 +4,9 @@ var assert = require('assert'),
 describe('Object', function() {
 
 	before(function() {
-		Blast  = require('../index.js')();
+		Blast = require('../index.js');
+		Blast.unit_test = true;
+		Blast = Blast();
 	});
 
 	describe('.getPropertyDescriptor(target, key)', function() {
@@ -318,6 +320,34 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.values(obj)', function() {
+		it('should return all the values of an object in an array', function() {
+			var object1 = {
+				a: 'somestring',
+				b: 42,
+				c: false
+			};
+
+			var arr = Blast.Shims['Object.values'](object1);
+
+			assert.deepEqual(arr, ['somestring', 42, false]);
+		});
+	});
+
+	describe('.entries(obj)', function() {
+		it('should return all the key & values of an object in an array', function() {
+			var object1 = {
+				a: 'somestring',
+				b: 42,
+				c: false
+			};
+
+			var arr = Blast.Shims['Object.entries'](object1);
+
+			assert.deepEqual(arr, [['a', 'somestring'], ['b', 42], ['c', false]]);
+		});
+	});
+
 	describe('.path(obj, path)', function() {
 		it('should get the value of the given property path (as a string)', function() {
 
@@ -362,19 +392,6 @@ describe('Object', function() {
 
 			assert.equal(false, Object.isEmpty(obj));
 			assert.equal(true, Object.isEmpty({}));
-		});
-	});
-
-	describe('.values(obj, includePrototype)', function() {
-		it('should get an array of the object values', function() {
-
-			var obj = {
-				one: 1,
-				two: 2,
-				three: 3
-			};
-
-			assert.equal('[1,2,3]', JSON.stringify(Object.values(obj)));
 		});
 	});
 

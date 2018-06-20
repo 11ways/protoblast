@@ -27,7 +27,9 @@ describe('Blast()', function() {
 	var Blast;
 
 	it('should apply changes without throwing an error', function() {
-		Blast = require('../index.js')();
+		Blast = require('../index.js');
+		Blast.unit_test = true;
+		Blast = Blast();
 	});
 
 	it('should modify prototype when no parameter is given', function() {
