@@ -265,6 +265,12 @@ describe('Date', function() {
 			assert.equal(a.clone().add(2, 'days').toJSON(), '2014-11-17T12:49:29.382Z');
 			assert.equal(a.clone().add(3, 'days').toJSON(), '2014-11-18T12:49:29.382Z');
 		});
+
+		it('should accept adding duration strings', function() {
+			assert.equal(a.clone().add('1 second').toJSON(), '2014-11-15T12:49:30.382Z');
+			assert.equal(a.clone().add('1 minute').toJSON(), '2014-11-15T12:50:29.382Z');
+			assert.equal(a.clone().add('1 minute 5 seconds').toJSON(), '2014-11-15T12:50:34.382Z');
+		});
 	});
 
 	describe('#subtract(amount, unit)', function() {
@@ -288,6 +294,12 @@ describe('Date', function() {
 
 		it('should use 1 if an invalid string is given as amount', function() {
 			assert.equal(a.clone().subtract('wut', 'millisecond').toJSON(), '2014-11-15T12:49:29.381Z');
+		});
+
+		it('should accept subtracting duration strings', function() {
+			assert.equal(a.clone().subtract('1 second').toJSON(), '2014-11-15T12:49:28.382Z');
+			assert.equal(a.clone().subtract('1 minute').toJSON(), '2014-11-15T12:48:29.382Z');
+			assert.equal(a.clone().subtract('1 minute 5 seconds').toJSON(), '2014-11-15T12:48:24.382Z');
 		});
 	});
 
