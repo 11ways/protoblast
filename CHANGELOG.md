@@ -1,6 +1,7 @@
 ## 0.5.7 (WIP)
 
 * Update `RURL#href` everytime `RURL#addQuery` is called
+* Add `Date.parseDuration(str)` for getting a duration in ms
 
 ## 0.5.6 (2018-06-20)
 

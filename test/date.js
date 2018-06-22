@@ -23,7 +23,31 @@ describe('Date', function() {
 		});
 	});
 
-	describe('.difference(unit, start, end, startOfUnit', function() {
+	describe('.parseDuration(str)', function() {
+		it('should parse duration strings and return number of ms', function() {
+
+			assert.equal(Date.parseDuration('1 ms'), 1);
+			assert.equal(Date.parseDuration('1 s'), 1000);
+			assert.equal(Date.parseDuration('1 sec'), 1000);
+			assert.equal(Date.parseDuration('1 second'), 1000);
+			assert.equal(Date.parseDuration('1 seconds'), 1000);
+
+			assert.equal(Date.parseDuration('5 seconds'), 5000);
+
+			assert.equal(Date.parseDuration('20 minutes'), 1200000);
+		});
+
+		it('should add all durations together', function() {
+
+			assert.equal(Date.parseDuration('1 s 10 ms'), 1010);
+			assert.equal(Date.parseDuration('1 sec 10ms'), 1010);
+
+			assert.equal(Date.parseDuration('1m 5 seconds'), 65000);
+
+		});
+	});
+
+	describe('.difference(unit, start, end, startOfUnit)', function() {
 
 		var a = new Date("2015-08-26T14:39:05.745Z"),
 		    b = new Date("2015-08-14T10:31:10.045Z");
