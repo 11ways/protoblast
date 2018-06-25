@@ -1,8 +1,8 @@
 ## 0.5.7 (WIP)
 
-* Update `RURL#href` everytime `RURL#addQuery` is called
 * Add `Date.parseDuration(str)` for getting a duration in ms
 * `Date#add` and `Date#subtract` now also accept duration strings
+* Total `RURL` rewrite, inspired by `url-parse` by Arnout Kazemier and `URI.js` by Rodney Rehm
 
 ## 0.5.6 (2018-06-20)
 
