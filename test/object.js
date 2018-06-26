@@ -278,20 +278,68 @@ describe('Object', function() {
 		});
 	});
 
-	describe('.flatten(obj)', function() {
-		it('flatten an object', function() {
-
-			var obj = {
-				one: 1,
-				settings: {
-					two: 2,
+	describe('.flatten(obj, divider)', function() {
+		var obj = {
+			one: 1,
+			settings: {
+				two: 2,
+				sub: {
+					three: 3,
 					sub: {
-						three: 3
+						four: 4
 					}
 				}
+			}
+		};
+
+		it('flattens an object with a . divider by default', function() {
+
+			var result = {
+				'one'                   : 1,
+				'settings.two'          : 2,
+				'settings.sub.three'    : 3,
+				'settings.sub.sub.four' : 4
 			};
 
-			assert.equal('{"one":1,"settings.two":2,"settings.sub.three":3}', JSON.stringify(Object.flatten(obj)));
+			assert.deepEqual(Object.flatten(obj), result);
+		});
+
+		it('flattens an object with a given divider', function() {
+			var result = {
+				'one'                   : 1,
+				'settings»two'          : 2,
+				'settings»sub»three'    : 3,
+				'settings»sub»sub»four' : 4
+			};
+
+			assert.deepEqual(Object.flatten(obj, '»'), result);
+		});
+
+		it('flattens an object with an array as divider option', function() {
+
+			var result = {
+				'one'                      : 1,
+				'settings[two]'            : 2,
+				'settings[sub][three]'     : 3,
+				'settings[sub][sub][four]' : 4
+			};
+
+			assert.deepEqual(Object.flatten(obj, ['[', ']']), result, 'Properties should be encased in []');
+		});
+
+		it('flattens arrays', function() {
+
+			var obj_with_array = {
+				a: ['b', 'c', 'd']
+			};
+
+			var result = {
+				'a[0]'  : 'b',
+				'a[1]'  : 'c',
+				'a[2]'  : 'd'
+			};
+
+			assert.deepEqual(Object.flatten(obj_with_array, ['[', ']']), result);
 		});
 	});
 
@@ -304,7 +352,9 @@ describe('Object', function() {
 				three: 3
 			};
 
-			assert.equal('[{"one":1},{"two":2},{"three":3}]', JSON.stringify(Object.divide(obj)));
+			var result = [{"one":1},{"two":2},{"three":3}];
+
+			assert.deepEqual(Object.divide(obj), result);
 		});
 	});
 
@@ -316,7 +366,9 @@ describe('Object', function() {
 				two: 2,
 			};
 
-			assert.equal('[{"key":"one","value":1},{"key":"two","value":2}]', JSON.stringify(Object.dissect(obj)));
+			var result = [{"key":"one","value":1},{"key":"two","value":2}];
+
+			assert.deepEqual(Object.dissect(obj), result);
 		});
 	});
 
@@ -597,7 +649,6 @@ describe('Object', function() {
 			assert.equal(false, Object.hasProperty(obj, 'doesnotexist'));
 		});
 	});
-
 
 	describe('.hasValue(target, value)', function() {
 
