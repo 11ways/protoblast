@@ -347,6 +347,85 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('.parseQuery(input, options)', function() {
+		it('should parse simple query strings to an object', function() {
+			assert.deepEqual(RURL.parseQuery('a=bla'), {a: 'bla'});
+			assert.deepEqual(RURL.parseQuery('a=bla&b=foo'), {a: 'bla', b: 'foo'});
+			assert.deepEqual(RURL.parseQuery('foo'), {foo: ''});
+			assert.deepEqual(RURL.parseQuery('foo='), {foo: ''});
+			assert.deepEqual(RURL.parseQuery('foo=bar&bar=baz'), {foo: 'bar', bar: 'baz'});
+			assert.deepEqual(RURL.parseQuery('foo2=bar2&baz2='), {foo2: 'bar2', baz2: ''});
+			assert.deepEqual(RURL.parseQuery('foo=bar&baz', {empty_value: null}), {foo: 'bar', baz: null});
+			assert.deepEqual(RURL.parseQuery('str_a=Jack+and+Jill+didn%27t+see+the+well.'), {str_a: "Jack and Jill didn't see the well."});
+			assert.deepEqual(RURL.parseQuery('a[b]["c"]=def&a[q]=t+5'), {"a":{"b":{'"c"':"def"},"q":"t 5"}});
+
+			assert.deepEqual(RURL.parseQuery(' foo = bar = baz '), {' foo ': ' bar = baz '});
+
+			assert.deepEqual(RURL.parseQuery('cht=p3&chd=t:60,40&chs=250x100&chl=Hello|World'), {
+				cht: 'p3',
+				chd: 't:60,40',
+				chs: '250x100',
+				chl: 'Hello|World'
+			});
+		});
+
+		it('should parse nested strings', function() {
+			assert.deepEqual(RURL.parseQuery('a[b]=c'),     {a: {b     : 'c'}});
+			assert.deepEqual(RURL.parseQuery('a[>=]=23'),   {a: {'>='  : '23'}});
+			assert.deepEqual(RURL.parseQuery('a[<=>]==23'), {a: {'<=>' : '=23'}});
+			assert.deepEqual(RURL.parseQuery('a[==]=23'),   {a: {'=='  : '23'}});
+			assert.deepEqual(RURL.parseQuery('a[b][c]=d'),  {a: {b: {c: 'd' }}});
+		});
+
+		it('should limit nesting to a default of 5 levels', function() {
+			assert.deepEqual(RURL.parseQuery('a[b][c][d][e][f][g][h]=i'), { a: { b: { c: { d: { e: { f: { '[g][h]': 'i' } } } } } } });
+		});
+
+		it('should parse only 1 level deep with depth=1', function() {
+			assert.deepEqual(RURL.parseQuery('a[b][c]=d', {depth: 1}), { a: { b: { '[c]': 'd' } } });
+		});
+
+		it('should parse simple arrays', function() {
+			assert.deepEqual(RURL.parseQuery('a=b&a=c'), {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a=b&b=1&a=c'), {a: 'c', b: '1'});
+		});
+
+		it('should parse explicit arrays', function() {
+			assert.deepEqual(RURL.parseQuery('a[]=b&a[]=c'),  {a: ['b', 'c']});
+			assert.deepEqual(RURL.parseQuery('a=b&a[]=c'),  {a: ['c']});
+			assert.deepEqual(RURL.parseQuery('a=b&a[]=c&a[]=d'),  {a: ['c', 'd']});
+			assert.deepEqual(RURL.parseQuery('a=b&a[]=c&a[]=d&a[0]=a'),  {a: ['a', 'd']});
+			assert.deepEqual(RURL.parseQuery('a=b&a[]=c&a[]=d&a[5]=a'),  {a: ['c', 'd',,,,'a']});
+			assert.deepEqual(RURL.parseQuery('a[]=b&a=c'),  {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a[0]=b&a=c'), {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a=b&a[0]=c'), {a: ['c']});
+
+			assert.deepEqual(RURL.parseQuery('a[bla]=bla&a[]=add'), {a: {bla: 'bla', 0: 'add'}});
+			assert.deepEqual(RURL.parseQuery('a[bla]=d&a[]=0&a[]=1&a[5]=5&a[]=6'), {a: {bla: 'd', '0': '0', '1': '1', '5': '5', '6': '6'}});
+
+			assert.deepEqual(RURL.parseQuery('a[1]=b&a=c', {array_limit: 20}), {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a[]=b&a=c'), {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a[]=b&a=c', {array_limit: 0}), {a: 'c'});
+			assert.deepEqual(RURL.parseQuery('a[1]=b&a[0]=c'), {a: ['c', 'b']});
+		});
+
+		it('should not set properties in the prototype', function() {
+
+			var result,
+			    query,
+			    obj = {};
+
+			query = 'a[__proto__][whatever_rurl]=1';
+			result = RURL.parseQuery(query);
+
+			assert.equal(obj.whatever_rurl, undefined);
+		});
+
+		it('should support encoded = signs', function() {
+			assert.deepEqual(RURL.parseQuery('he%3Dllo=th%3Dere'), { 'he=llo': 'th=ere' });
+		});
+	});
+
 	describe('#auth', function () {
 		it('does not lowercase the USER:PASS', function () {
 			var url = 'HTTP://USER:PASS@EXAMPLE.COM',

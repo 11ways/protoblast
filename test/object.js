@@ -348,6 +348,21 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.setPath(obj, path, value)', function() {
+		it('sets the value in an object', function() {
+			var obj = Object.setPath({}, 'well.test.property', 'one');
+
+			assert.deepEqual(obj, {well: {test: {property: 'one'}}});
+		});
+
+		it('should not set things in the prototype', function() {
+			var test = Object.setPath({}, 'not.__proto__.in_here_please', 'WRONG', null, false),
+			    obj = {};
+
+			assert.equal(obj.in_here_please, undefined);
+		});
+	});
+
 	describe('.path(obj, path)', function() {
 		it('should get the value of the given property path (as a string)', function() {
 
