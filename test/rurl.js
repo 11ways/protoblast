@@ -426,6 +426,68 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('#encodeQuery(obj, sep, eq, options)', function() {
+		it('stringifies an object', function() {
+			assert.equal(RURL.encodeQuery({ a: 'b' }), 'a=b');
+			assert.equal(RURL.encodeQuery({ a: 1 }), 'a=1');
+			assert.equal(RURL.encodeQuery({ a: 1, b: 2 }), 'a=1&b=2');
+			assert.equal(RURL.encodeQuery({ a: 'A_Z' }), 'a=A_Z');
+			assert.equal(RURL.encodeQuery({ a: '€' }), 'a=%E2%82%AC');
+			assert.equal(RURL.encodeQuery({ a: '' }), 'a=%EE%80%80');
+			assert.equal(RURL.encodeQuery({ a: 'א' }), 'a=%D7%90');
+			assert.equal(RURL.encodeQuery({ a: '𐐷' }), 'a=%F0%90%90%B7');
+		});
+
+		it('stringifies a nested object', function() {
+			assert.equal(RURL.encodeQuery({ a: { b: 'c' } }), 'a[b]=c');
+			assert.equal(RURL.encodeQuery({ a: { b: { c: { d: 'e' } } } }), 'a[b][c][d]=e');
+		});
+
+		it('stringifies an array value', function() {
+			assert.equal(RURL.encodeQuery({ a: ['b', 'c', 'd'] }), 'a[0]=b&a[1]=c&a[2]=d');
+		});
+
+		it('stringifies a nested array value', function() {
+			assert.equal(RURL.encodeQuery({ a: { b: ['c', 'd'] } }), 'a[b][0]=c&a[b][1]=d');
+		});
+
+		it('stringifies an object inside an array', function() {
+
+			var result = RURL.encodeQuery({ a: [{ b: 'c' }] });
+			assert.equal(result, 'a[0][b]=c');
+
+			result = RURL.encodeQuery({ a: [{ b: { c: [1] } }] });
+			assert.equal(result, 'a[0][b][c][0]=1');
+		});
+
+		it('stringifies an array with mixed objects and primitives', function() {
+			var input = { a: [{ b: 1 }, 2, 3] };
+			var result = RURL.encodeQuery(input);
+
+			// Result should 'a[0][b]=1&a[1]=2&a[2]=3'
+			// But because Object.flatten uses an object, the order can vary
+			assert.deepEqual(RURL.parseQuery(result), input);
+
+			input = { a: 'b', c: ['d', 'e=f'], f: [['g'], ['h']] };
+			result = RURL.encodeQuery(input);
+			assert.deepEqual(RURL.parseQuery(result), input);
+		});
+
+		it('stringifies weird objects', function() {
+			var input = { 'my weird field': '~q1!2"\'w$5&7/z8)?' },
+			    result = RURL.encodeQuery(input);
+
+			assert.equal(result, "my%20weird%20field=~q1!2%22'w$5%267%2Fz8)%3F");
+		});
+
+		it('skips properties that are part of the object prototype', function() {
+			Object.prototype.crash = 'test';
+			assert.equal(RURL.encodeQuery({ a: 'b' }), 'a=b');
+			assert.equal(RURL.encodeQuery({ a: { b: 'c' } }), 'a[b]=c');
+			delete Object.prototype.crash;
+		});
+	});
+
 	describe('#auth', function () {
 		it('does not lowercase the USER:PASS', function () {
 			var url = 'HTTP://USER:PASS@EXAMPLE.COM',

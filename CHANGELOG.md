@@ -4,6 +4,7 @@
 * `Date#add` and `Date#subtract` now also accept duration strings
 * Total `RURL` rewrite, inspired by `url-parse` by Arnout Kazemier and `URI.js` by Rodney Rehm
 * `Object.flatten(obj, divider)` now accepts custom dividers
+* `RURL.encodeQuery(obj)` now handles nested objects
 
 ## 0.5.6 (2018-06-20)
 
