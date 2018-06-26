@@ -488,8 +488,26 @@ describe('String', function() {
 			    result = str.assign({me: 'me', that: 'him', placeholders: 'happy'}),
 			    multiple = '{me} and {me} for {that} {that} {that}';
 
-			assert.strictEqual('me and him are happy', result);
-			assert.strictEqual('a and a for b b b', multiple.assign({me: 'a', that: 'b'}));
+			assert.strictEqual(result, 'me and him are happy');
+			assert.strictEqual(multiple.assign({me: 'a', that: 'b'}), 'a and a for b b b');
+		});
+
+		it('should get the first property when assigning a plain object', function() {
+			var str = 'Assign {myprop}',
+			    result;
+
+			result = str.assign({myprop: {first: '1'}});
+
+			assert.strictEqual(result, 'Assign 1');
+		});
+
+		it('should use the custom toString() method when assigning an object', function() {
+			var str = 'Assign {myprop}',
+			    result;
+
+			result = str.assign({myprop: {first: '1', toString: function() {return 2}}});
+
+			assert.strictEqual(result, 'Assign 2');
 		});
 	});
 
