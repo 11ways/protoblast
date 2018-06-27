@@ -1045,13 +1045,13 @@ describe('RURL', function() {
 
 			ori.addQuery('param', 'A');
 
-			assert.equal(ori+'', 'http://www.develry.be/test?param=A');
-			assert.equal(clone+'', 'http://www.develry.be/test');
+			assert.equal(ori+'', 'http://www.develry.be/test?param=A', 'Original should have a "param=A" parameter');
+			assert.equal(clone+'', 'http://www.develry.be/test', 'Clone should not have changed');
 
 			clone.addQuery('param', 'CLONE');
 
-			assert.equal(ori+'', 'http://www.develry.be/test?param=A');
-			assert.equal(clone+'', 'http://www.develry.be/test?param=CLONE');
+			assert.equal(ori+'', 'http://www.develry.be/test?param=A', 'Original should still have a "param=A" parameter');
+			assert.equal(clone+'', 'http://www.develry.be/test?param=CLONE', 'Clone should now have a "param=CLONE" parameter');
 		});
 	});
 
@@ -1091,6 +1091,72 @@ describe('RURL', function() {
 
 			ori.addQuery('name', null);
 			assert.equal(String(ori), 'http://www.develry.be/');
+		});
+
+		it('should accept querystrings', function() {
+			var ori = RURL.parse('http://www.develry.be/?name=ok');
+
+			ori.addQuery('name=new&more=test');
+			assert.equal(String(ori), 'http://www.develry.be/?name=new&more=test');
+			assert.deepEqual(ori.query, {name: 'new', more: 'test'});
+
+			ori.addQuery('more=new&extra=extra');
+
+			assert.equal(String(ori), 'http://www.develry.be/?name=new&more=new&extra=extra');
+			assert.deepEqual(ori.query, {name: 'new', more: 'new', extra: 'extra'});
+		});
+
+		it('should accept objects as a single parameter', function() {
+			var ori = RURL.parse('http://www.develry.be/?a=0&b=0&c=0');
+
+			ori.addQuery({c: 'c', d: 'd'});
+
+			assert.equal(String(ori), 'http://www.develry.be/?a=0&b=0&c=c&d=d');
+			assert.deepEqual(ori.query, {a: '0', b: '0', c: 'c', d: 'd'});
+		});
+	});
+
+	describe('#param(name)', function() {
+		it('should get the parameter', function() {
+
+			var ori = RURL.parse('http://www.develry.be/?a=0&b=0&c=0');
+
+			assert.equal(ori.param('a'), '0');
+			assert.equal(ori.param('b'), '0');
+			assert.equal(ori.param('c'), '0');
+
+			ori.addQuery({c: 'c', d: 'd'});
+
+			assert.equal(ori.param('a'), '0');
+			assert.equal(ori.param('b'), '0');
+			assert.equal(ori.param('c'), 'c');
+			assert.equal(ori.param('d'), 'd');
+		});
+	});
+
+	describe('#param(name, value)', function() {
+		it('should set the parameter to the given value', function() {
+
+			var ori = RURL.parse('http://www.develry.be/?a=0&b=0&c=0');
+
+			assert.equal(ori.param('a'), '0');
+			assert.equal(ori.param('b'), '0');
+			assert.equal(ori.param('c'), '0');
+
+			ori.param('a', 'this=is=a');
+			ori.param('c', '&thisisc');
+
+			assert.equal(ori.param('a'), 'this=is=a');
+			assert.equal(ori.param('b'), '0');
+			assert.equal(ori.param('c'), '&thisisc');
+
+			assert.equal(String(ori), 'http://www.develry.be/?a=this%3Dis%3Da&b=0&c=%26thisisc');
+
+			var parsed = RURL.parse(String(ori));
+
+			assert.equal(parsed.param('a'), 'this=is=a');
+			assert.equal(parsed.param('b'), '0');
+			assert.equal(parsed.param('c'), '&thisisc');
 		});
 	});
 
