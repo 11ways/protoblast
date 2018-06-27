@@ -347,6 +347,58 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('.parse(obj)', function() {
+		it('should parse url-like objects with a #scheme property (jurlp)', function() {
+
+			var obj = {
+				scheme: "http://",
+				user: "username",
+				password: "password",
+				host: "www.example.com",
+				port: "8080",
+				path: "/path/file.name",
+				query: "?query=string",
+				fragment: "#anchor"
+			};
+
+			var result = RURL.parse(obj),
+			    url = String(result);
+
+			assert.equal(url, 'http://username:password@www.example.com:8080/path/file.name?query=string#anchor');
+		});
+
+		it('should parse url-like objects with methods (jsuri, urijs)', function() {
+
+			var jsUri = require('jsuri'),
+			    url   = 'http://user:pass@www.test.com:81/index.html?q=books#fragment',
+			    uri   = new jsUri(url);
+
+			var rurl = RURL.parse(uri);
+
+			assert.equal(rurl.href, url);
+		});
+
+		if (typeof URL != 'undefined') {
+			it('should parse WHATWG URLs', function() {
+				var url   = 'http://user:pass@www.test.com:81/index.html?q=books#fragment',
+				    uri   = new URL(url);
+
+				var rurl = RURL.parse(uri);
+				assert.equal(rurl.href, url);
+			});
+		}
+
+		it('should parse legacy nodejs URL objects', function() {
+			var nurl = require('url'),
+			    url  = 'https://user:pass@www.develry.be:8080/test.html?query=string#hash';
+
+			var instance = nurl.parse(url);
+			var rurl = RURL.parse(instance);
+
+			assert.equal(rurl.href, url);
+		});
+	});
+
 	describe('.parseQuery(input, options)', function() {
 		it('should parse simple query strings to an object', function() {
 			assert.deepEqual(RURL.parseQuery('a=bla'), {a: 'bla'});
@@ -498,6 +550,8 @@ describe('RURL', function() {
 			assert.equal(parsed.protocol, 'http:');
 			assert.equal(parsed.host, 'example.com');
 			assert.equal(parsed.hostname, 'example.com');
+
+			assert.equal(parsed.href, 'http://USER:PASS@example.com/');
 		});
 
 		it('accepts @ in pathnames', function () {
@@ -960,6 +1014,14 @@ describe('RURL', function() {
 			assert.equal(data.protocol, 'https:');
 
 			assert.equal(data.href, 'https://google.com/?foo=bar');
+		});
+
+		it('strips away slashes', function() {
+			var u = RURL.parse('http://www.example.org/some/directory/foo.html');
+
+			u.protocol = 'ftp://';
+
+			assert.equal(u.href, 'ftp://www.example.org/some/directory/foo.html');
 		});
 	});
 
