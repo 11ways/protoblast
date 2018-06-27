@@ -32,6 +32,33 @@ describe('RURL', function() {
 		RURL = Blast.Classes.RURL;
 	});
 
+	describe('new RURL()', function() {
+		it('should create an empty url', function() {
+			var url = new RURL();
+
+			assert.equal(url.href, '');
+			assert.equal(url.path, '');
+			assert.equal(url.protocol, '');
+			assert.equal(url.username, '');
+			assert.equal(url.password, '');
+			assert.equal(url.host, '');
+			assert.equal(url.search, '');
+			assert.equal(url.hash, '');
+			assert.equal(url.fragment, '');
+		});
+
+		it('should be possible to construct a url piece by piece', function() {
+			var url = new RURL();
+
+			url.protocol = 'https://';
+			url.hostname = 'my.sub.domain.be';
+			url.resource = '/hawkejs/templates?name[0]=tags%2Fdashboard';
+
+			assert.equal(url.href, 'https://my.sub.domain.be/hawkejs/templates?name[0]=tags%2Fdashboard');
+			assert.deepEqual(url.query, {name: ['tags/dashboard']});
+		});
+	});
+
 	describe('.resolvePath(from, to)', function() {
 
 		it('works when from is relative', function() {
@@ -837,6 +864,15 @@ describe('RURL', function() {
 
 			assert.equal(url.pathname, '/has/slash');
 			assert.equal(url.href, 'http://example.com:80/has/slash');
+		});
+
+		it('encodes # or ?', function() {
+
+			var url = RURL.parse('http://develry.be/test?a=b');
+
+			url.pathname = '/test?a#id';
+
+			assert.equal(url.href, 'http://develry.be/test%3Fa%23id?a=b');
 		});
 	});
 
