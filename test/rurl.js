@@ -56,6 +56,15 @@ describe('RURL', function() {
 
 			assert.equal(url.href, 'https://my.sub.domain.be/hawkejs/templates?name[0]=tags%2Fdashboard');
 			assert.deepEqual(url.query, {name: ['tags/dashboard']});
+
+			url = new RURL();
+
+			url.protocol = 'https://';
+			url.hostname = 'my.sub.domain.be';
+			url.path = '/hawkejs/templates?name[0]=tags%2Fdashboard';
+
+			assert.equal(url.href, 'https://my.sub.domain.be/hawkejs/templates?name[0]=tags%2Fdashboard');
+			assert.deepEqual(url.query, {name: ['tags/dashboard']});
 		});
 	});
 
@@ -877,17 +886,30 @@ describe('RURL', function() {
 	});
 
 	describe('#path', function() {
-		it('is an alias to #pathname', function() {
+		it('gets the pathname + the search', function() {
 			var url = RURL.parse('http://foo.bar/foo.html?hello#test');
 
-			assert.equal(url.path, '/foo.html');
+			assert.equal(url.path, '/foo.html?hello');
 			assert.equal(url.pathname, '/foo.html');
+		});
 
-			url.path = '/test.html';
+		it('sets the pathname, search & hash', function() {
+			var url = RURL.parse('http://foo.bar/foo.html?hello#test');
 
+			url.path = '/test.html#hash';
 			assert.equal(url.pathname, '/test.html');
 
-			assert.equal(url.href, 'http://foo.bar/test.html?hello#test')
+			assert.equal(url.href, 'http://foo.bar/test.html#hash')
+		});
+
+		it('does not encode ? or #', function() {
+			var url = RURL.parse('http://develry.be/test?a=b');
+
+			url.path = '/bla?a=1#id';
+
+			assert.equal(url.href, 'http://develry.be/bla?a=1#id');
+			assert.equal(url.hash, '#id');
+			assert.equal(url.search, '?a=1');
 		});
 	});
 
