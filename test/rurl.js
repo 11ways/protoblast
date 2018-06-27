@@ -1095,6 +1095,45 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('#toJSON()', function() {
+		it('should return an object representation of the url', function() {
+
+			var ori = RURL.parse('http://user:pass@www.develry.be:81/test?query=param#hash'),
+			    json_string = JSON.stringify(ori),
+			    obj = JSON.parse(json_string);
+
+			assert.deepEqual(obj, {
+				protocol : 'http:',
+				username : 'user',
+				password : 'pass',
+				hostname : 'www.develry.be',
+				port     : '81',
+				pathname : '/test',
+				search   : '?query=param',
+				hash     : '#hash',
+				slashes  : true
+			});
+		});
+	});
+
+	describe('#toDry()', function() {
+		it('should allow an RURL object to be serialized & revived', function() {
+
+			var serialized,
+			    original,
+			    revived,
+			    url;
+
+			url = 'http://user:pass@www.develry.be:81/test?query=param#hash';
+			original = RURL.parse(url);
+			serialized = JSON.dry(original);
+			revived = JSON.undry(serialized);
+
+			assert.equal(revived.constructor.name, 'RURL');
+			assert.equal(revived.href, original.href);
+		});
+	});
+
 	describe('#clone()', function() {
 
 		it('should clone and return a new RURL object', function() {
