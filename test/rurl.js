@@ -68,6 +68,116 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('.requiresPort(port, protocol)', function() {
+		it('returns true when the given protocol requires the port to be used', function() {
+			assert.equal(RURL.requiresPort(8080, 'gopher'), true);
+			assert.equal(RURL.requiresPort(8080, 'https'), true);
+			assert.equal(RURL.requiresPort(8080, 'http'), true);
+			assert.equal(RURL.requiresPort(8080, 'ftp'), true);
+			assert.equal(RURL.requiresPort(8080, 'wss'), true);
+			assert.equal(RURL.requiresPort(8080, 'ws'), true);
+		});
+
+		it('returns false when the port is the default for the protocol', function() {
+			assert.equal(RURL.requiresPort(70, 'gopher'), false);
+			assert.equal(RURL.requiresPort(443, 'https'), false);
+			assert.equal(RURL.requiresPort(80, 'http'), false);
+			assert.equal(RURL.requiresPort(21, 'ftp'), false);
+			assert.equal(RURL.requiresPort(443, 'wss'), false);
+			assert.equal(RURL.requiresPort(80, 'ws'), false);
+		});
+
+		it('always returns false for file protocol', function() {
+			assert.equal(RURL.requiresPort(80, 'file'), false);
+			assert.equal(RURL.requiresPort(~~(Math.random()*100), 'file'), false);
+		});
+
+		it('returns false for port 0', function() {
+			assert.equal(RURL.requiresPort(0), false);
+		});
+
+		it('accepts port strings', function() {
+			assert.equal(RURL.requiresPort('80', 'http'), false);
+			assert.equal(RURL.requiresPort('8080', 'http'), true);
+		});
+
+		it('returns true for any protocol it does not know', function() {
+			assert.equal(RURL.requiresPort(40, 'myprotocol'), true);
+		});
+	});
+
+	describe('.requiresSlashes(protocol)', function() {
+		it('returns true for protocols that require slashes', function() {
+			assert.equal(RURL.requiresSlashes('http'), true);
+		});
+
+		it('returns false for protocols that do not require slashes', function() {
+			assert.equal(RURL.requiresSlashes('view-source'), false);
+		});
+
+		it('returns null for protocols it does not know', function() {
+			assert.equal(RURL.requiresSlashes('flerg'), null);
+			assert.equal(RURL.requiresSlashes(''), null);
+			assert.equal(RURL.requiresSlashes(null), null);
+		});
+	});
+
+	describe('.parseLocation(location)', function() {
+		it('is blob: aware', function() {
+			var blob = {
+				'href': 'blob:https%3A//gist.github.com/3f272586-6dac-4e29-92d0-f674f2dde618',
+				'pathname': 'https%3A//gist.github.com/3f272586-6dac-4e29-92d0-f674f2dde618',
+				'origin': 'https://gist.github.com',
+				'protocol': 'blob:',
+				'hostname': '',
+				'search': '',
+				'hash': '',
+				'host': '',
+				'port': ''
+			};
+
+			var data = RURL.parseLocation(blob);
+
+			assert.equal(data.href, 'https://gist.github.com/3f272586-6dac-4e29-92d0-f674f2dde618');
+		});
+
+		it('uses the current location if none is given', function() {
+			var data = RURL.parseLocation();
+		});
+	});
+
+	describe('.parseObject(obj)', function() {
+		it('returns null when nothing is given', function() {
+			assert.equal(RURL.parseObject(), null);
+		});
+
+		it('returns a clone if an RURL object is given', function() {
+			var original,
+			    clone;
+
+			original = RURL.parse('http://develry.be');
+			clone = RURL.parseObject(original);
+
+			assert.equal(clone.href, original.href);
+
+			original.param('query', 'string');
+
+			assert.equal(original.href, 'http://develry.be/?query=string');
+			assert.equal(clone.href, 'http://develry.be/');
+		});
+
+		it('uses the href when nothing else worked', function() {
+			var data,
+			    url;
+
+			data = {href: 'http://www.develry.be'};
+			url = RURL.parseObject(data);
+
+			assert.equal(url.href, 'http://www.develry.be/');
+			assert.equal(url.constructor, RURL);
+		});
+	});
+
 	describe('.resolvePath(from, to)', function() {
 
 		it('works when from is relative', function() {
