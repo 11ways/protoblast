@@ -43,7 +43,12 @@ describe('Date', function() {
 			assert.equal(Date.parseDuration('1 sec 10ms'), 1010);
 
 			assert.equal(Date.parseDuration('1m 5 seconds'), 65000);
+		});
 
+		it('should understand today', function() {
+			var today = Number(Date.create().startOf('day'));
+
+			assert.equal(Date.parseDuration('today'), today);
 		});
 	});
 
