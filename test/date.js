@@ -44,11 +44,95 @@ describe('Date', function() {
 
 			assert.equal(Date.parseDuration('1m 5 seconds'), 65000);
 		});
+	});
 
-		it('should understand today', function() {
+	describe('.parseStringToTime(str, base)', function() {
+		it('should parse "today"', function() {
 			var today = Number(Date.create().startOf('day'));
+			assert.equal(Date.parseStringToTime('today'), today);
+		});
 
-			assert.equal(Date.parseDuration('today'), today);
+		it('should do some arithmetics to a given timestamp', function() {
+			assert.equal(Date.parseStringToTime('+1 day', 1129633200*1000), 1129719600*1000);
+			assert.equal(Date.parseStringToTime('+1 week 2 days 4 hours 2 seconds', 1129633200*1000), 1130425202*1000);
+		});
+
+		it('should get the date of tomorrow', function() {
+			var now = new Date();
+
+			assert.equal(Date.parseStringToTime('tomorrow'), Number(now.add(1, 'day').startOf('day')));
+		});
+
+		it('should go to the correct day of the same week', function() {
+
+			var base_date = new Date('2018-06-29'),
+			    base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday this week', base), Number(new Date('2018-06-30')))
+
+			base_date = new Date('2018-07-01');
+			base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday this week', base), Number(new Date('2018-06-30')));
+			assert.equal(Date.parseStringToTime('sunday this week', base), Number(new Date('2018-07-01')));
+			assert.equal(Date.parseStringToTime('monday this week', base), Number(new Date('2018-06-25')));
+		});
+
+		it('should go to the correct day of the next week', function() {
+			var base_date = new Date('2018-06-29'),
+			    base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday next week', base), Number(new Date('2018-07-07')))
+
+			base_date = new Date('2018-07-01');
+			base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday next week', base), Number(new Date('2018-07-07')));
+			assert.equal(Date.parseStringToTime('sunday next week', base), Number(new Date('2018-07-08')));
+			assert.equal(Date.parseStringToTime('monday next week', base), Number(new Date('2018-07-02')));
+		});
+
+		it('should go to the correct day of last week', function() {
+			var base_date = new Date('2018-06-29'),
+			    base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday last week', base), Number(new Date('2018-06-23')))
+
+			base_date = new Date('2018-07-01');
+			base = Number(base_date);
+
+			assert.equal(Date.parseStringToTime('saturday last week', base), Number(new Date('2018-06-23')));
+			assert.equal(Date.parseStringToTime('sunday last week', base), Number(new Date('2018-06-24')));
+			assert.equal(Date.parseStringToTime('monday last week', base), Number(new Date('2018-06-18')));
+		});
+
+		it('should understand "now"', function() {
+			var now = Date.now(),
+			    parsed = Date.parseStringToTime('now');
+
+			var diff = Math.abs(parsed - now);
+
+			if (diff > 5) {
+				throw new Error('Failed to correctly parse "now"');
+			}
+
+			parsed = Date.parseStringToTime('now + 5 hours');
+			now += (5 * 60 * 60 * 1000);
+			diff = Math.abs(parsed - now);
+
+			if (diff > 5) {
+				throw new Error('Failed to correctly add 5 hours to "now"');
+			}
+		});
+	});
+
+	describe('.parseString(str, base)', function() {
+		it('should return a date object', function() {
+			var today = Number(Date.create().startOf('day')),
+			    parsed_time = Date.parseStringToTime('today'),
+			    parsed_date = Date.parseString('today');
+
+			assert.equal(Number(parsed_date), today);
 		});
 	});
 
@@ -331,6 +415,40 @@ describe('Date', function() {
 
 			assert.equal(a.clone().startOf('month').toJSON(), (new Date('2014-10-31T23:00:00.000Z')).toJSON());
 			assert.equal(a.clone().startOf('year').toJSON(), (new Date('2013-12-31T23:00:00.000Z')).toJSON());
+		});
+	});
+
+	describe('#next(unit)', function() {
+		it('should go to the next wanted day', function() {
+			var a = new Date('2018-06-25T14:49:29.382Z');
+
+			assert.equal(a.clone().next('monday').toJSON(), (new Date('2018-07-02T14:49:29.382Z')).toJSON())
+			assert.equal(a.clone().next('tuesday').toJSON(), (new Date('2018-06-26T14:49:29.382Z')).toJSON())
+			assert.equal(a.clone().next('sunday').toJSON(), (new Date('2018-07-01T14:49:29.382Z')).toJSON())
+		});
+
+		it('should go to the next week', function() {
+			var a = new Date('2018-06-25T14:49:29.382Z');
+
+			assert.equal(a.clone().next('week').toJSON(), (new Date('2018-07-02T14:49:29.382Z')).toJSON())
+		});
+
+		it('should go to the next month', function() {
+			var a = new Date('2018-06-25T14:49:29.382Z');
+
+			assert.equal(a.clone().next('month').toJSON(), (new Date('2018-07-25T14:49:29.382Z')).toJSON())
+		});
+
+		it('should actually go to the next month, even if it has less days', function() {
+			var a = new Date('2018-01-31T14:49:29.382Z');
+			assert.equal(a.clone().next('month').toJSON(), (new Date('2018-02-28T14:49:29.382Z')).toJSON())
+
+			// Eugh, timezone stuff
+			a = new Date('2018-02-28T15:49:29.382Z');
+			assert.equal(a.clone().next('month').toJSON(), (new Date('2018-03-28T14:49:29.382Z')).toJSON())
+
+			a = new Date('2018-05-31T14:49:29.382Z');
+			assert.equal(a.clone().next('month').toJSON(), (new Date('2018-06-30T14:49:29.382Z')).toJSON())
 		});
 	});
 

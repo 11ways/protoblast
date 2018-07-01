@@ -6,6 +6,7 @@
 * `Object.flatten(obj, divider)` now accepts custom dividers
 * `RURL.encodeQuery(obj)` now handles nested objects
 * `String#assign(values, remove_used)` attempts to normalize values when assigning objects
+* Add `Date.parseString(str, base)` and `Date.parseStringToTime(str, base)`
 
 ## 0.5.6 (2018-06-20)
 
