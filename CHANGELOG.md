@@ -1,3 +1,7 @@
+## 0.5.8 (WIP)
+
+* Setters & getters defined with `setProperty` should now also get a `super` property
+
 ## 0.5.7 (2018-07-01)
 
 * Add `Date.parseDuration(str)` for getting a duration in ms

@@ -659,4 +659,94 @@ describe('Inheritance', function() {
 			assert.equal(instance.myval, init);
 		});
 	});
+
+	describe('#setProperty(getter)', function() {
+
+		var Alpha,
+		    Beta,
+		    Delta;
+
+		it('should set a getter with the name of the getter function', function() {
+
+			Alpha = Function.inherits(function GetterAlpha() {});
+
+			Alpha.setProperty(function my_name() {
+				return this.constructor.name;
+			});
+
+			Beta = Function.inherits('GetterAlpha', function GetterBeta() {});
+
+			Beta.setProperty(function my_name() {
+				return 'overridden_' + this.constructor.name;
+			});
+
+			var a = new Alpha();
+			var b = new Beta();
+
+			assert.equal(a.my_name, 'GetterAlpha');
+			assert.equal(b.my_name, 'overridden_GetterBeta');
+		});
+
+		it('should be able to call a getter\'s parent', function() {
+
+			Delta = Function.inherits('GetterAlpha', function GetterDelta() {});
+
+			Delta.setProperty(function my_name() {
+				return 'super_' + my_name.super.call(this);
+			});
+
+			var d = new Delta();
+
+			assert.equal(d.my_name, 'super_GetterDelta');
+		});
+
+		it('should also define setters', function() {
+
+			Alpha.setProperty(function setted_getter() {
+				return this._setted_getter;
+			}, function setSettedGetter(value) {
+				return this._setted_getter = value * 10;
+			});
+
+			var a = new Alpha();
+
+			assert.equal(a.setted_getter, null);
+
+			// Our setter should multiply this
+			a.setted_getter = 1;
+
+			assert.equal(a.setted_getter, 10);
+		});
+
+		it('should inherit setters from parents', function() {
+			Delta.setProperty(function setted_getter() {
+				return this._setted_getter * 2;
+			});
+
+			var d = new Delta();
+
+			assert.equal(isNaN(d.setted_getter), true, 'Result should be NaN');
+			d.setted_getter = 5;
+
+			// The setter should have been inherited (does x10)
+			// then the getter does a x2
+			assert.equal(d.setted_getter, 100);
+		});
+
+		it('should be able to call a setter\'s parent', function() {
+			Beta.setProperty(function setted_getter() {
+				return setted_getter.super.call(this);
+			}, function setSettedGetter(value) {
+				return setSettedGetter.super.call(this, value + 1);
+			});
+
+			var b = new Beta();
+
+			assert.equal(b.setted_getter, null);
+
+			b.setted_getter = 1;
+
+			assert.equal(b.setted_getter, 20);
+		});
+	});
 });
