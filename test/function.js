@@ -107,6 +107,201 @@ describe('Function', function() {
 			assert.equal(tokens[0], 'function');
 			assert.equal(tokens[6], '{');
 		});
+
+		it('should handle async functions', function() {
+
+			var fnc = async function myAsyncFunction() {
+				var bla = await Pledge.resolve();
+				return bla;
+			};
+
+			var tokens = fnc.tokenize();
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', ')', ' ', '{', '\n\t\t\t\t', 'var', ' ', 'bla', ' ', '=', ' ', 'await', ' ', 'Pledge', '.', 'resolve', '(', ')', ';', '\n\t\t\t\t', 'return', ' ', 'bla', ';', '\n\t\t\t', '}'];
+
+			assert.deepEqual(tokens, expected);
+
+			tokens = fnc.tokenize(true);
+
+			expected = [
+				{ type: 'keyword', name: 'async', value: 'async' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'keyword', name: 'function', value: 'function' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'myAsyncFunction' },
+				{ type: 'parens', value: '(' },
+				{ type: 'parens', value: ')' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'curly', value: '{' },
+				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'keyword', name: 'var', value: 'var' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'bla' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', name: 'assign', value: '=' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'keyword', name: 'await', value: 'await' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'Pledge' },
+				{ type: 'punct', name: 'dot', value: '.' },
+				{ type: 'name', value: 'resolve' },
+				{ type: 'parens', value: '(' },
+				{ type: 'parens', value: ')' },
+				{ type: 'punct', name: 'semicolon', value: ';' },
+				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'keyword', name: 'return', value: 'return' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'bla' },
+				{ type: 'punct', name: 'semicolon', value: ';' },
+				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'curly', value: '}' }
+			];
+
+			assert.deepEqual(tokens, expected);
+		});
+
+		it('should handle spread syntax', function() {
+
+			var fnc = async function myAsyncFunction(first, ...args) {
+				var a = [...first];
+			};
+
+			var tokens = fnc.tokenize();
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', 'first', ',', ' ', '...', 'args', ')', ' ', '{', '\n\t\t\t\t', 'var', ' ', 'a', ' ', '=', ' ', '[', '...', 'first', ']', ';', '\n\t\t\t', '}'];
+
+			assert.deepEqual(tokens, expected);
+
+			tokens = fnc.tokenize(true);
+			expected = [
+				{ type: 'keyword', value: 'async', name: 'async' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'keyword', value: 'function', name: 'function' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'myAsyncFunction' },
+				{ type: 'parens', value: '(' },
+				{ type: 'name', value: 'first' },
+				{ type: 'punct', value: ',', name: 'comma' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '...', name: 'spread' },
+				{ type: 'name', value: 'args' },
+				{ type: 'parens', value: ')' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'curly', value: '{' },
+				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'keyword', value: 'var', name: 'var' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'square', value: '[' },
+				{ type: 'punct', value: '...', name: 'spread' },
+				{ type: 'name', value: 'first' },
+				{ type: 'square', value: ']' },
+				{ type: 'punct', value: ';', name: 'semicolon' },
+				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'curly', value: '}' }
+			];
+
+			assert.deepEqual(tokens, expected);
+		});
+
+		it('should handle default argument values', function() {
+			var fnc = function (a=1){};
+
+			var tokens = fnc.tokenize();
+
+			assert.deepEqual(tokens, [ 'function', ' ', '(', 'a', '=', '1', ')', '{', '}' ]);
+
+			tokens = fnc.tokenize(true);
+
+			assert.deepEqual(tokens, [
+				{ type: 'keyword', value: 'function', name: 'function' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'parens', value: '(' },
+				{ type: 'name', value: 'a' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'number', value: '1' },
+				{ type: 'parens', value: ')' },
+				{ type: 'curly', value: '{' },
+				{ type: 'curly', value: '}' } ]
+			)
+		});
+
+		it('should handle comments', function() {
+			var fnc = function /*namecomment*/ fncname(a /*whatever*/) {
+				//linecomment
+			};
+
+			// Some engines strip comments, so ignore that
+			if (String(fnc).indexOf('namecomment') == -1) {
+				return;
+			}
+
+			var tokens = fnc.tokenize();
+
+			assert.deepEqual(tokens, [ 'function', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', '\n\t\t\t\t', '//linecomment\n', '\t\t\t', '}' ]);
+
+			tokens = fnc.tokenize(true);
+
+			assert.deepEqual(tokens, [
+				{ type: 'keyword', value: 'function', name: 'function' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'comment', value: '/*namecomment*/' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'fncname' },
+				{ type: 'parens', value: '(' },
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'comment', value: '/*whatever*/' },
+				{ type: 'parens', value: ')' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'curly', value: '{' },
+				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'comment', value: '//linecomment\n' },
+				{ type: 'whitespace', value: '\t\t\t' },
+				{ type: 'curly', value: '}' } ]
+			);
+		});
+
+		it('should handle backticks', function() {
+			var fnc = function(){
+				var a=`this
+is
+a
+backtick
+string` + `another
+`;
+			};
+
+			var tokens = fnc.tokenize();
+
+			assert.deepEqual(tokens, [ 'function', ' ', '(', ')', '{', '\n\t\t\t\t', 'var', ' ', 'a', '=', '`this\nis\na\nbacktick\nstring`', ' ', '+', ' ', '`another\n`', ';', '\n\t\t\t', '}' ]);
+
+			tokens = fnc.tokenize(true);
+
+			var expected = [
+				{ type: 'keyword', value: 'function', name: 'function' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'parens', value: '(' },
+				{ type: 'parens', value: ')' },
+				{ type: 'curly', value: '{' },
+				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'keyword', value: 'var', name: 'var' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'a' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'string', value: '`this\nis\na\nbacktick\nstring`' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '+', name: 'plus' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'string', value: '`another\n`' },
+				{ type: 'punct', value: ';', name: 'semicolon' },
+				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'curly', value: '}' }
+			];
+
+			assert.deepEqual(tokens, expected);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {
@@ -183,7 +378,7 @@ describe('Function', function() {
 	});
 
 	describe('#methodize()', function() {
-		it('should create a new function that calls the given function with current "this" context as the first argument', function() {
+		it('creates a function that calls the given function with current "this" context as the first argument', function() {
 
 			var fnc = function(obj){return obj.zever;},
 			    test = {zever: 'TEST'},

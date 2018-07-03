@@ -3,6 +3,7 @@
 * Setters & getters defined with `setProperty` should now also get a `super` property
 * `Object.flatten(obj, divider, flatten_arrays)` now takes a third argument that enables you to disable flattening arrays
 * Upgrade json-dry dependency to v1.0.5
+* Added new operators & keywords to the function tokenizer
 
 ## 0.5.7 (2018-07-01)
 
