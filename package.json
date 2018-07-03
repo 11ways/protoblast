@@ -12,7 +12,7 @@
 		"browser"
 	],
 	"dependencies": {
-		"json-dry"  : "~1.0.4"
+		"json-dry"  : "~1.0.5"
 	},
 	"repository": "skerit/protoblast",
 	"homepage": "https://protoblast.develry.be/",
