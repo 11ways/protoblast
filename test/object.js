@@ -341,6 +341,62 @@ describe('Object', function() {
 
 			assert.deepEqual(Object.flatten(obj_with_array, ['[', ']']), result);
 		});
+
+		it('should not flatten arrays when not wanted', function() {
+
+
+			var data = {
+				"settings": {
+					"basic_auth": [
+						"my:pass"
+					],
+					"script": "/media/bridge/projects/develry/develry/server.js",
+					"user": null,
+					"node": null,
+					"environment_variables": [
+						{}
+					]
+				},
+				"domain": [
+					{
+						"listen_on": [
+							"192.168.1.2"
+						],
+						"hostname": [
+							"my.hostname.be"
+						],
+						"headers": [
+							{
+								"name": "test",
+								"value": "test-value"
+							}
+						]
+					}
+				]
+			};
+
+			var expected = {
+				"settings.basic_auth": ["my:pass"],
+				"settings.script": "/media/bridge/projects/develry/develry/server.js",
+				"settings.user": null,
+				"settings.node": null,
+				"settings.environment_variables": [{}],
+				"domain": [
+					{
+						"listen_on": ["192.168.1.2"],
+						"hostname": ["my.hostname.be"],
+						"headers": [
+							{
+								"name": "test",
+								"value": "test-value"
+							}
+						]
+					}
+				]
+			};
+
+			assert.deepEqual(Object.flatten(data, null, false), expected);
+		});
 	});
 
 	describe('.divide(obj)', function() {
