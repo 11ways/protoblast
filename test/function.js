@@ -302,6 +302,15 @@ string` + `another
 
 			assert.deepEqual(tokens, expected);
 		});
+
+		it('should handle arrow functions', function() {
+
+			var a = (a) => a * 1;
+
+			var tokens = a.tokenize();
+
+			assert.deepEqual(tokens, [ '(', 'a', ')', ' ', '=>', ' ', 'a', ' ', '*', ' ', '1' ]);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {
