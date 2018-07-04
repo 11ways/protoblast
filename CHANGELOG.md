@@ -1,4 +1,4 @@
-## 0.5.8 (WIP)
+## 0.5.8 (2018-07-04)
 
 * Setters & getters defined with `setProperty` should now also get a `super` property
 * `Object.flatten(obj, divider, flatten_arrays)` now takes a third argument that enables you to disable flattening arrays
