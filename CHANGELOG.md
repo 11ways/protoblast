@@ -1,3 +1,7 @@
+## 0.5.9 (WIP)
+
+* Fix `Object.formPath` and `Object.setFormPath` not finding correct RURL methods
+
 ## 0.5.8 (2018-07-04)
 
 * Setters & getters defined with `setProperty` should now also get a `super` property
