@@ -1,6 +1,7 @@
 ## 0.5.9 (WIP)
 
 * Fix `Object.formPath` and `Object.setFormPath` not finding correct RURL methods
+* Add `limit` support to `Function.forEach.parallel`
 
 ## 0.5.8 (2018-07-04)
 
