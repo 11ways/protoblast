@@ -205,6 +205,8 @@ describe('Function', function() {
 			assert.deepEqual(tokens, expected);
 		});
 
+		var handles_comments;
+
 		it('should handle default argument values', function() {
 			var fnc = function (a=1){};
 
@@ -234,12 +236,15 @@ describe('Function', function() {
 
 			// Some engines strip comments, so ignore that
 			if (String(fnc).indexOf('namecomment') == -1) {
+				handles_comments = false;
 				return;
+			} else {
+				handles_comments = true;
 			}
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', '\n\t\t\t\t', '//linecomment\n', '\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', '\n\t\t\t\t', '//linecomment\n', '\t\t\t', '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -275,13 +280,17 @@ string` + `another
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', '(', ')', '{', '\n\t\t\t\t', 'var', ' ', 'a', '=', '`this\nis\na\nbacktick\nstring`', ' ', '+', ' ', '`another\n`', ';', '\n\t\t\t', '}' ]);
+			// If this node version doesn't handle comments correctly, it probably changes more stuff
+			if (!handles_comments) {
+				return;
+			}
+
+			assert.deepEqual(tokens, [ 'function', '(', ')', '{', '\n\t\t\t\t', 'var', ' ', 'a', '=', '`this\nis\na\nbacktick\nstring`', ' ', '+', ' ', '`another\n`', ';', '\n\t\t\t', '}' ]);
 
 			tokens = fnc.tokenize(true);
 
 			var expected = [
 				{ type: 'keyword', value: 'function', name: 'function' },
-				{ type: 'whitespace', value: ' ' },
 				{ type: 'parens', value: '(' },
 				{ type: 'parens', value: ')' },
 				{ type: 'curly', value: '{' },
