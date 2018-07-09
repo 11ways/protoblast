@@ -75,6 +75,13 @@ describe('Function Flow', function() {
 			});
 		});
 
+		it('should throw an error after 100ms when a non-numeric timer was given', function(done) {
+			Function.timebomb(null, function exploded(err) {
+				assert.equal('Error: Timeout of 100ms was reached', err+'');
+				done();
+			});
+		});
+
 		it('should throw an error after the given amount of time', function(done) {
 			Function.timebomb(10, function exploded(err) {
 				assert.equal('Error: Timeout of 10ms was reached', err+'');
@@ -150,6 +157,33 @@ describe('Function Flow', function() {
 					done();
 				}, 10);
 			}]);
+		});
+
+		it('should not require an array of tasks', function(done) {
+			Function.series(function(next) {
+				next(null, 1);
+			}, function(next) {
+				next(null, 2);
+			}, function _done(err, result) {
+				if (err) {
+					return done(err);
+				}
+
+				assert.deepStrictEqual(result, [1, 2]);
+				done();
+			});
+		});
+
+		it('should throw an error when a next handler is called multiple times', function(done) {
+			Function.series(function(next) {
+				next(null, 1);
+				next(null, 1);
+			}, function(next) {
+				next(null, 2);
+			}, function _done(err, result) {
+				assert.strictEqual(!!err, true);
+				done();
+			});
 		});
 	});
 
@@ -620,6 +654,18 @@ describe('Function Flow', function() {
 		});
 	});
 
+	describe('.forEach.parallel(data, task, callback)', function() {
+		it('should do the task in parallel', function(done) {
+
+			var data = [0,1,2,3];
+
+			Function.forEach.parallel(data, function tast(value, index, next) {
+				assert.strictEqual(value, index);
+				next();
+			}, done);
+		});
+	});
+
 	describe('.regulate(fnc, amount, overflow)', function() {
 
 		it('should run the application only once when only a function is given', function() {
@@ -715,6 +761,102 @@ describe('Function Flow', function() {
 			once();
 			assert.equal(count, 1);
 			assert.equal(other, 3);
+		});
+
+		it('should throw an error when a non-function is given', function() {
+			assert.throws(function() {
+				Function.regulate('not a function');
+			});
+		});
+	});
+
+	describe('.count(fnc)', function() {
+		it('adds a counter as the first argument', function() {
+
+			var fnc = Function.count(function myFnc(counter, value) {
+				if (value == null) value = 0;
+				return counter + value;
+			});
+
+			assert.strictEqual(fnc(), 1);
+			assert.strictEqual(fnc(), 2);
+			assert.strictEqual(fnc(1), 4);
+			assert.strictEqual(fnc(1), 5);
+			assert.strictEqual(fnc(2), 7);
+			assert.strictEqual(fnc(), 6);
+		});
+	});
+
+	describe('.throttle(fnc, min_wait, immediate, rest_on_call)', function() {
+		it('should execute the function only once per given ms', function(done) {
+
+			var start;
+
+			var fnc = Function.throttle(function(val) {
+				var elapsed = Date.now() - start;
+
+				assert.strictEqual(val, 'val');
+				assert.strictEqual(elapsed > 39, true);
+
+				done();
+
+			}, 40);
+
+			start = Date.now();
+
+			fnc('val');
+		});
+
+		it('should execute the first call immediately if wanted', function(done) {
+
+			var fnc = Function.throttle(function(count) {
+
+				var elapsed = Date.now() - start;
+
+				if (count == 1) {
+					assert.strictEqual(elapsed < 10, true);
+				} else {
+					assert.strictEqual(elapsed > 19, true);
+					done();
+				}
+
+			}, 20, true);
+
+			var start = Date.now();
+
+			fnc(1);
+			fnc(2);
+		});
+
+		it('should skip certain calls', function(done) {
+
+			var fnc = Function.throttle(function(count) {
+
+				var elapsed = Date.now() - start;
+
+				if (count == 1) {
+					assert.strictEqual(elapsed < 10, true);
+				} else if (count == 2) {
+					throw new Error('Count 2 should have been skipped');
+				} else {
+					assert.strictEqual(elapsed > 19, true);
+					done();
+				}
+
+			}, 20, true);
+
+			var start = Date.now();
+
+			fnc(1);
+			fnc(2); // Will be skipped
+			fnc(3);
+		});
+	});
+
+	describe('.createQueue(options)', function() {
+		it('should create a new queue', function() {
+			var queue = Function.createQueue();
+			assert.strictEqual(queue.constructor.name, 'FunctionQueue');
 		});
 	});
 });
