@@ -644,4 +644,32 @@ describe('String', function() {
 			assert.strictEqual(' a\nb\nc '.isEmptyWhitespace(), false);
 		});
 	});
+
+	describe('#isEmptyWhitespaceHTML()', function() {
+
+		it('should return true for regular empty strings', function() {
+			assert.strictEqual(''.isEmptyWhitespaceHTML(), true);
+			assert.strictEqual(' '.isEmptyWhitespaceHTML(), true);
+			assert.strictEqual('\n'.isEmptyWhitespaceHTML(), true);
+		});
+
+		it('should return true for HTML with only empty tags', function() {
+			assert.strictEqual(' <p></p> <b> </b>'.isEmptyWhitespaceHTML(), true);
+			assert.strictEqual('<br>'.isEmptyWhitespaceHTML(), true);
+			assert.strictEqual('<br/>'.isEmptyWhitespaceHTML(), true);
+		});
+
+		it('should return false for HTML with text', function() {
+			assert.strictEqual('<p>This is text</p>'.isEmptyWhitespaceHTML(), false);
+			assert.strictEqual('<p></p> text'.isEmptyWhitespaceHTML(), false);
+		});
+
+		it('should return false for text with <> chars', function() {
+			assert.strictEqual('a < b && b > a'.isEmptyWhitespaceHTML(), false);
+		});
+
+		it.skip('should return ... for invalid HTML elements?', function() {
+			assert.strictEqual(' < b a > '.isEmptyWhitespaceHTML(), false);
+		});
+	});
 });
