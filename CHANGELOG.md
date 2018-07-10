@@ -2,6 +2,7 @@
 
 * Fix `Object.formPath` and `Object.setFormPath` not finding correct RURL methods
 * Add `limit` support to `Function.forEach.parallel`
+* Add `String#isEmptyWhitespace()` to test if the string is empty or has only whitespace
 
 ## 0.5.8 (2018-07-04)
 

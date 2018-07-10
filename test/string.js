@@ -617,4 +617,31 @@ describe('String', function() {
 		});
 	});
 
+	describe('#isEmptyWhitespace()', function() {
+
+		it('should return true for zero-length strings', function() {
+			assert.strictEqual(''.isEmptyWhitespace(), true);
+			assert.strictEqual((new String()).isEmptyWhitespace(), true);
+		});
+
+		it('should return true for strings with only spaces', function() {
+			assert.strictEqual('   '.isEmptyWhitespace(), true);
+		});
+
+		it('should return true for strings with other types of whitespace', function() {
+			assert.strictEqual('\n'.isEmptyWhitespace(), true);
+			assert.strictEqual('\t'.isEmptyWhitespace(), true);
+			assert.strictEqual('\r'.isEmptyWhitespace(), true);
+		});
+
+		it('should return true for strings with different types of whitespace', function() {
+			assert.strictEqual(' \n \t \r'.isEmptyWhitespace(), true);
+		});
+
+		it('should return false for strings with text', function() {
+			assert.strictEqual('a'.isEmptyWhitespace(), false);
+			assert.strictEqual(' a '.isEmptyWhitespace(), false);
+			assert.strictEqual(' a\nb\nc '.isEmptyWhitespace(), false);
+		});
+	});
 });
