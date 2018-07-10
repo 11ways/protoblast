@@ -66,6 +66,7 @@ describe('Function Flow', function() {
 	});
 
 	describe('.timebomb(timer, callback)', function() {
+		this.slow(500);
 
 		// timebomb can also work without a callback, but that can't be tested in mocha
 		it('should throw an error after 100ms when no timer was given', function(done) {
@@ -105,6 +106,7 @@ describe('Function Flow', function() {
 	});
 
 	describe('.series(arrayTasks, callback)', function() {
+		this.slow(500);
 
 		it('should perform the tasks in series and callback results', function(done) {
 
@@ -188,6 +190,7 @@ describe('Function Flow', function() {
 	});
 
 	describe('.series(objectTasks, callback)', function() {
+		this.slow(500);
 
 		it('should perform the tasks in series and callback results', function(done) {
 
@@ -230,6 +233,7 @@ describe('Function Flow', function() {
 	});
 
 	describe('.parallel(arrayTasks, callback)', function() {
+		this.slow(500);
 
 		it('should perform the tasks in parallel and callback results', function(done) {
 
@@ -286,6 +290,7 @@ describe('Function Flow', function() {
 	});
 
 	describe('.parallel(objectTasks, callback)', function() {
+		this.slow(500);
 
 		it('should perform the tasks in parallel and callback results', function(done) {
 
@@ -382,6 +387,8 @@ describe('Function Flow', function() {
 	});
 
 	describe('.parallel(limit, tasks, callback)', function() {
+		this.slow(500);
+
 		it('should limit the amount of tasks running side by side', function(done) {
 
 			var tasks = [],
@@ -409,6 +416,8 @@ describe('Function Flow', function() {
 	});
 
 	describe('.parallel(noAsync, limit, tasks, callback)', function() {
+		this.slow(500);
+
 		it('should execute the functions immediately, without setImmediate', function(done) {
 
 			var tasks = [],
@@ -788,6 +797,8 @@ describe('Function Flow', function() {
 	});
 
 	describe('.throttle(fnc, min_wait, immediate, rest_on_call)', function() {
+		this.slow(500);
+
 		it('should execute the function only once per given ms', function(done) {
 
 			var start;

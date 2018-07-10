@@ -2,9 +2,14 @@ var assert = require('assert'),
     Blast;
 
 describe('Benchmark', function() {
+	this.slow(1500);
 
 	before(function() {
 		Blast  = require('../index.js')();
+
+		// Use smaller test sizes to speed up tests
+		Blast.benchmark_sync_sizes = [10, 60, 120];
+		Blast.benchmark_async_sizes = [30, 60, 120];
 	});
 
 	describe('Function.benchmark(fnc)', function() {

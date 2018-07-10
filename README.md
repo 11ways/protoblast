@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://protoblast.develry.be/media/static/protoblast-small.png?width=30" alt="Protoblast logo"/>
+  <img src="https://protoblast.develry.be/media/static/protoblast-small.png" width=30 alt="Protoblast logo"/>
   <b>Protoblast</b>
 </h1>
 <div align="center">
