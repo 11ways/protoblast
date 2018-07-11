@@ -1,3 +1,7 @@
+## 0.5.10 (WIP)
+
+* Add `Function.doConstitutors` to force doing the constitutors of a class
+
 ## 0.5.9 (2018-07-10)
 
 * Fix `Object.formPath` and `Object.setFormPath` not finding correct RURL methods
