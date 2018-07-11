@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.5.9",
+	"version": "0.5.10",
 	"author": "Jelle De Loecker <jelle@develry.be>",
 	"keywords": [
 		"prototype",
@@ -12,7 +12,7 @@
 		"browser"
 	],
 	"dependencies": {
-		"json-dry"  : "~1.0.5"
+		"json-dry"  : "~1.0.7"
 	},
 	"repository": "skerit/protoblast",
 	"homepage": "https://protoblast.develry.be/",
