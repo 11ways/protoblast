@@ -1,6 +1,7 @@
 ## 0.5.10 (WIP)
 
 * Add `Function.doConstitutors` to force doing the constitutors of a class
+* Add `sort_arrays` parameter to `Object.checksum(obj, sort_arrays)`
 
 ## 0.5.9 (2018-07-10)
 

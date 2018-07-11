@@ -774,7 +774,7 @@ describe('Object', function() {
 			assert.equal(Object.checksum({a: 1}), 'O1-S3-1skjwarew80jg');
 		});
 
-		it('should ignore property order in regular objects', function() {
+		it('should ignore property order in regular objects by default', function() {
 			assert.equal(Object.checksum({b: 1, a: 1}), Object.checksum({a: 1, b: 1}));
 		});
 
@@ -794,4 +794,22 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.checksum(obj, sort_arrays)', function() {
+		it('should return different checksums when sort_arrays is false', function() {
+
+			var alpha,
+			    beta;
+
+			alpha = {
+				arr: ['awel', 'baloe']
+			};
+
+			beta = {
+				arr: ['baloe', 'awel']
+			};
+
+			assert.notStrictEqual(Object.checksum(alpha, false), Object.checksum(beta, false));
+			assert.strictEqual(Object.checksum(alpha), Object.checksum(beta));
+		});
+	});
 });
