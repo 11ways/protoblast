@@ -846,15 +846,15 @@ describe('Function Flow', function() {
 				var elapsed = Date.now() - start;
 
 				if (count == 1) {
-					assert.strictEqual(elapsed < 10, true);
+					assert.strictEqual(elapsed < 15, true, 'A total of ' + elapsed + ' ms have elapsed, but it should have been instantly');
 				} else if (count == 2) {
 					throw new Error('Count 2 should have been skipped');
 				} else {
-					assert.strictEqual(elapsed > 19, true);
+					assert.strictEqual(elapsed > 19, true, 'A total of ' + elapsed + ' ms have elapsed, should have been 20 or more');
 					done();
 				}
 
-			}, 20, true);
+			}, 25, true);
 
 			var start = Date.now();
 

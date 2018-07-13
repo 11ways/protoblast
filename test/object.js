@@ -792,6 +792,19 @@ describe('Object', function() {
 
 			assert.notEqual(Object.checksum(a), Object.checksum({a: 1}));
 		});
+
+		it('should differentiate between dates & numbers', function() {
+
+			var date = new Date(),
+			    nr = Number(date);
+
+			let date_cs = Object.checksum(date);
+			let nr_cs = Object.checksum(nr);
+
+			assert.notStrictEqual(date_cs, nr_cs);
+			assert.strictEqual(date_cs, 'D' + nr);
+			assert.strictEqual(nr_cs, 'N' + nr);
+		});
 	});
 
 	describe('.checksum(obj, sort_arrays)', function() {
