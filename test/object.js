@@ -805,6 +805,18 @@ describe('Object', function() {
 			assert.strictEqual(date_cs, 'D' + nr);
 			assert.strictEqual(nr_cs, 'N' + nr);
 		});
+
+		it('should checksum Buffers', function() {
+
+			var buf_a = new Buffer([1,2,3]),
+			    buf_b = new Buffer([1,2,3]);
+
+			let cs_a = Object.checksum(buf_a),
+			    cs_b = Object.checksum(buf_b);
+
+			assert.strictEqual(cs_a, 'BUF5289df737df57326fcdd22597afb1fac');
+			assert.strictEqual(cs_b, 'BUF5289df737df57326fcdd22597afb1fac');
+		});
 	});
 
 	describe('.checksum(obj, sort_arrays)', function() {
