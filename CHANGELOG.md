@@ -1,4 +1,4 @@
-## 0.5.11 (WIP)
+## 0.5.11 (2018-07-14)
 
 * `Object.checksum(mixed)` will now treat Dates & Numbers differently
 * `Object.checksum(mixed)` will now correctly hash node Buffers
