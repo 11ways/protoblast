@@ -276,6 +276,14 @@ describe('Object', function() {
 			// they are not alike because of the recursiveness
 			assert.equal(Object.alike(a, b), false);
 		});
+
+		it('should handle buffers', function() {
+
+			var a = new Buffer([1,2,3]),
+			    b = new Buffer([1,2,3]);
+
+			assert.strictEqual(Object.alike(a, b), true);
+		});
 	});
 
 	describe('.flatten(obj, divider)', function() {
