@@ -5,6 +5,7 @@
 * Add `Buffer` support to `Object.alike(a, b)`
 * Make `Object.alike(a, b)` not sort arrays when doing a checksum
 * Fix `Object.alike(a, b)` treating null as regular objects
+* Add a very basic Symbol polyfill for IE11
 
 ## 0.5.10 (2018-07-11)
 
