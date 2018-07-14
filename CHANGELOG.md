@@ -6,6 +6,7 @@
 * Make `Object.alike(a, b)` not sort arrays when doing a checksum
 * Fix `Object.alike(a, b)` treating null as regular objects
 * Add a very basic Symbol polyfill for IE11
+* Add `Blast.alikeSymbol` property, which `Object.alike` uses for comparing likeness
 
 ## 0.5.10 (2018-07-11)
 
