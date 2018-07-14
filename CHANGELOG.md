@@ -4,6 +4,7 @@
 * `Object.checksum(mixed)` will now correctly hash node Buffers
 * Add `Buffer` support to `Object.alike(a, b)`
 * Make `Object.alike(a, b)` not sort arrays when doing a checksum
+* Fix `Object.alike(a, b)` treating null as regular objects
 
 ## 0.5.10 (2018-07-11)
 

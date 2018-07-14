@@ -292,6 +292,23 @@ describe('Object', function() {
 
 			assert.strictEqual(Object.alike(a, b), false);
 		});
+
+		it('should not compare null & regular objects', function() {
+
+			var a, b;
+
+			a = {
+				contents: {
+					test: undefined
+				}
+			};
+
+			b = {
+				contents: null
+			};
+
+			assert.strictEqual(Object.alike(a, b), false);
+		});
 	});
 
 	describe('.flatten(obj, divider)', function() {
