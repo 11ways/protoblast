@@ -284,6 +284,14 @@ describe('Object', function() {
 
 			assert.strictEqual(Object.alike(a, b), true);
 		});
+
+		it('should not sort arrays by default', function() {
+
+			var a = ['a', 'b', 'c'],
+			    b = ['c', 'b', 'a'];
+
+			assert.strictEqual(Object.alike(a, b), false);
+		});
 	});
 
 	describe('.flatten(obj, divider)', function() {
