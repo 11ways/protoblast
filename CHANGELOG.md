@@ -2,6 +2,7 @@
 
 * Make `Pledge` polyfill for `Promise`
 * Add `Pledge.after(n, val)`, which returns a pledge that resolves after n milliseconds
+* Add `Pledge#race(other_pledge)`
 
 ## 0.5.11 (2018-07-14)
 

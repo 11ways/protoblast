@@ -246,6 +246,25 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('.after(n, value)', function () {
+		it('create a pledge which resolved after n seconds', function (done) {
+			var start = Date.now();
+
+			Pledge.after(10, 'test').handleCallback(function _done(err, val) {
+
+				var elapsed = Date.now() - start;
+
+				if (err) {
+					return done(err);
+				}
+
+				assert.strictEqual(val, 'test');
+				assert.strictEqual(elapsed > 9, true);
+				done();
+			});
+		});
+	});
+
 	describe('#resolve(value)', function() {
 		it('should set the value', function(done) {
 
@@ -397,6 +416,66 @@ describe('Pledge', function() {
 			pledge.handleCallback(false);
 			pledge.handleCallback(0);
 			pledge.handleCallback('');
+		});
+	});
+
+	describe('#race(contestant)', function() {
+		it('should race another pledge', function(done) {
+
+			var pledge;
+
+			pledge = Pledge.after(15, 'late').race(Pledge.after(5, 'early'));
+
+			pledge.handleCallback(function _done(err, val) {
+
+				if (err) {
+					return done(err);
+				}
+
+				assert.strictEqual(val, 'early');
+				done();
+			});
+		});
+
+		it('should race multiple pledges', function(done) {
+			var pledge;
+
+			pledge = Pledge.after(15, 'late').race([
+				Pledge.after(25, 'also_late'),
+				Pledge.after(10, 'nicetry'),
+				Pledge.after(1, 'winner')
+			]);
+
+			pledge.handleCallback(function _done(err, val) {
+
+				if (err) {
+					return done(err);
+				}
+
+				assert.strictEqual(val, 'winner');
+				done();
+			});
+		});
+
+		it('should lose to simple values', function(done) {
+			var pledge;
+
+			pledge = Pledge.after(15, 'late').race([
+				Pledge.after(25, 'also_late'),
+				Pledge.after(10, 'nicetry'),
+				Pledge.after(1, 'nope'),
+				'direct'
+			]);
+
+			pledge.handleCallback(function _done(err, val) {
+
+				if (err) {
+					return done(err);
+				}
+
+				assert.strictEqual(val, 'direct');
+				done();
+			});
 		});
 	});
 
