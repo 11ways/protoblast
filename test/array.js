@@ -840,6 +840,40 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#findByPath(obj)', function() {
+		it('accepts multiple paths in an object', function() {
+
+			var arr = [
+				{firstname: 'John',  lastname: 'Skerit'},
+				{firstname: 'Jelle', lastname: 'De Loecker'},
+				{firstname: 'John',  lastname: 'Delancie'},
+				{firstname: 'Jelle', lastname: 'Cleymans'}
+			];
+
+			let entry = arr.findByPath({firstname: 'John'});
+
+			assert.strictEqual(entry, arr[0], 'It should have found the first entry');
+
+			entry = arr.findByPath({firstname: 'John', lastname: 'Delancie'});
+
+			assert.strictEqual(entry, arr[2]);
+
+			arr = [
+				{deep: {firstname: 'Alice', lastname: 'Copers'}},
+				{deep: {firstname: 'Jos',   lastname: 'De Loecker'}},
+				{deep: {firstname: 'Alice', lastname: 'Wonderland'}}
+			];
+
+			entry = arr.findByPath({'deep.firstname': 'Alice'});
+
+			assert.strictEqual(entry, arr[0]);
+
+			entry = arr.findByPath({'deep.firstname': 'Alice', 'deep.lastname': 'Wonderland'});
+
+			assert.strictEqual(entry, arr[2]);
+		});
+	});
+
 	describe('#modifyByPath(path, fnc)', function() {
 
 		it('find the values at the given path and execute the function', function() {
