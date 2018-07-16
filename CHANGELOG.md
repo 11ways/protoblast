@@ -1,3 +1,8 @@
+## 0.5.12 (WIP)
+
+* Make `Pledge` polyfill for `Promise`
+* Add `Pledge.after(n, val)`, which returns a pledge that resolves after n milliseconds
+
 ## 0.5.11 (2018-07-14)
 
 * `Object.checksum(mixed)` will now treat Dates & Numbers differently
