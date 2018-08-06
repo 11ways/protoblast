@@ -4,6 +4,7 @@
 * Add `Pledge.after(n, val)`, which returns a pledge that resolves after n milliseconds
 * Add `Pledge#race(other_pledge)`
 * Add new `Array#findByPath(obj)` signature
+* Add `Object.sizeof(input)` to get the size of a variable in bytes
 
 ## 0.5.11 (2018-07-14)
 

@@ -212,6 +212,79 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.sizeof(input)', function() {
+		it('should calculate the size of an object in bytes', function() {
+
+			var input = {
+				a: 1,
+				b: '2'
+			};
+
+			let bytes = Object.sizeof(input);
+
+			assert.strictEqual(bytes, 30);
+
+			input.c = null;
+
+			bytes = Object.sizeof(input);
+
+			assert.strictEqual(bytes, 40);
+		});
+
+		it('should return 0 for null values', function() {
+			assert.strictEqual(Object.sizeof(null), 0);
+		});
+
+		it('should return the size of a string in bytes', function() {
+			assert.strictEqual(Object.sizeof('abc'), 6);
+		});
+
+		it('should return the size of a number in bytes', function() {
+			assert.strictEqual(Object.sizeof(0), 8);
+			assert.strictEqual(Object.sizeof(100), 8);
+			assert.strictEqual(Object.sizeof(474758315), 8);
+		});
+
+		it('should return the size of a symbol in bytes', function() {
+			assert.strictEqual(Object.sizeof(Symbol('test')), 8);
+		});
+
+		it('should return the size of an array in bytes', function() {
+			assert.strictEqual(Object.sizeof([]), 0);
+			assert.strictEqual(Object.sizeof([1]), 16);
+			assert.strictEqual(Object.sizeof(['1']), 10);
+		});
+
+		it('should return the size of a Date object', function() {
+			assert.strictEqual(Object.sizeof(new Date()), 96);
+		});
+
+		it('should return the size of a RegExp object', function() {
+			assert.strictEqual(Object.sizeof(/testing/i), 30);
+		});
+
+		it('should return the size of a buffer', function() {
+
+			var buf = Buffer.from('abc');
+
+			assert.strictEqual(Object.sizeof(buf), buf.length);
+		});
+
+		it('should return the size of a map', function() {
+
+			var map = new Map(),
+			    obj = {};
+
+			map.set('a', 1);
+			map.set('b', true);
+
+			obj.a = 1;
+			obj.b = true;
+
+			assert.strictEqual(Object.sizeof(map), 48);
+		});
+	});
+
 	describe('.alike(a, b)', function() {
 
 		var a  = {alpha: 'alpha', b: 1},
