@@ -1,0 +1,225 @@
+var assert = require('assert'),
+    Blast;
+
+describe('Cache', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
+
+	describe('.set(key, value)', function() {
+		var cache,
+		    obj = {};
+
+		before(function() {
+			cache = new Blast.Classes.Develry.Cache();
+		});
+
+		it('should allow primitive keys', function() {
+			assert.strictEqual(cache.length, 0);
+			cache.set('alpha', 1);
+			assert.strictEqual(cache.length, 1);
+			cache.set(Symbol('whatever'), 1);
+			assert.strictEqual(cache.length, 2);
+		});
+
+		it('should allow object keys', function() {
+			cache.set(obj, 1);
+			assert.strictEqual(cache.length, 3);
+		});
+
+		it('should overwrite existing keys', function() {
+			cache.set('alpha', 2);
+			assert.strictEqual(cache.length, 3);
+
+			cache.set(obj, 2);
+			assert.strictEqual(cache.length, 3);
+		});
+	});
+
+	describe('.set(key, value, max_age)', function() {
+		it('should set a value with a maximum age', function(done) {
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 2, 1);
+
+			assert.deepStrictEqual(cache.keys(), ['b', 'a']);
+
+			setTimeout(function() {
+				assert.deepStrictEqual(cache.keys(), ['a']);
+
+				done();
+			}, 5);
+		});
+	});
+
+	describe('.get(key)', function() {
+		it('gets a value from the cache', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('alpha', 1);
+			assert.strictEqual(cache.get('alpha'), 1);
+			assert.strictEqual(cache.get('nope'), undefined);
+
+			var obj = {};
+
+			cache.set(obj, 2);
+			assert.strictEqual(cache.get(obj), 2);
+		});
+	});
+
+	describe('.has(key)', function() {
+		it('checks if the cache contains a value for the given key', function() {
+
+			var cache = new Blast.Classes.Develry.Cache(),
+			    obj = {};
+
+			cache.set('alpha', 1);
+			cache.set(obj, 2);
+
+			assert.strictEqual(cache.has(obj), true);
+			assert.strictEqual(cache.has('alpha'), true);
+			assert.strictEqual(cache.has('test'), false);
+
+			cache.set('falsy', false);
+
+			assert.strictEqual(cache.has('falsy'), true);
+		});
+	});
+
+	describe('#evict()', function() {
+		it('evicts the least used entry from the cache', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 2);
+			cache.set('c', 3);
+			cache.set('d', 4);
+			cache.set('e', 5);
+
+			assert.strictEqual(cache.length, 5);
+
+			cache.evict();
+
+			assert.strictEqual(cache.length, 4);
+
+			assert.strictEqual(cache.get('a'), undefined, 'The least used should have been evicted');
+
+			cache.get('b');
+
+			cache.evict();
+
+			assert.strictEqual(cache.length, 3);
+
+			assert.strictEqual(cache.get('c'), undefined, 'It should have evicted `c`, because `b` was most recently used');
+		});
+	});
+
+	describe('#keys()', function() {
+		it('get all keys of the cache in the current order', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			var keys = cache.keys();
+
+			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
+
+			// Create new order
+			cache.set('c', 5);
+			cache.set('a', 4);
+			cache.set('e', 3);
+			cache.set('d', 2);
+			cache.set('b', 1);
+
+			keys = cache.keys();
+			assert.deepStrictEqual(keys, ['b', 'd', 'e', 'a', 'c']);
+		});
+	});
+
+	describe('#forEach(task)', function() {
+		it('iterates over the values in order', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			var str = '';
+
+			cache.forEach(function (value, key) {
+				str += key;
+			});
+
+			assert.strictEqual(str, 'abcde');
+		});
+
+		it('does not change the order while iterating', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			var str = '';
+
+			cache.forEach(function (value, key) {
+				cache.set('e', 1);
+				str += key;
+			});
+
+			assert.strictEqual(str, 'abcde');
+
+			str = '';
+
+			cache.forEach(function (value, key) {
+				str += key;
+			});
+
+			assert.strictEqual(str, 'eabcd');
+		});
+	});
+
+	describe('#max_length', function() {
+		it('sets the maximum amount of entries the cache has', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			assert.strictEqual(cache.max_length, 0, 'Max length is 0 by default');
+
+			cache.set('a', 1);
+			cache.set('b', 2);
+			cache.set('c', 3);
+			cache.set('d', 4);
+			cache.set('e', 5);
+
+			assert.strictEqual(cache.length, 5);
+
+			// Now set the max length
+			cache.max_length = 3;
+
+			assert.strictEqual(cache.length, 3);
+
+			assert.strictEqual(cache.get('a'), undefined);
+			assert.strictEqual(cache.get('b'), undefined);
+			assert.strictEqual(cache.get('c'), 3);
+			assert.strictEqual(cache.get('d'), 4);
+			assert.strictEqual(cache.get('e'), 5);
+		});
+	});
+
+});
