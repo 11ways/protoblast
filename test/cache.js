@@ -327,4 +327,50 @@ describe('Cache', function() {
 		});
 	});
 
+	describe('#size', function() {
+		it('returns the size of the cache', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 1);
+			cache.set('c', 1);
+
+			// 6 references + 3 numbers + 3 key strings of 1 char = 78 bytes
+			assert.strictEqual(cache.size, 78);
+		});
+	});
+
+	describe('#max_size', function() {
+		it('sets the maximum size of the cache', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 1);
+			cache.set('c', 1);
+
+			assert.strictEqual(cache.length, 3);
+
+			// The cache should be 78 bytes now, so set the max size to 1 lower.
+			// Now the oldest entry should have been removed
+			cache.max_size = 77;
+
+			assert.strictEqual(cache.size, 52);
+			assert.strictEqual(cache.get('a'), undefined);
+			assert.strictEqual(cache.peek('b'), 1);
+			assert.strictEqual(cache.length, 2);
+
+			cache.set('d', 1);
+
+			assert.strictEqual(cache.size, 52);
+			assert.strictEqual(cache.get('b'), undefined);
+
+			cache.set('dd', 1);
+
+			assert.strictEqual(cache.size, 54);
+			assert.strictEqual(cache.length, 2);
+		});
+	});
+
 });
