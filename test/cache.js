@@ -7,7 +7,7 @@ describe('Cache', function() {
 		Blast  = require('../index.js')();
 	});
 
-	describe('.set(key, value)', function() {
+	describe('#set(key, value)', function() {
 		var cache,
 		    obj = {};
 
@@ -37,24 +37,24 @@ describe('Cache', function() {
 		});
 	});
 
-	describe('.set(key, value, max_age)', function() {
+	describe('#set(key, value, max_age)', function() {
 		it('should set a value with a maximum age', function(done) {
 			var cache = new Blast.Classes.Develry.Cache();
 
 			cache.set('a', 1);
-			cache.set('b', 2, 1);
+			cache.set('b', 2, 5);
 
-			assert.deepStrictEqual(cache.keys(), ['b', 'a']);
+			assert.deepStrictEqual(cache.keys, ['b', 'a']);
 
 			setTimeout(function() {
-				assert.deepStrictEqual(cache.keys(), ['a']);
+				assert.deepStrictEqual(cache.keys, ['a']);
 
 				done();
 			}, 5);
 		});
 	});
 
-	describe('.get(key)', function() {
+	describe('#get(key)', function() {
 		it('gets a value from the cache', function() {
 
 			var cache = new Blast.Classes.Develry.Cache();
@@ -70,7 +70,7 @@ describe('Cache', function() {
 		});
 	});
 
-	describe('.has(key)', function() {
+	describe('#has(key)', function() {
 		it('checks if the cache contains a value for the given key', function() {
 
 			var cache = new Blast.Classes.Develry.Cache(),
@@ -115,33 +115,6 @@ describe('Cache', function() {
 			assert.strictEqual(cache.length, 3);
 
 			assert.strictEqual(cache.get('c'), undefined, 'It should have evicted `c`, because `b` was most recently used');
-		});
-	});
-
-	describe('#keys()', function() {
-		it('get all keys of the cache in the current order', function() {
-
-			var cache = new Blast.Classes.Develry.Cache();
-
-			cache.set('e', 5);
-			cache.set('d', 4);
-			cache.set('c', 3);
-			cache.set('b', 2);
-			cache.set('a', 1);
-
-			var keys = cache.keys();
-
-			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
-
-			// Create new order
-			cache.set('c', 5);
-			cache.set('a', 4);
-			cache.set('e', 3);
-			cache.set('d', 2);
-			cache.set('b', 1);
-
-			keys = cache.keys();
-			assert.deepStrictEqual(keys, ['b', 'd', 'e', 'a', 'c']);
 		});
 	});
 
@@ -194,6 +167,90 @@ describe('Cache', function() {
 		});
 	});
 
+	describe('#keys', function() {
+		it('get all keys of the cache in the current order', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			var keys = cache.keys;
+
+			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
+
+			// Create new order
+			cache.set('c', 5);
+			cache.set('a', 4);
+			cache.set('e', 3);
+			cache.set('d', 2);
+			cache.set('b', 1);
+
+			keys = cache.keys;
+			assert.deepStrictEqual(keys, ['b', 'd', 'e', 'a', 'c']);
+		});
+	});
+
+	describe('#values', function() {
+		it('get all values of the cache in the current order', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			var values = cache.values;
+
+			assert.deepStrictEqual(values, [1, 2, 3, 4, 5]);
+
+			// Create new order
+			cache.set('c', 'C');
+			cache.set('a', 'A');
+			cache.set('e', 'E');
+			cache.set('d', 'D');
+			cache.set('b', 'B');
+
+			values = cache.values;
+			assert.deepStrictEqual(values, ['B', 'D', 'E', 'A', 'C']);
+		});
+	});
+
+	describe('#newest', function() {
+		it('refers to the most recently updated key', function() {
+			var cache = new Blast.Classes.Develry.Cache();
+			cache.set('a', 1);
+
+			assert.strictEqual(cache.newest, 'a');
+
+			cache.set('b', 2);
+			assert.strictEqual(cache.newest, 'b');
+
+			cache.get('a');
+			assert.strictEqual(cache.newest, 'a', 'Getting a value also updates the newest');
+		});
+	});
+
+	describe('#oldest', function() {
+		it('refers to the least recently updated key', function() {
+			var cache = new Blast.Classes.Develry.Cache();
+			cache.set('a', 1);
+
+			assert.strictEqual(cache.oldest, 'a');
+
+			cache.set('b', 2);
+			assert.strictEqual(cache.oldest, 'a');
+
+			cache.get('a');
+			assert.strictEqual(cache.oldest, 'b', 'Getting a value also updates the newest');
+		});
+	});
+
 	describe('#max_length', function() {
 		it('sets the maximum amount of entries the cache has', function() {
 
@@ -219,6 +276,54 @@ describe('Cache', function() {
 			assert.strictEqual(cache.get('c'), 3);
 			assert.strictEqual(cache.get('d'), 4);
 			assert.strictEqual(cache.get('e'), 5);
+		});
+	});
+
+	describe('#max_age', function() {
+		it('sets the max age of each entry', function(done) {
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.max_age = 1;
+
+			cache.set('a', 1);
+
+			// Override the default max_age
+			cache.set('b', 2, 1000);
+
+			setTimeout(function() {
+
+				assert.strictEqual(cache.get('a'), undefined, 'This entry should have expired');
+				assert.strictEqual(cache.get('b'), 2, 'This entry should not have expired yet');
+
+				done();
+			}, 10);
+		});
+
+		it('overrides older (but lower) values of earlier entries', async function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 2, 100);
+			cache.set('c', 3, 7);
+
+			await Pledge.after(2);
+
+			assert.strictEqual(cache.get('a'), 1);
+			assert.strictEqual(cache.get('b'), 2);
+
+			cache.max_age = 15;
+
+			await Pledge.after(7);
+
+			assert.strictEqual(cache.get('c'), undefined, 'This entry had a lower max_age before the global value was set');
+			assert.strictEqual(cache.get('a'), 1);
+			assert.strictEqual(cache.get('b'), 2);
+
+			await Pledge.after(10);
+
+			assert.strictEqual(cache.get('a'), undefined);
+			assert.strictEqual(cache.get('b'), undefined);
 		});
 	});
 
