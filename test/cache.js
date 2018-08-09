@@ -52,6 +52,19 @@ describe('Cache', function() {
 				done();
 			}, 5);
 		});
+
+		it('should reset the `added` time', async function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1, 1);
+
+			cache.set('a', 2);
+
+			await Pledge.after(5);
+
+			assert.strictEqual(cache.get('a'), 2, 'The earlier max_age should have been unset');
+		});
 	});
 
 	describe('#get(key)', function() {
