@@ -373,4 +373,39 @@ describe('Cache', function() {
 		});
 	});
 
+	describe('#max_idle', function() {
+		it('sets the maximum time entries can stay in the cache without being accessed', async function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('a', 1);
+			cache.set('b', 1);
+			cache.set('c', 1);
+
+			// Set the max age
+			cache.max_age = 20;
+
+			// And the max idle
+			cache.max_idle = 10;
+
+			await Pledge.after(5);
+
+			assert.strictEqual(cache.get('a'), 1);
+
+			await Pledge.after(6);
+
+			assert.strictEqual(cache.get('a'), 1);
+			assert.strictEqual(cache.get('b'), undefined);
+			assert.strictEqual(cache.get('c'), undefined);
+
+			await Pledge.after(5);
+
+			assert.strictEqual(cache.get('a'), 1);
+
+			await Pledge.after(6);
+
+			assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
+		});
+	});
+
 });
