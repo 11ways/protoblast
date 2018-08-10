@@ -223,6 +223,38 @@ describe('Inheritance', function() {
 		});
 	});
 
+	describe('#decorateMethod(decorator, key, fnc)', function() {
+
+		it('should decorate a method', async function() {
+
+			var Test = Function.inherits(function DecoratorTest() {});
+
+			Test.decorateMethod(Blast.Decorators.memoize(), function timestamp() {
+				return Date.now();
+			});
+
+			let time = Date.now();
+
+			let one = new Test();
+
+			let first = one.timestamp(),
+			    second = one.timestamp();
+
+			await Pledge.after(1);
+
+			assert.strictEqual(first >= time, true);
+			assert.strictEqual(second, first);
+			assert.strictEqual(one.timestamp(), first);
+
+			let two = new Test();
+
+			let third = two.timestamp();
+
+			assert.notStrictEqual(first, third);
+			assert.strictEqual(two.timestamp(), third);
+		});
+	});
+
 	describe('#extend(newConstructor)', function() {
 
 		var ExtendedClass;

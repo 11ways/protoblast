@@ -7,6 +7,7 @@
 * Add `Object.sizeof(input)` to get the size of a variable in bytes
 * Add `Cache` class
 * Allow passing a descriptor to `Blast.defineValue`
+* Add `Function#decorateMethod(decorator, key, method)`
 
 ## 0.5.11 (2018-07-14)
 
