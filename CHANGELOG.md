@@ -8,6 +8,7 @@
 * Add `Cache` class
 * Allow passing a descriptor to `Blast.defineValue`
 * Add `Function#decorateMethod(decorator, key, method)`
+* Add `Date#timeAgo(settings)` method
 
 ## 0.5.11 (2018-07-14)
 
