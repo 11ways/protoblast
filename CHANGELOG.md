@@ -1,4 +1,4 @@
-## 0.6.0 (WIP)
+## 0.6.0 (2018-08-27)
 
 * Make `Pledge` polyfill for `Promise`
 * Add `Pledge.after(n, val)`, which returns a pledge that resolves after n milliseconds
