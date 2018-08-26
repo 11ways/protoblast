@@ -10,6 +10,7 @@
 * Add `Function#decorateMethod(decorator, key, method)`
 * Add `Date#timeAgo(settings)` method
 * `Object.checksum()` will only checksum a function's source string
+* Add `Blast.Decorators.memoize` decorator
 
 ## 0.5.11 (2018-07-14)
 
