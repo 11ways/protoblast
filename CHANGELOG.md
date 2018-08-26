@@ -11,6 +11,7 @@
 * Add `Date#timeAgo(settings)` method
 * `Object.checksum()` will only checksum a function's source string
 * Add `Blast.Decorators.memoize` decorator
+* Make `Pledge#handleCallback()` an alias of `Pledge#done()`
 
 ## 0.5.11 (2018-07-14)
 

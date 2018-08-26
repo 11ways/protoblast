@@ -409,6 +409,20 @@ describe('Pledge', function() {
 			pledge_two.resolve('result');
 		});
 
+		it('should be aliased as #done()', function(done) {
+
+			var pledge = new Pledge(),
+			    my_err = new Error('Test');
+
+			pledge.done(function finished(err) {
+				assert.strictEqual(err, my_err);
+
+				done();
+			});
+
+			pledge.reject(my_err);
+		});
+
 		it('should ignore falsy values', function() {
 			var pledge = new Pledge();
 
