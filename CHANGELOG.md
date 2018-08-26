@@ -9,6 +9,7 @@
 * Allow passing a descriptor to `Blast.defineValue`
 * Add `Function#decorateMethod(decorator, key, method)`
 * Add `Date#timeAgo(settings)` method
+* `Object.checksum()` will only checksum a function's source string
 
 ## 0.5.11 (2018-07-14)
 
