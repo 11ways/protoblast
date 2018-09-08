@@ -1,3 +1,7 @@
+## 0.6.1 (WIP)
+
+* `Informer#forwardEvent()` now accepts a single event emitter to forward ALL events to
+
 ## 0.6.0 (2018-08-27)
 
 * Make `Pledge` polyfill for `Promise`

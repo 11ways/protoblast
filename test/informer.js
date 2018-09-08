@@ -186,7 +186,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener(type, listener)', function() {
+	describe('#addListener(type, listener)', function() {
 
 		it('should have an alias named `on`', function() {
 			assert.equal(Informer.prototype.addListener, Informer.prototype.on);
@@ -206,7 +206,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener("typeName", listener)', function() {
+	describe('#addListener("typeName", listener)', function() {
 
 		it('should store simple listeners', function() {
 			tester.addListener('simple', function(){
@@ -217,7 +217,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener({}, listener)', function() {
+	describe('#addListener({}, listener)', function() {
 
 		before(function() {
 			tester.addListener('demo', function(){counter++});
@@ -244,7 +244,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener("type", listener) - asynchronous', function() {
+	describe('#addListener("type", listener) - asynchronous', function() {
 
 		it('should perform the listeners in serie', function(done) {
 			var aTest = new Blast.Classes.Informer(),
@@ -279,7 +279,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener("type", listener) -- stop propagation', function() {
+	describe('#addListener("type", listener) -- stop propagation', function() {
 
 		it('should stop propagation', function() {
 
@@ -315,7 +315,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('addListener("typeName", listener, context)', function() {
+	describe('#addListener("typeName", listener, context)', function() {
 
 		it('should fire the listener with the given context', function() {
 
@@ -331,7 +331,7 @@ describe('Informer', function() {
 	/**
 	 * Emitting data
 	 */
-	describe('emit("simple", data, ...)', function() {
+	describe('#emit("simple", data, ...)', function() {
 		it('should execute the simple listeners synchronously', function() {
 			tester.emit('simple');
 			assert.equal(1, counter);
@@ -395,7 +395,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('emit({...}, data, ...)', function() {
+	describe('#emit({...}, data, ...)', function() {
 
 		it('should also execute simple listeners that match its "type"', function()  {
 
@@ -435,7 +435,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('removeListener(type, fnc)', function() {
+	describe('#removeListener(type, fnc)', function() {
 
 		var fncOne = function one(){rCount++},
 		    fncTwo = function two() {rCount++},
@@ -567,7 +567,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('removeAllListeners(type)', function() {
+	describe('#removeAllListeners(type)', function() {
 
 		var fncOne = function one(){rCount++},
 		    fncTwo = function two() {rCount++},
@@ -673,7 +673,7 @@ describe('Informer', function() {
 
 	});
 
-	describe('many("type", times, fnc)', function() {
+	describe('#many("type", times, fnc)', function() {
 
 		var fncOne = function one(){rCount++},
 		    sType  = 'simpleTypeMany',
@@ -742,7 +742,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('many({...}, times, fnc)', function() {
+	describe('#many({...}, times, fnc)', function() {
 
 		var fncOne = function one(){rCount++},
 		    fType  = {type: 'fTypeMany', extra: 'extra'},
@@ -824,7 +824,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('after(type, listener)', function() {
+	describe('#after(type, listener)', function() {
 
 		it('should fire after being attached if an event has been emitted in the past', function() {
 
@@ -909,7 +909,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('afterOnce(type, listener)', function() {
+	describe('#afterOnce(type, listener)', function() {
 
 		it('should fire after being attached if an event has been emitted in the past', function() {
 
@@ -931,7 +931,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('listeners(type)', function() {
+	describe('#listeners(type)', function() {
 
 		var sType  = 'listenTest',
 		    fType  = {type: 'listenTest', expanded: 'expanded'},
@@ -957,7 +957,7 @@ describe('Informer', function() {
 		});
 	});
 
-	describe('unsee(type)', function() {
+	describe('#unsee(type)', function() {
 
 		it('should unsee the given string type', function() {
 			var tester = new Informer();
@@ -1037,6 +1037,58 @@ describe('Informer', function() {
 
 			tester.emitOnce('test');
 			assert.equal(result, 2);
+		});
+	});
+
+	describe('#forwardEvent(type, target, context)', function() {
+		it('should forward the single event to another informer', function(done) {
+
+			var source = new Informer(),
+			    target = new Informer();
+
+			target.on('alpha', function() {
+				done();
+			});
+
+			target.on('beta', function() {
+				done(new Error('Wrong event type has been forwarded'));
+			});
+
+			source.forwardEvent('alpha', target);
+			source.emit('alpha')
+		});
+	});
+
+	describe('#forwardEvent(target)', function() {
+		it('should forward all events', function(done) {
+
+			var count  = 0,
+			    source = new Informer(),
+			    target = new Informer();
+
+			target.on('one', function() {
+				count++;
+			});
+
+			target.on('two', function() {
+				count++;
+			});
+
+			target.on('three', function() {
+				count++;
+
+				if (count == 3) {
+					done();
+				} else {
+					done(new Error('Not all events fired'));
+				}
+			});
+
+			source.forwardEvent(target);
+
+			source.emit('one');
+			source.emit('two');
+			source.emit('three');
 		});
 	});
 });
