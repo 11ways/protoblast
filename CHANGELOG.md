@@ -3,6 +3,7 @@
 * `Informer#forwardEvent()` now accepts a single event emitter to forward ALL events to
 * Make `Blast#setImmediate()` throw an error if the callback argument isn't a function
 * `Function.setMethod()` will use `Obj.getPropertyDescriptor` to check existing methods, so no getters are accidentally triggered
+* Fix inheriting from a namespace when it is not yet available
 
 ## 0.6.0 (2018-08-27)
 

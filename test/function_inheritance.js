@@ -175,6 +175,19 @@ describe('Inheritance', function() {
 				done();
 			}, 20);
 		});
+
+		it('should inherit the class from a namespace yet to be made', function(done) {
+
+			let Child = Function.inherits('Protoblast.Namespace.Rule', function Child() {});
+			let Parent = Function.inherits('Informer', 'Protoblast.Namespace.Rule', function Rule() {});
+
+			setTimeout(function() {
+
+				assert.equal(Child.super, Parent, 'The Child class did not correctly inherit from the Parent');
+
+				done();
+			}, 20);
+		});
 	});
 
 	describe('#setMethod(key, fnc)', function() {
