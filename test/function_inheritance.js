@@ -780,5 +780,78 @@ describe('Inheritance', function() {
 
 			assert.equal(b.setted_getter, 20);
 		});
+
+		it('should handle inheritance', function() {
+
+			var TestIGA = Function.inherits(function TestIGA() {});
+
+			TestIGA.setProperty(function my_data() {
+
+				if (!this._my_data) {
+					this._my_data = {};
+				}
+
+				return this._my_data;
+			});
+
+			let TestIGB = Function.inherits('TestIGA', function TestIGB() {}),
+			    TestIGC = Function.inherits('TestIGB', function TestIGC() {}),
+			    TestIGD = Function.inherits('TestIGA', function TestIGD() {});
+
+			let a = new TestIGA(),
+			    b = new TestIGB(),
+			    c = new TestIGC(),
+			    d = new TestIGD();
+
+			assert.strictEqual(typeof a.my_data, 'object');
+			assert.strictEqual(typeof b.my_data, 'object');
+			assert.strictEqual(typeof c.my_data, 'object');
+			assert.strictEqual(typeof d.my_data, 'object');
+
+			assert.notStrictEqual(b.my_data, a.my_data);
+			assert.notStrictEqual(c.my_data, b.my_data);
+
+			assert.notStrictEqual(d.my_data, a.my_data);
+			assert.notStrictEqual(d.my_data, b.my_data);
+			assert.notStrictEqual(d.my_data, c.my_data);
+
+			a.my_data.name = 'a';
+			d.my_data.name = 'd';
+
+			assert.strictEqual(a.my_data.name, 'a');
+			assert.strictEqual(b.my_data.name, undefined);
+			assert.strictEqual(c.my_data.name, undefined);
+			assert.strictEqual(d.my_data.name, 'd');
+		});
+
+		it.skip('should not work if it is called on the prototype itself', function() {
+
+			var TestPA = Function.inherits(function TestPA() {});
+
+			TestPA.setProperty(function my_data() {
+
+				if (!this._my_data) {
+					this._my_data = {};
+				}
+
+				return this._my_data;
+			});
+
+			let a = new TestPA();
+
+			assert.notStrictEqual(a.my_data, null);
+			assert.strictEqual(typeof a.my_data, 'object');
+
+			// Access the getter through the prototype
+			// It should NOT harm things here
+			TestPA.prototype.my_data;
+
+			assert.strictEqual(TestPA.prototype.my_data, undefined, 'The getter should not execute on the prototype itself');
+
+			let b = new TestPA();
+
+			assert.notStrictEqual(b.my_data, TestPA.prototype.my_data);
+
+		});
 	});
 });
