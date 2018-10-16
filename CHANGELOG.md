@@ -1,4 +1,4 @@
-## 0.6.1 (WIP)
+## 0.6.1 (2018-10-16)
 
 * `Informer#forwardEvent()` now accepts a single event emitter to forward ALL events to
 * Make `Blast#setImmediate()` throw an error if the callback argument isn't a function
