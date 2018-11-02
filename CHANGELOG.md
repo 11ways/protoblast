@@ -2,6 +2,7 @@
 
 * Add State class
 * Add `RURL#seems_valid` property
+* Rewrite `Request` class & add browser support
 
 ## 0.6.1 (2018-10-16)
 
