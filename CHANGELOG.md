@@ -1,6 +1,7 @@
 ## 0.6.2 (WIP)
 
 * Add State class
+* Add `RURL#seems_valid` property
 
 ## 0.6.1 (2018-10-16)
 
