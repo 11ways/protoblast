@@ -1,3 +1,7 @@
+## 0.6.2 (WIP)
+
+* Add State class
+
 ## 0.6.1 (2018-10-16)
 
 * `Informer#forwardEvent()` now accepts a single event emitter to forward ALL events to
