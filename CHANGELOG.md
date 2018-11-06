@@ -3,6 +3,8 @@
 * Add State class
 * Add `RURL#seems_valid` property
 * Rewrite `Request` class & add browser support
+* `Function#throttle(fnc)` now accepts a config object as second argument
+* `Function#throttle(fnc, config)` can now be used in classes
 
 ## 0.6.1 (2018-10-16)
 
