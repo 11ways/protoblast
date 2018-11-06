@@ -5,6 +5,7 @@
 * Rewrite `Request` class & add browser support
 * `Function#throttle(fnc)` now accepts a config object as second argument
 * `Function#throttle(fnc, config)` can now be used in classes
+* Add `throttle` method decorator
 
 ## 0.6.1 (2018-10-16)
 
