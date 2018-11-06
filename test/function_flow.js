@@ -864,6 +864,70 @@ describe('Function Flow', function() {
 		});
 	});
 
+	describe('.throttle(fnc, config)', function() {
+		this.slow(500);
+
+		it('should execute the function only once per given ms', function(done) {
+
+			var start;
+
+			var fnc = Function.throttle(function(val) {
+				var elapsed = Date.now() - start;
+
+				assert.strictEqual(val, 'val');
+				assert.strictEqual(elapsed > 39, true);
+
+				done();
+
+			}, {minimum_wait: 40});
+
+			start = Date.now();
+
+			fnc('val');
+		});
+
+		it('should not share method throttle state with different instances', function(done) {
+
+			var alpha = {name: 'alpha'},
+			    beta = {name: 'beta'},
+			    start,
+			    test,
+			    i = 0;
+
+			test = Function.throttle(function test(val) {
+
+				var elapsed = Date.now() - start;
+
+				if (this.name == 'alpha') {
+					assert.strictEqual(val, 'val');
+				} else {
+					assert.strictEqual(val, 'yes');
+				}
+
+				assert.strictEqual(elapsed > 39, true);
+
+				i++;
+
+				if (i == 2) {
+					done();
+				}
+			}, {method: true, minimum_wait: 40});
+
+			start = Date.now();
+			alpha.test = test;
+			beta.test = test;
+
+			// First & only call on the alpha instance, so it'll run
+			alpha.test('val');
+
+			// First call on the beta class, won't run because...
+			beta.test('nope');
+
+			// We call it again on this instance
+			beta.test('yes');
+		});
+	});
+
 	describe('.createQueue(options)', function() {
 		it('should create a new queue', function() {
 			var queue = Function.createQueue();
