@@ -6,6 +6,7 @@
 * `Function#throttle(fnc)` now accepts a config object as second argument
 * `Function#throttle(fnc, config)` can now be used in classes
 * Add `throttle` method decorator
+* Add `Blast.requestIdleCallback` implementation
 
 ## 0.6.1 (2018-10-16)
 
