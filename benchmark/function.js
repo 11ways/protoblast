@@ -43,8 +43,4 @@ suite('Function', function() {
 		fn3._unmethodized = false;
 		fn3.unmethodize();
 	});
-
-	bench('#curry()', function() {
-		fn2.curry();
-	});
 });

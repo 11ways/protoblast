@@ -637,23 +637,6 @@ string` + `another
 		});
 	});
 
-	describe('#curry()', function() {
-		it('should create a function that already contains pre-filled-in arguments', function() {
-
-			var adder,
-			    addTen;
-
-			adder = function adder(a, b) {
-				return a+b;
-			}
-
-			addTen = adder.curry(10);
-
-			assert.equal(addTen(5), adder(10, 5));
-			assert.equal(addTen.name, adder.name);
-		});
-	});
-
 	describe('.tryCatch(fnc, args, context)', function() {
 
 		it('should return the original value when no errors occur', function() {
