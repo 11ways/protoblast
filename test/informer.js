@@ -1057,6 +1057,24 @@ describe('Informer', function() {
 			source.forwardEvent('alpha', target);
 			source.emit('alpha')
 		});
+
+		// @TODO: still need to figure out if this should be a default or not
+		it.skip('should also forward `unsee` calls', function() {
+
+			var source = new Informer(),
+			    target = new Informer();
+
+			source.forwardEvent('alpha', target);
+			source.emit('alpha');
+
+			assert.strictEqual(target.hasBeenSeen('alpha'), true);
+
+			source.unsee('alpha');
+
+			assert.strictEqual(source.hasBeenSeen('alpha'), false, 'Original event was not unseen');
+			assert.strictEqual(target.hasBeenSeen('alpha'), false, 'Unsee call was not forwarded');
+
+		});
 	});
 
 	describe('#forwardEvent(target)', function() {
