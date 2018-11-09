@@ -9,6 +9,7 @@
 * Add `Blast.requestIdleCallback` implementation
 * Removed japanese & hebrew `romanize` string methods
 * Removed `Function.curry` function
+* Upgrade json-dry dependency to 1.0.8
 
 ## 0.6.1 (2018-10-16)
 
