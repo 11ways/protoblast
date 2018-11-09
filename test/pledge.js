@@ -5,7 +5,7 @@ var assert = require('assert'),
 describe('Pledge', function() {
 	Blast  = require('../index.js')();
 	Pledge = Blast.Classes.Pledge;
-	this.timeout(400);
+	this.timeout(800);
 
 	// before(function() {
 	// 	Blast  = require('../index.js')();

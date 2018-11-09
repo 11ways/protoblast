@@ -7,7 +7,7 @@
 * `Function#throttle(fnc, config)` can now be used in classes
 * Add `throttle` method decorator
 * Add `Blast.requestIdleCallback` implementation
-* Removed `romanize` string methods
+* Removed japanese & hebrew `romanize` string methods
 * Removed `Function.curry` function
 
 ## 0.6.1 (2018-10-16)
