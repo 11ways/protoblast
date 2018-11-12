@@ -1,3 +1,7 @@
+## 0.6.3 (WIP)
+
+* Add `RURL#usedBaseProperty(name)` to find out if a property came from the base location
+
 ## 0.6.2 (2018-11-09)
 
 * Add State class

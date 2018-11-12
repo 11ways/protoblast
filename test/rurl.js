@@ -1279,7 +1279,8 @@ describe('RURL', function() {
 				pathname : '/test',
 				search   : '?query=param',
 				hash     : '#hash',
-				slashes  : true
+				slashes  : true,
+				from_base : []
 			});
 		});
 	});
@@ -1426,6 +1427,17 @@ describe('RURL', function() {
 			assert.equal(parsed.param('a'), 'this=is=a');
 			assert.equal(parsed.param('b'), '0');
 			assert.equal(parsed.param('c'), '&thisisc');
+		});
+	});
+
+	describe('#usedBaseProperty(name)', function() {
+		it('should return wether the value came from the base location', function() {
+
+			var relative = RURL.parse('relfile', 'http://www.bla.be'),
+			    absolute = RURL.parse('http://www.abs.be');
+
+			assert.strictEqual(relative.usedBaseProperty('hostname'), true);
+			assert.strictEqual(absolute.usedBaseProperty('hostname'), false);
 		});
 	});
 
