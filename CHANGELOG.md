@@ -1,6 +1,7 @@
 ## 0.6.3 (WIP)
 
 * Add `RURL#usedBaseProperty(name)` to find out if a property came from the base location
+* You can now use `Date#startOf(unit)` to set dacesecond & decaminute
 
 ## 0.6.2 (2018-11-09)
 

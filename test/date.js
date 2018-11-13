@@ -416,6 +416,11 @@ describe('Date', function() {
 			assert.equal(a.clone().startOf('month').toJSON(), (new Date('2014-10-31T23:00:00.000Z')).toJSON());
 			assert.equal(a.clone().startOf('year').toJSON(), (new Date('2013-12-31T23:00:00.000Z')).toJSON());
 		});
+
+		it('can set the start of a tenfold', function() {
+			assert.equal(a.clone().startOf('decasecond').toJSON(), (new Date('2014-11-15T12:49:20.000Z')).toJSON());
+			assert.equal(a.clone().startOf('decaminute').toJSON(), (new Date('2014-11-15T12:40:00.000Z')).toJSON());
+		});
 	});
 
 	describe('#next(unit)', function() {
