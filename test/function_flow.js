@@ -187,6 +187,20 @@ describe('Function Flow', function() {
 				done();
 			});
 		});
+
+		it('should pass the result of the previous task to the next', function(done) {
+
+			Function.series(function(next) {
+				next(null, 1);
+			}, function(next, val) {
+				assert.strictEqual(val, 1);
+				next(null, 2);
+			}, function _done(err, result) {
+				assert.strictEqual(!!err, false);
+				assert.deepStrictEqual(result, [1, 2]);
+				done();
+			});
+		});
 	});
 
 	describe('.series(objectTasks, callback)', function() {
