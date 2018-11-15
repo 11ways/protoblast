@@ -672,4 +672,20 @@ describe('String', function() {
 			assert.strictEqual(' < b a > '.isEmptyWhitespaceHTML(), false);
 		});
 	});
+
+	describe('#toUint8Array() & .fromUint8Array()', function() {
+
+		it('should return a Uint8Array representation of the string', function() {
+
+			var input = '🙄🤷\u3000';
+
+			var arr = input.toUint8Array();
+
+			assert.deepStrictEqual(Array.prototype.slice.call(arr), [240, 159, 153, 132, 240, 159, 164, 183, 194, 128, 227, 128, 128]);
+
+			var decoded = String.fromUint8Array(arr);
+
+			assert.strictEqual(decoded, input);
+		});
+	});
 });

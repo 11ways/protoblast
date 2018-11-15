@@ -3,6 +3,7 @@
 * Add `RURL#usedBaseProperty(name)` to find out if a property came from the base location
 * You can now use `Date#startOf(unit)` to set dacesecond & decaminute
 * `Function.series` will now pass the value from the previous task to the next
+* Add `String#toUint8Array()` and `String.fromUint8Array()`
 
 ## 0.6.2 (2018-11-09)
 
