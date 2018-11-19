@@ -673,7 +673,7 @@ describe('String', function() {
 		});
 	});
 
-	describe('#toUint8Array() & .fromUint8Array()', function() {
+	describe('#toUint8Array() & .fromBuffer()', function() {
 
 		it('should return a Uint8Array representation of the string', function() {
 
@@ -683,8 +683,21 @@ describe('String', function() {
 
 			assert.deepStrictEqual(Array.prototype.slice.call(arr), [240, 159, 153, 132, 240, 159, 164, 183, 194, 128, 227, 128, 128]);
 
-			var decoded = String.fromUint8Array(arr);
+			var decoded = String.fromBuffer(arr);
 
+			assert.strictEqual(decoded, input);
+		});
+	});
+
+	describe('#yencode() & #deyencode()', function() {
+		it('should encode & decode yenc-encoded strings', function() {
+
+			var input = '🙄🤷',
+			    yenc = input.yencode(),
+			    decoded = yenc.deyencode();
+
+			assert.notStrictEqual(yenc, input);
+			assert.strictEqual(yenc.length, 8);
 			assert.strictEqual(decoded, input);
 		});
 	});
