@@ -6,6 +6,7 @@
 * Add `String#toUint8Array()` and `String.fromBuffer()`
 * Add `yenc` support, so non-Latin1 characters can also be serialized
 * Add `String.fromNumbers(arr)` to create a string from numbers
+* Add `TypedArray#pack12bit()` and `TypedArray#unpack12bit()`
 
 ## 0.6.2 (2018-11-09)
 
