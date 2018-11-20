@@ -130,6 +130,7 @@
 * Added `Pledge#silentReject` which won't throw an `Error` in case there are no rejection listeners
 * Add context setting as the second parameter to `Blast.nextTick` and `Blast.setImmediate`
 * Removed `Blast.setTimeout`
+* Pass the `seen` object to `Blast.alikeSymbol` methods
 
 ## 0.5.0 (2018-02-17)
 

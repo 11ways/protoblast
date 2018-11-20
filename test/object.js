@@ -382,6 +382,21 @@ describe('Object', function() {
 
 			assert.strictEqual(Object.alike(a, b), false);
 		});
+
+		it('should use methods with the Blast.alikeSymbol name', function() {
+
+			var a = {z: 1},
+			    b = {z: 1};
+
+			a[Blast.alikeSymbol] = b[Blast.alikeSymbol] = function alike(other, seen) {
+				return Object.alike(this.$main, other.$main, seen);
+			};
+
+			a.$main = {x: 1, ref: a};
+			b.$main = {x: 1, ref: b};
+
+			assert.strictEqual(Object.alike(a, b), true);
+		});
 	});
 
 	describe('.flatten(obj, divider)', function() {
