@@ -5,6 +5,7 @@
 * `Function.series` will now pass the value from the previous task to the next
 * Add `String#toUint8Array()` and `String.fromBuffer()`
 * Add `yenc` support, so non-Latin1 characters can also be serialized
+* Add `String.fromNumbers(arr)` to create a string from numbers
 
 ## 0.6.2 (2018-11-09)
 
