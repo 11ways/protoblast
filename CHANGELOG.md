@@ -3,6 +3,7 @@
 * Add `RURL#usedBaseProperty(name)` to find out if a property came from the base location
 * You can now use `Date#startOf(unit)` to set dacesecond & decaminute
 * `Function.series` will now pass the value from the previous task to the next
+* Add `LazyPledge` class, which will only call on the executor once `then` has been called
 
 ## 0.6.2 (2018-11-09)
 

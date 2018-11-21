@@ -521,3 +521,46 @@ describe('Pledge', function() {
 		Promise: Pledge
 	});
 });
+
+describe('LazyPledge', function() {
+
+	Blast  = require('../index.js')();
+	var LazyPledge = Blast.Classes.LazyPledge;
+	this.timeout(800);
+
+	describe('.constructor(executor)', function() {
+
+		it('should pass a resolve & reject function to the executor', function(done) {
+			var pledge = new LazyPledge(function myExecutor(resolve, reject) {
+				assert.equal(typeof resolve, 'function');
+				assert.equal(typeof reject, 'function');
+				done();
+			});
+
+			pledge.then(function(){});
+		});
+	});
+
+	describe('.then()', function() {
+		it('should only call the executor once the `then` method has been called', function(done) {
+
+			var resolved = null;
+
+			var lazy = new LazyPledge(function task(resolve, reject) {
+				resolved = true;
+				resolve(47);
+			});
+
+			setTimeout(function() {
+
+				assert.strictEqual(resolved, null, 'LazyPledge started before being called upon');
+
+				lazy.then(function(value) {
+					assert.strictEqual(value, 47);
+					done();
+				});
+			}, 10);
+		});
+	});
+
+})
