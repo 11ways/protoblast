@@ -5,6 +5,7 @@
 * `Function.series` will now pass the value from the previous task to the next
 * Add `LazyPledge` class, which will only call on the executor once `then` has been called
 * Forward Pledge progress reports to other pledges
+* Add `Blast.isWebview` to detect when it's running in a webview
 
 ## 0.6.2 (2018-11-09)
 
