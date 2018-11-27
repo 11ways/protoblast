@@ -11,8 +11,4 @@ suite('Date', function() {
 	bench('.isDate(var)', function() {
 		Date.isDate(date);
 	});
-
-	bench('#toSource()', function() {
-		date.toSource();
-	});
 });

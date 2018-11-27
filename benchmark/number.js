@@ -8,10 +8,6 @@ suite('Number', function() {
 		Number.random(0, 10);
 	});
 
-	bench('#toSource()', function() {
-		nr.toSource();
-	});
-
 	bench('#toPaddedString(5)', function() {
 		nr.toPaddedString(5);
 	});

@@ -16,10 +16,6 @@ suite('String', function() {
 		String.serializeAttributes(att);
 	});
 
-	bench('#toSource()', function() {
-		str.toSource();
-	});
-
 	bench('#after(needle)', function() {
 		str.after('is');
 	});

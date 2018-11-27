@@ -26,10 +26,6 @@ suite('Object', function() {
 		name: 'Clouds',
 		updated: 'Tue Aug 05 2014 15:26:52 GMT+0200 (CEST)' } }];
 
-	bench('#toSource()', function() {
-		obj.toSource();
-	});
-
 	bench('.isObject(obj)', function() {
 		Object.isObject(obj);
 	});

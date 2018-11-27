@@ -36,10 +36,6 @@ suite('Array', function() {
 		Array.range(0,10,1);
 	});
 
-	bench('#toSource()', function() {
-		arr.toSource();
-	});
-
 	bench('#first()', function() {
 		arr.first();
 	});

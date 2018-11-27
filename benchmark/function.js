@@ -26,10 +26,6 @@ suite('Function', function() {
 		Function.tokenize(src, true);
 	});
 
-	bench('#toSource()', function() {
-		fnc.toSource();
-	});
-
 	bench('#tokenize()', function() {
 		fnc.tokenize();
 	});

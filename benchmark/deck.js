@@ -14,10 +14,6 @@ suite('Deck', function() {
 		new Deck()
 	});
 
-	bench('#toSource()', function() {
-		deck.toSource();
-	});
-
 	bench('#set(key, value, weight)', function() {
 		deck.set('mykey', 'value', 15);
 	});
