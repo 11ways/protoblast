@@ -6,6 +6,7 @@
 * Add `LazyPledge` class, which will only call on the executor once `then` has been called
 * Forward Pledge progress reports to other pledges
 * Add `Blast.isWebview` to detect when it's running in a webview
+* Use `requestIdleCallback` as a `setImmediate` implementation in the browser
 
 ## 0.6.2 (2018-11-09)
 
