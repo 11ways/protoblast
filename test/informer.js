@@ -393,6 +393,15 @@ describe('Informer', function() {
 
 			assert.equal(1, caught, 'Error was not thrown');
 		});
+
+		it('should store the event even if there are no listeners', function() {
+
+			var emitter = new Informer();
+
+			emitter.emit('bla', 1);
+
+			assert.strictEqual(emitter.hasBeenSeen('bla'), true);
+		});
 	});
 
 	describe('#emit({...}, data, ...)', function() {

@@ -7,6 +7,7 @@
 * Forward Pledge progress reports to other pledges
 * Add `Blast.isWebview` to detect when it's running in a webview
 * Use `requestIdleCallback` as a `setImmediate` implementation in the browser
+* Make `Informer#emit()` exit early when no listeners are found
 
 ## 0.6.2 (2018-11-09)
 
