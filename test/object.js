@@ -618,6 +618,27 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.path(BLAST.PATH_AGGREGATE, obj, path)', function() {
+		it('should aggregate values in an array', function() {
+
+			var obj = {
+				a: {
+					b: {
+						c: [
+							{d: 1},
+							{d: 2},
+							{d: 3}
+						]
+					}
+				}
+			};
+
+			let result = Object.path(Blast.PATH_AGGREGATE, obj, 'a.b.c.d');
+
+			assert.deepStrictEqual(result, [1, 2, 3]);
+		});
+	});
+
 	describe('.exists(obj, path)', function() {
 		it('should see if the path exists inside the given object', function() {
 

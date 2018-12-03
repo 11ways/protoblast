@@ -10,6 +10,8 @@
 * Make `Informer#emit()` exit early when no listeners are found
 * Rewrite setImmediate polyfill
 * Add `Date#timestamp` getter
+* Add `flag` parameter to `Object.path(flag, obj, path)`
+* Add `Blast.PATH_AGGREGATE` flag
 
 ## 0.6.2 (2018-11-09)
 
