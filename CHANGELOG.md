@@ -9,6 +9,7 @@
 * Use `requestIdleCallback` as a `setImmediate` implementation in the browser
 * Make `Informer#emit()` exit early when no listeners are found
 * Rewrite setImmediate polyfill
+* Add `Date#timestamp` getter
 
 ## 0.6.2 (2018-11-09)
 
