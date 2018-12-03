@@ -796,6 +796,44 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#sortByPath(Blast.PATH_AGGREGATE)', function() {
+		it('should aggregate array values', function() {
+
+			var arr = [
+				{
+					a: [
+						{b: 2},
+						{b: 3}
+					]
+				},
+				{
+					a: [
+						{b: 1},
+						{b: 5}
+					]
+				},
+				{
+					a: [
+						{b: 0},
+						{b: 1}
+					]
+				}
+			];
+
+			var original = arr.slice(0);
+
+			// Sort descending (by last "b")
+			arr.sortByPath(Blast.PATH_AGGREGATE, -1, 'a.b');
+
+			assert.deepStrictEqual([original[1], original[0], original[2]], arr);
+
+			// Sort ascending
+			arr.sortByPath(Blast.PATH_AGGREGATE, 1, 'a.b');
+
+			assert.deepStrictEqual([original[2], original[0], original[1]], arr);
+		});
+	});
+
 	describe('#findByPath(path, value)', function() {
 
 		it('find the given value in the given path and return that entry', function() {
