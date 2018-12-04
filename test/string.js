@@ -231,10 +231,114 @@ describe('String', function() {
 	});
 
 	describe('#stripTags()', function() {
-		it('should remove HTML tags from the string', function() {
+		it('should remove HTML tags from the string and replace breaks with newlines', function() {
 			var original = '<b>This is a <br/>bold string</b>';
 
-			assert.strictEqual(original.stripTags(), 'This is a bold string');
+			assert.strictEqual(original.stripTags(), 'This is a \nbold string');
+		});
+
+		it('should not strip invalid tags', function() {
+			var text = 'lorem ipsum < a> < div>';
+			assert.equal(text.stripTags(), text);
+		});
+
+		it('should remove simple HTML tags', function() {
+			var html = '<a href="">lorem <strong>ipsum</strong></a>',
+			    text = 'lorem ipsum';
+
+			assert.equal(html.stripTags(), text);
+		});
+
+		it('should remove comments', function() {
+			var html = '<!-- lorem -- ipsum -- --> dolor sit amet',
+			    text = ' dolor sit amet';
+
+			assert.equal(html.stripTags(), text);
+		});
+
+		it('should strip tags within comments', function() {
+			var html = '<!-- <strong>lorem ipsum</strong> --> dolor sit',
+			    text = ' dolor sit';
+
+			assert.equal(html.stripTags(), text);
+		});
+
+		it('should not fail with nested quotes', function() {
+			var html = '<article attr="foo \'bar\'">lorem</article> ipsum',
+			    text = 'lorem ipsum';
+
+			assert.equal(html.stripTags(), text);
+		});
+	});
+
+	describe('#stripTags(string)', function() {
+		it('should allow given tag', function() {
+			var html = '<strong>lorem ipsum</strong>',
+			    allowed_tags = 'strong';
+
+			assert.equal(html.stripTags(allowed_tags), html);
+		});
+
+		it('should leave attributes when allowing HTML', function() {
+			var html = '<a href="https://example.com">lorem ipsum</a>',
+			    allowed_tags = 'a';
+
+			assert.equal(html.stripTags(allowed_tags), html);
+		});
+
+		it('should strip extra < within tags', function() {
+			var html = '<div<>>lorem ipsum</div>',
+			    text = '<div>lorem ipsum</div>',
+			    allowed_tags = 'div';
+
+			assert.equal(html.stripTags(allowed_tags), text);
+		});
+
+		it('should strip <> within quotes', function() {
+			var html = '<a href="<script>">lorem ipsum</a>',
+			    text = '<a href="script">lorem ipsum</a>',
+			    allowed_tags = 'a';
+
+			assert.equal(html.stripTags(allowed_tags), text);
+		});
+	});
+
+	describe('#stripTags(array)', function() {
+		it('should allow given tags', function() {
+			var html = '<strong>lorem <em>ipsum</em></strong>',
+			    allowed_tags = ['strong', 'em'];
+
+			assert.equal(html.stripTags(allowed_tags), html);
+		});
+	});
+
+	describe('#stripTags(false)', function() {
+		it('should remove HTML tags including breaks', function() {
+			var original = '<b>This is a <br/>bold string</b>';
+
+			assert.strictEqual(original.stripTags(false), 'This is a bold string');
+		});
+	});
+
+	describe('#stripTags({})', function() {
+		it('should allow given tags to stay', function() {
+			var original = '<b>This is a <br>test</b><i> italic test</i>';
+
+			var result = original.stripTags({
+				'b': '*',
+				'i': '_'
+			});
+
+			assert.strictEqual(result, '*This is a test*_ italic test_');
+		});
+	});
+
+	describe('#stripTags(null, replacement)', function() {
+		it('should replace all tags with the replacement', function() {
+			var original = '<b>This is a <br>test</b><i> italic test</i>';
+
+			assert.strictEqual(original.stripTags(null, '-'), '-This is a \ntest-- italic test-');
+			assert.strictEqual(original.stripTags(false, '-'), '-This is a -test-- italic test-');
 		});
 	});
 

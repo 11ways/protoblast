@@ -13,6 +13,7 @@
 * Add `flag` parameter to `Object.path(flag, obj, path)`
 * Add `Blast.PATH_AGGREGATE` flag
 * Add flag support to `Array#sortByPath()`
+* Rewrite `String#stripTags()`, based on Eric Norris implementation
 
 ## 0.6.2 (2018-11-09)
 
