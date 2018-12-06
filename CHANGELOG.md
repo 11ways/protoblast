@@ -1,6 +1,7 @@
 ## 0.6.4 (WIP)
 
 * Fix the server-side `Request` class implementation
+* Fix `Pledge` instances executing the callbacks synchronously
 
 ## 0.6.3 (2018-12-06)
 

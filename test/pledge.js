@@ -314,6 +314,40 @@ describe('Pledge', function() {
 
 			pledge.resolve();
 		});
+
+		it('should always call the callbacks asynchronously', function(done) {
+
+			var pledge = new Pledge(),
+			    one = false,
+			    two = false;
+
+			pledge.then(function(val) {
+				one = val;
+
+				pledge.then(function(val) {
+					two = val;
+				});
+
+				assert.strictEqual(two, false, 'Second callback fired too early');
+
+				setTimeout(function() {
+
+					let pledge = Pledge.resolve('OK'),
+					    three = false;
+
+					pledge.then(function(val) {
+						three = val;
+					});
+
+					assert.strictEqual(three, false, 'Third callback fired too early');
+
+					setTimeout(done, 5);
+				}, 5)
+			});
+
+			pledge.resolve('done');
+			assert.strictEqual(one, false, 'First callback fired too early');
+		});
 	});
 
 	describe('#finally(on_finally)', function() {
