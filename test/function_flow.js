@@ -821,7 +821,7 @@ describe('Function Flow', function() {
 				var elapsed = Date.now() - start;
 
 				assert.strictEqual(val, 'val');
-				assert.strictEqual(elapsed > 39, true);
+				assert.strictEqual(elapsed > 39, true, 'Only ' + elapsed + ' ms elapsed');
 
 				done();
 
