@@ -1,3 +1,5 @@
+## 0.6.4 (WIP)
+
 ## 0.6.3 (2018-12-06)
 
 * Add `RURL#usedBaseProperty(name)` to find out if a property came from the base location
