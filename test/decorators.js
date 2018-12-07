@@ -126,4 +126,47 @@ describe('Decorators', function() {
 			}, 11);
 		});
 	});
+
+	describe('Decorators.memoize({ignore_callbacks: true})', function() {
+
+		before(function() {
+			let decorator = Blast.Decorators.memoize({
+				max_age          : 6,
+				ignore_callbacks : true
+			});
+
+			let c = 0;
+
+			MemoOne.decorateMethod(decorator, function ignoreCallback(a, callback) {
+				callback(null, ++c);
+			});
+		});
+
+		it('does not include callbacks in the checksum key', function doTest(done) {
+
+			var instance = new MemoOne();
+
+			instance.ignoreCallback(0, function done(err, res) {
+				assert.strictEqual(res, 1);
+			});
+
+			// Second call will callback with the same, cached value
+			instance.ignoreCallback(0, function done(err, res) {
+				assert.strictEqual(res, 1);
+			});
+
+			setTimeout(function() {
+
+				instance.ignoreCallback(0, function _done(err, res) {
+					assert.strictEqual(res, 2, 'Received value of `' + res + '`, but `2` was expected after max_age elapsed');
+
+					instance.ignoreCallback(0, function _done(err, res) {
+						assert.strictEqual(res, 2, 'Received value of `' + res + '`, but `2` was expected');
+						done();
+					});
+				});
+
+			}, 10);
+		});
+	});
 });
