@@ -2,6 +2,7 @@
 
 * Fix the server-side `Request` class implementation
 * Fix `Pledge` instances executing the callbacks synchronously
+* Fix `Cache#has(key)` return true for expired entries
 
 ## 0.6.3 (2018-12-06)
 

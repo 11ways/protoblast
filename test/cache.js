@@ -299,6 +299,7 @@ describe('Cache', function() {
 			cache.max_age = 1;
 
 			cache.set('a', 1);
+			cache.set('c', 1);
 
 			// Override the default max_age
 			cache.set('b', 2, 1000);
@@ -306,7 +307,13 @@ describe('Cache', function() {
 			setTimeout(function() {
 
 				assert.strictEqual(cache.get('a'), undefined, 'This entry should have expired');
+				assert.strictEqual(cache.has('a'), false, 'The expired entry should not be seen as available after trying to get it');
+
+				assert.strictEqual(cache.has('b'), true);
 				assert.strictEqual(cache.get('b'), 2, 'This entry should not have expired yet');
+
+				assert.strictEqual(cache.has('c'), false, 'The expired entry should not be seen as available even before trying to get it');
+				assert.strictEqual(cache.get('c'), undefined, 'This entry should have expired');
 
 				done();
 			}, 10);
