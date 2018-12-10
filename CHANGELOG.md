@@ -5,6 +5,8 @@
 * Fix `Cache#has(key)` return true for expired entries
 * Fix `memoize` Decorator not setting `max_age` when `ignore_callbacks` is true
 * Add `cast` argument to `Array#unique()`
+* `Pledge#_started` is now a timestamp, not a boolean
+* Add duration properties to the `Pledge` class
 
 ## 0.6.3 (2018-12-06)
 
