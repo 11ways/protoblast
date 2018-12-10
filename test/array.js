@@ -627,6 +627,29 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#unique(cast)', function() {
+		it('should cast the functions before comparing', function() {
+
+			var args = [
+				'04',
+				'4',
+				'1',
+				'2',
+				1,
+				3
+			];
+
+			let result = args.unique(Number);
+
+			assert.deepStrictEqual(result, [
+				'04',
+				'1',
+				'2',
+				3
+			]);
+		});
+	});
+
 	describe('#shared(secondArray)', function() {
 		it('should return the shared values between 2 arrays as an array', function() {
 
