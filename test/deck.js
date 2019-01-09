@@ -79,11 +79,41 @@ describe('Deck', function() {
 
 	describe('#getById(key)', function() {
 		it('should return the value of the wanted id', function() {
-			
+
 			var d = new Deck();
 			d.set('mykey', 47);
 
 			assert.equal(d.getById(0), 47);
+		});
+	});
+
+	describe('#remove(key)', function() {
+		it('should remove an entry', function() {
+
+			var d = new Deck();
+			d.set('a', 1);
+			d.set('b', 2);
+			d.set('c', 3);
+
+			var c = 0;
+
+			d.forEach(function eachEntry(value, key, index, item) {
+				c++;
+			});
+
+			assert.strictEqual(c, 3);
+
+			d.remove('b');
+
+			c = 0;
+
+			d.forEach(function eachEntry(value, key, index, item) {
+				c++;
+			});
+
+			assert.strictEqual(c, 2);
+
+			assert.strictEqual(d.has('b'), false);
 		});
 	});
 

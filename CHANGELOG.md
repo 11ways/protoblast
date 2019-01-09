@@ -8,6 +8,7 @@
 * `Pledge#_started` is now a timestamp, not a boolean
 * Add duration properties to the `Pledge` class
 * Add `Blast.REPLACE_OPEN_TAG_NEWLINE` symbol for use in `String#stripTags()`
+* Add `Deck#remove(key)` method
 
 ## 0.6.3 (2018-12-06)
 
