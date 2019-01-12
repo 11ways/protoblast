@@ -177,12 +177,14 @@ describe('Informer', function() {
 				// Emit the event
 				instance.emit('ready');
 
-				// Result should now be set!
-				assert.equal(result, 'done', 'Method set using `setAfterMethod` did not run after filter event was fired');
-				assert.equal(pledge_result, 'done', 'Pledge did not fire then');
+				setTimeout(function() {
+					// Result should now be set!
+					assert.equal(result, 'done', 'Method set using `setAfterMethod` did not run after filter event was fired');
+					assert.equal(pledge_result, 'done', 'Pledge did not fire then');
 
-				next();
-			}, 10);
+					next();
+				}, 5);
+			}, 5);
 		});
 	});
 
