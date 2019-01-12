@@ -12,6 +12,7 @@
 * Fix `String#romanize()` stripping diacritics before being able to replace them
 * Add support for double diacritic characters to the `String#diacriticRegex()`
 * Fix server-side `Request` not handling redirect properly
+* Fix `Date.parseStringToTime(str, base)` not parsing base strings properly
 
 ## 0.6.3 (2018-12-06)
 

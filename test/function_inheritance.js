@@ -253,7 +253,7 @@ describe('Inheritance', function() {
 			let first = one.timestamp(),
 			    second = one.timestamp();
 
-			await Pledge.after(1);
+			await Pledge.after(5);
 
 			assert.strictEqual(first >= time, true);
 			assert.strictEqual(second, first);

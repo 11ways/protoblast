@@ -124,6 +124,13 @@ describe('Date', function() {
 				throw new Error('Failed to correctly add 5 hours to "now"');
 			}
 		});
+
+		it('should pase the given base string', function() {
+
+			var parsed = Date.parseStringToTime('tomorrow', '2018-12-01');
+
+			assert.strictEqual(parsed, 1547334000000);
+		});
 	});
 
 	describe('.parseString(str, base)', function() {
@@ -457,4 +464,22 @@ describe('Date', function() {
 		});
 	});
 
+	describe('#timeago()', function() {
+		it('should return a string saying how much time has passed', function() {
+			var now = Date.now(),
+			    date = new Date(now - 40 * 1000);
+
+			let ago = date.timeAgo();
+
+			assert.strictEqual(ago, '40 seconds ago');
+
+			date = new Date(now - 5 * 1000);
+			ago = date.timeAgo();
+			assert.strictEqual(ago, 'just now');
+
+			date = new Date(now - 90 * 1000);
+			ago = date.timeAgo();
+			assert.strictEqual(ago, 'a minute ago');
+		});
+	});
 });
