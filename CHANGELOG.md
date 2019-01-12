@@ -10,6 +10,7 @@
 * Add `Blast.REPLACE_OPEN_TAG_NEWLINE` symbol for use in `String#stripTags()`
 * Add `Deck#remove(key)` method
 * Fix `String#romanize()` stripping diacritics before being able to replace them
+* Add support for double diacritic characters to the `String#diacriticRegex()`
 
 ## 0.6.3 (2018-12-06)
 
