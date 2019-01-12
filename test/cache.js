@@ -50,7 +50,7 @@ describe('Cache', function() {
 				assert.deepStrictEqual(cache.keys, ['a']);
 
 				done();
-			}, 5);
+			}, 6);
 		});
 
 		it('should reset the `added` time', async function() {
