@@ -11,6 +11,7 @@
 * Add `Deck#remove(key)` method
 * Fix `String#romanize()` stripping diacritics before being able to replace them
 * Add support for double diacritic characters to the `String#diacriticRegex()`
+* Fix server-side `Request` not handling redirect properly
 
 ## 0.6.3 (2018-12-06)
 

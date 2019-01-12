@@ -36,6 +36,34 @@ describe('String Diacritics', function() {
 
 			rx = 'WHAAT'.diacriticRegex(false);
 			assert.strictEqual(rx.test(input), true);
+
+			// Look for any word?
+			rx = 'whaat is that'.diacriticRegex(true, true);
+			assert.strictEqual(rx.test('ìs'), true);
+		});
+
+		it('should leave regular symbols alone', function() {
+			var input = 'Ⓦhy #',
+			    rx = 'why #'.diacriticRegex(true);
+
+			assert.strictEqual(rx.test(input), true);
+
+			rx = 'Why #'.diacriticRegex(false);
+			assert.strictEqual(rx.test(input), true);
+		});
+	});
+
+	describe('#containsHebrew()', function() {
+		it('should return a boolean', function() {
+			assert.strictEqual("׆".containsHebrew(), true);
+			assert.strictEqual("a".containsHebrew(), false);
+		});
+	});
+
+	describe('#containsJapanese()', function() {
+		it('should return a boolean', function() {
+			assert.strictEqual("々".containsJapanese(), true);
+			assert.strictEqual("a".containsJapanese(), false);
 		});
 	});
 });
