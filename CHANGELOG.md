@@ -1,4 +1,4 @@
-## 0.6.4 (WIP)
+## 0.6.4 (2019-01-12)
 
 * Fix the server-side `Request` class implementation
 * Fix `Pledge` instances executing the callbacks synchronously
