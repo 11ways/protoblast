@@ -1,2 +1,4 @@
 ignore:
   - "lib/weakmap.js"  # ignore weakmap polyfill
+  - "lib/symbol.js"   # ignore symbol polyfill
+  - "lib/state.js"    # ignore State class, mostly meant for browser
