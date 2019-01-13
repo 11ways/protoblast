@@ -776,4 +776,50 @@ describe('String', function() {
 			assert.strictEqual(' < b a > '.isEmptyWhitespaceHTML(), false);
 		});
 	});
+
+	describe('#isUpperCase()', function() {
+		it('should return true for uppercase strings', function() {
+			assert.strictEqual('A'.isUpperCase(), true);
+			assert.strictEqual('AB'.isUpperCase(), true);
+		});
+
+		it('should return false for lowercase strings', function() {
+			assert.strictEqual('a'.isUpperCase(), false);
+			assert.strictEqual('ab'.isUpperCase(), false);
+		});
+
+		it('should ignore numbers and punctuations', function() {
+			assert.strictEqual('A.'.isUpperCase(), true);
+			assert.strictEqual('A1'.isUpperCase(), true);
+			assert.strictEqual('a.'.isUpperCase(), false);
+			assert.strictEqual('a1'.isUpperCase(), false);
+		});
+
+		it('should return false if it is only partially uppercase', function() {
+			assert.strictEqual('A1 not totally upper'.isUpperCase(), false);
+		});
+	});
+
+	describe('#isLowerCase()', function() {
+		it('should return true for lowercase strings', function() {
+			assert.strictEqual('a'.isLowerCase(), true);
+			assert.strictEqual('ab'.isLowerCase(), true);
+		});
+
+		it('should return false for uppercase strings', function() {
+			assert.strictEqual('A'.isLowerCase(), false);
+			assert.strictEqual('AB'.isLowerCase(), false);
+		});
+
+		it('should ignore numbers and punctuations', function() {
+			assert.strictEqual('a.'.isLowerCase(), true);
+			assert.strictEqual('a1'.isLowerCase(), true);
+			assert.strictEqual('A.'.isLowerCase(), false);
+			assert.strictEqual('A1'.isLowerCase(), false);
+		});
+
+		it('should return false if it is only partially lowercase', function() {
+			assert.strictEqual('A1 not totally upper'.isLowerCase(), false);
+		});
+	});
 });
