@@ -266,6 +266,95 @@ describe('Inheritance', function() {
 			assert.notStrictEqual(first, third);
 			assert.strictEqual(two.timestamp(), third);
 		});
+
+		describe('memoize({ignore_arguments: true})', function() {
+			it('should ignore all arguments', async function() {
+
+				var Test = Function.inherits(function DecoratorTestIgnoreArgs() {});
+
+				Test.decorateMethod(Blast.Decorators.memoize({ignore_arguments: true}), function timestamp() {
+					return Date.now();
+				});
+
+				let time = Date.now();
+				let one = new Test();
+
+				await Pledge.after(2);
+
+				let first = one.timestamp();
+
+				await Pledge.after(2);
+
+				let second = one.timestamp('whatever');
+				let third = one.timestamp('ok');
+
+				await Pledge.after(2);
+
+				let fourth = one.timestamp(false);
+
+				assert.strictEqual(first >= time, true);
+				assert.strictEqual(second, first);
+				assert.strictEqual(third, first);
+				assert.strictEqual(fourth, first);
+
+				let two = new Test();
+
+				assert.notStrictEqual(two.timestamp(), first);
+
+			});
+		});
+
+		describe('memoize({ignore_arguments: true, ignore_callbacks: true})', function() {
+			it('should ignore all arguments but sitll fire callbacks', function(done) {
+
+				var Test = Function.inherits(function DecoratorTestIgnoreArgs() {});
+
+				Test.decorateMethod(Blast.Decorators.memoize({ignore_arguments: true, ignore_callbacks: true}), function timestamp(callback) {
+
+					callback(null, Date.now());
+				});
+
+				let time = Date.now();
+				let one = new Test();
+
+				let first,
+				    second,
+				    third;
+
+				Function.series(async function first(next) {
+					await Pledge.after(2);
+
+					one.timestamp(function(err, val) {
+						first = val;
+						next();
+					});
+				}, async function second(next) {
+					await Pledge.after(2);
+
+					one.timestamp(function(err, val) {
+						second = val;
+						next();
+					});
+				}, async function third(next) {
+					await Pledge.after(2);
+
+					one.timestamp('x', function(err, val) {
+						third = val;
+						next();
+					});
+				}, function(err) {
+
+					if (err) {
+						throw err;
+					}
+
+					assert.strictEqual(second, first);
+					assert.strictEqual(third, first);
+
+					done();
+				});
+			});
+		});
 	});
 
 	describe('#extend(newConstructor)', function() {

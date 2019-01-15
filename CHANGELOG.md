@@ -2,6 +2,7 @@
 
 * Fix `Function#throttle()` not throttling enough because `setTimeout` fires too soon
 * Add `String#isUpperCase()` and `String#isLowerCase()`
+* Add `ignore_arguments` option to the `memoize()` decorator
 
 ## 0.6.4 (2019-01-12)
 
