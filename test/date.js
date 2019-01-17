@@ -129,7 +129,7 @@ describe('Date', function() {
 
 			var parsed = Date.parseStringToTime('tomorrow', '2018-12-01');
 
-			assert.strictEqual(parsed, 1547334000000);
+			assert.strictEqual(parsed, 1543705200000);
 		});
 	});
 
@@ -140,6 +140,16 @@ describe('Date', function() {
 			    parsed_date = Date.parseString('today');
 
 			assert.equal(Number(parsed_date), today);
+		});
+
+		it('should be able to parse regular date strings', function() {
+			var date = Date.parseString('2018-12-01');
+			assert.strictEqual(+date, +(new Date('2018-12-01')));
+		});
+
+		it('should ignore the base when a regular date string is passed', function() {
+			var date = Date.parseString('2018-12-01', '2017-01-01');
+			assert.strictEqual(+date, +(new Date('2018-12-01')));
 		});
 	});
 

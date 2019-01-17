@@ -5,6 +5,7 @@
 * Add `ignore_arguments` option to the `memoize()` decorator
 * Add `Object#zip(keys, values)` and `Object#unzip(obj)`
 * Add `Blast.checksumSymbol` you can use to define a method that replaces the parameter of a `Object.checksum(obj)` call
+* Make `Date.parseString()` understand regular date strings
 
 ## 0.6.4 (2019-01-12)
 
