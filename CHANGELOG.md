@@ -6,6 +6,9 @@
 * Add `Object#zip(keys, values)` and `Object#unzip(obj)`
 * Add `Blast.checksumSymbol` you can use to define a method that replaces the parameter of a `Object.checksum(obj)` call
 * Make `Date.parseString()` understand regular date strings
+* Make `Function.contitute(fnc)` schedule the function using `Blast.queueImmediate()` if Blast has already been loaded
+* Make the internal `queueImmediate`, `queueTick` methods asynchronous even after Blast had loaded
+* `Blast.doLoaded()` will now also work after Protoblast has already loaded once
 
 ## 0.6.4 (2019-01-12)
 

@@ -133,7 +133,8 @@ describe('Inheritance', function() {
 
 		it('should inherit static properties from grandparent if parent is not yet available', function(done) {
 
-			var Grandparent = Blast.Bound.Function.inherits('Informer', 'Grandparent', function Grandparent() {});
+			var Grandparent = Blast.Bound.Function.inherits('Informer', 'Grandparent', function Grandparent() {}),
+			    order = [];
 
 			Grandparent.setStatic(function returnOne() {
 				return 1;
@@ -142,13 +143,22 @@ describe('Inheritance', function() {
 			// Inherit parent, which doesn't exist yet
 			var Grandchild = Blast.Bound.Function.inherits('Grandparent.Parent', function Grandchild() {});
 
+			Grandchild.constitute(function() {
+				order.push('constituting-grandchild');
+			});
+
 			// Even though Parent doesn't exist, it should have the returnOne from the grandparent
 			assert.equal(Grandchild.returnOne(), 1);
 
 			// Now create the parent
 			var Parent = Blast.Bound.Function.inherits('Grandparent', function Parent() {});
 
+			order.push('created-parent');
+
 			assert.equal(Parent.returnOne(), 1);
+
+			order.push('setting-returntwo-on-parent');
+
 
 			// Add a static method to that
 			Parent.setStatic(function returnTwo() {
@@ -157,7 +167,12 @@ describe('Inheritance', function() {
 
 			setTimeout(function() {
 				// The grandchild will only have returnTwo on the next tick
-				assert.equal(Grandchild.returnTwo(), 2);
+				assert.strictEqual(Grandchild.returnTwo(), 2);
+
+				assert.strictEqual(order[0], 'created-parent');
+				assert.strictEqual(order[1], 'setting-returntwo-on-parent');
+				assert.strictEqual(order[2], 'constituting-grandchild');
+
 				done();
 			}, 20)
 		});
