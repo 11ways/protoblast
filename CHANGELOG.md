@@ -9,6 +9,7 @@
 * Make `Function.contitute(fnc)` schedule the function using `Blast.queueImmediate()` if Blast has already been loaded
 * Make the internal `queueImmediate`, `queueTick` methods asynchronous even after Blast had loaded
 * `Blast.doLoaded()` will now also work after Protoblast has already loaded once
+* Allow passing a regex into `RegExp.interpret()`
 
 ## 0.6.4 (2019-01-12)
 
