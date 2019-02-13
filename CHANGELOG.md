@@ -14,6 +14,8 @@
 * Add `String#countCharacters()` to count characters, including emojis
 * Make `String#count()` use `String#countCharacters()` when empty string is given
 * Add `String#substrCharacters(begin, length)` to get a substring of the actual characters
+* Add `String#substringCharacters(begin, end)`
+* Make `String#truncate()` honour emojis
 
 ## 0.6.4 (2019-01-12)
 
