@@ -417,10 +417,21 @@ describe('String', function() {
 			    ell      = original.truncate(40, true, ' (cont)'),
 			    noell    = original.truncate(40, false, false);
 
-			assert.strictEqual('This string is deemed a bit too longi...', simple);
-			assert.strictEqual('This string is deemed a bit too...', word);
+			assert.strictEqual('This string is deemed a bit too longifi…', simple);
+			assert.strictEqual('This string is deemed a bit too…', word);
 			assert.strictEqual('This string is deemed a bit too (cont)', ell);
 			assert.strictEqual('This string is deemed a bit too longifie', noell);
+		});
+
+		it.skip('should count emojis as one character', function() {
+			var original = '💀🤔🚀😿🇧🇪';
+
+			// Original length is 12
+			assert.strictEqual(original.length, 12);
+
+			let trunc = original.truncate(3, false, '');
+
+			assert.strictEqual(trunc, '💀🤔🚀');
 		});
 	});
 
@@ -854,6 +865,15 @@ describe('String', function() {
 				assert.strictEqual(entry[0].countCharacters(), entry[1]);
 			}
 
+		});
+	});
+
+	describe('#substrCharacters(begin, length)', function() {
+		it('should perform a substring on the actual characters', function() {
+
+			var original = '💀🤔🚀😿🇧🇪';
+
+			assert.strictEqual(original.substrCharacters(0, 3), '💀🤔🚀');
 		});
 	});
 });
