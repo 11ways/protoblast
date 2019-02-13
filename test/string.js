@@ -434,6 +434,12 @@ describe('String', function() {
 		it('should count the given string in the main string', function() {
 			assert.strictEqual(3, 'this this appears 3 times in this string'.count('this'));
 		});
+
+		it('should count the real characters when no or empty string is given', function() {
+			assert.strictEqual(3, 'abc'.count());
+			assert.strictEqual(3, 'abc'.count(''));
+			assert.strictEqual(1, '💩'.count());
+		});
 	});
 
 	describe('#startsWith(str)', function() {
@@ -820,6 +826,34 @@ describe('String', function() {
 
 		it('should return false if it is only partially lowercase', function() {
 			assert.strictEqual('A1 not totally upper'.isLowerCase(), false);
+		});
+	});
+
+	describe('#countCharacters()', function() {
+		it('should return the real length of the string', function() {
+
+			var inputs = [
+				['',  0],
+				['a', 1],
+				['Iñtërnâtiônàlizætiøn☃', 21],
+				['あ', 1],
+				['😲', 1],
+				['💀', 1],
+				['𝌆', 1],
+				['\u{1F469}\u{1F3FF}', 1],
+				['🇧🇪', 1],
+				['🚀', 1]
+			];
+
+			var entry,
+			    i;
+
+			for (i = 0; i < inputs.length; i++) {
+				entry = inputs[i];
+
+				assert.strictEqual(entry[0].countCharacters(), entry[1]);
+			}
+
 		});
 	});
 });

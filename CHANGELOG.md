@@ -11,6 +11,8 @@
 * `Blast.doLoaded()` will now also work after Protoblast has already loaded once
 * Allow passing a regex into `RegExp.interpret()`
 * Add a `main_class` getter to namespaces
+* Add `String#countCharacters()` to count characters, including emojis
+* Make `String#count()` use `String#countCharacters()` when empty string is given
 
 ## 0.6.4 (2019-01-12)
 
