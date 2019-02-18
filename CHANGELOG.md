@@ -16,6 +16,7 @@
 * Add `String#substrCharacters(begin, length)` to get a substring of the actual characters
 * Add `String#substringCharacters(begin, end)`
 * Make `String#truncate()` honour emojis
+* Add HTML tokenizer based on the original `String#stripTags` method
 
 ## 0.6.4 (2019-01-12)
 
