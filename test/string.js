@@ -32,7 +32,8 @@ describe('String', function() {
 
 			obj = String.decodeAttributes(input);
 
-			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+			assert.deepStrictEqual(obj, {"a":"1","b":"2"});
+			assert.deepStrictEqual(String.decodeAttributes(null), {});
 		});
 
 		it('should allow another separator', function() {
@@ -43,6 +44,22 @@ describe('String', function() {
 			obj = String.decodeAttributes(input, ';');
 
 			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+		});
+
+		it('should set attributes without a value', function() {
+			assert.deepStrictEqual(String.decodeAttributes('a, b="1"'), {a: undefined, b: "1"});
+		});
+	});
+
+	describe('.decodeURI(value)', function() {
+		it('should return the original value if it fails to decode', function() {
+			assert.strictEqual(String.decodeURI('%f%1454'), '%f%1454');
+		});
+	});
+
+	describe('.encodeURI(value)', function() {
+		it('encodes a string for use in url', function() {
+			assert.strictEqual(String.encodeURI('1=2/3'), '1%3D2%2F3');
 		});
 	});
 
@@ -71,6 +88,64 @@ describe('String', function() {
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'forward_slash', value: '/' },
 				{ type: 'tag_name', value: 'a' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+
+			html = '<p>test</p><script>var a = 10 < 5;</script>';
+			tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'p' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'test' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'p' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'script' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'var a = 10 < 5;' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'script' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+
+			html = '<!-- This is a <omment> --><a href=\'#\' width=1 hidden>a</a><p id="<id>"></p>';
+			tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'comment', value: '<!-- This is a <omment> -->' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'href' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '\'#\'' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'width' },
+				{ type: 'equals', value: '=' },
+				{ type: 'identifier', value: '1' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'hidden' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'a' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'p' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'id' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"id"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'p' },
 				{ type: 'close_bracket', value: '>' }
 			]);
 		});
@@ -388,6 +463,24 @@ describe('String', function() {
 
 			assert.strictEqual(original.stripTags(null, '-'), '-This is a \ntest-- italic test-');
 			assert.strictEqual(original.stripTags(false, '-'), '-This is a -test-- italic test-');
+		});
+	});
+
+	describe('#slug()', function() {
+		it('should create a slug out of the given string', function() {
+			var input = 'This is an "ANnoying" string!',
+			    slug = input.slug();
+
+			assert.strictEqual(slug, 'this-is-an-annoying-string');
+		});
+	});
+
+	describe('#slug(separator)', function() {
+		it('should use the given separator string', function() {
+			var input = ' Change  this!! or dont ',
+			    slug = input.slug('.');
+
+			assert.strictEqual(slug, 'change.this.or.dont');
 		});
 	});
 
