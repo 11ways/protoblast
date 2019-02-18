@@ -410,6 +410,14 @@ describe('String', function() {
 	});
 
 	describe('#truncate(length, word, ellipsis)', function() {
+		it('should do nothing if the string is not too long', function() {
+
+			var original = 'this is a string',
+			    trunc = original.truncate(40);
+
+			assert.strictEqual(trunc, original);
+		});
+
 		it('should truncate a string', function() {
 			var original = 'This string is deemed a bit too longified to be put on the screen of the user!',
 			    simple   = original.truncate(40, false),
@@ -432,6 +440,36 @@ describe('String', function() {
 			let trunc = original.truncate(3, false, '');
 
 			assert.strictEqual(trunc, '💀🤔🚀');
+		});
+	});
+
+	describe('#truncateHTML(length, word, ellipsis)', function() {
+		it('should truncate html strings', function() {
+
+			var html = '<i>1</i><b>2</b><span>3</span><abbr>4</abbr>',
+			    trunc = html.truncateHTML(6);
+
+			// Should actually include 1, 2, 3, but we'll leave it as-is for the moment
+			assert.strictEqual(trunc, '<i>1</i>…');
+		});
+	});
+
+	describe('#fixHTML()', function() {
+		it('should close open tags', function() {
+			var html = '<span>This is an <b>open</b> span',
+			    fixed = html.fixHTML();
+
+			assert.strictEqual(fixed, '<span>This is an <b>open</b> span</span>');
+		});
+	});
+
+	describe('#replaceAll(needle, replacement)', function() {
+		it('should replace all the occurences of needle', function() {
+
+			var input = 'change all as to es',
+			    result = input.replaceAll('a', 'e');
+
+			assert.strictEqual(result, 'chenge ell es to es');
 		});
 	});
 
