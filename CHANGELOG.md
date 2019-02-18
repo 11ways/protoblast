@@ -1,4 +1,4 @@
-## 0.6.5 (WIP)
+## 0.6.5 (2019-02-18)
 
 * Fix `Function#throttle()` not throttling enough because `setTimeout` fires too soon
 * Add `String#isUpperCase()` and `String#isLowerCase()`
