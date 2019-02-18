@@ -54,6 +54,55 @@ describe('String', function() {
 		});
 	});
 
+	describe('.tokenizeHTML(source)', function() {
+		it('should return an array with tokens', function() {
+			var html = '<a href="#">Anchor</a>',
+			    tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'href' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"#"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'Anchor' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+		});
+	});
+
+	describe('.tokenizeHTML(source, options)', function() {
+		it('should accept extra block definitions', function() {
+			var html = '<a href="#">Anchor {% code %}</a>',
+			    tokens = String.tokenizeHTML(html, {
+			    	blocks: {
+			    		code: ['{%', '%}']
+			    	}
+			    });
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'href' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"#"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'Anchor ' },
+				{ type: 'code', value: '{% code %}'},
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+		});
+	});
+
 	// Tets by Mathias Bynens' codePointAt shim
 	describe('#codePointAt(position)', function() {
 		
@@ -446,11 +495,19 @@ describe('String', function() {
 	describe('#truncateHTML(length, word, ellipsis)', function() {
 		it('should truncate html strings', function() {
 
-			var html = '<i>1</i><b>2</b><span>3</span><abbr>4</abbr>',
-			    trunc = html.truncateHTML(6);
+			var html = '<i>1</i><b>2</b><span>3</span><a>4</a>',
+			    trunc = html.truncateHTML(3);
+			assert.strictEqual(trunc, '<i>1</i><b>2</b><span>3</span><a>…</a>');
 
-			// Should actually include 1, 2, 3, but we'll leave it as-is for the moment
-			assert.strictEqual(trunc, '<i>1</i>…');
+			html = '<i>1</i><b>2</b><span>3</span><a>4</a>';
+			trunc = html.truncateHTML(4);
+
+			assert.strictEqual(trunc, '<i>1</i><b>2</b><span>3</span><a>4</a>');
+
+			html = '<i>alpha</i><b>beta</b><span>gamma</span><a>delta</a>';
+			trunc = html.truncateHTML(11);
+
+			assert.strictEqual(trunc, '<i>alpha</i><b>beta</b><span>ga…</span>');
 		});
 	});
 
