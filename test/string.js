@@ -179,6 +179,37 @@ describe('String', function() {
 				{ type: 'close_bracket', value: '>' }
 			]);
 		});
+
+		it('should accept blocks as attribute values', function() {
+			var html = '<a href="#" bla={% code %}>Anchor</a>',
+			    tokens = String.tokenizeHTML(html, {
+			    	blocks: {
+			    		code: {
+			    			open: '{%',
+			    			close: '%}'
+			    		}
+			    	}
+			    });
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'href' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"#"' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'bla' },
+				{ type: 'equals', value: '=' },
+				{ type: 'code', value: '{% code %}' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'Anchor' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'a' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+		});
 	});
 
 	// Tets by Mathias Bynens' codePointAt shim
