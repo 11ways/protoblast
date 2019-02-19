@@ -1,3 +1,8 @@
+## 0.6.6 (WIP)
+
+* Add `String#allIndexesOf(needle)` to get an array of indexes
+* Speed up `String#tokenizeHTML(source)` when supplying custom blocks
+
 ## 0.6.5 (2019-02-18)
 
 * Fix `Function#throttle()` not throttling enough because `setTimeout` fires too soon

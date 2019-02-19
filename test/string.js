@@ -156,7 +156,10 @@ describe('String', function() {
 			var html = '<a href="#">Anchor {% code %}</a>',
 			    tokens = String.tokenizeHTML(html, {
 			    	blocks: {
-			    		code: ['{%', '%}']
+			    		code: {
+			    			open: '{%',
+			    			close: '%}'
+			    		}
 			    	}
 			    });
 
