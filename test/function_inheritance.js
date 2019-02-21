@@ -971,4 +971,48 @@ describe('Inheritance', function() {
 
 		});
 	});
+
+	describe('#enforceProperty(setter)', function() {
+		var AlphaE;
+
+		before(function() {
+			AlphaE = Function.inherits(function AlphaE() {});
+			AlphaE.enforceProperty(function enforced(value) {
+				return value || 'default';
+			});
+
+			AlphaE.enforceProperty(function reference(value) {
+				return value || [];
+			});
+		});
+
+		it('should enforce the value on initial get', function() {
+
+			var a = new AlphaE();
+
+			assert.strictEqual(a.enforced, 'default');
+
+			a.enforced = 'custom';
+
+			assert.strictEqual(a.enforced, 'custom');
+
+			a.enforced = false;
+
+			assert.strictEqual(a.enforced, 'default');
+		});
+
+		it('should return the same set value', function() {
+
+			var b = new AlphaE(),
+			    arr = b.reference;
+
+			assert.strictEqual(Array.isArray(arr), true);
+			assert.strictEqual(b.reference, arr);
+
+			let new_obj = {};
+			b.reference = new_obj;
+
+			assert.strictEqual(b.reference, new_obj);
+		});
+	});
 });
