@@ -5,6 +5,7 @@
 * Add `Function#enforceProperty(setter)`
 * Add `Blast.requireAll()` to require multiple files with the same options
 * Allow parent classes to override a child constructor with `modifyChildConstructor` function
+* Add simple `Magic` class, which supports Magic getters & setters by using proxies
 
 ## 0.6.5 (2019-02-18)
 
