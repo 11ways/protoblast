@@ -37,6 +37,22 @@ describe('Blast()', function() {
 	});
 });
 
+describe('Blast.getClientPath()', function() {
+
+	before(function() {
+		Blast  = require('../index.js')();
+	});
+
+	it('should return the path to a client file', async function() {
+
+		var path = await Blast.getClientPath();
+
+		console.log(path);
+
+	});
+
+});
+
 describe('Blast.parseUseragent(ua)', function() {
 
 	var Blast;
