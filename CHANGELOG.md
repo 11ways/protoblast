@@ -1,4 +1,4 @@
-## 0.6.6 (WIP)
+## 0.6.6 (2019-02-25)
 
 * Add `String#allIndexesOf(needle)` to get an array of indexes
 * Speed up `String#tokenizeHTML(source)` when supplying custom blocks
