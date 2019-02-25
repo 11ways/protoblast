@@ -149,6 +149,94 @@ describe('String', function() {
 				{ type: 'close_bracket', value: '>' }
 			]);
 		});
+
+		it('should handle small mistakes', function() {
+
+			var html = `<strong>Bold</strong
+<div class="row">
+	<article>
+		<li>Test</li>
+	</article>
+</div>`;
+
+			tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'strong' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'Bold' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'strong' },
+				{ type: 'whitespace', value: '\n' },
+
+				// This close bracket was added by the tokenizer
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'div' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'class' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"row"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: '\n\t' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'article' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: '\n\t\t' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'li' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'Test' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'li' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: '\n\t' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'article' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: '\n' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'div' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+
+			html = `<li class="failed">
+<strong>d</strong
+</li>`;
+
+			tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'li' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'class' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string', value: '"failed"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: '\n' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'strong' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'text', value: 'd' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'strong' },
+				{ type: 'whitespace', value: '\n' },
+
+				// This close bracket was added by the tokenizer
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'li' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+		});
 	});
 
 	describe('.tokenizeHTML(source, options)', function() {
