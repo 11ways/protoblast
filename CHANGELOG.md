@@ -6,6 +6,7 @@
 * Add `Blast.requireAll()` to require multiple files with the same options
 * Allow parent classes to override a child constructor with `modifyChildConstructor` function
 * Add simple `Magic` class, which supports Magic getters & setters by using proxies
+* Add `Blast.parseUseragent(ua)` to parse a useragent string
 
 ## 0.6.5 (2019-02-18)
 
