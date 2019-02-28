@@ -4,6 +4,7 @@
 * Added `Blast.parseUseragent(ua)` method
 * You can now add files with `Blast.require()` and specify specific browser versions
 * Add `Blast.checksumSymbol` properties to serveral protoblast objects
+* Add `modify_prototypes` option to the client template
 
 ## 0.6.6 (2019-02-25)
 
