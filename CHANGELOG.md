@@ -3,6 +3,7 @@
 * Bumped node.js version requirement to at least v8.9.0
 * Added `Blast.parseUseragent(ua)` method
 * You can now add files with `Blast.require()` and specify specific browser versions
+* Add `Blast.checksumSymbol` properties to serveral protoblast objects
 
 ## 0.6.6 (2019-02-25)
 
