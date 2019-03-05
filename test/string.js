@@ -637,6 +637,18 @@ describe('String', function() {
 			var original = '<b>👷</b>';
 			assert.strictEqual(original.encodeHTML(), '&#60;b&#62;&#x1f477;&#60;/b&#62;');
 		});
+
+		it('should not encode newlines', function() {
+			var original = "\nThis is the internally set main\n",
+			    encoded = original.encodeHTML();
+
+			assert.strictEqual(original, encoded);
+		});
+
+		it('should not encode numbers', function() {
+			var original = '0123456789abcdefghijklmnopqrstuvwxyz';
+			assert.strictEqual(original.encodeHTML(), original);
+		});
 	});
 
 	describe('#decodeHTML()', function() {
