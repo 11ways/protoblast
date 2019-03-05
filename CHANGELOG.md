@@ -5,6 +5,7 @@
 * You can now add files with `Blast.require()` and specify specific browser versions
 * Add `Blast.checksumSymbol` properties to serveral protoblast objects
 * Add `modify_prototypes` option to the client template
+* You can now also override the rejection error when using `Function.series` or `Function.parallel`
 
 ## 0.6.6 (2019-02-25)
 
