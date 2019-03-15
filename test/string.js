@@ -82,7 +82,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'href' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"#"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: '#' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'text', value: 'Anchor' },
 				{ type: 'open_bracket', value: '<' },
@@ -123,7 +125,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'href' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '\'#\'' },
+				{ type: 'string_open', value: "'" },
+				{ type: 'string', value: '#' },
+				{ type: 'string_close', value: "'" },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'width' },
 				{ type: 'equals', value: '=' },
@@ -141,7 +145,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'id' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"id"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: 'id' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'forward_slash', value: '/' },
@@ -178,7 +184,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'class' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"row"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: 'row' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'text', value: '\n\t' },
 				{ type: 'open_bracket', value: '<' },
@@ -217,7 +225,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'class' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"failed"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: 'failed' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'text', value: '\n' },
 				{ type: 'open_bracket', value: '<' },
@@ -236,6 +246,82 @@ describe('String', function() {
 				{ type: 'tag_name', value: 'li' },
 				{ type: 'close_bracket', value: '>' }
 			]);
+		});
+
+		it('should handle unquoted attributes', function() {
+			var html = `<span class=foo><i name=bla class="ok"></i></span>`;
+
+			let tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'span' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'class' },
+				{ type: 'equals', value: '=' },
+				{ type: 'identifier', value: 'foo' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'i' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'name' },
+				{ type: 'equals', value: '=' },
+				{ type: 'identifier', value: 'bla' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'class' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: 'ok' },
+				{ type: 'string_close', value: '"' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'i' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'span' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+		});
+
+		it('should handle extra spaces before attribute identifier', function() {
+			var html = `<span class= foo bar="baz" value= ok><i></i></span>`;
+
+			let tokens = String.tokenizeHTML(html);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'span' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'class' },
+				{ type: 'equals', value: '=' },
+				{ type: 'identifier', value: 'foo' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'bar' },
+				{ type: 'equals', value: '=' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: 'baz' },
+				{ type: 'string_close', value: '"' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'attribute', value: 'value' },
+				{ type: 'equals', value: '=' },
+				{ type: 'identifier', value: 'ok' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'tag_name', value: 'i' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'i' },
+				{ type: 'close_bracket', value: '>' },
+				{ type: 'open_bracket', value: '<' },
+				{ type: 'forward_slash', value: '/' },
+				{ type: 'tag_name', value: 'span' },
+				{ type: 'close_bracket', value: '>' }
+			]);
+
+			process.exit();
 		});
 	});
 
@@ -257,10 +343,13 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'href' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"#"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: '#' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'text', value: 'Anchor ' },
 				{ type: 'code', value: '{% code %}'},
+				{ type: 'text', value: '' },
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'forward_slash', value: '/' },
 				{ type: 'tag_name', value: 'a' },
@@ -285,7 +374,9 @@ describe('String', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'href' },
 				{ type: 'equals', value: '=' },
-				{ type: 'string', value: '"#"' },
+				{ type: 'string_open', value: '"' },
+				{ type: 'string', value: '#' },
+				{ type: 'string_close', value: '"' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'attribute', value: 'bla' },
 				{ type: 'equals', value: '=' },
