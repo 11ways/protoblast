@@ -7,6 +7,7 @@
 * Add `modify_prototypes` option to the client template
 * You can now also override the rejection error when using `Function.series` or `Function.parallel`
 * `String#encodeHTML()` will no longer encode newlines
+* Only report Pledge progress when #report_progress is truthy
 
 ## 0.6.6 (2019-02-25)
 
