@@ -3,6 +3,7 @@
 * Fix the `magic.js` file breaking the client-side file
 * Backport `String.tokenizeHTML()` and `String#encodeHTML()` fixes
 * Backport add `Protoblast#version_string` property, use it to add to the `#loaded_versions` property
+* Backport `RURL` should keep slashes when no protocol is given
 
 ## 0.6.6 (2019-02-25)
 
