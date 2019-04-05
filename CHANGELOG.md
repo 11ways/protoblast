@@ -10,6 +10,7 @@
 * Only report Pledge progress when #report_progress is truthy
 * Add `Protoblast#version_string` property, use it to add to the `#loaded_versions` property
 * `RURL` should keep slashes when no protocol is given
+* `Function.enforceProperty` will already add the used symbol to the prototype
 
 ## 0.6.6 (2019-02-25)
 
