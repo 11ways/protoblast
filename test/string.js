@@ -25,12 +25,24 @@ describe('String', function() {
 	});
 
 	describe('.decodeAttributes(value, separator)', function() {
+		it('should decode tag attributes by default', function() {
+
+			var attributes = 'a="a b c" b=1 c=\'ok\'',
+			    result = String.decodeAttributes(attributes);
+
+			assert.deepStrictEqual(result, {
+				a: 'a b c',
+				b: '1',
+				c: 'ok'
+			});
+		});
+
 		it('should return an object', function() {
 
 			var input = 'a="1", b="2"',
 			    obj;
 
-			obj = String.decodeAttributes(input);
+			obj = String.decodeAttributes(input, ',');
 
 			assert.deepStrictEqual(obj, {"a":"1","b":"2"});
 			assert.deepStrictEqual(String.decodeAttributes(null), {});
@@ -42,12 +54,14 @@ describe('String', function() {
 			    obj;
 
 			obj = String.decodeAttributes(input, ';');
-
 			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+
+			obj = String.decodeAttributes('form-data; name="field1"', ';');
+			assert.deepStrictEqual(obj, {'form-data': undefined, name: 'field1'});
 		});
 
 		it('should set attributes without a value', function() {
-			assert.deepStrictEqual(String.decodeAttributes('a, b="1"'), {a: undefined, b: "1"});
+			assert.deepStrictEqual(String.decodeAttributes('a, b="1"', ','), {a: undefined, b: "1"});
 		});
 	});
 
@@ -68,6 +82,37 @@ describe('String', function() {
 			var output = String.encodeCookie('cookiename', 'myvalue', {path: '/mypath'});
 
 			assert.equal(output, 'cookiename=myvalue; path=/mypath');
+		});
+	});
+
+	describe('.decodeCookies(input)', function() {
+		it('should return a parsed object', function() {
+
+			var cookie = 'PHPSESSID=298zf09hf012fh2; csrftoken=u32t4o3tb3gg43; _gat=1;',
+			    result;
+
+			result = String.decodeCookies(cookie);
+
+			assert.deepStrictEqual(result, {
+				PHPSESSID: '298zf09hf012fh2',
+				csrftoken: 'u32t4o3tb3gg43',
+				_gat: 1
+			});
+		});
+
+		it('should handle url-encoded strings', function() {
+
+			var cookie = 'alchemy_sid=2946f09d36ad7-jv55oen0-5ab60f1c-fb344bfc340f501e; mediaResolution=%7B%22width%22%3A2135%2C%22height%22%3A1200%2C%22dpr%22%3A1.7999999523162842%7D',
+			    result = String.decodeCookies(cookie);
+
+			assert.deepStrictEqual(result, {
+				alchemy_sid: '2946f09d36ad7-jv55oen0-5ab60f1c-fb344bfc340f501e',
+				mediaResolution: {
+					"width"  : 2135,
+					"height" : 1200,
+					"dpr"    : 1.7999999523162842
+				}
+			});
 		});
 	});
 

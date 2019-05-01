@@ -11,6 +11,7 @@
 * Add `Protoblast#version_string` property, use it to add to the `#loaded_versions` property
 * `RURL` should keep slashes when no protocol is given
 * `Function.enforceProperty` will already add the used symbol to the prototype
+* Make `String.decodeAttributes()` decode tag attributes by default (no separator)
 
 ## 0.6.6 (2019-02-25)
 
