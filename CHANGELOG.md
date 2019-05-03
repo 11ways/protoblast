@@ -4,6 +4,8 @@
 * Backport `String.tokenizeHTML()` and `String#encodeHTML()` fixes
 * Backport add `Protoblast#version_string` property, use it to add to the `#loaded_versions` property
 * Backport `RURL` should keep slashes when no protocol is given
+* Backport Fix `Date#timeAgo()` returning big hours, minutes & seconds when date is more than a month ago
+* Backport Fix Request class not accepting a RURL instance
 
 ## 0.6.6 (2019-02-25)
 

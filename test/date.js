@@ -490,6 +490,34 @@ describe('Date', function() {
 			date = new Date(now - 90 * 1000);
 			ago = date.timeAgo();
 			assert.strictEqual(ago, 'a minute ago');
+
+			date = new Date(now);
+			date.subtract(1, 'day');
+
+			assert.strictEqual(date.timeAgo(), 'a day ago');
+
+			date.subtract(6, 'day');
+			assert.strictEqual(date.timeAgo(), '7 days ago');
+
+			date = new Date(now);
+			date.subtract(14, 'days');
+			assert.strictEqual(date.timeAgo(), '14 days ago');
+
+			date = new Date(now);
+			date.subtract(21, 'days');
+			assert.strictEqual(date.timeAgo(), '21 days ago');
+
+			date = new Date(now);
+			date.subtract(30, 'days');
+			assert.strictEqual(date.timeAgo(), 'a month ago');
+
+			date = new Date(now);
+			date.subtract(31, 'days');
+			assert.strictEqual(date.timeAgo(), 'a month and a day ago');
+
+			date = new Date(now);
+			date.subtract(6, 'months');
+			assert.strictEqual(date.timeAgo(), '6 months ago');
 		});
 	});
 });
