@@ -50,7 +50,12 @@
   </sub>
 </div>
 
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fskerit%2Fprotoblast.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fskerit%2Fprotoblast?ref=badge_large)
+
 ## Installation
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fskerit%2Fprotoblast.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fskerit%2Fprotoblast?ref=badge_shield)
+
 
     $ npm install protoblast
 
