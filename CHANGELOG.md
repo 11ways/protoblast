@@ -1,4 +1,7 @@
-## 0.6.7 (WIP)
+## 0.6.7 (2019-06-18)
+
+* Fix the `magic.js` file breaking the client-side file
+* Backport `String.tokenizeHTML()` and `String#encodeHTML()` fixes
 
 ## 0.6.6 (2019-02-25)
 
