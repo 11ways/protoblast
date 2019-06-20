@@ -817,6 +817,33 @@ describe('Array', function() {
 
 			assert.equal(JSON.stringify(arr), '[{"a":5,"b":0},{"a":5,"b":1},{"a":5,"b":2},{"a":0,"b":0},{"a":0,"b":1},{"a":0,"b":2},{"a":0,"b":3}]');
 		});
+
+		it('should sort objects and undefineds', function() {
+
+			var arr = [
+				{a: 0, b: 1, c: {}},
+				{a: 0, b: 3},
+				{a: 0, b: 2},
+				{a: 0, b: 0},
+				{a: 5, b: 1, c: {}},
+				{a: 5, b: 0},
+				{a: 5, b: 2},
+			];
+
+			arr.sortByPath(1, 'a', -1, 'c', 1, 'b');
+
+			sorted = [
+				{a: 0, b: 1, c: {}},
+				{a: 0, b: 0},
+				{a: 0, b: 2},
+				{a: 0, b: 3},
+				{a: 5, b: 1, c: {}},
+				{a: 5, b: 0},
+				{a: 5, b: 2},
+			];
+
+			assert.deepStrictEqual(arr, sorted);
+		});
 	});
 
 	describe('#sortByPath(Blast.PATH_AGGREGATE)', function() {
