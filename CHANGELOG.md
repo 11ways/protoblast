@@ -14,6 +14,7 @@
 * Make `String.decodeAttributes()` decode tag attributes by default (no separator)
 * Fix `Date#timeAgo()` returning big hours, minutes & seconds when date is more than a month ago
 * Make `Array#sortByPath()` handle comparing `undefined` and objects better
+* Passing `headers` option to `Request#setOptions()` will no longer unset earlier headers
 
 ## 0.6.6 (2019-02-25)
 
