@@ -37,6 +37,18 @@ describe('RegExp', function() {
 		});
 	});
 
+	describe('.interpretWildcard(str)', function() {
+		it('should convert a glob string to a regex', function() {
+
+			var glob = '*.develry.be',
+			    rx   = RegExp.interpretWildcard(glob);
+
+			assert.strictEqual(String(rx), '\/.*\\.develry\\.be\/g');
+
+			assert.strictEqual(RegExp.interpretWildcard(glob, 'i')+'', '\/.*\\.develry\\.be\/gi');
+		});
+	});
+
 	describe('#getPattern()', function() {
 		it('should return the pattern part of the regex', function() {
 
