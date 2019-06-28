@@ -12,7 +12,12 @@ describe('RegExp', function() {
 
 			var escaped = '\\{this should be \\/\\/escaped\\^\\$\\}';
 
-			assert.equal(escaped, RegExp.escape('{this should be //escaped^$}'));
+			assert.equal(RegExp.escape('{this should be //escaped^$}'), escaped);
+
+			assert.strictEqual(RegExp.escape('$40 for a g3\/400'), '\\$40 for a g3\\/400');
+			assert.strictEqual(RegExp.escape('*very*'), '\\*very\\*');
+			assert.strictEqual(RegExp.escape('\\.+*?[^]$(){}=!<>|:'), '\\\\\\.\\+\\*\\?\\[\\^\\]\\$\\(\\)\\{\\}\\=\\!\\<\\>\\|\\:');
+			assert.strictEqual(RegExp.escape('*RRRING* Hello?'), '\\*RRRING\\* Hello\\?');
 		});
 	});
 
@@ -26,9 +31,9 @@ describe('RegExp', function() {
 			    rWithout = RegExp.interpret(pWithout),
 			    rNoDel   = RegExp.interpret(pNoDel);
 
-			assert.equal(pWithMod, rWithMod.toString());
-			assert.equal('/a|b/', rNoDel.toString());
-			assert.equal('/a|b/', rWithout.toString());
+			assert.equal(rWithMod.toString(), pWithMod);
+			assert.equal(rNoDel.toString(),   '/a|b/');
+			assert.equal(rWithout.toString(), '/a|b/');
 		});
 	});
 
@@ -37,7 +42,7 @@ describe('RegExp', function() {
 
 			var rx = /search/i;
 
-			assert.equal('search', rx.getPattern());
+			assert.equal(rx.getPattern(), 'search');
 		});
 	});
 
@@ -46,7 +51,7 @@ describe('RegExp', function() {
 
 			var rx = /search/i;
 
-			assert.equal('i', rx.getFlags());
+			assert.equal(rx.getFlags(), 'i');
 		});
 	});
 
