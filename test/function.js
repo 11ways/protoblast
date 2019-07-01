@@ -320,6 +320,117 @@ string` + `another
 
 			assert.deepEqual(tokens, [ '(', 'a', ')', ' ', '=>', ' ', 'a', ' ', '*', ' ', '1' ]);
 		});
+
+		it('should correctly detect regular expressions', function() {
+
+			var tokens = Function.tokenize(`a = b / c / 10`, true);
+
+			var result = [
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'b' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '/', name: 'divide' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'c' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '/', name: 'divide' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'number', value: '10' }
+			];
+
+			assert.deepStrictEqual(tokens, result);
+
+			tokens = Function.tokenize(`/test/g.test('bla')`, true);
+
+			result = [
+				{ type: 'regexp', value: '/test/g', name: 'regexp' },
+				{ type: 'punct', value: '.', name: 'dot' },
+				{ type: 'name', value: 'test' },
+				{ type: 'parens', value: '(' },
+				{ type: 'string', value: '\'bla\'' },
+				{ type: 'parens', value: ')' }
+			];
+
+			assert.deepStrictEqual(tokens, result);
+
+			tokens = Function.tokenize(`a = (/b/g)`, true);
+
+			result = [
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'parens', value: '(' },
+				{ type: 'regexp', value: '/b/g', name: 'regexp' },
+				{ type: 'parens', value: ')' }
+			];
+
+			assert.deepStrictEqual(tokens, result);
+
+			tokens = Function.tokenize(`var a\n/r/g.test('r')`, true);
+
+			result = [
+				{ type: 'keyword', value: 'var', name: 'var' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: '\n' },
+				{ type: 'regexp', value: '/r/g', name: 'regexp' },
+				{ type: 'punct', value: '.', name: 'dot' },
+				{ type: 'name', value: 'test' },
+				{ type: 'parens', value: '(' },
+				{ type: 'string', value: '\'r\'' },
+				{ type: 'parens', value: ')' }
+			];
+
+			assert.deepStrictEqual(tokens, result);
+
+			tokens = Function.tokenize(`var a = /r/g, b = this.bla, c = /b/g, d = a/2/1;\n/zever/g`, true);
+
+			result = [
+				{ type: 'keyword', value: 'var', name: 'var' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'a' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'regexp', value: '/r/g', name: 'regexp' },
+				{ type: 'punct', value: ',', name: 'comma' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'b' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'keyword', value: 'this', name: 'this' },
+				{ type: 'punct', value: '.', name: 'dot' },
+				{ type: 'name', value: 'bla' },
+				{ type: 'punct', value: ',', name: 'comma' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'c' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'regexp', value: '/b/g', name: 'regexp' },
+				{ type: 'punct', value: ',', name: 'comma' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'd' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'punct', value: '=', name: 'assign' },
+				{ type: 'whitespace', value: ' ' },
+				{ type: 'name', value: 'a' },
+				{ type: 'punct', value: '/', name: 'divide' },
+				{ type: 'number', value: '2' },
+				{ type: 'punct', value: '/', name: 'divide' },
+				{ type: 'number', value: '1' },
+				{ type: 'punct', value: ';', name: 'semicolon' },
+				{ type: 'whitespace', value: '\n' },
+				{ type: 'regexp', value: '/zever/g', name: 'regexp' }
+			];
+
+			assert.deepStrictEqual(tokens, result);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {
