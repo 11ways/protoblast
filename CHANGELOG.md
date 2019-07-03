@@ -17,6 +17,7 @@
 * Passing `headers` option to `Request#setOptions()` will no longer unset earlier headers
 * Add `RegExp.interpretWildcard(str, flags)`
 * Add some tweaks to `Function.tokenize` so it'll recognize regular expressions better
+* Fix `Object.walk` throwing an error when handling `Object.create(null)` objects
 
 ## 0.6.6 (2019-02-25)
 
