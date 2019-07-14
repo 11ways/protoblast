@@ -18,6 +18,7 @@
 * Add `RegExp.interpretWildcard(str, flags)`
 * Add some tweaks to `Function.tokenize` so it'll recognize regular expressions better
 * Fix `Object.walk` throwing an error when handling `Object.create(null)` objects
+* Add more easing methods to the `Math` object
 
 ## 0.6.6 (2019-02-25)
 
