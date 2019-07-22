@@ -19,6 +19,7 @@
 * Add some tweaks to `Function.tokenize` so it'll recognize regular expressions better
 * Fix `Object.walk` throwing an error when handling `Object.create(null)` objects
 * Add more easing methods to the `Math` object
+* The `State` class will no longer turn off-line when a stale request times out
 
 ## 0.6.6 (2019-02-25)
 
