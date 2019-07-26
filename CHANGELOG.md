@@ -21,6 +21,7 @@
 * Add more easing methods to the `Math` object
 * The `State` class will no longer turn off-line when a stale request times out
 * Rename `State#online_status_duration` property to `State#current_status_duration`
+* Abort xhrs made by `Request` when a timeout occurs
 
 ## 0.6.6 (2019-02-25)
 
