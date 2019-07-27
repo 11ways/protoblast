@@ -24,6 +24,7 @@
 * Abort xhrs made by `Request` when a timeout occurs
 * Add `delay` option to `Function.throttle()` to always enforce a minimum delay
 * Passing a single object to `RURL#param()` will now set the key-values as parameters
+* Add detection for Electron, like Nwjs
 
 ## 0.6.6 (2019-02-25)
 
