@@ -23,6 +23,7 @@
 * Rename `State#online_status_duration` property to `State#current_status_duration`
 * Abort xhrs made by `Request` when a timeout occurs
 * Add `delay` option to `Function.throttle()` to always enforce a minimum delay
+* Passing a single object to `RURL#param()` will now set the key-values as parameters
 
 ## 0.6.6 (2019-02-25)
 
