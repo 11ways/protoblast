@@ -25,6 +25,7 @@
 * Add `delay` option to `Function.throttle()` to always enforce a minimum delay
 * Passing a single object to `RURL#param()` will now set the key-values as parameters
 * Add detection for Electron, like Nwjs
+* Add some infinite-loop prevention to `Function.enforceProperty` setter/getters
 
 ## 0.6.6 (2019-02-25)
 
