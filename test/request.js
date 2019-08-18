@@ -7,8 +7,8 @@ describe('Request', function() {
 	});
 
 	describe('Blast.fetch(url, cb)', function() {
-		this.timeout(30000);
-		this.slow(1000);
+		this.timeout(40000);
+		this.slow(2000);
 
 		it('uses Request to download something', function(done) {
 

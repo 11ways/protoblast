@@ -365,8 +365,6 @@ describe('String', function() {
 				{ type: 'tag_name', value: 'span' },
 				{ type: 'close_bracket', value: '>' }
 			]);
-
-			process.exit();
 		});
 	});
 
