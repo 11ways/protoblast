@@ -21,15 +21,11 @@ describe('Magic', function() {
 			return this[DATA][name] = value;
 		});
 
-		MagicTest.setMethod(function __enumerate() {
-			return Object.keys(this[DATA]);
-		});
-
 		MagicTest.setMethod(function __ownKeys() {
 			return Object.keys(this[DATA]);
 		});
 
-		MagicTest.setMethod(function __delete() {
+		MagicTest.setMethod(function __delete(name) {
 			return delete this[DATA][name];
 		});
 
@@ -62,6 +58,14 @@ describe('Magic', function() {
 			var a = new MagicTest();
 			assert.strictEqual(a.bla, undefined);
 		});
+
+		it('provides default getter functionality', function() {
+
+			var b = new Blast.Classes.Magic();
+
+			b.bla = 'bla';
+			assert.strictEqual(b.bla, 'bla');
+		});
 	});
 
 	describe('#__set(name, value)', function() {
@@ -77,7 +81,7 @@ describe('Magic', function() {
 		});
 	});
 
-	describe('#__enumerate()', function() {
+	describe('#__ownKeys()', function() {
 
 		it('should allow you to iterate over the object', function() {
 
@@ -121,6 +125,31 @@ describe('Magic', function() {
 			a.one = 1;
 
 			assert.strictEqual('one' in a, true);
+		});
+	});
+
+	describe('#__delete(name)', function() {
+		it('allows you to delete properties', function() {
+
+			var a = new MagicTest(),
+			    b = new Blast.Classes.Magic();
+
+			a.one = 1;
+			b.one = 1;
+
+			assert.strictEqual(a.one, b.one);
+
+			delete a.one;
+			delete b.one;
+
+			assert.strictEqual(a.one, undefined);
+			assert.strictEqual(b.one, undefined);
+
+			let keys = Object.keys(a);
+
+			assert.deepStrictEqual(keys, []);
+			assert.deepStrictEqual(Object.keys(b), []);
+
 		});
 	});
 });
