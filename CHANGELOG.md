@@ -28,6 +28,7 @@
 * Add some infinite-loop prevention to `Function.enforceProperty` setter/getters
 * `Request` now has a `max_timeout` property that defaults to 30 seconds, instead of a hardcoded 8 seconds
 * Remove the `__enumerate` trap from the Magic class
+* Added `Pledge.done(promise, callback)` as a static method
 
 ## 0.6.6 (2019-02-25)
 
