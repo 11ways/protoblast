@@ -1077,4 +1077,15 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#safesort()', function() {
+
+		it('should sort null-objects without error', function() {
+
+			var arr = [Object.create(null), Object.create(null)];
+
+			// Should just not throw an error, as .sort() does
+			arr.safesort();
+		});
+	});
+
 });

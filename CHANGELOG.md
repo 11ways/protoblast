@@ -30,6 +30,7 @@
 * Remove the `__enumerate` trap from the Magic class
 * Added `Pledge.done(promise, callback)` as a static method
 * Add `time_started` and `time_ended` properties to the `Request` class
+* Add `Array#safesort()`, which won't throw an error when sorting Objects with no prototype
 
 ## 0.6.6 (2019-02-25)
 
