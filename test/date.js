@@ -188,7 +188,7 @@ describe('Date', function() {
 		});
 	});
 
-	describe('#format()', function() {
+	describe('#format(pattern, locale)', function() {
 
 		var date = new Date('2015-08-26T14:39:05.745Z');
 
@@ -265,7 +265,26 @@ describe('Date', function() {
 			//assert.equal(e.format('U'), '1453790345.745');
 		});
 
+		it('accepts a locale parameter as second argument', function() {
 
+			var a = new Date(date),
+			    b = new Date('2016-08-26T14:39:05.745Z'),
+			    c = new Date('2016-01-01T18:39:05.745Z'),
+			    d = new Date('2016-08-26T06:39:05.745Z'),
+			    e = new Date('2016-01-26T06:39:05.745Z'),
+			    f = new Date('2016-01-03T06:39:05.745Z'),
+			    g = new Date('2016-10-26T06:39:05.745Z')
+
+			// Days
+			assert.equal(c.format('D', 'nl'), 'vr');
+			assert.equal(c.format('l', 'nl'), 'vrijdag');
+			assert.equal(c.format('D', 'fr'), 'ven');
+
+			// Months
+			assert.equal(a.format('F', 'nl'), 'augustus', 'Should return the full month name in Dutch');
+			assert.equal(a.format('F', 'fr'), 'août', 'Should return the full month name in French');
+			assert.equal(a.format('M', 'nl'), 'aug', 'Should return short month name');
+		});
 	});
 
 	describe('#clone()', function() {
