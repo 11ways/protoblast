@@ -35,6 +35,7 @@
 * Add locale support to `Date#format()`
 * Add `cast` argument to `String#assign()` method
 * Speed up the `String#underscore()` method
+* `String#decodeJSONURI()` will now only try to decode JSON if it contains certain json characters
 
 ## 0.6.6 (2019-02-25)
 

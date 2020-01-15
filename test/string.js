@@ -96,7 +96,7 @@ describe('String', function() {
 			assert.deepStrictEqual(result, {
 				PHPSESSID: '298zf09hf012fh2',
 				csrftoken: 'u32t4o3tb3gg43',
-				_gat: 1
+				_gat: '1'
 			});
 		});
 
