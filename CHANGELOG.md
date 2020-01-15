@@ -34,6 +34,7 @@
 * Don't trust the `type` property of an XMLHttpRequest's `response` object
 * Add locale support to `Date#format()`
 * Add `cast` argument to `String#assign()` method
+* Speed up the `String#underscore()` method
 
 ## 0.6.6 (2019-02-25)
 
