@@ -215,7 +215,7 @@ describe('Informer', function() {
 				counter++;
 			});
 
-			assert.equal(1, tester.simpleListeners.simple.length);
+			assert.equal(1, tester.listeners('simple').length);
 		});
 	});
 
@@ -233,7 +233,7 @@ describe('Informer', function() {
 				demo++;
 			});
 
-			assert.equal(1, tester.filterListeners.demo.length);
+			assert.equal(1, tester.filterListeners.get('demo').length);
 		});
 
 		it('should store filter listeners with nameless types', function() {
@@ -242,7 +242,7 @@ describe('Informer', function() {
 				extra++;
 			});
 
-			assert.equal(1, tester.filterListeners[''].length);
+			assert.equal(1, tester.filterListeners.get('').length);
 		});
 	});
 
