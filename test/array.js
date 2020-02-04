@@ -1051,32 +1051,6 @@ describe('Array', function() {
 		});
 	});
 
-	describe('#createIterator()', function() {
-
-		var arr = ['a', 'b', 'c', 'd'];
-
-		it('should return an iterator', function() {
-
-			var iter = arr.createIterator();
-
-			assert.equal(iter.constructor.name, 'Iterator');
-		});
-
-		it('should iterate', function() {
-
-			var iter = arr.createIterator(),
-			    val,
-			    abc = '';
-
-			while (iter.hasNext()) {
-				val = iter.next().value;
-				abc += val;
-			}
-
-			assert.equal(abc, 'abcd');
-		});
-	});
-
 	describe('#safesort()', function() {
 
 		it('should sort null-objects without error', function() {
