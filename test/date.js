@@ -537,6 +537,11 @@ describe('Date', function() {
 			date = new Date(now);
 			date.subtract(6, 'months');
 			assert.strictEqual(date.timeAgo(), '6 months ago');
+
+			date = new Date();
+			date.subtract(1000, 'seconds')
+
+			assert.strictEqual(date.timeAgo(), '16 minutes ago');
 		});
 	});
 });
