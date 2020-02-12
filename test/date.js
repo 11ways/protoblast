@@ -459,6 +459,20 @@ describe('Date', function() {
 		});
 	});
 
+	describe('#endOf(unit)', function() {
+
+		it('should go to the end of the wanted unit', function() {
+
+			// Leap year!
+			let start = new Date('2020-01-01');
+
+			start.endOf('year');
+
+			assert.strictEqual(start.toJSON(), (new Date('2020-12-31T22:59:59.999Z')).toJSON())
+
+		});
+	});
+
 	describe('#next(unit)', function() {
 		it('should go to the next wanted day', function() {
 			var a = new Date('2018-06-25T14:49:29.382Z');
