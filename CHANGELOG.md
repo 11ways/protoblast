@@ -39,6 +39,7 @@
 * Remove the `Array#createIterator()` method as it breaks CKEditor
 * Add `Date.secondsToDuration()`
 * Add `Date.getFirstWeekOfYear(year)` & `Date.firstDayOfWeek(year, week)`
+* Allow retries of `Blast.getClientPath()`
 
 ## 0.6.6 (2019-02-25)
 
