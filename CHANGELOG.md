@@ -41,6 +41,7 @@
 * Add `Date.getFirstWeekOfYear(year)` & `Date.firstDayOfWeek(year, week)`
 * Allow retries of `Blast.getClientPath()`
 * Add `Request#download_if_inline` boolean option
+* Add the `StringBuilder` class
 
 ## 0.6.6 (2019-02-25)
 
