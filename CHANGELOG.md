@@ -42,6 +42,7 @@
 * Allow retries of `Blast.getClientPath()`
 * Add `Request#download_if_inline` boolean option
 * Add the `StringBuilder` class
+* Allow passing another pledge instance in `Pledge#done()`
 
 ## 0.6.6 (2019-02-25)
 
