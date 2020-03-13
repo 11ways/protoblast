@@ -46,6 +46,28 @@ describe('Date', function() {
 		});
 	});
 
+	describe('.firstWeekOfYear(year)', function() {
+		it('should return the date of the start of the first week of the given year', function() {
+			var start = Date.firstWeekOfYear(2020);
+			assert.strictEqual(JSON.parse(JSON.stringify(start)), "2019-12-29T23:00:00.000Z");
+
+			start = Date.firstWeekOfYear(2021);
+			assert.strictEqual(JSON.parse(JSON.stringify(start)), "2021-01-03T23:00:00.000Z");
+		});
+	});
+
+	describe('.firstDayOfWeek(week, year)', function() {
+		it('should return the date the date of the first day of the given week', function() {
+			var start = Date.firstDayOfWeek(11, 2020);
+
+			assert.strictEqual(JSON.parse(JSON.stringify(start)), "2020-03-08T23:00:00.000Z");
+
+			start = Date.firstDayOfWeek(11);
+			let temp = Date.firstDayOfWeek(11, (new Date()).getFullYear());
+			assert.strictEqual(JSON.stringify(start), JSON.stringify(temp));
+		});
+	});
+
 	describe('.parseStringToTime(str, base)', function() {
 		it('should parse "today"', function() {
 			var today = Number(Date.create().startOf('day'));

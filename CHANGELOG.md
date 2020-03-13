@@ -38,7 +38,7 @@
 * `String#decodeJSONURI()` will now only try to decode JSON if it contains certain json characters
 * Remove the `Array#createIterator()` method as it breaks CKEditor
 * Add `Date.secondsToDuration()`
-* Add `Date.getFirstWeekOfYear(year)` & `Date.firstDayOfWeek(year, week)`
+* Add `Date.firstWeekOfYear(year)` & `Date.firstDayOfWeek(year, week)`
 * Allow retries of `Blast.getClientPath()`
 * Add `Request#download_if_inline` boolean option
 * Add the `StringBuilder` class
