@@ -1,4 +1,4 @@
-## 0.7.0 (WIP)
+## 0.7.0 (2020-03-13)
 
 * Bumped node.js version requirement to at least v8.9.0
 * Added `Blast.parseUseragent(ua)` method
