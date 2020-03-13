@@ -43,6 +43,8 @@
 * Add `Request#download_if_inline` boolean option
 * Add the `StringBuilder` class
 * Allow passing another pledge instance in `Pledge#done()`
+* Add `Pledge.isThenable()` and `Pledge.hasPromiseInterface()`
+* Add `Pledge.cast()` to turn something into a pledge
 
 ## 0.6.6 (2019-02-25)
 
