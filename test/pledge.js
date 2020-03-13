@@ -27,6 +27,233 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('.isPledge(variable)', function() {
+		it('should return a boolean', function() {
+
+			var pledge = new Pledge(),
+			    lazy   = new Blast.Classes.LazyPledge();
+
+			assert.strictEqual(Pledge.isPledge(pledge), true);
+			assert.strictEqual(Pledge.isPledge(lazy), true);
+
+			var promise = new Promise(function(resolve) {
+				resolve(1);
+			});
+
+			assert.strictEqual(Pledge.isPledge(promise), false);
+			assert.strictEqual(Pledge.isPledge(null), false);
+			assert.strictEqual(Pledge.isPledge(false), false);
+			assert.strictEqual(Pledge.isPledge(1), false);
+		});
+	});
+
+	describe('.isThenable(variable)', function() {
+		it('should see if the given object has a `then` function', function() {
+
+			var pledge = new Pledge(),
+			    lazy   = new Blast.Classes.LazyPledge();
+
+			let promise = new Promise(function(resolve) {
+				resolve(true);
+			});
+
+			let thennable = {
+				then: function(fnc) {
+					fnc(true)
+				}
+			};
+
+			assert.strictEqual(Pledge.isThenable(pledge), true);
+			assert.strictEqual(Pledge.isThenable(lazy), true);
+			assert.strictEqual(Pledge.isThenable(promise), true);
+			assert.strictEqual(Pledge.isThenable(thennable), true);
+
+			let not_thennable = {
+				then: true
+			};
+
+			assert.strictEqual(Pledge.isThenable(not_thennable), false);
+			assert.strictEqual(Pledge.isThenable(true), false);
+			assert.strictEqual(Pledge.isThenable({}), false);
+			assert.strictEqual(Pledge.isThenable(null), false);
+			assert.strictEqual(Pledge.isThenable(), false);
+		});
+	});
+
+	describe('.hasPromiseInterface(variable)', function() {
+		it('should see if the given object has a `then` & `catch` function', function() {
+
+			var pledge = new Pledge(),
+			    lazy   = new Blast.Classes.LazyPledge();
+
+			let promise = new Promise(function(resolve) {
+				resolve(true);
+			});
+
+			assert.strictEqual(Pledge.hasPromiseInterface(pledge), true);
+			assert.strictEqual(Pledge.hasPromiseInterface(lazy), true);
+			assert.strictEqual(Pledge.hasPromiseInterface(promise), true);
+
+			let promise_interface = {
+				then: function(fnc) {
+					fnc(true);
+				},
+				catch: function(fnc) {
+					fnc(null);
+				}
+			};
+
+			assert.strictEqual(Pledge.hasPromiseInterface(promise_interface), true);
+
+			let thennable = {
+				then: function(fnc) {
+					fnc(true)
+				}
+			};
+
+			let not_thennable = {
+				then: true
+			};
+
+			assert.strictEqual(Pledge.hasPromiseInterface(thennable), false);
+			assert.strictEqual(Pledge.hasPromiseInterface(not_thennable), false);
+			assert.strictEqual(Pledge.hasPromiseInterface(true), false);
+			assert.strictEqual(Pledge.hasPromiseInterface({}), false);
+			assert.strictEqual(Pledge.hasPromiseInterface(null), false);
+			assert.strictEqual(Pledge.hasPromiseInterface(), false);
+		});
+	});
+
+	describe('.done(thennable, callback)', function() {
+		it('should call the callback when the thennable is done', function(done) {
+
+			var promise = new Promise(function(resolve) {
+				setTimeout(function() {
+					resolve(47);
+				}, 5);
+			});
+
+			Pledge.done(promise, function _done(err, result) {
+				assert.strictEqual(err, null);
+				assert.strictEqual(result, 47);
+				done();
+			});
+		});
+
+		it('should call the callback with an error', function(done) {
+
+			let error = new Error('ERR');
+
+			var promise = new Promise(function(resolve, reject) {
+				setTimeout(function() {
+					reject(error);
+				}, 5);
+			});
+
+			Pledge.done(promise, function _done(err) {
+				assert.strictEqual(err, error);
+				done();
+			});
+		});
+	});
+
+	describe('.done(thennable, pledge)', function() {
+		it('should resolve the given pledge', function(done) {
+
+			let promise = new Promise(function(resolve) {
+				setTimeout(function() {
+					resolve(46);
+				}, 5);
+			});
+
+			let pledge = new Pledge();
+
+			Pledge.done(promise, pledge);
+
+			pledge.then(function(result) {
+				assert.strictEqual(result, 46);
+				done();
+			});
+		});
+
+		it('should also forward rejections', function(done) {
+
+			let error = new Error('ERR');
+
+			let promise = new Promise(function(resolve, reject) {
+				setTimeout(function() {
+					reject(error);
+				}, 10);
+			});
+
+			let pledge = new Pledge();
+
+			Pledge.done(promise, pledge);
+
+			pledge.catch(function(err) {
+				assert.strictEqual(err, error);
+				done();
+			});
+		});
+	});
+
+	describe('.cast(variable)', function() {
+		it('should cast the given promise to a pledge', function(done) {
+
+			var pledge = new Pledge(),
+			    lazy   = new Blast.Classes.LazyPledge();
+
+			// These should just return the same variable
+			assert.strictEqual(Pledge.cast(pledge), pledge);
+			assert.strictEqual(Pledge.cast(lazy), lazy);
+
+			var promise = new Promise(function(resolve) {
+				resolve(1);
+			});
+
+			let casted = Pledge.cast(promise);
+
+			assert.notStrictEqual(casted, promise);
+			assert.strictEqual(Pledge.isPledge(casted), true);
+
+			casted.then(function(value) {
+				assert.strictEqual(value, 1);
+				done();
+			});
+		});
+
+		it('should simply resolve to regular values', function(done) {
+
+			Blast.Bound.Function.parallel(function primitive(next) {
+
+				let pledge = Pledge.cast('test');
+
+				pledge.then(function(val) {
+					assert.strictEqual(val, 'test');
+					next();
+				});
+
+			}, function obj(next) {
+
+				let obj = {},
+				    pledge = Pledge.cast(obj);
+
+				pledge.then(function(val) {
+					assert.strictEqual(val, obj);
+					next();
+				});
+
+			}, function(err) {
+
+				if (err) {
+					throw err;
+				}
+
+				done();
+			});
+		});
+	});
+
 	describe('.resolve(value)', function() {
 		it('should return a pledge that gets resolved asynchronously', function(done) {
 
