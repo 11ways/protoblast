@@ -1,3 +1,7 @@
+## 0.7.1 (WIP)
+
+* Automatically create the prototypal wrapper methods for the function inheritance
+
 ## 0.7.0 (2020-03-13)
 
 * Bumped node.js version requirement to at least v8.9.0
