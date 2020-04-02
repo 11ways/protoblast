@@ -972,6 +972,35 @@ describe('Inheritance', function() {
 		});
 	});
 
+	
+	describe('#setProperty(obj)', function() {
+
+		it('should set multiple simple properties', function() {
+
+			var ObjProps = Function.inherits(function ObjProps() {});
+
+			ObjProps.setProperty({
+				a: 'a',
+				b: 'b',
+				c: 'c'
+			});
+
+			let instance = new ObjProps();
+
+			assert.strictEqual(instance.a, 'a');
+			assert.strictEqual(instance.b, 'b');
+			assert.strictEqual(instance.c, 'c');
+
+			instance.b = 'test';
+
+			assert.strictEqual(instance.b, 'test');
+
+			let other = new ObjProps();
+
+			assert.strictEqual(other.b, 'b', 'Should still be "b" and not "test"');
+		});
+	});
+
 	describe('#enforceProperty(setter)', function() {
 		var AlphaE;
 

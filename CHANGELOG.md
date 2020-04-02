@@ -1,6 +1,7 @@
 ## 0.7.1 (WIP)
 
 * Automatically create the prototypal wrapper methods for the function inheritance
+* `Function#setProperty` now accepts a single object to set multiple properties
 
 ## 0.7.0 (2020-03-13)
 
