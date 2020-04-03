@@ -4,6 +4,7 @@
 * `Function#setProperty` now accepts a single object to set multiple properties
 * Add `Stream.Delayed()` class
 * Add `Stream.Combined()` class
+* Fix browser-side `Crypto.randomHex()` returning faulty data
 
 ## 0.7.0 (2020-03-13)
 
