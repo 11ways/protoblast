@@ -6,6 +6,7 @@
 * Add `Stream.Combined()` class
 * Fix browser-side `Crypto.randomHex()` returning faulty data
 * Supplying `@` as a namespace will put it in the root
+* Add server-side `FormData` class
 
 ## 0.7.0 (2020-03-13)
 
