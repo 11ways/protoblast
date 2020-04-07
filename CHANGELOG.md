@@ -7,6 +7,7 @@
 * Fix browser-side `Crypto.randomHex()` returning faulty data
 * Supplying `@` as a namespace will put it in the root
 * Add server-side `FormData` class
+* When reporting `Pledge` progress, the duration of each interval is also logged
 
 ## 0.7.0 (2020-03-13)
 
