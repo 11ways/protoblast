@@ -8,6 +8,7 @@
 * Supplying `@` as a namespace will put it in the root
 * Add server-side `FormData` class
 * When reporting `Pledge` progress, the duration of each interval is also logged
+* Make the `reset_on_call` option of `Function.throttle` actually work
 
 ## 0.7.0 (2020-03-13)
 

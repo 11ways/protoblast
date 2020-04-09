@@ -940,6 +940,33 @@ describe('Function Flow', function() {
 			// We call it again on this instance
 			beta.test('yes');
 		});
+
+		it('should reset the timer on each call if wanted', function(done) {
+
+			var scheduled = 0,
+			    counter = 0;
+
+			let id = setInterval(function scheduleIt() {
+				scheduled++;
+
+				if (scheduled < 10) {
+					tester();
+				} else {
+					clearInterval(id);
+					setTimeout(checkEnd, 100);
+				}
+			}, 10);
+
+			var tester = Function.throttle(function doTest() {
+				counter++;
+			}, 70, false, true);
+
+			function checkEnd() {
+				assert.strictEqual(counter, 1);
+				done();
+			}
+
+		});
 	});
 
 	describe('.createQueue(options)', function() {
