@@ -11,6 +11,7 @@
 * Make the `reset_on_call` option of `Function.throttle` actually work
 * Pledge subclasses will return a regular `Pledge` on `.then()`
 * Add `Pledge.Timeout` class
+* Add `String#splitCharacters()` for getting an array of the string's characters
 
 ## 0.7.0 (2020-03-13)
 
