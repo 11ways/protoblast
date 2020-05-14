@@ -116,6 +116,41 @@ describe('FunctionQueue', function() {
 				done();
 			});
 		});
+
+		it('should only allow the `done()` method to be called once', function(done) {
+
+			var q = new FunctionQueue({
+				limit: 2
+			});
+
+			q.add(function first(done) {
+				setTimeout(done, 1);
+			});
+
+			q.add(function second(done) {
+				// This one will do nothing
+			});
+
+			q.add(function third(done) {
+				setTimeout(function() {
+					done();
+					done();
+
+					doCheck();
+				}, 5);
+			});
+
+			q.start();
+
+
+			function doCheck() {
+
+				assert.strictEqual(q.running, 1, '1 task is still running, but the queue thinks ' + q.running + ' tasks are still running');
+				assert.strictEqual(q.endCount, 2, '2 tasks have ended, but the queue things ' + q.endCount +  ' have ended');
+
+				done();
+			}
+		});
 	});
 
 	describe('#start()', function() {
