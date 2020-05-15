@@ -13,6 +13,7 @@
 * Add `Pledge.Timeout` class
 * Add `String#splitCharacters()` for getting an array of the string's characters
 * Add the `loopOverArgument()` decorator, which will loop over the given argument if it's an array
+* Add the `empty` event to FunctionQueue
 
 ## 0.7.0 (2020-03-13)
 
