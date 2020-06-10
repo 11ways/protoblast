@@ -1263,6 +1263,46 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('#extension', function() {
+
+		it('should return the extension of the pathname', function() {
+
+			var html = RURL.parse('https://www.elevenways.be/test.html'),
+			    pdf = RURL.parse('https://www.elevenways.be/test.pdf'),
+			    jpg = RURL.parse('https://www.elevenways.be/test.JPG'),
+			    none = RURL.parse('https://www.elevenways.be');
+
+			assert.strictEqual(html.extension, 'html');
+			assert.strictEqual(pdf.extension, 'pdf');
+			assert.strictEqual(jpg.extension, 'JPG');
+			assert.strictEqual(none.extension, '');
+		});
+
+		it('should set the extension of the pathname', function() {
+
+			var o = RURL.parse('https://www.elevenways.be/test');
+
+			o.extension = 'php';
+
+			assert.strictEqual(o.extension, 'php');
+			assert.strictEqual(o.pathname, '/test.php');
+
+			o.extension = '';
+
+			assert.strictEqual(o.extension, '');
+			assert.strictEqual(o.pathname, '/test');
+
+			o.extension = '.whatever';
+			assert.strictEqual(o.pathname, '/test.whatever');
+
+			o.pathname = '/';
+
+			assert.strictEqual(o.extension, '');
+
+		});
+
+	});
+
 	describe('#toJSON()', function() {
 		it('should return an object representation of the url', function() {
 
