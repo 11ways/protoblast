@@ -452,7 +452,7 @@ describe('RURL', function() {
 		it('resolves pathname for relative urls', function () {
 			var data, i = 0;
 			var tests = [
-				['',      'http://foo.com',      ''],
+				['',      'http://foo.com',      '/'],
 				['',      'http://foo.com/',     '/'],
 				['a',     'http://foo.com',      '/a'],
 				['a/',    'http://foo.com',      '/a/'],
@@ -976,7 +976,7 @@ describe('RURL', function() {
 
 			url.pathname = '';
 
-			assert.equal(url.pathname, '');
+			assert.equal(url.pathname, '/');
 			assert.equal(url.href, 'http://example.com:80/');
 
 			url.pathname = '/has/slash';
@@ -1131,7 +1131,7 @@ describe('RURL', function() {
 				{
 					href: 'http://example.com',
 					protocol: 'http:',
-					pathname: ''
+					pathname: '/'
 				},
 				{
 					href: 'mailto:test@example.com',

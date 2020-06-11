@@ -15,6 +15,7 @@
 * Add the `loopOverArgument()` decorator, which will loop over the given argument if it's an array
 * Add the `empty` event to FunctionQueue
 * Add the `RURL#extension` property to get/set the extension of the pathname
+* `RURL#pathname` will now no longer be empty when the protocol requires a slash
 
 ## 0.7.0 (2020-03-13)
 
