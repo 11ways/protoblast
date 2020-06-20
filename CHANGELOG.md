@@ -17,6 +17,7 @@
 * Add the `RURL#extension` property to get/set the extension of the pathname
 * `RURL#pathname` will now no longer be empty when the protocol requires a slash
 * Add a custom `Error` class
+* Add `Function.isNativeClass()` to detect functions made with native `class` syntax
 
 ## 0.7.0 (2020-03-13)
 

@@ -795,4 +795,24 @@ string` + `another
 		});
 
 	});
+
+	describe('.isNativeClass(fnc)', function() {
+		it('detects when a function is made using the class syntax', function() {
+
+			let anonymous = function() {};
+			let anon_two = function() {return 'class'};
+			let arrow = (zever) => {return 'class'};
+			let real_class = class Test {};
+
+			assert.strictEqual(Function.isNativeClass({}), false);
+			assert.strictEqual(Function.isNativeClass(), false);
+			assert.strictEqual(Function.isNativeClass(null), false);
+			assert.strictEqual(Function.isNativeClass(1), false);
+
+			assert.strictEqual(Function.isNativeClass(anonymous), false);
+			assert.strictEqual(Function.isNativeClass(anon_two), false);
+			assert.strictEqual(Function.isNativeClass(arrow), false);
+			assert.strictEqual(Function.isNativeClass(real_class), true);
+		});
+	});
 });
