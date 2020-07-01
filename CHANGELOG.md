@@ -20,6 +20,7 @@
 * Add `Function.isNativeClass()` to detect functions made with native `class` syntax
 * Added `Symbol.hasInstance` trap to the namespace functions
 * Use `setImmediate` for rejecting Pledges to prevent uncaught warnings
+* Fix `Blast.versions` entries not being set correctly
 
 ## 0.7.0 (2020-03-13)
 
