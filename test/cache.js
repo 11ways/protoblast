@@ -65,6 +65,23 @@ describe('Cache', function() {
 
 			assert.strictEqual(cache.get('a'), 2, 'The earlier max_age should have been unset');
 		});
+
+		it('should evict entries when the cache gets too big', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.max_length = 3;
+
+			cache.set('a', 1);
+			cache.set('b', 2);
+			cache.set('c', 3);
+
+			assert.deepStrictEqual(cache.keys, ['c', 'b', 'a']);
+
+			cache.set('d', 4);
+
+			assert.deepStrictEqual(cache.keys, ['d', 'c', 'b']);
+		});
 	});
 
 	describe('#get(key)', function() {
@@ -99,6 +116,15 @@ describe('Cache', function() {
 			cache.set('falsy', false);
 
 			assert.strictEqual(cache.has('falsy'), true);
+		});
+	});
+
+	describe('#remove(key)', function() {
+		it('should return undefined when key is not found', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			assert.strictEqual(cache.remove('doesnotexist'), undefined);
 		});
 	});
 
@@ -205,6 +231,52 @@ describe('Cache', function() {
 			keys = cache.keys;
 			assert.deepStrictEqual(keys, ['b', 'd', 'e', 'a', 'c']);
 		});
+
+		it('should skip expired keys', function(done) {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5);
+			cache.set('d', 4, 1);
+			cache.set('c', 3);
+			cache.set('b', 2);
+			cache.set('a', 1);
+
+			let keys = cache.keys;
+
+			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
+
+			setTimeout(function() {
+
+				keys = cache.keys;
+
+				assert.deepStrictEqual(keys, ['a', 'b', 'c', 'e']);
+				done();
+			}, 1);
+		});
+
+		it('should return empty array when everything is expired', function(done) {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.set('e', 5, 1);
+			cache.set('d', 4, 1);
+			cache.set('c', 3, 1);
+			cache.set('b', 2, 1);
+			cache.set('a', 1, 1);
+
+			var keys = cache.keys;
+
+			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
+
+			setTimeout(function() {
+
+				keys = cache.keys;
+
+				assert.deepStrictEqual(keys, []);
+				done();
+			}, 1);
+		});
 	});
 
 	describe('#values', function() {
@@ -296,7 +368,11 @@ describe('Cache', function() {
 		it('sets the max age of each entry', function(done) {
 			var cache = new Blast.Classes.Develry.Cache();
 
+			assert.strictEqual(cache.max_age, 0, 'max_age should be 0 by default');
+
 			cache.max_age = 1;
+
+			assert.strictEqual(cache.max_age, 1);
 
 			cache.set('a', 1);
 			cache.set('c', 1);
@@ -317,6 +393,19 @@ describe('Cache', function() {
 
 				done();
 			}, 10);
+		});
+
+		it('accepts a duration string', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			cache.max_age = '3 seconds';
+
+			assert.strictEqual(cache.max_age, 3 * 1000);
+
+			cache.max_age = '3.5 seconds';
+			assert.strictEqual(cache.max_age, 3.5 * 1000);
+
 		});
 
 		it('overrides older (but lower) values of earlier entries', async function() {
@@ -366,6 +455,8 @@ describe('Cache', function() {
 
 			var cache = new Blast.Classes.Develry.Cache();
 
+			assert.strictEqual(cache.max_size, 0, 'max_size should be 0 by default');
+
 			cache.set('a', 1);
 			cache.set('b', 1);
 			cache.set('c', 1);
@@ -375,6 +466,8 @@ describe('Cache', function() {
 			// The cache should be 78 bytes now, so set the max size to 1 lower.
 			// Now the oldest entry should have been removed
 			cache.max_size = 77;
+
+			assert.strictEqual(cache.max_size, 77);
 
 			assert.strictEqual(cache.size, 52);
 			assert.strictEqual(cache.get('a'), undefined);
@@ -405,8 +498,12 @@ describe('Cache', function() {
 			// Set the max age
 			cache.max_age = 40;
 
+			assert.strictEqual(cache.max_idle, 0, 'max_idle should be 0 by default');
+
 			// And the max idle
 			cache.max_idle = 20;
+
+			assert.strictEqual(cache.max_idle, 20);
 
 			let now = Date.now();
 
@@ -433,6 +530,17 @@ describe('Cache', function() {
 			await Pledge.after(12);
 
 			assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
+		});
+
+		it('should accept duration strings', function() {
+
+			var cache = new Blast.Classes.Develry.Cache();
+
+			assert.strictEqual(cache.max_idle, 0, 'max_idle should be 0 by default');
+
+			cache.max_idle = '2 seconds';
+
+			assert.strictEqual(cache.max_idle, 2 * 1000);
 		});
 	});
 
