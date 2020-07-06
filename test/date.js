@@ -305,7 +305,7 @@ describe('Date', function() {
 			// Months
 			assert.equal(a.format('F', 'nl'), 'augustus', 'Should return the full month name in Dutch');
 			assert.equal(a.format('F', 'fr'), 'août', 'Should return the full month name in French');
-			assert.equal(a.format('M', 'nl'), 'aug', 'Should return short month name');
+			assert.equal(a.format('M', 'nl'), 'aug.', 'Should return short month name');
 		});
 	});
 
