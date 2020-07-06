@@ -4,8 +4,8 @@
 </h1>
 <div align="center">
   <!-- CI - TravisCI -->
-  <a href="https://travis-ci.org/skerit/protoblast">
-    <img src="https://travis-ci.org/skerit/protoblast.svg?branch=master" alt="Mac/Linux Build Status" />
+  <a href="https://travis-ci.org/11ways/protoblast">
+    <img src="https://travis-ci.org/11ways/protoblast.svg?branch=master" alt="Mac/Linux Build Status" />
   </a>
 
   <!-- CI - AppVeyor -->
@@ -14,18 +14,18 @@
   </a>
 
   <!-- Coverage - Codecov -->
-  <a href="https://codecov.io/gh/skerit/protoblast">
-    <img src="https://img.shields.io/codecov/c/github/skerit/protoblast/master.svg" alt="Codecov Coverage report" />
+  <a href="https://codecov.io/gh/11ways/protoblast">
+    <img src="https://img.shields.io/codecov/c/github/11ways/protoblast/master.svg" alt="Codecov Coverage report" />
   </a>
 
   <!-- DM - Snyk -->
-  <a href="https://snyk.io/test/github/skerit/protoblast?targetFile=package.json">
-    <img src="https://snyk.io/test/github/skerit/protoblast/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" />
+  <a href="https://snyk.io/test/github/11ways/protoblast?targetFile=package.json">
+    <img src="https://snyk.io/test/github/11ways/protoblast/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" />
   </a>
 
   <!-- DM - David -->
-  <a href="https://david-dm.org/skerit/protoblast">
-    <img src="https://david-dm.org/skerit/protoblast/status.svg" alt="Dependency Status" />
+  <a href="https://david-dm.org/11ways/protoblast">
+    <img src="https://david-dm.org/11ways/protoblast/status.svg" alt="Dependency Status" />
   </a>
 </div>
 
@@ -36,8 +36,8 @@
   </a>
 
   <!-- License - MIT -->
-  <a href="https://github.com/skerit/protoblast#license">
-    <img src="https://img.shields.io/github/license/skerit/protoblast.svg" alt="Project license" />
+  <a href="https://github.com/11ways/protoblast#license">
+    <img src="https://img.shields.io/github/license/11ways/protoblast.svg" alt="Project license" />
   </a>
 </div>
 <br>
