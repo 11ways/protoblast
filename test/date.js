@@ -300,7 +300,7 @@ describe('Date', function() {
 			// Days
 			assert.equal(c.format('D', 'nl'), 'vr');
 			assert.equal(c.format('l', 'nl'), 'vrijdag');
-			assert.equal(c.format('D', 'fr'), 'ven');
+			assert.equal(c.format('D', 'fr'), 'ven.');
 
 			// Months
 			assert.equal(a.format('F', 'nl'), 'augustus', 'Should return the full month name in Dutch');
