@@ -252,7 +252,7 @@ describe('Cache', function() {
 
 				assert.deepStrictEqual(keys, ['a', 'b', 'c', 'e']);
 				done();
-			}, 1);
+			}, 5);
 		});
 
 		it('should return empty array when everything is expired', function(done) {
@@ -275,7 +275,7 @@ describe('Cache', function() {
 
 				assert.deepStrictEqual(keys, []);
 				done();
-			}, 1);
+			}, 5);
 		});
 	});
 
