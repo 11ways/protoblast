@@ -959,6 +959,18 @@ describe('Array', function() {
 			entry = arr.findByPath({'deep.firstname': 'Alice', 'deep.lastname': 'Wonderland'});
 
 			assert.strictEqual(entry, arr[2]);
+
+			entry = arr.findByPath({'deep.firstname': 'DoesNotExist'});
+
+			assert.strictEqual(entry, undefined);
+
+			entry = arr.findByPath({'deep.firstname': 'Alice', 'deep.lastname': 'De Loecker'});
+
+			assert.strictEqual(entry, undefined);
+
+			entry = arr.findByPath({});
+
+			assert.strictEqual(entry, undefined);
 		});
 	});
 
@@ -1059,6 +1071,18 @@ describe('Array', function() {
 
 			// Should just not throw an error, as .sort() does
 			arr.safesort();
+		});
+	});
+
+	describe('#after(needle)', function() {
+
+		it('should return all the elements after the given needle', function() {
+
+			var arr = [1, 2, 3, 4, 5, 6, 7, 4];
+
+			let result = arr.after(4);
+
+			assert.deepStrictEqual(result, [5, 6, 7, 4]);
 		});
 	});
 
