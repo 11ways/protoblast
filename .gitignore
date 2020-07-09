@@ -33,6 +33,10 @@ coverage/
 # Coveralls contains private info
 .coveralls.yml
 
+# This can contain the private token
+# (This is NOT .codecov.yml)
+codecov.yml
+
 # The generated client file
 client-file.js
 client-file-common.js

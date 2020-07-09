@@ -46,7 +46,7 @@
 </div>
 <div align="center">
   <sub>
-    Coded with ❤️ by <a href="#authors">Jelle De Loecker</a>.
+    Coded with ❤️ by <a href="#authors">Eleven Ways</a>.
   </sub>
 </div>
 
@@ -96,3 +96,7 @@ var str = 'Get what we want';
 Blast.Bound.String.after(str, 'what');
 // ' we want'
 ```
+
+## Authors
+
+Protoblast is developed at [Eleven Ways](https://www.elevenways.be/), a team of [IAAP Certified Accessibility Specialists](https://www.accessibilityassociation.org/).
