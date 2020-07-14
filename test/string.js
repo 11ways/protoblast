@@ -1342,4 +1342,29 @@ describe('String', function() {
 			assert.strictEqual(original.substringCharacters(1, 3), '🤔🚀');
 		});
 	});
+
+	describe('#dedent()', function() {
+		it('should dedent the string', function() {
+
+				var text = `
+					This is a test!
+						- This should still be indented
+							- And this even more so
+						- This is back one
+					And this is at 0
+				`;
+
+				let result = text.dedent();
+
+				assert.strictEqual(result,
+`
+This is a test!
+	- This should still be indented
+		- And this even more so
+	- This is back one
+And this is at 0
+`)
+
+		});
+	});
 });

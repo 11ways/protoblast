@@ -1,3 +1,7 @@
+## 0.7.2 (WIP)
+
+* Add `String#dedent()` method
+
 ## 0.7.1 (2020-07-11)
 
 * Automatically create the prototypal wrapper methods for the function inheritance
