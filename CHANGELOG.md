@@ -1,6 +1,7 @@
 ## 0.7.2 (WIP)
 
 * Add `String#dedent()` method
+* Add `deprecate` decorator
 
 ## 0.7.1 (2020-07-11)
 
