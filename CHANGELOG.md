@@ -2,6 +2,7 @@
 
 * Add `String#dedent()` method
 * Add `deprecate` decorator
+* Add sourcemap support
 
 ## 0.7.1 (2020-07-11)
 
