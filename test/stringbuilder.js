@@ -1,7 +1,7 @@
 var assert = require('assert'),
     Blast;
 
-describe('String', function() {
+describe('StringBuilder', function() {
 
 	before(function() {
 		Blast  = require('../index.js')();

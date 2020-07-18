@@ -54,7 +54,7 @@ describe('String', function() {
 			    obj;
 
 			obj = String.decodeAttributes(input, ';');
-			assert.equal(JSON.stringify(obj), '{"a":"1","b":"2"}');
+			assert.strictEqual(JSON.stringify(obj), '{"a":"1","b":"2"}');
 
 			obj = String.decodeAttributes('form-data; name="field1"', ';');
 			assert.deepStrictEqual(obj, {'form-data': undefined, name: 'field1'});
@@ -69,6 +69,23 @@ describe('String', function() {
 			let result = String.decodeAttributes('a="1", b="2"', false);
 
 			assert.deepStrictEqual(result, {"a":"1","b":"2"});
+		});
+	});
+
+	describe('.decodeJSONURI(value)', function() {
+		it('should try to decode json strings', function() {
+
+			let result = String.decodeJSONURI(String.encodeURI('[1,2]'));
+
+			assert.deepStrictEqual(result, [1,2]);
+		});
+
+		it('should return the string if it\'s invalid JSON', function() {
+
+			let result = String.decodeJSONURI(String.encodeURI('[1,2'));
+
+			assert.deepStrictEqual(result, '[1,2');
+
 		});
 	});
 
@@ -88,7 +105,33 @@ describe('String', function() {
 		it('should return a valid cookie string', function() {
 			var output = String.encodeCookie('cookiename', 'myvalue', {path: '/mypath'});
 
-			assert.equal(output, 'cookiename=myvalue; path=/mypath');
+			assert.strictEqual(output, 'cookiename=myvalue; path=/mypath');
+
+			output = String.encodeCookie('a', true, {path: '/mypath'});
+			assert.strictEqual(output, 'a=true; path=/mypath');
+
+			output = String.encodeCookie('a', 0, {path: '/mypath'});
+			assert.strictEqual(output, 'a=0; path=/mypath');
+
+			output = String.encodeCookie('a', 1, {path: '/mypath'});
+			assert.strictEqual(output, 'a=1; path=/mypath');
+		});
+
+		it('should json-encode objects', function() {
+
+			var output = String.encodeCookie('key', [1]);
+
+			assert.strictEqual(output, 'key=%5B1%5D');
+		});
+
+		it('should set a date in the far future if "Infinity" is used', function() {
+
+			var output = String.encodeCookie('key', 1, {expires: Infinity});
+
+			let date_str = Blast.Bound.String.afterLast(output, 'expires=');
+			let date = new Date(date_str);
+
+			assert.strictEqual(date.getFullYear() > 9000, true, 'The expires date should be in the far future, but it is "' + date + '"');
 		});
 	});
 
