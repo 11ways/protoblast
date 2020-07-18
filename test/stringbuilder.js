@@ -34,6 +34,43 @@ describe('String', function() {
 		});
 	});
 
+	describe('#appendLine(str)', function() {
+		it('should append the argument and add a newline', function() {
+
+			var sb = new Blast.Classes.Develry.StringBuilder('0');
+
+			sb.appendLine();
+
+			assert.strictEqual(sb+'', '0\n');
+
+			sb.appendLine('');
+
+			assert.strictEqual(sb+'', '0\n\n');
+
+			sb.appendLine('A');
+
+			assert.strictEqual(sb+'', '0\n\nA\n');
+		});
+	});
+
+	describe('#charAt(index)', function() {
+		it('should return the character at the given index', function() {
+
+			var sb = new Blast.Classes.Develry.StringBuilder('012345');
+
+			sb.append(6);
+			sb.append(7);
+
+			sb.append('89A');
+
+			assert.strictEqual(sb.charAt(0), '0');
+			assert.strictEqual(sb.charAt(1), '1');
+			assert.strictEqual(sb.charAt(6), '6');
+			assert.strictEqual(sb.charAt(7), '7');
+			assert.strictEqual(sb.charAt(10), 'A');
+		});
+	});
+
 	describe('#toString()', function() {
 		it('should return a string', function() {
 
@@ -113,6 +150,14 @@ describe('String', function() {
 
 			assert.strictEqual(sb.toString(), '012391011121314');
 			assert.strictEqual(str, '45678');
+		});
+
+		it('should return an empty string when the start & end are the same', function() {
+
+			var sb = new Blast.Classes.Develry.StringBuilder('01234');
+
+			assert.strictEqual(sb.cut(1,1), '');
+			assert.strictEqual(''+sb, '01234');
 		});
 	});
 

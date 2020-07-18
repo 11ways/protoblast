@@ -47,8 +47,6 @@ describe('Blast.getClientPath()', function() {
 
 		var path = await Blast.getClientPath();
 
-		console.log(path);
-
 	});
 
 });

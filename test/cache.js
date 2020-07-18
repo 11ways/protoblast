@@ -269,9 +269,16 @@ describe('Cache', function() {
 
 			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
 
-			let attempts = 0;
+			let attempts = 0,
+			    start = Date.now();
 
 			setTimeout(function checkKeys() {
+
+				let elapsed = Date.now() - start;
+
+				if (elapsed < 5) {
+					return done(new Error('Timer called back after ' + elapsed + 'ms instead of 5'));
+				}
 
 				keys = cache.keys;
 				attempts++;
@@ -282,7 +289,7 @@ describe('Cache', function() {
 
 				assert.deepStrictEqual(keys, []);
 				done();
-			}, 5);
+			}, 6);
 		});
 	});
 

@@ -472,10 +472,10 @@ describe('Pledge', function() {
 	});
 
 	describe('.after(n, value)', function () {
-		it('create a pledge which resolved after n seconds', function (done) {
+		it('create a pledge which resolves after n seconds', function (done) {
 			var start = Date.now();
 
-			Pledge.after(10, 'test').handleCallback(function _done(err, val) {
+			Pledge.after(11, 'test').handleCallback(function _done(err, val) {
 
 				var elapsed = Date.now() - start;
 
@@ -484,7 +484,12 @@ describe('Pledge', function() {
 				}
 
 				assert.strictEqual(val, 'test');
-				assert.strictEqual(elapsed > 9, true);
+
+				// We check for 10ms, because node.js has a rounding issue regarding timers :/
+				if (elapsed < 10) {
+					return done(new Error('Callback should have executed after at least 10ms, but it has been only ' + elapsed + 'ms'));
+				}
+
 				done();
 			});
 		});
