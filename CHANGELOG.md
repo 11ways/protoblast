@@ -3,6 +3,7 @@
 * Add `String#dedent()` method
 * Add `deprecate` decorator
 * Add sourcemap support
+* Fix error in `Function.parallel` & `Function.series` where primitives would be turned into objects
 
 ## 0.7.1 (2020-07-11)
 
