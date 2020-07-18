@@ -63,6 +63,13 @@ describe('String', function() {
 		it('should set attributes without a value', function() {
 			assert.deepStrictEqual(String.decodeAttributes('a, b="1"', ','), {a: undefined, b: "1"});
 		});
+
+		it('should fall back to the comma separator', function() {
+
+			let result = String.decodeAttributes('a="1", b="2"', false);
+
+			assert.deepStrictEqual(result, {"a":"1","b":"2"});
+		});
 	});
 
 	describe('.decodeURI(value)', function() {

@@ -46,7 +46,7 @@ describe('Cache', function() {
 
 			assert.deepStrictEqual(cache.keys, ['b', 'a']);
 
-			setTimeout(function() {
+			ensureTimeout(function() {
 				assert.deepStrictEqual(cache.keys, ['a']);
 
 				done();
@@ -246,7 +246,7 @@ describe('Cache', function() {
 
 			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
 
-			setTimeout(function() {
+			ensureTimeout(function() {
 
 				keys = cache.keys;
 
@@ -269,23 +269,9 @@ describe('Cache', function() {
 
 			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
 
-			let attempts = 0,
-			    start = Date.now();
-
-			setTimeout(function checkKeys() {
-
-				let elapsed = Date.now() - start;
-
-				if (elapsed < 5) {
-					return done(new Error('Timer called back after ' + elapsed + 'ms instead of 5'));
-				}
+			ensureTimeout(function checkKeys() {
 
 				keys = cache.keys;
-				attempts++;
-
-				if (keys.length && attempts == 1) {
-					return setTimeout(checkKeys, 10);
-				}
 
 				assert.deepStrictEqual(keys, []);
 				done();
@@ -394,7 +380,7 @@ describe('Cache', function() {
 			// Override the default max_age
 			cache.set('b', 2, 1000);
 
-			setTimeout(function() {
+			ensureTimeout(function() {
 
 				assert.strictEqual(cache.get('a'), undefined, 'This entry should have expired');
 				assert.strictEqual(cache.has('a'), false, 'The expired entry should not be seen as available after trying to get it');
