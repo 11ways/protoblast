@@ -18,24 +18,25 @@
 	"homepage": "https://protoblast.develry.be/",
 	"license": "MIT",
 	"scripts": {
-		"test"            : "node_modules/.bin/mocha --reporter spec",
-		"coverage"        : "./node_modules/istanbul/lib/cli.js cover _mocha",
-		"report-coverage" : "cat ./coverage/lcov.info | codecov"
+		"test"            : "mocha --exit --reporter spec --bail --timeout 5000",
+		"coverage"        : "nyc --reporter=text --reporter=lcov --silent mocha --exit --timeout 20000 --bail",
+		"report-coverage" : "nyc report --reporter=lcov && cat ./coverage/lcov.info | codecov"
 	},
 	"main": "lib/init.js",
 	"devDependencies": {
-		"browserify"              : "5.11.0",
+		"browserify"              : "~16.5.1",
 		"codecov"                 : "~3.7.0",
 		"git-rev"                 : "0.2.1",
-		"istanbul"                : "^0.4.5",
 		"istanbul-lib-instrument" : "~4.0.3",
 		"jsuri"                   : "~1.3.1",
 		"matcha"                  : "skerit/matcha",
-		"mocha"                   : "^5.0.1",
+		"mocha"                   : "~8.0.1",
+		"nyc"                     : "^15.1.0",
 		"promises-aplus-tests"    : "~2.1.2",
+		"puppeteer"               : "~5.1.0",
 		"source-map"              : "~0.7.3",
 		"uglify-js"               : "3.2.0",
-		"wd"                      : "1.4.1"
+		"wd"                      : "~1.12.1"
 	},
 	"engines": {
 		"node": ">=8.9.0"

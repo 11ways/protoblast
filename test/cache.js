@@ -50,7 +50,7 @@ describe('Cache', function() {
 				assert.deepStrictEqual(cache.keys, ['a']);
 
 				done();
-			}, 6);
+			}, 10);
 		});
 
 		it('should reset the `added` time', async function() {
@@ -252,7 +252,7 @@ describe('Cache', function() {
 
 				assert.deepStrictEqual(keys, ['a', 'b', 'c', 'e']);
 				done();
-			}, 5);
+			}, 10);
 		});
 
 		it('should return empty array when everything is expired', function(done) {
@@ -269,9 +269,16 @@ describe('Cache', function() {
 
 			assert.deepStrictEqual(keys, ['a', 'b', 'c', 'd', 'e']);
 
-			setTimeout(function() {
+			let attempts = 0;
+
+			setTimeout(function checkKeys() {
 
 				keys = cache.keys;
+				attempts++;
+
+				if (keys.length && attempts == 1) {
+					return setTimeout(checkKeys, 10);
+				}
 
 				assert.deepStrictEqual(keys, []);
 				done();

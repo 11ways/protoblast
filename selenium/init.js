@@ -17,10 +17,6 @@ var desireds = {
 	chrome: {browserName: 'chrome'},
 	firefox: {browserName: 'firefox'},
 	explorer: {browserName: 'internet explorer'},
-	ie7: {browserName: 'internet explorer', version: '7'},
-	ie8: {browserName: 'internet explorer', version: '8'},
-	ie9: {browserName: 'internet explorer', version: '9'},
-	ie10: {browserName: 'internet explorer', version: '10'},
 	ie11: {browserName: 'internet explorer', version: '11'}
 };
 
@@ -32,194 +28,228 @@ if (!desired) {
 	process.exit();
 }
 
-var blastPath = Blast.getClientPath(true);
-var blastClient = ''+fs.readFileSync(blastPath);
-var mocha = ''+fs.readFileSync(base + 'node_modules/mocha/mocha.js');
+let pending_tests = [];
 
-var blastFile  = ''+fs.readFileSync(Blast.getClientPath(true)),
-    mochaFile  = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.js'),
-    mochaStyle = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.css'),
-    testBrow   = browserify(),
-    username = process.env.SAUCE_PROTOBLAST_USERNAME || process.env.SAUCE_USERNAME,
-    accessKey = process.env.SAUCE_PROTOBLAST_ACCESS_KEY || process.env.SAUCE_ACCESS_KEY;
+describe('Async setup', function() {
 
-if (!username || !accessKey) {
-	pr('Could not find username or accesskey!');
-	process.exit();
-}
+	it('should work', function() {
 
-// Add the sauceindex file
-testBrow.require(__dirname + '/sauceindex.js', {expose: '../index.js'});
-
-// Add every test file in order
-fs.readdirSync(base + '/test/').forEach(function(filename) {
-	testBrow.add(base + '/test/' + filename);
+	})
 });
 
-function describeSuite(suite, browser, recursive) {
+before(async function() {
+	this.timeout(70000)
 
-	if (!recursive) {
-		recursive = 0;
+	let mochaFile  = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.js'),
+	    mochaStyle = ''+fs.readFileSync(base + '/node_modules/mocha/mocha.css');
+
+	var blastPath = await Blast.getClientPath({
+		enable_coverage   : true,
+		modify_prototypes : true
+	});
+
+	var blastClient = ''+fs.readFileSync(blastPath);
+	var mocha = mochaFile;
+
+	var blastFile  = blastClient,
+	    testBrow   = browserify(),
+	    username = process.env.SAUCE_PROTOBLAST_USERNAME || process.env.SAUCE_USERNAME,
+	    accessKey = process.env.SAUCE_PROTOBLAST_ACCESS_KEY || process.env.SAUCE_ACCESS_KEY;
+
+	if (!username || !accessKey) {
+		pr('Could not find username or accesskey!');
+		process.exit();
 	}
 
-	describe(suite.title, function() {
+	// Add the sauceindex file
+	testBrow.require(__dirname + '/sauceindex.js', {expose: '../index.js'});
 
-		var markPassed = true;
+	// Add every test file in order
+	fs.readdirSync(base + '/test/').forEach(function(filename) {
 
-		this.slow(75);
-
-		if (Array.isArray(suite.suites)) {
-			suite.suites.forEach(function(suite) {
-				describeSuite(suite, browser, recursive + 1);
-			});
+		switch (filename) {
+			case 'abc.js':
+			case 'zz-browser.js':
+			case 'stream_combined.js':
+			case 'stream_delayed.js':
+				return;
 		}
 
-		suite.tests.forEach(function(test) {
+		testBrow.add(base + '/test/' + filename);
+	});
 
-			it(test.title, function() {
+	function describeSuite(suite, browser, recursive) {
 
-				if (test.state !== 'passed') {
-					markPassed = false;
-					var err = new Error(test.err.message);
+		if (!recursive) {
+			recursive = 0;
+		}
 
-					err.stack = test.err.name + ': ' + test.err.message + '\n' + test.err.stack;
-					throw err;
+		describe(suite.title, function() {
+
+			var markPassed = true;
+
+			this.slow(75);
+
+			if (Array.isArray(suite.suites)) {
+				suite.suites.forEach(function(suite) {
+					describeSuite(suite, browser, recursive + 1);
+				});
+			}
+
+			suite.tests.forEach(function(test) {
+
+				if (test.state == 'pending') {
+					it.skip(test.title + ' (pending error)', function() {});
+
+					pending_tests.push(test);
+					return;
+				}
+
+				it(test.title, function() {
+
+					if (test.state !== 'passed') {
+						markPassed = false;
+						var err = new Error(test.err.message);
+
+						err.stack = test.err.name + ': ' + test.err.message + '\n' + test.err.stack;
+						throw err;
+					}
+				});
+			});
+		});
+	}
+
+	describe('Configuring browser:', function() {
+
+		var testFiles,
+		    browser,
+		    failures = 0;
+
+		browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
+
+		// Give it 500 seconds to timeout
+		this.timeout(500000);
+		this.slow(5000);
+
+		it('preparing the test bundle', function(next) {
+
+			// Bundle the files
+			testBrow.bundle(function(err, result) {
+				testFiles = ''+result;
+				next();
+			});
+		});
+
+		it('requesting a browser', function() {
+
+			var options;
+
+			// This can easily take 15 seconds or more
+			this.slow(15000);
+
+			options = Object.assign({}, desired);
+			options.name = 'protoblast';
+			options['recordVideo'] = false;
+			options['captureHtml'] = true;
+
+			return browser.init(options).setAsyncScriptTimeout(30000);
+		});
+
+		it('set git commit', function(next) {
+			git.short(function(str) {
+				browser.sauceJobUpdate({
+					build: str
+				}).nodeify(next);
+			});
+		});
+
+		it('getting a blank page', function() {
+			return browser.get('about:blank');
+		});
+
+		it('adding protoblast file', function() {
+
+			this.timeout(30000);
+
+			// Add protoblast
+			return browser.safeExecute(blastFile);
+		});
+
+		it('adding mocha scripts and setup bdd', function() {
+			// Add mocha
+			return browser.execute(mochaFile).safeExecute('mocha.setup("bdd") && null');
+		});
+
+		it('adding testfiles', function(next) {
+
+			var script = testFiles,
+			    prom;
+
+			script = 'try { ' + script + '} catch (err) { window.ERR = {name: err.name, message: err.message, stack: err.stack}}';
+			
+			prom = browser.safeExecute('var testFiles = document.createElement("script"); testFiles.innerHTML = ' + JSON.stringify(script) + ';document.head.appendChild(testFiles);')
+
+			prom.safeExecute('window.ERR', function(err, result) {
+
+				var errorObject;
+
+				if (result) {
+
+					errorObject = new Error(result.message);
+					errorObject.stack = result.name + ': ' + result.message + '\n' + result.stack;
+
+					next(errorObject);
+				} else {
+					next();
 				}
 			});
 		});
-	});
-}
 
-describe('Configuring browser:', function() {
+		it('adding the mocha html', function() {
 
-	var testFiles,
-	    browser,
-	    failures = 0;
+			var html = '<div id="mocha"></div>';
+			html += '<style type="text/css">' + mochaStyle + '</style>';
 
-	browser = wd.promiseChainRemote("ondemand.saucelabs.com", 80, username, accessKey);
-
-	// Give it 500 seconds to timeout
-	this.timeout(500000);
-	this.slow(2500);
-
-	it('preparing the test bundle', function(next) {
-
-		// Bundle the files
-		testBrow.bundle(function(err, result) {
-			testFiles = ''+result;
-			next();
+			return browser.safeExecute('document.body.innerHTML = ' + JSON.stringify(html));
 		});
-	});
 
-	it('requesting a browser', function() {
+		it('running tests on browser', function() {
 
-		var options;
+			this.timeout(10000);
 
-		// This can easily take 15 seconds or more
-		this.slow(15000);
-
-		options = Object.assign({}, desired);
-		options.name = 'protoblast';
-		options['recordVideo'] = false;
-		options['captureHtml'] = true;
-
-		return browser.init(options).setAsyncScriptTimeout(30000);
-	});
-
-	it('set git commit', function(next) {
-		git.short(function(str) {
-			browser.sauceJobUpdate({
-				build: str
-			}).nodeify(next);
+			// Start mocha
+			return browser.execute('window.test = mocha.run(function(err, r){window.mochaIsDone = true;})')
+			       .waitForConditionInBrowser('test.stats.passes > 0 && test.stats.pending === 0', 10000);
 		});
-	});
 
-	it('getting a blank page', function() {
-		return browser.get('about:blank');
-	});
+		it('retrieved test results', function(next) {
 
-	it('adding protoblast file', function() {
+			var prom;
 
-		this.timeout(30000);
+			this.timeout(10000);
 
-		// Add protoblast
-		return browser.safeExecute(blastFile);
-	});
+			// Get the stats
+			prom = browser.safeExecute('window.getMochaStats()');
 
-	it('adding mocha scripts and setup bdd', function() {
-		// Add mocha
-		return browser.execute(mochaFile).safeExecute('mocha.setup("bdd")');
-	});
+			prom.nodeify(function(err, stats) {
 
-	it('adding testfiles', function(next) {
+				var success = false;
 
-		var script = testFiles,
-		    prom;
+				if (err) {
+					pr(err);
+					return browser.sauceJobStatus(false).nodeify(next);
+				}
 
-		script = 'try { ' + script + '} catch (err) { window.ERR = {name: err.name, message: err.message, stack: err.stack}}';
-		
-		prom = browser.safeExecute('var testFiles = document.createElement("script"); testFiles.innerHTML = ' + JSON.stringify(script) + ';document.head.appendChild(testFiles);')
+				stats.suites.forEach(function(suite) {
+					describeSuite(suite, browser);
+				});
 
-		prom.safeExecute('window.ERR', function(err, result) {
+				if (stats.failures == 0) {
+					success = true;
+				}
 
-			var errorObject;
-
-			if (result) {
-
-				errorObject = new Error(result.message);
-				errorObject.stack = result.name + ': ' + result.message + '\n' + result.stack;
-
-				next(errorObject);
-			} else {
-				next();
-			}
-		});
-	});
-
-	it('adding the mocha html', function() {
-
-		var html = '<div id="mocha"></div>';
-		html += '<style type="text/css">' + mochaStyle + '</style>';
-
-		return browser.safeExecute('document.body.innerHTML = ' + JSON.stringify(html));
-	});
-
-	it('running tests on browser', function() {
-
-		this.timeout(10000);
-
-		// Start mocha
-		return browser.execute('window.test = mocha.run(function(err, r){window.mochaIsDone = true;})')
-		       .waitForConditionInBrowser('test.stats.passes > 0 && test.stats.pending === 0', 10000);
-	});
-
-	it('retrieved test results', function(next) {
-
-		var prom;
-
-		this.timeout(10000);
-
-		// Get the stats
-		prom = browser.safeExecute('window.getMochaStats()');
-
-		prom.nodeify(function(err, stats) {
-
-			var success = false;
-
-			if (err) {
-				pr(err);
-				return browser.sauceJobStatus(false).nodeify(next);
-			}
-
-			stats.suites.forEach(function(suite) {
-				describeSuite(suite, browser);
+				browser.sauceJobStatus(success).quit().nodeify(next);
 			});
-
-			if (stats.failures == 0) {
-				success = true;
-			}
-
-			browser.sauceJobStatus(success).quit().nodeify(next);
 		});
 	});
 });

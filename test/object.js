@@ -263,12 +263,14 @@ describe('Object', function() {
 			assert.strictEqual(Object.sizeof(/testing/i), 30);
 		});
 
-		it('should return the size of a buffer', function() {
+		if (typeof window == 'undefined') {
+			it('should return the size of a buffer', function() {
 
-			var buf = Buffer.from('abc');
+				var buf = Buffer.from('abc');
 
-			assert.strictEqual(Object.sizeof(buf), buf.length);
-		});
+				assert.strictEqual(Object.sizeof(buf), buf.length);
+			});
+		}
 
 		it('should return the size of a map', function() {
 
@@ -549,33 +551,35 @@ describe('Object', function() {
 		});
 	});
 
-	describe('.values(obj)', function() {
-		it('should return all the values of an object in an array', function() {
-			var object1 = {
-				a: 'somestring',
-				b: 42,
-				c: false
-			};
+	if (typeof window == 'undefined') {
+		describe('.values(obj)', function() {
+			it('should return all the values of an object in an array', function() {
+				var object1 = {
+					a: 'somestring',
+					b: 42,
+					c: false
+				};
 
-			var arr = Blast.Shims['Object.values'](object1);
+				var arr = Blast.Shims['Object.values'](object1);
 
-			assert.deepEqual(arr, ['somestring', 42, false]);
+				assert.deepEqual(arr, ['somestring', 42, false]);
+			});
 		});
-	});
 
-	describe('.entries(obj)', function() {
-		it('should return all the key & values of an object in an array', function() {
-			var object1 = {
-				a: 'somestring',
-				b: 42,
-				c: false
-			};
+		describe('.entries(obj)', function() {
+			it('should return all the key & values of an object in an array', function() {
+				var object1 = {
+					a: 'somestring',
+					b: 42,
+					c: false
+				};
 
-			var arr = Blast.Shims['Object.entries'](object1);
+				var arr = Blast.Shims['Object.entries'](object1);
 
-			assert.deepEqual(arr, [['a', 'somestring'], ['b', 42], ['c', false]]);
+				assert.deepEqual(arr, [['a', 'somestring'], ['b', 42], ['c', false]]);
+			});
 		});
-	});
+	}
 
 	describe('.unzip(obj)', function() {
 		it('should return an object with the keys & values as separate arrays', function() {
@@ -1008,17 +1012,19 @@ describe('Object', function() {
 			assert.strictEqual(nr_cs, 'N' + nr);
 		});
 
-		it('should checksum Buffers', function() {
+		if (typeof window == 'undefined') {
+			it('should checksum Buffers', function() {
 
-			var buf_a = new Buffer([1,2,3]),
-			    buf_b = new Buffer([1,2,3]);
+				var buf_a = new Buffer([1,2,3]),
+				    buf_b = new Buffer([1,2,3]);
 
-			let cs_a = Object.checksum(buf_a),
-			    cs_b = Object.checksum(buf_b);
+				let cs_a = Object.checksum(buf_a),
+				    cs_b = Object.checksum(buf_b);
 
-			assert.strictEqual(cs_a, 'BUF5289df737df57326fcdd22597afb1fac');
-			assert.strictEqual(cs_b, 'BUF5289df737df57326fcdd22597afb1fac');
-		});
+				assert.strictEqual(cs_a, 'BUF5289df737df57326fcdd22597afb1fac');
+				assert.strictEqual(cs_b, 'BUF5289df737df57326fcdd22597afb1fac');
+			});
+		}
 	});
 
 	describe('.checksum(obj, sort_arrays)', function() {

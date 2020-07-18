@@ -12,7 +12,15 @@ describe('Request', function() {
 
 		it('uses Request to download something', function(done) {
 
-			Blast.fetch('https://www.github.com/skerit/protoblast', function gotResult(err, response, result) {
+			let url;
+
+			if (typeof window == 'undefined') {
+				url = 'https://www.github.com/skerit/protoblast';
+			} else {
+				url = '/index.html';
+			}
+
+			Blast.fetch(url, function gotResult(err, response, result) {
 
 				assert.strictEqual(!!err, false);
 				assert.strictEqual(result.indexOf('body') > -1, true);

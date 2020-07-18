@@ -1,5 +1,10 @@
 module.exports=function BlastInitOnSauce(modifyPrototype) {
-	return Protoblast(modifyPrototype);
+
+	if (typeof Protoblast == 'undefined' || !Protoblast) {
+		throw new Error('Protoblast was not found on the page');
+	}
+
+	return Protoblast;
 };
 
 if (window.getMochaStats) return;
@@ -55,7 +60,15 @@ function getSuites(suites) {
 
 window.getMochaStats = function getMochaStats() {
 
-	var result,
+	if (!window.test) {
+		throw new Error('Unable to find the global Mocha `test` object');
+	}
+
+	if (!window.test.stats) {
+		throw new Error('The global Mocha `test` oject contains no stats property');
+	}
+
+	let result,
 	    stats = window.test.stats,
 	    suites = window.test.suite.suites;
 

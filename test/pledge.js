@@ -5,7 +5,7 @@ var assert = require('assert'),
 describe('Pledge', function() {
 	Blast  = require('../index.js')();
 	Pledge = Blast.Classes.Pledge;
-	this.timeout(800);
+	this.timeout(5000);
 
 	// before(function() {
 	// 	Blast  = require('../index.js')();
@@ -399,11 +399,9 @@ describe('Pledge', function() {
 			});
 		});
 
-		it('should convert a non-promise to a promise', function (done) {
-			Pledge.all(['hello', Pledge.resolve('world')]).then(function (x) {
-				assert.deepEqual(x, ['hello', 'world']);
-				done();
-			});
+		it('should convert a non-promise to a promise', async function() {
+			let x = await Pledge.all(['hello', Pledge.resolve('world')]);
+			assert.deepEqual(x, ['hello', 'world']);
 		});
 	});
 
