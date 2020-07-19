@@ -237,7 +237,7 @@ describe('Cache', function() {
 			var cache = new Blast.Classes.Develry.Cache();
 
 			cache.set('e', 5);
-			cache.set('d', 4, 1);
+			cache.set('d', 4, 5);
 			cache.set('c', 3);
 			cache.set('b', 2);
 			cache.set('a', 1);
@@ -250,7 +250,12 @@ describe('Cache', function() {
 
 				keys = cache.keys;
 
-				assert.deepStrictEqual(keys, ['a', 'b', 'c', 'e']);
+				try {
+					assert.deepStrictEqual(keys, ['a', 'b', 'c', 'e']);
+				} catch (err) {
+					return done(err);
+				}
+
 				done();
 			}, 10);
 		});
