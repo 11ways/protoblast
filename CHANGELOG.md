@@ -5,6 +5,7 @@
 * Add sourcemap support
 * Fix error in `Function.parallel` & `Function.series` where primitives would be turned into objects
 * `RURL#segments` will now no longer contain empty strings
+* Add `RURL#isDescendant(parent)` to see if the current path is a descendant of the given path
 
 ## 0.7.1 (2020-07-11)
 

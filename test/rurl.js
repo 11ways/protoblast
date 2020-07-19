@@ -1494,4 +1494,28 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('#isDescendant(url)', function() {
+		it('should say if the path is a descendant of the given url', function() {
+
+			let parent = RURL.parse('http://www.bla.be/base/path');
+
+			assert.strictEqual(RURL.parse('http://www.bla.be/base/path/child').isDescendant('/base/path'), true);
+			assert.strictEqual(RURL.parse('http://www.bla.be/base/path/child').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('http://www.bla.be/base/path').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('/base/path/child').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('/base/path').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('https://www.bla.be/base/path').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('https://www.bla.be/base/path/').isDescendant(parent), true);
+			assert.strictEqual(RURL.parse('https://www.bla.be/base//path/').isDescendant(parent), true);
+
+			assert.strictEqual(RURL.parse('http://www.something.else/base/path/child').isDescendant(parent), false);
+
+			assert.strictEqual(RURL.parse('http://www.bla.be/base/paths').isDescendant(parent), false);
+			assert.strictEqual(RURL.parse('http://www.bla.be/base').isDescendant(parent), false);
+			assert.strictEqual(RURL.parse('http://www.bla.be/base//').isDescendant(parent), false);
+			assert.strictEqual(RURL.parse('/base/paths').isDescendant(parent), false);
+			assert.strictEqual(RURL.parse('/base').isDescendant(parent), false);
+		});
+	});
+
 });
