@@ -1072,6 +1072,19 @@ describe('RURL', function() {
 			u.segments = ['hello', 'world', 'foo.html'];
 			assert.equal(u.pathname, '/hello/world/foo.html');
 		});
+
+		it('does not create empty segments', function() {
+			var u = RURL.parse('http://www.example.org/some//directory/');
+			assert.deepStrictEqual(u.segments, ['some', 'directory']);
+		});
+
+		it('returns an empty array when there are no segments', function() {
+			let u = RURL.parse('http://www.example.org/');
+			assert.deepStrictEqual(u.segments, []);
+
+			u = RURL.parse('http://www.example.org');
+			assert.deepStrictEqual(u.segments, []);
+		});
 	});
 
 	describe('#segment(index, value)', function() {

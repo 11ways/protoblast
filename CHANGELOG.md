@@ -4,6 +4,7 @@
 * Add `deprecate` decorator
 * Add sourcemap support
 * Fix error in `Function.parallel` & `Function.series` where primitives would be turned into objects
+* `RURL#segments` will now no longer contain empty strings
 
 ## 0.7.1 (2020-07-11)
 
