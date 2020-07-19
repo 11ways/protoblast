@@ -35,6 +35,24 @@ describe('Blast()', function() {
 	it('should modify prototype when no parameter is given', function() {
 		assert.equal(!!String.prototype.startsWith, true);
 	});
+
+	it('should not break the `require` function', function() {
+
+		let shebang;
+
+		try {
+			shebang = require('./assets/shebang.js');
+		} catch (err) {
+
+			if (err.stack.indexOf('#!') > -1) {
+				throw new Error('Protoblast broke the shebang handling of `require`');
+			} else {
+				throw err;
+			}
+		}
+
+		assert.strictEqual(shebang, 'OK!', 'The shebang file did not export the correct value');
+	});
 });
 
 describe('Blast.getClientPath()', function() {
