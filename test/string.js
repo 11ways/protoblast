@@ -527,6 +527,26 @@ describe('String', function() {
 				{ type: 'safeprint', value: '{sp}' }
 			]);
 		});
+
+		it('should ignore blocks that are not supposed to span multiple lines', function() {
+
+			var html = `{sp}{not\nsp}`;
+
+			let tokens = String.tokenizeHTML(html, {
+				blocks: {
+					safeprint: {
+						open: '{',
+						close: '}',
+						multiline: false
+					}
+				}
+			});
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'safeprint', value: '{sp}' },
+				{ type: 'text', value: '{not\nsp}' }
+			]);
+		});
 	});
 
 	// Tets by Mathias Bynens' codePointAt shim

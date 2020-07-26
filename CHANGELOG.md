@@ -1,6 +1,7 @@
 ## 0.7.3 (WIP)
 
 * Make `String#tokenizeHTML()` ignore illegal nested custom blocks
+* Allow `String#tokenizeHTML()` to ignore blocks that span multiple lines
 
 ## 0.7.2 (2020-07-21)
 
