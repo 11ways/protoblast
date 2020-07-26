@@ -29,6 +29,7 @@ deoptigate/
 # Coverage directory used by istanbul
 .nyc_output/
 coverage/
+.nycrc.yml
 
 # Coveralls contains private info
 .coveralls.yml

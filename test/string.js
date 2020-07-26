@@ -482,6 +482,51 @@ describe('String', function() {
 				{ type: 'close_bracket', value: '>' }
 			]);
 		});
+
+		it('should not allow nested blocks', function() {
+
+			var html = '{% {not-safe-print} %}{safe-print}';
+
+			let tokens = String.tokenizeHTML(html, {
+				blocks: {
+					code: {
+						open: '{%',
+						close: '%}'
+					},
+					safeprint: {
+						open: '{',
+						close: '}'
+					}
+				}
+			});
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'code', value: '{% {not-safe-print} %}' },
+				{ type: 'safeprint', value: '{safe-print}' }
+			]);
+
+			html = '{% {nsp} %}{% second %}{% {% %}{sp}'
+
+			tokens = String.tokenizeHTML(html, {
+				blocks: {
+					code: {
+						open: '{%',
+						close: '%}'
+					},
+					safeprint: {
+						open: '{',
+						close: '}'
+					}
+				}
+			});
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'code', value: '{% {nsp} %}' },
+				{ type: 'code', value: '{% second %}' },
+				{ type: 'code', value: '{% {% %}' },
+				{ type: 'safeprint', value: '{sp}' }
+			]);
+		});
 	});
 
 	// Tets by Mathias Bynens' codePointAt shim
@@ -1190,12 +1235,6 @@ describe('String', function() {
 		it('should throw an error when the count is infinity', function() {
 			assert.throws(function() {
 				'bla'.repeat(Infinity);
-			});
-		});
-
-		it('should throw an error when the resulting string would be too big', function() {
-			assert.throws(function() {
-				'bla'.repeat(1 << 28);
 			});
 		});
 	});

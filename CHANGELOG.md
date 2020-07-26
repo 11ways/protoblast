@@ -1,3 +1,7 @@
+## 0.7.3 (WIP)
+
+* Make `String#tokenizeHTML()` ignore illegal nested custom blocks
+
 ## 0.7.2 (2020-07-21)
 
 * Add `String#dedent()` method

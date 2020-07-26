@@ -2,3 +2,4 @@ exclude:
   - lib/symbol.js
   - lib/weakmap.js
   - test/
+  - develry/
