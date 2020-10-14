@@ -1,3 +1,7 @@
+## 0.7.4 (WIP)
+
+* Add `Blast.isSafari` boolean & fix detection for iPadOS 13
+
 ## 0.7.3 (2020-10-08)
 
 * Make `String#tokenizeHTML()` ignore illegal nested custom blocks
