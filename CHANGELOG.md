@@ -1,4 +1,4 @@
-## 0.7.4 (WIP)
+## 0.7.4 (2020-10-22)
 
 * Add `Blast.isSafari` boolean & fix detection for iPadOS 13
 * Add `Crypto.nanoid(size)` to create a nano-id
