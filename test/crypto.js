@@ -74,4 +74,39 @@ describe('Crypto', function() {
 			});
 		});
 	});
+
+	describe('.nanoid(size)', function() {
+		it('should return a nanoid of a given size', function() {
+			assert.strictEqual(Crypto.nanoid(2).length, 2);
+			assert.strictEqual(Crypto.nanoid(3).length, 3);
+			assert.strictEqual(Crypto.nanoid(4).length, 4);
+			assert.strictEqual(Crypto.nanoid(5).length, 5);
+		});
+	});
+
+	describe('.createNanoidGenerator(alphabet, default_size, random)', function() {
+
+		it('should allow setting a custom alphabet', function() {
+
+			let generator = Crypto.createNanoidGenerator('aaaaaaaaaaaaaa');
+
+			assert.strictEqual(generator(4), 'aaaa');
+			assert.strictEqual(generator(5), 'aaaaa');
+			assert.strictEqual(generator(6), 'aaaaaa');
+		});
+
+		it('should allow using another rng', function() {
+
+			let srng = new Blast.Classes.SeededRng(47);
+
+			let generator = Crypto.createNanoidGenerator('acdefhjkmnprtwxyz34679', 6, srng);
+
+			assert.strictEqual(generator(2), '9m');
+			assert.strictEqual(generator(3), 'tmp');
+			assert.strictEqual(generator(4), 'c4pj');
+			assert.strictEqual(generator(5), 'ahz9h');
+			assert.strictEqual(generator(6), 'wahhk6');
+			assert.strictEqual(generator(),  '4xjemz');
+		});
+	});
 });

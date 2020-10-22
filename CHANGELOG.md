@@ -1,6 +1,9 @@
 ## 0.7.4 (WIP)
 
 * Add `Blast.isSafari` boolean & fix detection for iPadOS 13
+* Add `Crypto.nanoid(size)` to create a nano-id
+* Add `Crypto.createNanoidGenerator(alphabet, default_size, rng)` to create custom nano-id generators
+* Add `SeededRng#randomBytes()` so it can be used as an rng in the nano-id generator
 
 ## 0.7.3 (2020-10-08)
 
