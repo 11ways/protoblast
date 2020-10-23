@@ -74,6 +74,25 @@ describe('Inheritance', function() {
 			assert.equal(Informer.prototype.emit, instance.emit, 'The class did not inherit from Informer');
 		});
 
+		it('should allow inheritance without a constructor', function() {
+
+			let NCClass = Function.inherits(function NCClass(value) {
+				this.value = value;
+			});
+
+			let NoConstructor = Function.inherits('NCClass', 'NoConstructor');
+
+			assert.strictEqual(NoConstructor.name, 'NoConstructor');
+
+			let instance = new NoConstructor('test-nc');
+
+			assert.strictEqual(instance.value, 'test-nc');
+
+			assert.throws(function() {
+				Function.inherits('NoConstructor', 'This-Is-Not-A-Valid-Class-Name');
+			});
+		});
+
 		it('should inherit from multiple parents that are children', function() {
 
 			var instance,

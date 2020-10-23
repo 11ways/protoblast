@@ -1,3 +1,7 @@
+## 0.7.5 (WIP)
+
+* `Function.inherits(parent, constructor)` now accepts a string as the constructor
+
 ## 0.7.4 (2020-10-22)
 
 * Add `Blast.isSafari` boolean & fix detection for iPadOS 13
