@@ -1,6 +1,7 @@
 ## 0.7.5 (WIP)
 
 * `Function.inherits(parent, constructor)` now accepts a string as the constructor
+* Remove the pre-defined wrapper functions from all the files
 
 ## 0.7.4 (2020-10-22)
 
