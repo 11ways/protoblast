@@ -876,26 +876,48 @@ describe('String', function() {
 	});
 
 	describe('#encodeHTML()', function() {
+
 		it('should encode certain characters to safe HTML code', function() {
+
+			if (Blast.isBrowser) {
+				return;
+			}
+
 			var original = '<string> & foo © bar ≠ baz 𝌆 qux';
 
-			assert.strictEqual(original.encodeHTML(), '&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux');
+			//assert.strictEqual(original.encodeHTML(), '&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux');
+			assert.strictEqual(original.encodeHTML(), '&lt;string&gt; &amp; foo &copy; bar &ne; baz &#x1d306; qux');
 		});
 
 		it('should support emojis', function() {
+
+			if (Blast.isBrowser) {
+				return;
+			}
+
 			var original = '<b>👷</b>';
-			assert.strictEqual(original.encodeHTML(), '&#60;b&#62;&#x1f477;&#60;/b&#62;');
+			assert.strictEqual(original.encodeHTML(), '&lt;b&gt;&#x1f477;&lt;/b&gt;');
 		});
 
 		it('should not encode newlines', function() {
+
+			if (Blast.isBrowser) {
+				return;
+			}
+
 			var original = "\nThis is the internally set main\n",
 			    encoded = original.encodeHTML();
 
 			assert.strictEqual(original, encoded);
 		});
 
-		it('should not encode numbers', function() {
-			var original = '0123456789abcdefghijklmnopqrstuvwxyz';
+		it('should not encode numbers or ascii values', function() {
+
+			if (Blast.isBrowser) {
+				return;
+			}
+
+			var original = '0123456789abcdefghijklmnopqrstuvwxyz!?-= #$%()*+,./:;=@[]_{|}~';
 			assert.strictEqual(original.encodeHTML(), original);
 		});
 	});
@@ -904,9 +926,11 @@ describe('String', function() {
 		it('should decode certain escaped HTML entities', function() {
 			var original = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#55348;&#57094; qux&quot;&amp;';
 			var second = '&quot;&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux&quot;&amp;';
+			var numeric_only = '&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux';
 
 			assert.strictEqual(original.decodeHTML(), '"<string> & foo © bar ≠ baz 𝌆 qux"&');
 			assert.strictEqual(second.decodeHTML(), '"<string> & foo © bar ≠ baz 𝌆 qux"&');
+			assert.strictEqual(numeric_only.decodeHTML(), '<string> & foo © bar ≠ baz 𝌆 qux');
 		});
 
 		it('should leave non-existing entities alone', function() {
@@ -931,6 +955,14 @@ describe('String', function() {
 			var original = '&quot;Brackets:&quot; <b>keep</b><br>';
 
 			assert.strictEqual(original.decodeHTML(), '"Brackets:" <b>keep</b><br>');
+		});
+
+		it('should be safe', function() {
+
+			let original = '&amp;lt;script&amp;gt;alert("yo")&amp;lt;/script&amp;gt;';
+
+			assert.strictEqual(original.decodeHTML(), '&lt;script&gt;alert("yo")&lt;/script&gt;');
+
 		});
 	});
 
