@@ -886,7 +886,7 @@ describe('String', function() {
 			var original = '<string> & foo © bar ≠ baz 𝌆 qux';
 
 			//assert.strictEqual(original.encodeHTML(), '&#60;string&#62; &#38; foo &#169; bar &#8800; baz &#x1d306; qux');
-			assert.strictEqual(original.encodeHTML(), '&lt;string&gt; &amp; foo &copy; bar &ne; baz &#x1d306; qux');
+			assert.strictEqual(original.encodeHTML(), '&lt;string&gt; &amp; foo © bar &ne; baz &#x1d306; qux');
 		});
 
 		it('should support emojis', function() {
