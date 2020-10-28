@@ -3,6 +3,7 @@
 * `Function.inherits(parent, constructor)` now accepts a string as the constructor
 * Remove the pre-defined wrapper functions from all the files
 * Used named entity-encoding on the server-side
+* `Function.parallel` and `Function.series` will now reject if there is an error in the callback, instead of silently failing
 
 ## 0.7.4 (2020-10-22)
 

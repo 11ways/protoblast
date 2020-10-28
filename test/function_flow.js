@@ -201,6 +201,24 @@ describe('Function Flow', function() {
 				done();
 			});
 		});
+
+		it('should throw an error when there\'s an error in the callback', function(done) {
+
+			let pledge = Function.series(function(next) {
+				next();
+			}, function(err) {
+
+				throw new Error('Error in the callback!');
+			});
+
+			pledge.then(function() {
+				done(new Error('The pledge resolved, it should have thrown'));
+			});
+
+			pledge.catch(function gotError(err) {
+				done();
+			});
+		});
 	});
 
 	describe('.series(objectTasks, callback)', function() {
@@ -300,6 +318,44 @@ describe('Function Flow', function() {
 					done();
 				}, 10);
 			}]);
+		});
+
+		it('should throw an error when there\'s an error in the callback', function(done) {
+
+			let pledge = Function.parallel(function(next) {
+				next();
+			}, function(err) {
+				throw new Error('Error in the callback!');
+			});
+
+			pledge.then(function() {
+				done(new Error('The pledge resolved, it should have thrown'));
+			});
+
+			pledge.catch(function gotError(err) {
+				done();
+			});
+		});
+
+		it('should throw the original error even if the callback has an error', function(done) {
+
+			let pledge = Function.parallel(function(next) {
+				next(new Error('Original error!'));
+			}, function(err) {
+				throw new Error('Error in the callback!');
+			});
+
+			pledge.then(function() {
+				done(new Error('The pledge resolved, it should have thrown'));
+			});
+
+			pledge.catch(function gotError(err) {
+				if (err.message != 'Original error!') {
+					done(new Error('The original error was not thrown'));
+				} else {
+					done();
+				}
+			});
 		});
 	});
 
