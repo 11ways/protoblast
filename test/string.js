@@ -913,10 +913,6 @@ describe('String', function() {
 
 		it('should not encode numbers or ascii values', function() {
 
-			if (Blast.isBrowser) {
-				return;
-			}
-
 			var original = '0123456789abcdefghijklmnopqrstuvwxyz!?-= #$%()*+,./:;=@[]_{|}~';
 			assert.strictEqual(original.encodeHTML(), original);
 		});
