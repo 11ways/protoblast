@@ -493,6 +493,35 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('.isUrl(value)', function() {
+		it('should return true for url-like strings', function() {
+			assert.strictEqual(RURL.isUrl('https://www.google.be'), true);
+			assert.strictEqual(RURL.isUrl('/this/is/a/path'), true);
+		});
+
+		it('should return true for url-like objects', function() {
+
+			let obj = {
+				href : 'http://www.develry.be/test',
+				path : '/test',
+				port : 80
+			};
+
+			assert.strictEqual(RURL.isUrl(obj), true);
+		});
+
+		it('should return false for objects that contain other non-url properties', function() {
+
+			let obj = {
+				href : 'http://www.elevenways.be/test',
+				post : true,
+				body : {a: 1}
+			};
+
+			assert.strictEqual(RURL.isUrl(obj), false);
+		});
+	});
+
 	describe('.parse(obj)', function() {
 		it('should parse url-like objects with a #scheme property (jurlp)', function() {
 
