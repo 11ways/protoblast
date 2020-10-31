@@ -12,7 +12,7 @@
 		"browser"
 	],
 	"dependencies": {
-		"json-dry"  : "~1.0.12"
+		"json-dry"  : "~1.1.0"
 	},
 	"repository": "11ways/protoblast",
 	"homepage": "https://protoblast.develry.be/",
