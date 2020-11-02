@@ -1536,6 +1536,10 @@ describe('RURL', function() {
 
 			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[test][a]=1&aft[test][b]=2');
 
+			let deep_aft_value = ori.param('aft[test]');
+
+			assert.deepStrictEqual(deep_aft_value, {a: 1, b: 2});
+
 			ori.param('aft[test]', 1);
 
 			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[test]=1');
