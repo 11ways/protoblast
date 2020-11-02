@@ -7,6 +7,7 @@
 * Added `Object.isIterable(obj)` to check for an iterable object
 * `RURL.isUrl()` should no longer return true for objects containing just a `href` property
 * The `body` of a `Request` can now also be set with a `body` option property
+* Fix `RURL#param(name, value)` not parsing form paths
 
 ## 0.7.4 (2020-10-22)
 

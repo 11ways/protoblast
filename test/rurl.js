@@ -1510,6 +1510,36 @@ describe('RURL', function() {
 			assert.equal(parsed.param('b'), '0');
 			assert.equal(parsed.param('c'), '&thisisc');
 		});
+
+		it('should parse form-style parameter names', function() {
+
+			var ori = RURL.parse('http://www.elevenways.be');
+
+			ori.param('aft', {shortlink: {page: 1, sort: 'id'}});
+
+			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[shortlink][page]=1&aft[shortlink][sort]=id');
+
+			ori.param('aft[shortlink][page]', 2);
+
+			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[shortlink][page]=2&aft[shortlink][sort]=id');
+
+			assert.deepStrictEqual(ori.query, {
+				aft: {
+					shortlink: {
+						page: 2,
+						sort: 'id'
+					}
+				}
+			});
+
+			ori.param('aft', {test: {a: 1, b: 2}});
+
+			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[test][a]=1&aft[test][b]=2');
+
+			ori.param('aft[test]', 1);
+
+			assert.strictEqual(ori+'', 'http://www.elevenways.be/?aft[test]=1');
+		});
 	});
 
 	describe('#usedBaseProperty(name)', function() {
