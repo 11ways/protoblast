@@ -309,6 +309,16 @@ describe('Date', function() {
 		});
 	});
 
+	describe('#format(pattern, locale, timezone)', function() {
+		it('should format to the given timezone', function() {
+
+			let date = new Date('Thu Sep 03 2020 00:00:00 GMT+0200 (Central European Summer Time)');
+
+			assert.strictEqual(date.format('Y-m-d', null, 'Europe/Brussels'), '2020-09-03');
+			assert.strictEqual(date.format('Y-m-d', null, 'America/New_York'), '2020-09-02');
+		});
+	});
+
 	describe('#clone()', function() {
 		it('should return a clone of the date object', function() {
 			var d = new Date(),
