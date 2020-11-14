@@ -1,3 +1,7 @@
+## 0.7.6 (WIP)
+
+* Add all Error classes to the Classes object
+
 ## 0.7.5 (2020-11-12)
 
 * `Function.inherits(parent, constructor)` now also accepts a name string instead of a constructor
