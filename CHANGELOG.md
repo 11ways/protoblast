@@ -1,6 +1,7 @@
 ## 0.7.6 (WIP)
 
 * Add all Error classes to the Classes object
+* Allow removing all listeners of an informer
 
 ## 0.7.5 (2020-11-12)
 

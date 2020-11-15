@@ -681,7 +681,59 @@ describe('Informer', function() {
 			assert.equal(4, rCount, 'The listener function fired after it should have been removed');
 			assert.equal(1, check, 'The listener function fired after it should have been removed');
 		});
+	});
 
+	describe('#removeAllListeners()', function() {
+		it('should remove all listeners when called without arguments', function() {
+
+			let a = new Informer(),
+			    alpha_counter = 0,
+			    beta_counter = 0,
+			    bla_counter = 0;
+
+			a.on('alpha', function onAlpha() {
+				alpha_counter++;
+			});
+
+			a.on('beta', function onBeta() {
+				beta_counter++;
+			});
+
+			a.on({bla: 1}, function onBla() {
+				bla_counter++;
+			});
+
+			a.emit('alpha');
+			a.emit('beta');
+
+			// Will increase
+			a.emit({bla: 1});
+
+			// Won't increase
+			a.emit({bla: 2});
+
+			assert.strictEqual(alpha_counter, 1);
+			assert.strictEqual(beta_counter, 1);
+			assert.strictEqual(bla_counter, 1);
+
+			a.removeAllListeners(null);
+
+			a.emit('alpha');
+			a.emit('beta');
+
+			assert.strictEqual(alpha_counter, 2);
+			assert.strictEqual(beta_counter, 2);
+
+			a.removeAllListeners();
+
+			a.emit('alpha');
+			a.emit('beta');
+			a.emit({bla: 1});
+
+			assert.strictEqual(alpha_counter, 2);
+			assert.strictEqual(beta_counter, 2);
+			assert.strictEqual(bla_counter, 1);
+		});
 	});
 
 	describe('#many("type", times, fnc)', function() {
