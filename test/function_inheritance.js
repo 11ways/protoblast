@@ -813,18 +813,37 @@ describe('Inheritance', function() {
 
 		it('should define a property that gets a value on first get', function() {
 
+			let counter = 0;
+
 			var Test = Function.inherits('Informer', 'Bla.Test', function Test() {
 
 			});
 
 			Test.prepareProperty(function myval() {
-				return Date.now();
+				return counter++;
 			});
 
 			var instance = new Test(),
 			    init = instance.myval;
 
 			assert.equal(instance.myval, init);
+		});
+
+		it('should not be set when called on the prototype', function() {
+
+			let first = new Blast.Classes.Bla.Test.Test(),
+			    second = new Blast.Classes.Bla.Test.Test();
+
+			let val_1 = first.myval;
+
+			let val_2 = second.myval;
+
+			assert.notStrictEqual(val_1, val_2, 'The values of 2 different instances should be different');
+
+			let val_3 = Blast.Classes.Bla.Test.Test.prototype.myval;
+			let fourth = new Blast.Classes.Bla.Test.Test();
+
+			assert.notStrictEqual(fourth.myval, val_3);
 		});
 	});
 
@@ -1061,6 +1080,16 @@ describe('Inheritance', function() {
 			b.reference = new_obj;
 
 			assert.strictEqual(b.reference, new_obj);
+		});
+
+		it('should not do anything when called on the prototype', function() {
+
+			let proto_value = AlphaE.prototype.reference;
+
+			let a = new AlphaE();
+
+			assert.notStrictEqual(a.reference, proto_value);
+			assert.strictEqual(proto_value, undefined);
 		});
 	});
 });

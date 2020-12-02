@@ -2,6 +2,7 @@
 
 * Add all Error classes to the Classes object
 * Allow removing all listeners of an informer
+* Fix `prepareProperty` and `enforceProperty` calls overriding the prototype
 
 ## 0.7.5 (2020-11-12)
 
