@@ -1,3 +1,8 @@
+## 0.7.7 (WIP)
+
+* Fix static Informer properties
+
+
 ## 0.7.6 (2020-12-10)
 
 * Add all Error classes to the Classes object
