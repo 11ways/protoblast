@@ -1,7 +1,7 @@
 ## 0.7.7 (WIP)
 
 * Fix static Informer properties
-
+* Fix `classWideEvents` no longer working on Informer instances
 
 ## 0.7.6 (2020-12-10)
 
