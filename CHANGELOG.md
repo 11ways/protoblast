@@ -2,6 +2,7 @@
 
 * Fix static Informer properties
 * Fix `classWideEvents` no longer working on Informer instances
+* Fix `Function.parallel()` not being able to handle promises like `Function.series()`
 
 ## 0.7.6 (2020-12-10)
 
