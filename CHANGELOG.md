@@ -3,6 +3,7 @@
 * Fix static Informer properties
 * Fix `classWideEvents` no longer working on Informer instances
 * Fix `Function.parallel()` not being able to handle promises like `Function.series()`
+* Namespace functions will now also have the `.setStatic()` method
 
 ## 0.7.6 (2020-12-10)
 
