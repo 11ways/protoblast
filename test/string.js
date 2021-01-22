@@ -1031,6 +1031,22 @@ describe('String', function() {
 			    result = input.replaceAll('a', 'e');
 
 			assert.strictEqual(result, 'chenge ell es to es');
+
+			let str = 'aabc';
+
+			// replaceAll and replace are the same, when given a global regex to replace
+			assert.strictEqual(str.replaceAll(/a/g, 'z'), str.replace(/a/g, 'z'));
+
+			// replaceAll, with a string, replaces all
+			assert.strictEqual(str.replaceAll('a', 'z'), 'zzbc');
+
+			let count = 0;
+
+			let fnc_result = str.replaceAll('a', function(match) {
+				return count++;
+			});
+
+			assert.strictEqual(fnc_result, '01bc');
 		});
 	});
 
