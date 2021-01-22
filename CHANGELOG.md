@@ -1,3 +1,7 @@
+## 0.7.8 (WIP)
+
+* Add some Terser workarounds
+
 ## 0.7.7 (2021-01-21)
 
 * Fix static Informer properties
