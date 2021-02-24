@@ -4,6 +4,7 @@
 * Make `String#replaceAll()` a polyfill, as it is now part of ECMAScript-2021
 * Fix inflections of 'criteria'/'criterion'
 * Make `Function.enforceProperty` accept symbols as keys
+* Add the `Branch` class
 
 ## 0.7.7 (2021-01-21)
 
