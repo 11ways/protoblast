@@ -12,6 +12,7 @@ describe('String Inflections', function() {
 			assert.strictEqual('bus'.pluralize(), 'buses');
 			assert.strictEqual('window'.pluralize(), 'windows');
 			assert.strictEqual('octopus'.pluralize(), 'octopi');
+			assert.strictEqual('criterion'.pluralize(), 'criteria');
 		});
 	});
 
@@ -20,6 +21,7 @@ describe('String Inflections', function() {
 			assert.strictEqual('buses'.singularize(), 'bus');
 			assert.strictEqual('windows'.singularize(), 'window');
 			assert.strictEqual('octopi'.singularize(), 'octopus');
+			assert.strictEqual('criteria'.singularize(), 'criterion');
 		});
 	});
 

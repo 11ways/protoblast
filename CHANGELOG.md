@@ -2,6 +2,7 @@
 
 * Add some Terser workarounds
 * Make `String#replaceAll()` a polyfill, as it is now part of ECMAScript-2021
+* Fix inflections of 'criteria'/'criterion'
 
 ## 0.7.7 (2021-01-21)
 

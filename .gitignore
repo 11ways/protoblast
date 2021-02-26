@@ -21,7 +21,6 @@ callgrind*
 *.wtf-trace
 deoptigate/
 *.0x/
-deoptigate/
 
 # Dependencies
 node_modules/
