@@ -2,6 +2,7 @@
 
 * Recursively call `clearAndDoTasks()` to make sure new tasks are also called
 * `Function.constitute()` will only immediately queue the constitutor when blast has loaded fully, not also when it is loading
+* Fix `Date#format()` breaking on Safari 14.1 when used with a timezone
 
 ## 0.7.8 (2021-04-29)
 
