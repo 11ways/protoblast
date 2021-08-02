@@ -1,3 +1,7 @@
+## 0.7.10 (WIP)
+
+* Add `Request.lookup()` method which caches DNS lookups for 60 seconds
+
 ## 0.7.9 (2021-06-11)
 
 * Recursively call `clearAndDoTasks()` to make sure new tasks are also called
