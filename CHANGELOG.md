@@ -1,6 +1,8 @@
 ## 0.7.10 (WIP)
 
 * Add `Request.lookup()` method which caches DNS lookups for 60 seconds
+* Add more `Request` methods so no external `xhr` access is required
+* Add `Request` caching
 
 ## 0.7.9 (2021-06-11)
 
