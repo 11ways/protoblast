@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.7.10-alpha",
+	"version": "0.7.10-alpha.10",
 	"author": "Jelle De Loecker <jelle@elevenways.be>",
 	"keywords": [
 		"prototype",
@@ -12,15 +12,15 @@
 		"browser"
 	],
 	"dependencies": {
-		"json-dry"  : "~1.1.0"
+		"json-dry" : "~1.1.0"
 	},
 	"repository": "11ways/protoblast",
 	"homepage": "https://protoblast.develry.be/",
 	"license": "MIT",
 	"scripts": {
-		"test"            : "mocha --exit --reporter spec --bail --timeout 5000 --file test/00-init.js",
 		"coverage"        : "nyc --reporter=text --reporter=lcov mocha --exit --timeout 20000 --bail --file test/00-init.js",
-		"report-coverage" : "codecov"
+		"report-coverage" : "codecov",
+		"test"            : "mocha --exit --reporter spec --bail --timeout 5000 --file test/00-init.js"
 	},
 	"main": "lib/init.js",
 	"devDependencies": {
@@ -39,6 +39,6 @@
 		"wd"                      : "~1.12.1"
 	},
 	"engines": {
-		"node": ">=10.21.0"
+		"node" : ">=10.21.0"
 	}
 }
