@@ -1,8 +1,9 @@
 language: node_js
 node_js:
   - "10.21.0"
-  - "12.18.2"
-  - "14.5.0"
+  - "12.22.4"
+  - "14.17.4"
+  - "16.6.1"
 env:
   - TZ="Europe/Brussels"
 after_success:

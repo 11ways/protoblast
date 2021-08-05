@@ -3,9 +3,27 @@ const fs = require('fs');
 let assert = require('assert'),
     Blast;
 
+let prototest_root_async,
+    prototest_root_sync;
+
+let non_existing_path;
+let test_file_path;
+
 describe('Blast Server Functions', function() {
-	Blast  = require('../index.js')();
+	Blast = require('../index.js')();
 	this.timeout(800);
+
+	before(function() {
+		non_existing_path = '/tmp/this/should/not/exist/' + Blast.Classes.Crypto.randomHex(8);
+		test_file_dir = '/tmp/protofiletest_' + Blast.Classes.Crypto.randomHex(8);
+		test_file_path = test_file_dir + '/text';
+	});
+
+	function createTestFile() {
+		Blast.mkdirpSync(test_file_dir);
+		fs.writeFileSync(test_file_path, 'stillhere');
+		assert.strictEqual(fs.existsSync(test_file_path), true);
+	}
 
 	describe('#mkdirp(path, options)', function() {
 		it('should create a directory asynchronously', async function() {
@@ -16,17 +34,17 @@ describe('Blast Server Functions', function() {
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
-			let prototest_root = '/tmp/prototest_' + random;
+			prototest_root_async = '/tmp/prototest_' + random;
 
-			result = await Blast.mkdirp(prototest_root);
+			result = await Blast.mkdirp(prototest_root_async);
 
-			assert.strictEqual(result, prototest_root);
+			assert.strictEqual(result, prototest_root_async);
 
-			result = await Blast.mkdirp(prototest_root + '/test/this');
+			result = await Blast.mkdirp(prototest_root_async + '/test/this');
 
-			assert.strictEqual(result, prototest_root + '/test');
+			assert.strictEqual(result, prototest_root_async + '/test');
 
-			assert.strictEqual(fs.existsSync(prototest_root + '/test/this'), true);
+			assert.strictEqual(fs.existsSync(prototest_root_async + '/test/this'), true);
 		});
 	});
 
@@ -39,17 +57,85 @@ describe('Blast Server Functions', function() {
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
-			let prototest_root = '/tmp/prototest_' + random;
+			prototest_root_sync = '/tmp/prototest_' + random;
 
-			result = Blast.mkdirpSync(prototest_root);
+			result = Blast.mkdirpSync(prototest_root_sync);
 
-			assert.strictEqual(result, prototest_root);
+			assert.strictEqual(result, prototest_root_sync);
 
-			result = Blast.mkdirpSync(prototest_root + '/test/this');
+			result = Blast.mkdirpSync(prototest_root_sync + '/test/this');
 
-			assert.strictEqual(result, prototest_root + '/test');
+			assert.strictEqual(result, prototest_root_sync + '/test');
 
-			assert.strictEqual(fs.existsSync(prototest_root + '/test/this'), true);
+			assert.strictEqual(fs.existsSync(prototest_root_sync + '/test/this'), true);
+		});
+	});
+
+	describe('#rmrf(path)', function() {
+		it('should remove a directory and its contents asynchronously', async function() {
+
+			// Just making sure the target exists
+			assert.strictEqual(fs.existsSync(prototest_root_async), true);
+
+			// And make sure it has contents
+			assert.strictEqual(fs.existsSync(prototest_root_async + '/test'), true);
+
+			let result = await Blast.rmrf(prototest_root_async);
+
+			// Now it should be gone!
+			assert.strictEqual(fs.existsSync(prototest_root_async), false);
+		});
+
+		it('should not throw an error when the target does not exist', async function() {
+
+			assert.strictEqual(fs.existsSync(non_existing_path), false);
+
+			let result = await Blast.rmrf(non_existing_path);
+
+			assert.strictEqual(fs.existsSync(non_existing_path), false);
+		});
+
+		it('should be able to remove files', async function() {
+
+			createTestFile();
+
+			await Blast.rmrf(test_file_path);
+
+			assert.strictEqual(fs.existsSync(test_file_path), false);
+		});
+	});
+
+	describe('#rmrfSync(path)', function() {
+		it('should remove a directory and its contents synchronously', function() {
+
+			// Just making sure the target exists
+			assert.strictEqual(fs.existsSync(prototest_root_sync), true);
+
+			// And make sure it has contents
+			assert.strictEqual(fs.existsSync(prototest_root_sync + '/test'), true);
+
+			let result = Blast.rmrfSync(prototest_root_sync);
+
+			// Now it should be gone!
+			assert.strictEqual(fs.existsSync(prototest_root_sync), false);
+		});
+
+		it('should not throw an error when the target does not exist', async function() {
+
+			assert.strictEqual(fs.existsSync(non_existing_path), false);
+
+			let result = Blast.rmrfSync(non_existing_path);
+
+			assert.strictEqual(fs.existsSync(non_existing_path), false);
+		});
+
+		it('should be able to remove files', async function() {
+
+			createTestFile();
+
+			Blast.rmrfSync(test_file_path);
+
+			assert.strictEqual(fs.existsSync(test_file_path), false);
 		});
 	});
 });

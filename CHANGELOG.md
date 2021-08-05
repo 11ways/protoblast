@@ -4,6 +4,7 @@
 * Add more `Request` methods so no external `xhr` access is required
 * Add `Request` caching
 * Add `Blast.mkdirp()` and `Blast.mkdirpSync()` methods
+* Add `Blast.rmrf()` and `Blast.rmrfSync()` methods
 
 ## 0.7.9 (2021-06-11)
 
