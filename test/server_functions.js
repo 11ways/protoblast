@@ -9,6 +9,8 @@ let prototest_root_async,
 let non_existing_path;
 let test_file_path;
 
+let temp_paths = [];
+
 describe('Blast Server Functions', function() {
 	Blast = require('../index.js')();
 	this.timeout(800);
@@ -136,6 +138,68 @@ describe('Blast Server Functions', function() {
 			Blast.rmrfSync(test_file_path);
 
 			assert.strictEqual(fs.existsSync(test_file_path), false);
+		});
+	});
+
+	describe('#openTempFile(options)', function() {
+
+		it('should create a temporary file', async function() {
+
+			let info = await Blast.openTempFile();
+
+			assert.strictEqual(typeof info.path, 'string');
+			assert.strictEqual(typeof info.fd, 'number');
+
+			fs.writeSync(info.fd, 'test');
+
+			let data = fs.readFileSync(info.path, 'utf8');
+
+			assert.strictEqual(data, 'test');
+		});
+	});
+
+	describe('#openTempFileSync(options)', function() {
+
+		it('should create a temporary file synchronously', function() {
+
+			let info = Blast.openTempFileSync();
+
+			assert.strictEqual(typeof info.path, 'string');
+			assert.strictEqual(typeof info.fd, 'number');
+
+			fs.writeSync(info.fd, 'test');
+
+			let data = fs.readFileSync(info.path, 'utf8');
+
+			assert.strictEqual(data, 'test');
+		});
+	});
+
+	describe('#cleanupTempPaths()', function() {
+		it('should remove temp paths', async function() {
+
+			// Create a new temporary file
+			let info = await Blast.openTempFile();
+
+			assert.strictEqual(fs.existsSync(info.path), true);
+
+			await Blast.cleanupTempPaths();
+
+			assert.strictEqual(fs.existsSync(info.path), false);
+		});
+	});
+
+	describe('#cleanupTempPathsSync()', function() {
+		it('should remove temp paths', function() {
+
+			// Create a new temporary file
+			let info = Blast.openTempFileSync();
+
+			assert.strictEqual(fs.existsSync(info.path), true);
+
+			Blast.cleanupTempPathsSync();
+
+			assert.strictEqual(fs.existsSync(info.path), false);
 		});
 	});
 });
