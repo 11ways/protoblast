@@ -151,6 +151,7 @@ describe('Browser', function() {
 				case 'zz-browser.js':
 				case 'stream_combined.js':
 				case 'stream_delayed.js':
+				case 'server_functions.js':
 				case 'assets':
 					return;
 			}
