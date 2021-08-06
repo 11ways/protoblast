@@ -16,7 +16,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm test
-      - run: npm run coverage
-      - run: npm run report-coverage
+      - name: Set Windows Timezone
+        if: matrix.os == 'windows-latest'
+        run: tzutil /s "CET"
+      - name: Install NPM Dependencies
+        run: npm install
+      - name: Run Unit Tests
+        run: npm test
+      - name: Run Coverage Tests
+        run: npm run coverage
+      - name: Report Coverage To Codecov
+        run: npm run report-coverage
