@@ -111,6 +111,20 @@ describe('Blast Server Functions', function() {
 
 			assert.strictEqual(fs.existsSync(test_file_path), false);
 		});
+
+		it('should be able to remove a directory with nested contents', async function() {
+
+			let root_dir = Blast.createTempDirSync();
+			let nested_dir = Blast.createTempDirSync({dir: root_dir});
+			let test_file = Blast.openTempFile({dir: nested_dir});
+
+			await Blast.rmrf(root_dir);
+
+			assert.strictEqual(fs.existsSync(test_file.path), false);
+			assert.strictEqual(fs.existsSync(nested_dir.path), false);
+			assert.strictEqual(fs.existsSync(root_dir.path), false);
+
+		});
 	});
 
 	describe('#rmrfSync(path)', function() {
@@ -182,7 +196,8 @@ describe('Blast Server Functions', function() {
 	});
 
 	describe('#cleanupTempPaths()', function() {
-		this.timeout(4000);
+		this.timeout(8000);
+		this.slow(1000);
 
 		it('should remove temp paths', async function() {
 
@@ -198,7 +213,8 @@ describe('Blast Server Functions', function() {
 	});
 
 	describe('#cleanupTempPathsSync()', function() {
-		this.timeout(4000);
+		this.timeout(8000);
+		this.slow(1000);
 
 		it('should remove temp paths', function() {
 
