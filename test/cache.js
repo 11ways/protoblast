@@ -492,6 +492,9 @@ describe('Cache', function() {
 	});
 
 	describe('#max_idle', function() {
+		this.timeout(1000);
+		this.slow(500);
+
 		it('sets the maximum time entries can stay in the cache without being accessed', async function dotest() {
 
 			var cache = new Blast.Classes.Develry.Cache();
@@ -501,38 +504,38 @@ describe('Cache', function() {
 			cache.set('c', 1);
 
 			// Set the max age
-			cache.max_age = 40;
+			cache.max_age = 200;
 
 			assert.strictEqual(cache.max_idle, 0, 'max_idle should be 0 by default');
 
 			// And the max idle
-			cache.max_idle = 20;
+			cache.max_idle = 100;
 
-			assert.strictEqual(cache.max_idle, 20);
+			assert.strictEqual(cache.max_idle, 100);
 
 			let now = Date.now();
 
-			await Pledge.after(10);
+			await Pledge.after(50);
 
 			let passed = Date.now() - now;
 
-			if (passed > 15) {
+			if (passed > 75) {
 				return dotest();
 			}
 
 			assert.strictEqual(cache.get('a'), 1);
 
-			await Pledge.after(12);
+			await Pledge.after(60);
 
 			assert.strictEqual(cache.get('a'), 1);
 			assert.strictEqual(cache.get('b'), undefined);
 			assert.strictEqual(cache.get('c'), undefined);
 
-			await Pledge.after(10);
+			await Pledge.after(50);
 
 			assert.strictEqual(cache.get('a'), 1);
 
-			await Pledge.after(12);
+			await Pledge.after(60);
 
 			assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
 		});
