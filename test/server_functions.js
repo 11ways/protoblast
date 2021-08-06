@@ -1,5 +1,6 @@
 const fs = require('fs');
 const libpath = require('path');
+const os = require('os');
 
 let assert = require('assert'),
     Blast;
@@ -17,8 +18,8 @@ describe('Blast Server Functions', function() {
 	this.timeout(800);
 
 	before(function() {
-		non_existing_path = libpath.join('/', 'tmp', 'this', 'should', 'not', 'exist', Blast.Classes.Crypto.randomHex(8));
-		test_file_dir = libpath.join('/', 'tmp', 'protofiletest_' + Blast.Classes.Crypto.randomHex(8));
+		non_existing_path = libpath.join(os.tmpdir(), 'this', 'should', 'not', 'exist', Blast.Classes.Crypto.randomHex(8));
+		test_file_dir = libpath.join(os.tmpdir(), 'protofiletest_' + Blast.Classes.Crypto.randomHex(8));
 		test_file_path = libpath.join(test_file_dir, 'text');
 	});
 
@@ -37,7 +38,7 @@ describe('Blast Server Functions', function() {
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
-			prototest_root_async = libpath.join('/', 'tmp', 'prototest_' + random);
+			prototest_root_async = libpath.join(os.tmpdir(), 'prototest_' + random);
 
 			result = await Blast.mkdirp(prototest_root_async);
 
@@ -60,7 +61,7 @@ describe('Blast Server Functions', function() {
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
-			prototest_root_sync = libpath.join('/', 'tmp', 'prototest_' + random);
+			prototest_root_sync = libpath.join(os.tmpdir(), 'prototest_' + random);
 
 			result = Blast.mkdirpSync(prototest_root_sync);
 
