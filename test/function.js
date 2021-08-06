@@ -229,6 +229,25 @@ describe('Function', function() {
 			)
 		});
 
+		it('should handle different EOL the same', function() {
+
+			let with_n = 'let a;\n//test\n//done',
+			    with_rn = 'let a;\r\n//test\r\n//done';
+
+			let tokens_n = Function.tokenize(with_n),
+			    tokens_rn = Function.tokenize(with_rn);
+
+			assert.strictEqual(tokens_n.length, 8);
+			assert.strictEqual(tokens_rn.length, 8);
+
+			for (let i = 0; i < tokens_n.length; i++) {
+				let token_n = tokens_n[i].trim(),
+				    token_rn = tokens_rn[i].trim();
+
+				assert.strictEqual(token_n, token_rn, 'The two tokens did not match, linebreak parsing issue?');
+			}
+		});
+
 		it('should handle comments', function() {
 			var fnc = function /*namecomment*/ fncname(a /*whatever*/) {
 				//linecomment
@@ -244,7 +263,7 @@ describe('Function', function() {
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', EOL + '\t\t\t\t', '//linecomment' + EOL, '\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', EOL + '\t\t\t\t', '//linecomment', EOL + '\t\t\t', '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -262,8 +281,8 @@ describe('Function', function() {
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
 				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
-				{ type: 'comment', value: '//linecomment' + EOL },
-				{ type: 'whitespace', value: '\t\t\t' },
+				{ type: 'comment', value: '//linecomment' },
+				{ type: 'whitespace', value: EOL + '\t\t\t' },
 				{ type: 'curly', value: '}' } ]
 			);
 		});
