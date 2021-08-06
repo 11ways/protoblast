@@ -123,7 +123,7 @@ describe('Decorators', function() {
 				assert.strictEqual(instance_a.staticCount(), 3);
 
 				done();
-			}, 11);
+			}, 15);
 		});
 	});
 

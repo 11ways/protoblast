@@ -175,6 +175,8 @@ describe('Blast Server Functions', function() {
 			let data = fs.readFileSync(info.path, 'utf8');
 
 			assert.strictEqual(data, 'test');
+
+			fs.closeSync(info.fd);
 		});
 	});
 
@@ -192,6 +194,8 @@ describe('Blast Server Functions', function() {
 			let data = fs.readFileSync(info.path, 'utf8');
 
 			assert.strictEqual(data, 'test');
+
+			fs.closeSync(info.fd);
 		});
 	});
 
@@ -205,6 +209,8 @@ describe('Blast Server Functions', function() {
 			let info = await Blast.openTempFile();
 
 			assert.strictEqual(fs.existsSync(info.path), true);
+
+			fs.closeSync(info.fd);
 
 			await Blast.cleanupTempPaths();
 
@@ -222,6 +228,8 @@ describe('Blast Server Functions', function() {
 			let info = Blast.openTempFileSync();
 
 			assert.strictEqual(fs.existsSync(info.path), true);
+
+			fs.closeSync(info.fd);
 
 			Blast.cleanupTempPathsSync();
 
