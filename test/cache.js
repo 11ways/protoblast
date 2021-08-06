@@ -61,7 +61,7 @@ describe('Cache', function() {
 
 			cache.set('a', 2);
 
-			await Pledge.after(5);
+			Blast.sleepSync(5);
 
 			assert.strictEqual(cache.get('a'), 2, 'The earlier max_age should have been unset');
 		});
@@ -421,20 +421,20 @@ describe('Cache', function() {
 			cache.set('b', 2, 100);
 			cache.set('c', 3, 7);
 
-			await Pledge.after(2);
+			Blast.sleepSync(2);
 
 			assert.strictEqual(cache.get('a'), 1);
 			assert.strictEqual(cache.get('b'), 2);
 
 			cache.max_age = 15;
 
-			await Pledge.after(7);
+			Blast.sleepSync(7);
 
 			assert.strictEqual(cache.get('c'), undefined, 'This entry had a lower max_age before the global value was set');
 			assert.strictEqual(cache.get('a'), 1);
 			assert.strictEqual(cache.get('b'), 2);
 
-			await Pledge.after(10);
+			Blast.sleepSync(10);
 
 			assert.strictEqual(cache.get('a'), undefined);
 			assert.strictEqual(cache.get('b'), undefined);
@@ -492,8 +492,6 @@ describe('Cache', function() {
 	});
 
 	describe('#max_idle', function() {
-		this.timeout(1000);
-		this.slow(500);
 
 		it('sets the maximum time entries can stay in the cache without being accessed', async function dotest() {
 
@@ -504,50 +502,40 @@ describe('Cache', function() {
 			cache.set('c', 1);
 
 			// Set the max age
-			cache.max_age = 200;
+			cache.max_age = 40;
 
 			assert.strictEqual(cache.max_idle, 0, 'max_idle should be 0 by default');
 
 			// And the max idle
-			cache.max_idle = 100;
+			cache.max_idle = 20;
 
-			assert.strictEqual(cache.max_idle, 100);
+			assert.strictEqual(cache.max_idle, 20);
 
 			let now = Date.now();
 
-			await Pledge.after(50);
+			Blast.sleepSync(10);
 
 			let passed = Date.now() - now;
 
-			if (passed > 75) {
+			if (passed > 15) {
 				return dotest();
 			}
 
 			assert.strictEqual(cache.get('a'), 1);
 
-			await Pledge.after(60);
+			Blast.sleepSync(12);
 
-			try {
+			assert.strictEqual(cache.get('a'), 1);
+			assert.strictEqual(cache.get('b'), undefined);
+			assert.strictEqual(cache.get('c'), undefined);
 
-				assert.strictEqual(cache.get('a'), 1);
-				assert.strictEqual(cache.get('b'), undefined);
-				assert.strictEqual(cache.get('c'), undefined);
+			Blast.sleepSync(10);
 
-				await Pledge.after(50);
+			assert.strictEqual(cache.get('a'), 1);
 
-				assert.strictEqual(cache.get('a'), 1);
+			Blast.sleepSync(12);
 
-				await Pledge.after(60);
-
-				assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
-			} catch (err) {
-				if (process.platform == 'darwin') {
-					// Timers don't seem to be very precise on MacOS, so just ignore it
-					console.log(' »» MacOS time precission issue:', err);
-				} else {
-					throw err;
-				}
-			}
+			assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
 		});
 
 		it('should accept duration strings', function() {
