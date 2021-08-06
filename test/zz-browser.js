@@ -205,6 +205,7 @@ describe('Browser', function() {
 					let html = `
 						<html>
 							<head>
+								<script>window.__is_protoblast_unit_test = true;</script>
 								<script src="/mocha.js"></script>
 								<script src="/protoblast.js"></script>
 							</head>

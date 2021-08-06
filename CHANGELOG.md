@@ -6,6 +6,7 @@
 * Add `Blast.mkdirp()` and `Blast.mkdirpSync()` methods
 * Add `Blast.rmrf()` and `Blast.rmrfSync()` methods
 * Add temporary files methods: `Blast.generateTempPath()`, `Blast.openTempFile()`, `Blast.cleanupTempPaths()`, ...
+* Fix the `String#replaceAll()` polyfill
 
 ## 0.7.9 (2021-06-11)
 
