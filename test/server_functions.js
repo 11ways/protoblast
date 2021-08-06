@@ -116,13 +116,17 @@ describe('Blast Server Functions', function() {
 
 			let root_dir = Blast.createTempDirSync();
 			let nested_dir = Blast.createTempDirSync({dir: root_dir});
-			let test_file = Blast.openTempFile({dir: nested_dir});
+			let test_file = Blast.openTempFileSync({dir: nested_dir});
+
+			assert.strictEqual(fs.existsSync(test_file.path), true);
+			assert.strictEqual(fs.existsSync(nested_dir), true);
+			assert.strictEqual(fs.existsSync(root_dir), true);
 
 			await Blast.rmrf(root_dir);
 
 			assert.strictEqual(fs.existsSync(test_file.path), false);
-			assert.strictEqual(fs.existsSync(nested_dir.path), false);
-			assert.strictEqual(fs.existsSync(root_dir.path), false);
+			assert.strictEqual(fs.existsSync(nested_dir), false);
+			assert.strictEqual(fs.existsSync(root_dir), false);
 
 		});
 	});
