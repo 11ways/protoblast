@@ -44,11 +44,13 @@ describe('Blast Server Functions', function() {
 
 			assert.strictEqual(result, prototest_root_async);
 
-			result = await Blast.mkdirp(prototest_root_async + '/test/this');
+			const test_this_path = libpath.join(prototest_root_async, 'test', 'this');
 
-			assert.strictEqual(result, prototest_root_async + '/test');
+			result = await Blast.mkdirp(test_this_path);
 
-			assert.strictEqual(fs.existsSync(prototest_root_async + '/test/this'), true);
+			assert.strictEqual(result, libpath.join(prototest_root_async, 'test'));
+
+			assert.strictEqual(fs.existsSync(test_this_path), true);
 		});
 	});
 
@@ -67,11 +69,13 @@ describe('Blast Server Functions', function() {
 
 			assert.strictEqual(result, prototest_root_sync);
 
-			result = Blast.mkdirpSync(prototest_root_sync + '/test/this');
+			const test_this_path = libpath.join(prototest_root_sync, 'test', 'this');
 
-			assert.strictEqual(result, prototest_root_sync + '/test');
+			result = Blast.mkdirpSync(test_this_path);
 
-			assert.strictEqual(fs.existsSync(prototest_root_sync + '/test/this'), true);
+			assert.strictEqual(result, libpath.join(prototest_root_sync, 'test'));
+
+			assert.strictEqual(fs.existsSync(test_this_path), true);
 		});
 	});
 
@@ -82,7 +86,7 @@ describe('Blast Server Functions', function() {
 			assert.strictEqual(fs.existsSync(prototest_root_async), true);
 
 			// And make sure it has contents
-			assert.strictEqual(fs.existsSync(prototest_root_async + '/test'), true);
+			assert.strictEqual(fs.existsSync(libpath.join(prototest_root_async, 'test')), true);
 
 			let result = await Blast.rmrf(prototest_root_async);
 
@@ -116,7 +120,7 @@ describe('Blast Server Functions', function() {
 			assert.strictEqual(fs.existsSync(prototest_root_sync), true);
 
 			// And make sure it has contents
-			assert.strictEqual(fs.existsSync(prototest_root_sync + '/test'), true);
+			assert.strictEqual(fs.existsSync(libpath.join(prototest_root_sync, 'test')), true);
 
 			let result = Blast.rmrfSync(prototest_root_sync);
 
