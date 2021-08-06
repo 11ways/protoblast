@@ -125,7 +125,7 @@ describe('Blast Server Functions', function() {
 			let result = Blast.rmrfSync(prototest_root_sync);
 
 			// Now it should be gone!
-			assert.strictEqual(fs.existsSync(prototest_root_sync), false);
+			assert.strictEqual(fs.existsSync(prototest_root_sync), false, 'The file at ' + prototest_root_sync + ' still exists');
 		});
 
 		it('should not throw an error when the target does not exist', async function() {
@@ -182,6 +182,8 @@ describe('Blast Server Functions', function() {
 	});
 
 	describe('#cleanupTempPaths()', function() {
+		this.timeout(4000);
+
 		it('should remove temp paths', async function() {
 
 			// Create a new temporary file
@@ -196,6 +198,8 @@ describe('Blast Server Functions', function() {
 	});
 
 	describe('#cleanupTempPathsSync()', function() {
+		this.timeout(4000);
+
 		it('should remove temp paths', function() {
 
 			// Create a new temporary file
