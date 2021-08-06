@@ -116,7 +116,7 @@ describe('Function', function() {
 			};
 
 			var tokens = fnc.tokenize();
-			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', ')', ' ', '{', '\n\t\t\t\t', 'var', ' ', 'bla', ' ', '=', ' ', 'await', ' ', 'Pledge', '.', 'resolve', '(', ')', ';', '\n\t\t\t\t', 'return', ' ', 'bla', ';', '\n\t\t\t', '}'];
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', ')', ' ', '{', EOL + '\t\t\t\t', 'var', ' ', 'bla', ' ', '=', ' ', 'await', ' ', 'Pledge', '.', 'resolve', '(', ')', ';', EOL + '\t\t\t\t', 'return', ' ', 'bla', ';', EOL + '\t\t\t', '}'];
 
 			assert.deepEqual(tokens, expected);
 
@@ -132,7 +132,7 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
 				{ type: 'keyword', name: 'var', value: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'bla' },
@@ -147,12 +147,12 @@ describe('Function', function() {
 				{ type: 'parens', value: '(' },
 				{ type: 'parens', value: ')' },
 				{ type: 'punct', name: 'semicolon', value: ';' },
-				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
 				{ type: 'keyword', name: 'return', value: 'return' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'bla' },
 				{ type: 'punct', name: 'semicolon', value: ';' },
-				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t' },
 				{ type: 'curly', value: '}' }
 			];
 
@@ -166,7 +166,7 @@ describe('Function', function() {
 			};
 
 			var tokens = fnc.tokenize();
-			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', 'first', ',', ' ', '...', 'args', ')', ' ', '{', '\n\t\t\t\t', 'var', ' ', 'a', ' ', '=', ' ', '[', '...', 'first', ']', ';', '\n\t\t\t', '}'];
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', 'first', ',', ' ', '...', 'args', ')', ' ', '{', EOL + '\t\t\t\t', 'var', ' ', 'a', ' ', '=', ' ', '[', '...', 'first', ']', ';', EOL + '\t\t\t', '}'];
 
 			assert.deepEqual(tokens, expected);
 
@@ -186,7 +186,7 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
 				{ type: 'keyword', value: 'var', name: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'a' },
@@ -198,7 +198,7 @@ describe('Function', function() {
 				{ type: 'name', value: 'first' },
 				{ type: 'square', value: ']' },
 				{ type: 'punct', value: ';', name: 'semicolon' },
-				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t' },
 				{ type: 'curly', value: '}' }
 			];
 
@@ -244,7 +244,7 @@ describe('Function', function() {
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', '\n\t\t\t\t', '//linecomment\n', '\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', EOL + '\t\t\t\t', '//linecomment' + EOL, '\t\t\t', '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -261,8 +261,8 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: '\n\t\t\t\t' },
-				{ type: 'comment', value: '//linecomment\n' },
+				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'comment', value: '//linecomment' + EOL },
 				{ type: 'whitespace', value: '\t\t\t' },
 				{ type: 'curly', value: '}' } ]
 			);
@@ -285,7 +285,7 @@ string` + `another
 				return;
 			}
 
-			assert.deepEqual(tokens, [ 'function', '(', ')', '{', '\n\t\t\t\t', 'var', ' ', 'a', '=', '`this\nis\na\nbacktick\nstring`', ' ', '+', ' ', '`another\n`', ';', '\n\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', '(', ')', '{', EOL + '\t\t\t\t', 'var', ' ', 'a', '=', '`this' + EOL + 'is' + EOL + 'a' + EOL + 'backtick' + EOL + 'string`', ' ', '+', ' ', '`another' + EOL + '`', ';', EOL + '\t\t\t', '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -294,18 +294,18 @@ string` + `another
 				{ type: 'parens', value: '(' },
 				{ type: 'parens', value: ')' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: '\n\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
 				{ type: 'keyword', value: 'var', name: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'a' },
 				{ type: 'punct', value: '=', name: 'assign' },
-				{ type: 'string', value: '`this\nis\na\nbacktick\nstring`' },
+				{ type: 'string', value: '`this' + EOL + 'is' + EOL + 'a' + EOL + 'backtick' + EOL + 'string`' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'punct', value: '+', name: 'plus' },
 				{ type: 'whitespace', value: ' ' },
-				{ type: 'string', value: '`another\n`' },
+				{ type: 'string', value: '`another' + EOL + '`' },
 				{ type: 'punct', value: ';', name: 'semicolon' },
-				{ type: 'whitespace', value: '\n\t\t\t' },
+				{ type: 'whitespace', value: EOL + '\t\t\t' },
 				{ type: 'curly', value: '}' }
 			];
 

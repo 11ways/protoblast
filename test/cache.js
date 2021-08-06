@@ -63,7 +63,7 @@ describe('Cache', function() {
 
 			Blast.sleepSync(5);
 
-			assert.strictEqual(cache.get('a'), 2, 'The earlier max_age should have been unset');
+			strictEqualTimeSensitive(cache.get('a'), 2, 'The earlier max_age should have been unset');
 		});
 
 		it('should evict entries when the cache gets too big', function() {
@@ -423,21 +423,21 @@ describe('Cache', function() {
 
 			Blast.sleepSync(2);
 
-			assert.strictEqual(cache.get('a'), 1);
-			assert.strictEqual(cache.get('b'), 2);
+			strictEqualTimeSensitive(cache.get('a'), 1);
+			strictEqualTimeSensitive(cache.get('b'), 2);
 
 			cache.max_age = 15;
 
 			Blast.sleepSync(7);
 
-			assert.strictEqual(cache.get('c'), undefined, 'This entry had a lower max_age before the global value was set');
-			assert.strictEqual(cache.get('a'), 1);
-			assert.strictEqual(cache.get('b'), 2);
+			strictEqualTimeSensitive(cache.get('c'), undefined, 'This entry had a lower max_age before the global value was set');
+			strictEqualTimeSensitive(cache.get('a'), 1);
+			strictEqualTimeSensitive(cache.get('b'), 2);
 
 			Blast.sleepSync(10);
 
-			assert.strictEqual(cache.get('a'), undefined);
-			assert.strictEqual(cache.get('b'), undefined);
+			strictEqualTimeSensitive(cache.get('a'), undefined);
+			strictEqualTimeSensitive(cache.get('b'), undefined);
 		});
 	});
 
@@ -521,21 +521,21 @@ describe('Cache', function() {
 				return dotest();
 			}
 
-			assert.strictEqual(cache.get('a'), 1);
+			strictEqualTimeSensitive(cache.get('a'), 1);
 
 			Blast.sleepSync(12);
 
-			assert.strictEqual(cache.get('a'), 1);
-			assert.strictEqual(cache.get('b'), undefined);
-			assert.strictEqual(cache.get('c'), undefined);
+			strictEqualTimeSensitive(cache.get('a'), 1);
+			strictEqualTimeSensitive(cache.get('b'), undefined);
+			strictEqualTimeSensitive(cache.get('c'), undefined);
 
 			Blast.sleepSync(10);
 
-			assert.strictEqual(cache.get('a'), 1);
+			strictEqualTimeSensitive(cache.get('a'), 1);
 
 			Blast.sleepSync(12);
 
-			assert.strictEqual(cache.get('a'), undefined, 'The max_age should have been reached by now');
+			strictEqualTimeSensitive(cache.get('a'), undefined, 'The max_age should have been reached by now');
 		});
 
 		it('should accept duration strings', function() {

@@ -10,6 +10,7 @@ jobs:
         os: [ubuntu-20.04, windows-latest, macos-latest]
     env:
       TZ: "Europe/Brussels"
+      SLOWTEST: true
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
