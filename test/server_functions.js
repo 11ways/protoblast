@@ -122,12 +122,13 @@ describe('Blast Server Functions', function() {
 			assert.strictEqual(fs.existsSync(nested_dir), true);
 			assert.strictEqual(fs.existsSync(root_dir), true);
 
+			fs.closeSync(test_file.fd);
+
 			await Blast.rmrf(root_dir);
 
 			assert.strictEqual(fs.existsSync(test_file.path), false);
 			assert.strictEqual(fs.existsSync(nested_dir), false);
 			assert.strictEqual(fs.existsSync(root_dir), false);
-
 		});
 	});
 
