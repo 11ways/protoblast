@@ -202,4 +202,25 @@ describe('Blast Server Functions', function() {
 			assert.strictEqual(fs.existsSync(info.path), false);
 		});
 	});
+
+	describe('#getClientPath()', function() {
+		it('should create the client file again after cleaning temp paths', function(done) {
+
+			Blast.getClientPath({
+				modify_prototypes : true,
+			}).done(function gotClientFile(err, path) {
+
+				if (err) {
+					return done(err);
+				}
+
+				if (!fs.existsSync(path)) {
+					return done(new Error('Client file path did not exist'));
+				}
+
+				return done();
+			});
+
+		});
+	});
 });
