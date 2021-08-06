@@ -422,7 +422,7 @@ describe('Pledge', function() {
 
 		it('should race two resolved promises', function (done) {
 			Pledge.race([Pledge.resolve('hello'), Pledge.resolve('world')]).then(function (x) {
-				assert.deepEqual(x, 'hello');
+				strictEqualTimeSensitive(x, 'hello');
 				done();
 			});
 		});
@@ -433,7 +433,7 @@ describe('Pledge', function() {
 					resolve('hello');
 				}, 50);
 			}), Pledge.resolve('world')]).then(function (x) {
-				assert.deepEqual(x, 'world');
+				strictEqualTimeSensitive(x, 'world');
 				done();
 			});
 		});
@@ -444,7 +444,7 @@ describe('Pledge', function() {
 					resolve('hello');
 				}, 50);
 			}), Pledge.reject('bye')]).then(function () {}, function (x) {
-				assert.deepEqual(x, 'bye');
+				strictEqualTimeSensitive(x, 'bye');
 				done();
 			});
 		});
@@ -461,10 +461,10 @@ describe('Pledge', function() {
 			})]);
 
 			race.then(function (x) {
-				assert.deepEqual(x, 'world');
+				strictEqualTimeSensitive(x, 'world');
 
 				race.then(function(x) {
-					assert.deepEqual(x, 'world');
+					strictEqualTimeSensitive(x, 'world');
 					done();
 				});
 			});
@@ -710,7 +710,7 @@ describe('Pledge', function() {
 					return done(err);
 				}
 
-				assert.strictEqual(val, 'early');
+				strictEqualTimeSensitive(val, 'early');
 				done();
 			});
 		});
@@ -730,7 +730,7 @@ describe('Pledge', function() {
 					return done(err);
 				}
 
-				assert.strictEqual(val, 'winner');
+				strictEqualTimeSensitive(val, 'winner');
 				done();
 			});
 		});
@@ -751,7 +751,7 @@ describe('Pledge', function() {
 					return done(err);
 				}
 
-				assert.strictEqual(val, 'direct');
+				strictEqualTimeSensitive(val, 'direct');
 				done();
 			});
 		});
