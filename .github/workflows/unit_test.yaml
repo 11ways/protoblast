@@ -18,7 +18,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Set Windows Timezone
         if: matrix.os == 'windows-latest'
-        run: tzutil /s "CET"
+        run: tzutil /s "Romance Standard Time"
       - name: Install NPM Dependencies
         run: npm install
       - name: Run Unit Tests
