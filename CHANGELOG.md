@@ -7,6 +7,7 @@
 * Add `Blast.rmrf()` and `Blast.rmrfSync()` methods
 * Add temporary files methods: `Blast.generateTempPath()`, `Blast.openTempFile()`, `Blast.cleanupTempPaths()`, ...
 * Fix the `String#replaceAll()` polyfill
+* Fix `TimeoutPledge` not actually running its executor
 
 ## 0.7.9 (2021-06-11)
 

@@ -826,5 +826,40 @@ describe('LazyPledge', function() {
 			}, 10);
 		});
 	});
+});
+
+describe('TimeoutPledge', function() {
+
+	Blast  = require('../index.js')();
+	const TimeoutPledge = Blast.Classes.TimeoutPledge;
+	this.timeout(800);
+
+	describe('.constructor(executor)', function() {
+
+		it('should pass a resolve & reject function to the executor', function(done) {
+			var pledge = new TimeoutPledge(function myExecutor(resolve, reject) {
+				assert.equal(typeof resolve, 'function');
+				assert.equal(typeof reject, 'function');
+				resolve();
+				done();
+			}, 1000);
+
+			pledge.then(function(){});
+		});
+	});
+
+	describe('.reject()', function() {
+		it('should automatically reject after a certain amount of time', function(done) {
+
+			let timeout = new TimeoutPledge(function task(resolve, reject) {
+				// Not resolving! Ha!
+			}, 10);
+
+			timeout.catch(err => {
+				assert.strictEqual(!!err, true);
+				done();
+			});
+		});
+	});
 
 })
