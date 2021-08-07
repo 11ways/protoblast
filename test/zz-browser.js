@@ -152,6 +152,7 @@ describe('Browser', function() {
 				case 'stream_combined.js':
 				case 'stream_delayed.js':
 				case 'server_functions.js':
+				case 'form_data.js':
 				case 'assets':
 					return;
 			}
