@@ -204,6 +204,28 @@ describe('Blast Server Functions', function() {
 		});
 	});
 
+	describe('#createTempFile(options)', function() {
+
+		it('should create a temporary file without leaving it open', async function() {
+
+			let path = await Blast.createTempFile();
+
+			assert.strictEqual(typeof path, 'string');
+			assert.strictEqual(fs.existsSync(path), true);
+		});
+	});
+
+	describe('#createTempFileSync(options)', function() {
+
+		it('should create a temporary file without leaving it open', async function() {
+
+			let path = await Blast.createTempFileSync();
+
+			assert.strictEqual(typeof path, 'string');
+			assert.strictEqual(fs.existsSync(path), true);
+		});
+	});
+
 	describe('#cleanupTempPaths()', function() {
 		this.timeout(8000);
 		this.slow(1000);
