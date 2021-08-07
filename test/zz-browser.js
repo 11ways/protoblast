@@ -208,6 +208,13 @@ describe('Browser', function() {
 							<head>
 								<script>window.__is_protoblast_unit_test = true;</script>
 								<script src="/mocha.js"></script>
+					`;
+
+					if (process.env.SLOWTEST) {
+						html += '\t\t\t<script>window.__is_slowtest = true;</script>';
+					}
+
+					html += `
 								<script src="/protoblast.js"></script>
 							</head>
 							<body></body>

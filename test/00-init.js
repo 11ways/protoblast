@@ -24,7 +24,7 @@ global.strictEqualTimeSensitive = function strictEqualTimeSensitive(actual, expe
 	try {
 		assert.strictEqual(actual, expected, message);
 	} catch (err) {
-		if (process.env.SLOWTEST) {
+		if (process.env.SLOWTEST || global.__is_slowtest) {
 			console.log('  »» WARNING «« Time-sensitive error ignored due to SLOWTEST:', err);
 		} else {
 			throw err;
