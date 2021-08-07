@@ -1,4 +1,4 @@
-## 0.7.10 (WIP)
+## 0.7.10 (2021-08-07)
 
 * Add `Request.lookup()` method which caches DNS lookups for 60 seconds
 * Add more `Request` methods so no external `xhr` access is required
