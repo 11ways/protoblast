@@ -1,3 +1,8 @@
+## 0.7.11 (WIP)
+
+* Fix `Blast.createTempDirSync()` returning the wrong value
+* Make `Blast.mkdirp()` and `Blast.mkdirpSync()` always return the path they were creating
+
 ## 0.7.10 (2021-08-07)
 
 * Add `Request.lookup()` method which caches DNS lookups for 60 seconds

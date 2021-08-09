@@ -34,7 +34,7 @@ describe('Blast Server Functions', function() {
 
 			let result = await Blast.mkdirp('/');
 
-			assert.strictEqual(result, undefined);
+			assert.strictEqual(typeof result, 'string');
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
@@ -44,11 +44,15 @@ describe('Blast Server Functions', function() {
 
 			assert.strictEqual(result, prototest_root_async);
 
+			let result_again = await Blast.mkdirp(prototest_root_async);
+
+			assert.strictEqual(result_again, prototest_root_async);
+
 			const test_this_path = libpath.join(prototest_root_async, 'test', 'this');
 
 			result = await Blast.mkdirp(test_this_path);
 
-			assert.strictEqual(result, libpath.join(prototest_root_async, 'test'));
+			assert.strictEqual(result, test_this_path);
 
 			assert.strictEqual(fs.existsSync(test_this_path), true);
 		});
@@ -59,7 +63,7 @@ describe('Blast Server Functions', function() {
 
 			let result = Blast.mkdirpSync('/');
 
-			assert.strictEqual(result, undefined);
+			assert.strictEqual(typeof result, 'string');
 
 			let random = Blast.Classes.Crypto.randomHex(8);
 
@@ -69,11 +73,15 @@ describe('Blast Server Functions', function() {
 
 			assert.strictEqual(result, prototest_root_sync);
 
+			let result_again = Blast.mkdirpSync(prototest_root_sync);
+
+			assert.strictEqual(result_again, prototest_root_sync);
+
 			const test_this_path = libpath.join(prototest_root_sync, 'test', 'this');
 
 			result = Blast.mkdirpSync(test_this_path);
 
-			assert.strictEqual(result, libpath.join(prototest_root_sync, 'test'));
+			assert.strictEqual(result, test_this_path);
 
 			assert.strictEqual(fs.existsSync(test_this_path), true);
 		});
