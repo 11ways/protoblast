@@ -29,6 +29,11 @@ describe('Request', function() {
 		});
 	});
 
+	// The following test is only for the server-side!
+	if (typeof window != 'undefined') {
+		return;
+	}
+
 	describe('Blast.lookup(hostname, options, callback)', function() {
 		it('should lookup a hostname', function(done) {
 
