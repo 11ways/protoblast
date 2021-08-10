@@ -38,6 +38,9 @@ coverage/
 # (This is NOT .codecov.yml)
 codecov.yml
 
+# Github settings
+.github/
+
 # The generated client file
 client-file.js
 client-file-common.js
