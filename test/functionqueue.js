@@ -161,8 +161,8 @@ describe('FunctionQueue', function() {
 
 				var total = timer_end - timer_start;
 
-				assert.equal(result, '123', 'Tasks did not run in order');
-				assert.equal(total > 24, true, 'Tasks ended too early, not limited?');
+				strictEqualTimeSensitive(result, '123', 'Tasks did not run in order');
+				strictEqualTimeSensitive(total > 24, true, 'Tasks ended too early, not limited?');
 				done();
 			});
 
@@ -181,7 +181,7 @@ describe('FunctionQueue', function() {
 
 			q.start(function(next) {
 				setTimeout(function() {
-					assert.equal(result, '', 'The added tasks should not run before the start function calls back');
+					strictEqualTimeSensitive(result, '', 'The added tasks should not run before the start function calls back');
 					next();
 				}, 5);
 			});

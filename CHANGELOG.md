@@ -1,4 +1,4 @@
-## 0.7.11 (WIP)
+## 0.7.11 (2021-08-10)
 
 * Fix `Blast.createTempDirSync()` returning the wrong value
 * Make `Blast.mkdirp()` and `Blast.mkdirpSync()` always return the path they were creating
