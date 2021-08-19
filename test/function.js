@@ -123,7 +123,7 @@ describe('Function', function() {
 			tokens = fnc.tokenize(true);
 
 			expected = [
-				{ type: 'keyword', name: 'async', value: 'async' },
+				{ line_start: 0, line_end: 0, type: 'keyword', name: 'async', value: 'async' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'keyword', name: 'function', value: 'function' },
 				{ type: 'whitespace', value: ' ' },
@@ -153,10 +153,10 @@ describe('Function', function() {
 				{ type: 'name', value: 'bla' },
 				{ type: 'punct', name: 'semicolon', value: ';' },
 				{ type: 'whitespace', value: EOL + '\t\t\t' },
-				{ type: 'curly', value: '}' }
+				{ line_start: 3, line_end: 3, type: 'curly', value: '}' }
 			];
 
-			assert.deepEqual(tokens, expected);
+			deepAlike(tokens, expected);
 		});
 
 		it('should handle spread syntax', function() {
@@ -202,7 +202,7 @@ describe('Function', function() {
 				{ type: 'curly', value: '}' }
 			];
 
-			assert.deepEqual(tokens, expected);
+			deepAlike(tokens, expected);
 		});
 
 		var handles_comments;
@@ -216,7 +216,7 @@ describe('Function', function() {
 
 			tokens = fnc.tokenize(true);
 
-			assert.deepEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'keyword', value: 'function', name: 'function' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'parens', value: '(' },
@@ -267,7 +267,7 @@ describe('Function', function() {
 
 			tokens = fnc.tokenize(true);
 
-			assert.deepEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'keyword', value: 'function', name: 'function' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'comment', value: '/*namecomment*/' },
@@ -328,7 +328,7 @@ string` + `another
 				{ type: 'curly', value: '}' }
 			];
 
-			assert.deepEqual(tokens, expected);
+			deepAlike(tokens, expected);
 		});
 
 		it('should handle arrow functions', function() {
@@ -360,7 +360,7 @@ string` + `another
 				{ type: 'number', value: '10' }
 			];
 
-			assert.deepStrictEqual(tokens, result);
+			deepAlike(tokens, result);
 
 			tokens = Function.tokenize(`/test/g.test('bla')`, true);
 
@@ -373,7 +373,7 @@ string` + `another
 				{ type: 'parens', value: ')' }
 			];
 
-			assert.deepStrictEqual(tokens, result);
+			deepAlike(tokens, result);
 
 			tokens = Function.tokenize(`a = (/b/g)`, true);
 
@@ -387,7 +387,7 @@ string` + `another
 				{ type: 'parens', value: ')' }
 			];
 
-			assert.deepStrictEqual(tokens, result);
+			deepAlike(tokens, result);
 
 			tokens = Function.tokenize(`var a\n/r/g.test('r')`, true);
 
@@ -404,7 +404,7 @@ string` + `another
 				{ type: 'parens', value: ')' }
 			];
 
-			assert.deepStrictEqual(tokens, result);
+			deepAlike(tokens, result);
 
 			tokens = Function.tokenize(`var a = /r/g, b = this.bla, c = /b/g, d = a/2/1;\n/zever/g`, true);
 
@@ -448,7 +448,7 @@ string` + `another
 				{ type: 'regexp', value: '/zever/g', name: 'regexp' }
 			];
 
-			assert.deepStrictEqual(tokens, result);
+			deepAlike(tokens, result);
 		});
 	});
 

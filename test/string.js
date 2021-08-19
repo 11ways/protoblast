@@ -430,7 +430,7 @@ describe('String', function() {
 			    	}
 			    });
 
-			deepAlike(tokens, [
+			let expected = [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'a' },
 				{ type: 'whitespace', value: ' ' },
@@ -442,12 +442,13 @@ describe('String', function() {
 				{ type: 'close_bracket', value: '>' },
 				{ type: 'text', value: 'Anchor ' },
 				{ type: 'code', value: '{% code %}'},
-				{ type: 'text', value: '' },
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'forward_slash', value: '/' },
 				{ type: 'tag_name', value: 'a' },
 				{ type: 'close_bracket', value: '>' }
-			]);
+			];
+
+			deepAlike(tokens, expected);
 		});
 
 		it('should accept blocks as attribute values', function() {

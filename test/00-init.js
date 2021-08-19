@@ -44,6 +44,10 @@ global.deepAlike = function deepAlike(actual, expected) {
 		expected_entry = expected[i];
 		actual_entry = actual[i];
 
+		if (!actual_entry) {
+			throw new Error('An expected entry is missing at index ' + i);
+		}
+
 		for (key in expected) {
 			if (actual_entry[key] !== expected_entry[key]) {
 				throw new Error('Entries at index ' + i + ' do not match key ' + key + '\n' + actual_entry[key] + ' !== ' + expected_entry[key]);
