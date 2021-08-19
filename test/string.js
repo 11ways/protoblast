@@ -172,82 +172,82 @@ describe('String', function() {
 			    tokens = String.tokenizeHTML(html);
 
 			assert.deepStrictEqual(tokens, [
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'a' },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'href' },
-				{ type: 'equals', value: '=' },
-				{ type: 'string_open', value: '"' },
-				{ type: 'string', value: '#' },
-				{ type: 'string_close', value: '"' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'Anchor' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'a' },
-				{ type: 'close_bracket', value: '>' }
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'a' },
+				{ line_start: 0, line_end: 0, type: 'whitespace', value: ' ' },
+				{ line_start: 0, line_end: 0, type: 'attribute', value: 'href' },
+				{ line_start: 0, line_end: 0, type: 'equals', value: '=' },
+				{ line_start: 0, line_end: 0, type: 'string_open', value: '"' },
+				{ line_start: 0, line_end: 0, type: 'string', value: '#' },
+				{ line_start: 0, line_end: 0, type: 'string_close', value: '"' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'text', value: 'Anchor' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'forward_slash', value: '/' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'a' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' }
 			]);
 
 			html = '<p>test</p><script>var a = 10 < 5;</script>';
 			tokens = String.tokenizeHTML(html);
 
 			assert.deepStrictEqual(tokens, [
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'p' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'test' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'p' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'script' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'var a = 10 < 5;' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'script' },
-				{ type: 'close_bracket', value: '>' }
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'p' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'text', value: 'test' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'forward_slash', value: '/' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'p' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'script' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'text', value: 'var a = 10 < 5;' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'forward_slash', value: '/' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'script' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' }
 			]);
 
 			html = '<!-- This is a <omment> --><a href=\'#\' width=1 hidden>a</a><p id="<id>"></p>';
 			tokens = String.tokenizeHTML(html);
 
 			assert.deepStrictEqual(tokens, [
-				{ type: 'comment', value: '<!-- This is a <omment> -->' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'a' },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'href' },
-				{ type: 'equals', value: '=' },
-				{ type: 'string_open', value: "'" },
-				{ type: 'string', value: '#' },
-				{ type: 'string_close', value: "'" },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'width' },
-				{ type: 'equals', value: '=' },
-				{ type: 'identifier', value: '1' },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'hidden' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'a' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'a' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'p' },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'id' },
-				{ type: 'equals', value: '=' },
-				{ type: 'string_open', value: '"' },
-				{ type: 'string', value: 'id' },
-				{ type: 'string_close', value: '"' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'p' },
-				{ type: 'close_bracket', value: '>' }
+				{ line_start: 0, line_end: 0, type: 'comment', value: '<!-- This is a <omment> -->' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'a' },
+				{ line_start: 0, line_end: 0, type: 'whitespace', value: ' ' },
+				{ line_start: 0, line_end: 0, type: 'attribute', value: 'href' },
+				{ line_start: 0, line_end: 0, type: 'equals', value: '=' },
+				{ line_start: 0, line_end: 0, type: 'string_open', value: "'" },
+				{ line_start: 0, line_end: 0, type: 'string', value: '#' },
+				{ line_start: 0, line_end: 0, type: 'string_close', value: "'" },
+				{ line_start: 0, line_end: 0, type: 'whitespace', value: ' ' },
+				{ line_start: 0, line_end: 0, type: 'attribute', value: 'width' },
+				{ line_start: 0, line_end: 0, type: 'equals', value: '=' },
+				{ line_start: 0, line_end: 0, type: 'identifier', value: '1' },
+				{ line_start: 0, line_end: 0, type: 'whitespace', value: ' ' },
+				{ line_start: 0, line_end: 0, type: 'attribute', value: 'hidden' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'text', value: 'a' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'forward_slash', value: '/' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'a' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'p' },
+				{ line_start: 0, line_end: 0, type: 'whitespace', value: ' ' },
+				{ line_start: 0, line_end: 0, type: 'attribute', value: 'id' },
+				{ line_start: 0, line_end: 0, type: 'equals', value: '=' },
+				{ line_start: 0, line_end: 0, type: 'string_open', value: '"' },
+				{ line_start: 0, line_end: 0, type: 'string', value: 'id' },
+				{ line_start: 0, line_end: 0, type: 'string_close', value: '"' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' },
+				{ line_start: 0, line_end: 0, type: 'open_bracket', value: '<' },
+				{ line_start: 0, line_end: 0, type: 'forward_slash', value: '/' },
+				{ line_start: 0, line_end: 0, type: 'tag_name', value: 'p' },
+				{ line_start: 0, line_end: 0, type: 'close_bracket', value: '>' }
 			]);
 		});
 
@@ -262,50 +262,50 @@ describe('String', function() {
 
 			tokens = String.tokenizeHTML(html);
 
-			assert.deepStrictEqual(tokens, [
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'strong' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'Bold' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'strong' },
-				{ type: 'whitespace', value: '\n' },
+			deepAlike(tokens, [
+				{ type: 'open_bracket', line_start: 0, line_end: 0, value: '<' },
+				{ type: 'tag_name', line_start: 0, line_end: 0, value: 'strong' },
+				{ type: 'close_bracket', line_start: 0, line_end: 0, value: '>' },
+				{ type: 'text', line_start: 0, line_end: 0, value: 'Bold' },
+				{ type: 'open_bracket', line_start: 0, line_end: 0, value: '<' },
+				{ type: 'forward_slash', line_start: 0, line_end: 0, value: '/' },
+				{ type: 'tag_name', line_start: 0, line_end: 0, value: 'strong' },
+				{ type: 'whitespace', line_start: 0, line_end: 1, value: '\n' },
 
 				// This close bracket was added by the tokenizer
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'div' },
-				{ type: 'whitespace', value: ' ' },
-				{ type: 'attribute', value: 'class' },
-				{ type: 'equals', value: '=' },
-				{ type: 'string_open', value: '"' },
-				{ type: 'string', value: 'row' },
-				{ type: 'string_close', value: '"' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: '\n\t' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'article' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: '\n\t\t' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'tag_name', value: 'li' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: 'Test' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'li' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: '\n\t' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'article' },
-				{ type: 'close_bracket', value: '>' },
-				{ type: 'text', value: '\n' },
-				{ type: 'open_bracket', value: '<' },
-				{ type: 'forward_slash', value: '/' },
-				{ type: 'tag_name', value: 'div' },
-				{ type: 'close_bracket', value: '>' }
+				{ type: 'close_bracket', line_start: 1, line_end: 1, value: '>' },
+				{ type: 'open_bracket', line_start: 1, line_end: 1, value: '<' },
+				{ type: 'tag_name', line_start: 1, line_end: 1, value: 'div' },
+				{ type: 'whitespace', line_start: 1, line_end: 1, value: ' ' },
+				{ type: 'attribute', line_start: 1, line_end: 1, value: 'class' },
+				{ type: 'equals', line_start: 1, line_end: 1, value: '=' },
+				{ type: 'string_open', line_start: 1, line_end: 1, value: '"' },
+				{ type: 'string', line_start: 1, line_end: 1, value: 'row' },
+				{ type: 'string_close', line_start: 1, line_end: 1, value: '"' },
+				{ type: 'close_bracket', line_start: 1, line_end: 1, value: '>' },
+				{ type: 'text', line_start: 1, line_end: 2, value: '\n\t' },
+				{ type: 'open_bracket', line_start: 2, line_end: 2, value: '<' },
+				{ type: 'tag_name', line_start: 2, line_end: 2, value: 'article' },
+				{ type: 'close_bracket', line_start: 2, line_end: 2, value: '>' },
+				{ type: 'text', line_start: 2, line_end: 3, value: '\n\t\t' },
+				{ type: 'open_bracket', line_start: 3, line_end: 3, value: '<' },
+				{ type: 'tag_name', line_start: 3, line_end: 3, value: 'li' },
+				{ type: 'close_bracket', line_start: 3, line_end: 3, value: '>' },
+				{ type: 'text', line_start: 3, line_end: 3, value: 'Test' },
+				{ type: 'open_bracket', line_start: 3, line_end: 3, value: '<' },
+				{ type: 'forward_slash', line_start: 3, line_end: 3, value: '/' },
+				{ type: 'tag_name', line_start: 3, line_end: 3, value: 'li' },
+				{ type: 'close_bracket', line_start: 3, line_end: 3, value: '>' },
+				{ type: 'text', line_start: 3, line_end: 4, value: '\n\t' },
+				{ type: 'open_bracket', line_start: 4, line_end: 4, value: '<' },
+				{ type: 'forward_slash', line_start: 4, line_end: 4, value: '/' },
+				{ type: 'tag_name', line_start: 4, line_end: 4, value: 'article' },
+				{ type: 'close_bracket', line_start: 4, line_end: 4, value: '>' },
+				{ type: 'text', line_start: 4, line_end: 5, value: '\n' },
+				{ type: 'open_bracket', line_start: 5, line_end: 5, value: '<' },
+				{ type: 'forward_slash', line_start: 5, line_end: 5, value: '/' },
+				{ type: 'tag_name', line_start: 5, line_end: 5, value: 'div' },
+				{ type: 'close_bracket', line_start: 5, line_end: 5, value: '>' }
 			]);
 
 			html = `<li class="failed">
@@ -314,7 +314,7 @@ describe('String', function() {
 
 			tokens = String.tokenizeHTML(html);
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'li' },
 				{ type: 'whitespace', value: ' ' },
@@ -348,7 +348,7 @@ describe('String', function() {
 
 			let tokens = String.tokenizeHTML(html);
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'span' },
 				{ type: 'whitespace', value: ' ' },
@@ -385,7 +385,7 @@ describe('String', function() {
 
 			let tokens = String.tokenizeHTML(html);
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'span' },
 				{ type: 'whitespace', value: ' ' },
@@ -430,7 +430,7 @@ describe('String', function() {
 			    	}
 			    });
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'a' },
 				{ type: 'whitespace', value: ' ' },
@@ -461,7 +461,7 @@ describe('String', function() {
 			    	}
 			    });
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'open_bracket', value: '<' },
 				{ type: 'tag_name', value: 'a' },
 				{ type: 'whitespace', value: ' ' },
@@ -500,7 +500,7 @@ describe('String', function() {
 				}
 			});
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'code', value: '{% {not-safe-print} %}' },
 				{ type: 'safeprint', value: '{safe-print}' }
 			]);
@@ -520,7 +520,7 @@ describe('String', function() {
 				}
 			});
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'code', value: '{% {nsp} %}' },
 				{ type: 'code', value: '{% second %}' },
 				{ type: 'code', value: '{% {% %}' },
@@ -542,7 +542,7 @@ describe('String', function() {
 				}
 			});
 
-			assert.deepStrictEqual(tokens, [
+			deepAlike(tokens, [
 				{ type: 'safeprint', value: '{sp}' },
 				{ type: 'text', value: '{not\nsp}' }
 			]);

@@ -31,3 +31,24 @@ global.strictEqualTimeSensitive = function strictEqualTimeSensitive(actual, expe
 		}
 	}
 };
+
+// If the actual object contains MORE keys than expected, that's ok!
+global.deepAlike = function deepAlike(actual, expected) {
+
+	let expected_entry,
+	    actual_entry,
+	    key,
+	    i;
+
+	for (i = 0; i < expected.length; i++) {
+		expected_entry = expected[i];
+		actual_entry = actual[i];
+
+		for (key in expected) {
+			if (actual_entry[key] !== expected_entry[key]) {
+				throw new Error('Entries at index ' + i + ' do not match key ' + key + '\n' + actual_entry[key] + ' !== ' + expected_entry[key]);
+			}
+		}
+	}
+
+};
