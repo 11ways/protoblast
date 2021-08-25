@@ -4,6 +4,7 @@
 * Add line_start & line_end to String.tokenizeHTML() output
 * Add line_start & line_end to Function.tokenize() output
 * Add `Blast.isFirefox` boolean property
+* Add `Error.parseStack()` method
 
 ## 0.7.12 (2021-08-10)
 
