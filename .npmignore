@@ -65,6 +65,7 @@ log.json
 # The samples and test folder shouldn't go on npm
 samples/*
 test/*
+.github/*
 
 /selenium/
 .codecov.yml

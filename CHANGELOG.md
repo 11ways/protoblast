@@ -5,6 +5,7 @@
 * Add line_start & line_end to Function.tokenize() output
 * Add `Blast.isFirefox` boolean property
 * Add `Error.parseStack()` method
+* `String#slug()` will now also replace underscores
 
 ## 0.7.12 (2021-08-10)
 
