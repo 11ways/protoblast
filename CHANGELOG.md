@@ -1,4 +1,4 @@
-## 0.7.13 (WIP)
+## 0.7.13 (2021-09-12)
 
 * Allow custom blocks in `String#tokenizeHTML()` to drop their delimiters from the output
 * Add line_start & line_end to String.tokenizeHTML() output
