@@ -6,6 +6,8 @@
 * Add `Blast.isFirefox` boolean property
 * Add `Error.parseStack()` method
 * `String#slug()` will now also replace underscores
+* Add `String#reverse()` method, which works with astral characters
+* Also add `StringBuilder#reverse()` and `StringBuilder#banish()` methods
 
 ## 0.7.12 (2021-08-10)
 

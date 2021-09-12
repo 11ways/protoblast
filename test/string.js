@@ -1578,4 +1578,21 @@ And this is at 0
 
 		});
 	});
+
+	describe('#reverse()', function() {
+		it('should return a reversed string', function() {
+
+			let str = 'test';
+
+			assert.strictEqual(str.reverse(), 'tset');
+		});
+
+		it('should handle emojis', function() {
+
+			let str = '💀🤔🚀😿🇧🇪';
+
+			assert.strictEqual(str.reverse(), '🇧🇪😿🚀🤔💀')
+
+		});
+	});
 });

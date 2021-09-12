@@ -179,4 +179,46 @@ describe('StringBuilder', function() {
 		});
 	});
 
+	describe('#banish(start, end)', function() {
+
+		it('should remove a piece of the string and put it in limbo', function() {
+
+			let sb = new Blast.Classes.Develry.StringBuilder;
+
+			sb.append('0123');
+			sb.append('45678910');
+
+			let str = sb.banish(4, 9);
+
+			assert.strictEqual(sb.toString(), '0123910');
+			assert.strictEqual(sb.limbo, '45678');
+
+			sb.banish(0,1);
+
+			assert.strictEqual(sb.toString(), '123910');
+			assert.strictEqual(sb.limbo, '456780');
+		});
+	});
+
+	describe('#reverse()', function() {
+
+		it('should reverse the string', function() {
+
+			let sb = new Blast.Classes.Develry.StringBuilder;
+
+			sb.append('0123');
+			sb.append('45678910');
+
+			let str = sb.banish(4, 9);
+
+			assert.strictEqual(sb.toString(), '0123910');
+			assert.strictEqual(sb.limbo, '45678');
+
+			sb.reverse();
+
+			assert.strictEqual(sb.toString(), '0193210');
+			assert.strictEqual(sb.limbo, '87654');
+		});
+	});
+
 });
