@@ -1,3 +1,7 @@
+## 0.7.15 (WIP)
+
+* Fix `Date#secondsToDuration()` using wrong rounded months
+
 ## 0.7.14 (2021-09-24)
 
 * Make sure nothing overwrites the global `JSON` object (which Facebook Pixel currently does)
