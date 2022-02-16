@@ -2,6 +2,7 @@
 
 * Fix `Date#secondsToDuration()` using wrong rounded months
 * Allow scripts loaded with `Blast.require()` to use top-level await
+* Make `Function.series` and `Function.parallel` throw better errors
 
 ## 0.7.14 (2021-09-24)
 
