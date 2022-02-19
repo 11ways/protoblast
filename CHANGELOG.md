@@ -1,4 +1,4 @@
-## 0.7.15 (WIP)
+## 0.7.15 (2022-02-20)
 
 * Fix `Date#secondsToDuration()` using wrong rounded months
 * Allow scripts loaded with `Blast.require()` to use top-level await
