@@ -66,6 +66,17 @@ describe('RURL', function() {
 			assert.equal(url.href, 'https://my.sub.domain.be/hawkejs/templates?name[0]=tags%2Fdashboard');
 			assert.deepEqual(url.query, {name: ['tags/dashboard']});
 		});
+
+		it('should allow relative paths', function() {
+
+			let url = new RURL('img/test.png');
+
+			assert.strictEqual(url.href, 'img/test.png');
+
+			url.host = 'https://www.bla.be';
+
+			assert.strictEqual(url.href, 'https://www.bla.be/img/test.png');
+		});
 	});
 
 	describe('.requiresPort(port, protocol)', function() {

@@ -1,3 +1,7 @@
+## 0.7.16 (WIP)
+
+* Make `RURL` understand network protocols when assigning hostnames
+
 ## 0.7.15 (2022-02-20)
 
 * Fix `Date#secondsToDuration()` using wrong rounded months
