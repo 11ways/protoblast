@@ -3,6 +3,7 @@
 * Make `RURL` understand network protocols when assigning hostnames
 * Fix `Error#parseStack()` capturing wrong line & nr of anonymous function
 * Fix `Function.setProperty` setting the wrong super property
+* Try to get more error data from failed `Request` calls
 
 ## 0.7.15 (2022-02-20)
 
