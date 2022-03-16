@@ -1,4 +1,4 @@
-## 0.7.16 (WIP)
+## 0.7.16 (2022-03-16)
 
 * Make `RURL` understand network protocols when assigning hostnames
 * Fix `Error#parseStack()` capturing wrong line & nr of anonymous function
