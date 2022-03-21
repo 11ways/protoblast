@@ -1,3 +1,7 @@
+## 0.7.17 (WIP)
+
+* Catch `Date#format()` errors regarding unknown timezones in Firefox
+
 ## 0.7.16 (2022-03-16)
 
 * Make `RURL` understand network protocols when assigning hostnames
