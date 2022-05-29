@@ -1,3 +1,7 @@
+## 0.7.18 (WIP)
+
+* Add `Array#findAllByPath(path, value)`
+
 ## 0.7.17 (2022-03-21)
 
 * Catch `Date#format()` errors regarding unknown timezones in Firefox
