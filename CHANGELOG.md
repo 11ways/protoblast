@@ -2,6 +2,7 @@
 
 * Add `Array#findAllByPath(path, value)`
 * Add `Function#setAbstractMethod(name)`
+* Make server-side requests retry dns lookups if they fail
 
 ## 0.7.17 (2022-03-21)
 
