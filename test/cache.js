@@ -53,6 +53,25 @@ describe('Cache', function() {
 			}, 10);
 		});
 
+		it('should always set a maximum age if a default one is provided', function(done) {
+
+			var cache = new Blast.Classes.Develry.Cache({max_age: 5});
+
+			// Set the max age to a full second
+			cache.set('a', 1, 1000);
+
+			// Now set it with nothing, it should default back to 5ms
+			cache.set('a', 1);
+
+			assert.deepStrictEqual(cache.keys, ['a']);
+
+			ensureTimeout(function() {
+				assert.deepStrictEqual(cache.keys, []);
+
+				done();
+			}, 10);
+		});
+
 		it('should reset the `added` time', async function() {
 
 			var cache = new Blast.Classes.Develry.Cache();

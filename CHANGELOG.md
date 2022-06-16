@@ -3,6 +3,7 @@
 * Add `Array#findAllByPath(path, value)`
 * Add `Function#setAbstractMethod(name)`
 * Make server-side requests retry dns lookups if they fail
+* Fix `Cache#set()` not setting the MAX_AGE of entries
 
 ## 0.7.17 (2022-03-21)
 
