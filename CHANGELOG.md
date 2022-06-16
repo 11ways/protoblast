@@ -1,6 +1,7 @@
 ## 0.7.18 (WIP)
 
 * Add `Array#findAllByPath(path, value)`
+* Add `Function#setAbstractMethod(name)`
 
 ## 0.7.17 (2022-03-21)
 
