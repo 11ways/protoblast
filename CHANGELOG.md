@@ -1,4 +1,4 @@
-## 0.7.19 (WIP)
+## 0.7.19 (2022-06-19)
 
 * Fix pathnames of a RURL containg unescaped characters
 
