@@ -1,3 +1,7 @@
+## 0.7.19 (WIP)
+
+* Fix pathnames of a RURL containg unescaped characters
+
 ## 0.7.18 (2022-06-16)
 
 * Add `Array#findAllByPath(path, value)`
