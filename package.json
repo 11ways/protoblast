@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.7.20-alpha",
+	"version": "0.7.20",
 	"author": "Jelle De Loecker <jelle@elevenways.be>",
 	"keywords": [
 		"prototype",
@@ -39,6 +39,6 @@
 		"wd"                      : "~1.12.1"
 	},
 	"engines": {
-		"node" : ">=10.21.0"
+		"node" : ">=14.0.0"
 	}
 }
