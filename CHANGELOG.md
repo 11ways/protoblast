@@ -3,6 +3,7 @@
 * Add `Function.afterConstituted(task)` and `Function.hasConstituted()` methods
 * Add JSON-Dry support for `Map` and `Set`
 * Add the `HashSet` class
+* Make `Array.cast()` return array versions of `Map` and `Set` instances
 
 ## 0.7.19 (2022-06-19)
 

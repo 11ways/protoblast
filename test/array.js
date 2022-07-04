@@ -123,6 +123,26 @@ describe('Array', function() {
 			assert.strictEqual(cast.length, 6, "Cast variable does not have the same length as original arguments");
 			assert.strictEqual(cast[5], 1, "Index values don't match to the original object");
 		});
+
+		it('should convert Maps and Sets into arrays', function() {
+
+			const set = new Set();
+			set.add(1);
+			set.add(2);
+			set.add(3);
+
+			let arr = Array.cast(set);
+
+			assert.deepStrictEqual(arr, [1, 2, 3]);
+
+			const map = new Map();
+			map.set(1, 1);
+			map.set(2, 2);
+			map.set(3, 3);
+
+			arr = Array.cast(map);
+			assert.deepStrictEqual(arr, [[1, 1], [2, 2], [3, 3]]);
+		});
 	});
 
 	describe('.range(start, stop, step)', function() {
