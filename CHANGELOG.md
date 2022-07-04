@@ -1,6 +1,7 @@
 ## 0.7.20 (WIP)
 
 * Add `Function.afterConstituted(task)` and `Function.hasConstituted()` methods
+* Add JSON-Dry support for `Map` and `Set`
 
 ## 0.7.19 (2022-06-19)
 
