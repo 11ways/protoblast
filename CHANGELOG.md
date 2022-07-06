@@ -2,6 +2,7 @@
 
 * Bind `realNextTick` and `realSetImmediate` on init
 * Add `Blast.asyncScheduler` symbol which can be used to change the scheduler of function-flow methods
+* Add `Blast.nextGroupedTick()` and `Blast.nextGroupedImmediate()` which will group tasks until the next tick actually starts
 
 ## 0.7.20 (2022-07-04)
 
