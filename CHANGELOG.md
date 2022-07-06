@@ -1,4 +1,4 @@
-## 0.7.21 (WIP)
+## 0.7.21 (2022-07-06)
 
 * Bind `realNextTick` and `realSetImmediate` on init
 * Add `Blast.asyncScheduler` symbol which can be used to change the scheduler of function-flow methods
