@@ -1,3 +1,7 @@
+## 0.7.21 (WIP)
+
+* Bind `realNextTick` and `realSetImmediate` on init
+
 ## 0.7.20 (2022-07-04)
 
 * Add `Function.afterConstituted(task)` and `Function.hasConstituted()` methods
