@@ -1,4 +1,4 @@
-## 0.7.22 (WIP)
+## 0.7.22 (2022-07-25)
 
 * Perform a connection check when getting a timeout
 * Defuse request timeout bomb on the browser
