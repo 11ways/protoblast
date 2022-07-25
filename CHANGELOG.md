@@ -1,5 +1,6 @@
 ## 0.7.22 (WIP)
 
+* Perform a connection check when getting a timeout
 
 ## 0.7.21 (2022-07-06)
 
