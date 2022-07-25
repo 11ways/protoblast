@@ -3,6 +3,7 @@
 * Perform a connection check when getting a timeout
 * Defuse request timeout bomb on the browser
 * Add timeout listener to requests made on the server
+* Add `body` property to the Request Response class
 
 ## 0.7.21 (2022-07-06)
 
