@@ -5,6 +5,7 @@
 * Add timeout listener to requests made on the server
 * Add `body` property to the Request Response class
 * Add `url` argument to `Blast.fetch()`
+* Set correct status when a Request times out
 
 ## 0.7.21 (2022-07-06)
 
