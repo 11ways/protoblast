@@ -1,3 +1,7 @@
+## 0.7.23 (WIP)
+
+* Fix `Blast.fetch()` breaking when `options` argument is present but falsy
+
 ## 0.7.22 (2022-07-25)
 
 * Perform a connection check when getting a timeout
