@@ -1,4 +1,4 @@
-## 0.7.23 (WIP)
+## 0.7.23 (2022-08-25)
 
 * Fix `Blast.fetch()` breaking when `options` argument is present but falsy
 * Add support for default values to `enforceProperty`
