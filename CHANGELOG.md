@@ -1,3 +1,7 @@
+## 0.7.24 (WIP)
+
+* Add `Pledge#is_done` property getter
+
 ## 0.7.23 (2022-08-25)
 
 * Fix `Blast.fetch()` breaking when `options` argument is present but falsy
