@@ -2,6 +2,7 @@
 
 * Add `Pledge#is_done` property getter
 * Add `Array#atLoop(index)` method
+* Add `Function.makeAbstractClass()` class method
 
 ## 0.7.23 (2022-08-25)
 
