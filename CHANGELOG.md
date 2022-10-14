@@ -4,6 +4,7 @@
 * Add `Array#atLoop(index)` method
 * Add `Function.makeAbstractClass()` class method
 * Don't let adding static properties to child classes overwrite existing properties
+* Make sure `Object.defineProperty` isn't called with an invalid setter property
 
 ## 0.7.23 (2022-08-25)
 
