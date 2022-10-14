@@ -3,6 +3,7 @@
 * Add `Pledge#is_done` property getter
 * Add `Array#atLoop(index)` method
 * Add `Function.makeAbstractClass()` class method
+* Don't let adding static properties to child classes overwrite existing properties
 
 ## 0.7.23 (2022-08-25)
 
