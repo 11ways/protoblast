@@ -1012,6 +1012,23 @@ describe('Object', function() {
 			assert.strictEqual(nr_cs, 'N' + nr);
 		});
 
+		it('should work with cached string checksums', function() {
+
+			let id_one = '633c63c665a21a06269129f0',
+				id_two = '634051edc2dc82c5e6b65a32';
+			
+			let obj_one = {conditions: {_id: id_one}},
+				obj_two = {conditions: {_id: id_two}};
+			
+			let checksum_one = Object.checksum(obj_one),
+				checksum_two = Object.checksum(obj_two);
+			
+			assert.notStrictEqual(checksum_one, checksum_two);
+
+			assert.strictEqual(checksum_one, 'O1-S32-af8jdd3d0l6u');
+			assert.strictEqual(checksum_two, 'O1-S31-1uok79j1xv7hho');
+		});
+
 		if (typeof window == 'undefined') {
 			it('should checksum Buffers', function() {
 

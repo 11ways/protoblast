@@ -5,6 +5,7 @@
 * Add `Function.makeAbstractClass()` class method
 * Don't let adding static properties to child classes overwrite existing properties
 * Make sure `Object.defineProperty` isn't called with an invalid setter property
+* Add simple `LruCache` class and use it for caching string checksums
 
 ## 0.7.23 (2022-08-25)
 
