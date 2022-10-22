@@ -1,4 +1,4 @@
-## 0.7.24 (WIP)
+## 0.7.24 (2022-10-22)
 
 * Add `Pledge#is_done` property getter
 * Add `Array#atLoop(index)` method
