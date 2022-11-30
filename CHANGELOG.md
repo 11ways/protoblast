@@ -1,3 +1,7 @@
+## 0.7.25 (WIP)
+
+* Make `Request` not use the cache when the `get_stream` option is enabled
+
 ## 0.7.24 (2022-10-22)
 
 * Add `Pledge#is_done` property getter
