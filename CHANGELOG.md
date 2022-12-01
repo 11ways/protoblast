@@ -1,6 +1,7 @@
 ## 0.7.25 (WIP)
 
 * Make `Request` not use the cache when the `get_stream` option is enabled
+* Add support for methods with signature checking
 
 ## 0.7.24 (2022-10-22)
 
