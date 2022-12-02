@@ -2,6 +2,7 @@
 
 * Make `Request` not use the cache when the `get_stream` option is enabled
 * Add support for methods with signature checking
+* Automatically create a `SignatureType` for every created class
 
 ## 0.7.24 (2022-10-22)
 
