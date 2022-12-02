@@ -80,6 +80,26 @@ describe('Signatures', function() {
 
 			assert.throws(() => instance.add(/r/i, 1));
 		});
+
+		it('should allow the use of types before the class exists', function() {
+
+			const ClassD = Function.inherits(function SignatureClassD() {});
+
+			ClassD.setTypedMethod([Blast.Types.SignatureClassE], function test(instance) {
+				return true;
+			});
+
+			let instance = new ClassD();
+			
+			assert.throws(() => instance.test(false));
+
+			const ClassE = Function.inherits(function SignatureClassE() {});
+			let e_instance = new ClassE();
+
+			let result = instance.test(e_instance);
+
+			assert.strictEqual(result, true);
+		});
 	});
 
 	describe('.setTypedStatic(argument_types, method)', function() {

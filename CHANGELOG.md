@@ -4,6 +4,7 @@
 * Add support for methods with signature checking
 * Automatically create a `SignatureType` for every created class
 * Add `Classes` and `Types` to the default module wrapper arguments
+* Let `Blast.Types` create temporary SignatureType instances on the fly with proxies
 
 ## 0.7.24 (2022-10-22)
 
