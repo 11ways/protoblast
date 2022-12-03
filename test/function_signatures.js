@@ -224,6 +224,31 @@ describe('Signatures', function() {
 
 			assert.throws(() => instance_a.test(signatureless, 1));
 		});
+
+		it('should support the Any type', function() {
+
+			const ClassAnyA = Function.inherits('Signatureless', function SignatureClassAnyA() {});
+
+			ClassAnyA.setTypedMethod([Types.Any], function anyNonNull(a) {
+				return a.constructor.name;
+			});
+
+			ClassAnyA.setTypedMethod([Types.Any.nullable()], function anyNullable(a) {
+				return a?.constructor?.name || 'null';
+			});
+
+			let instance = new ClassAnyA();
+
+			assert.strictEqual(instance.anyNonNull(1), 'Number');
+			assert.strictEqual(instance.anyNonNull(''), 'String');
+
+			assert.strictEqual(instance.anyNullable(1), 'Number');
+			assert.strictEqual(instance.anyNullable(null), 'null');
+
+			assert.throws(() => instance.anyNonNull(null));
+			assert.throws(() => instance.anyNonNull(undefined));
+			assert.throws(() => instance.anyNullable(undefined));
+		});
 	});
 
 	describe('.setTypedMethod(argument_types, return_type, method)', function() {
