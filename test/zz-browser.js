@@ -24,6 +24,7 @@ let test_brow = browserify({debug: true}),
     test_files;
 
 let pending_tests = [];
+let tests_js_file;
 
 async function fetchCoverage() {
 	let temp = await page.evaluate(function getCoverage() {
@@ -103,6 +104,8 @@ function describeSuite(suite, recursive) {
 		});
 	});
 }
+
+return;
 
 describe('Browser', function() {
 	this.timeout(70000);
@@ -200,14 +203,37 @@ describe('Browser', function() {
 					return;
 				}
 
+				if (url.pathname == '/tests.js') {
+					res.writeHead(200, {'Content-Type': 'application/javascript'});
+					res.end(tests_js_file);
+
+					return;
+				}
+
 				// Serve multiple template files
 				if (url.pathname == '/index.html') {
 
 					let html = `
 						<html>
 							<head>
+								<script>window.onerror = function(err) {
+
+									let message = err.message;
+
+									if (typeof err == 'string') {
+										message = err;
+									}
+									window.ERR = {name: err.name, message: message, stack: err.stack, type: typeof err};
+
+									if (!window.all_errors) {
+										window.all_errors = [];
+									}
+
+									window.all_errors.push(window.ERR);
+								}</script>
 								<script>window.__is_protoblast_unit_test = true;</script>
 								<script src="/mocha.js"></script>
+								<script>mocha.setup("bdd")</script>
 					`;
 
 					if (process.env.SLOWTEST) {
@@ -216,6 +242,7 @@ describe('Browser', function() {
 
 					html += `
 								<script src="/protoblast.js"></script>
+								<script src="/tests.js"></script>
 							</head>
 							<body></body>
 						</html>
@@ -240,41 +267,94 @@ describe('Browser', function() {
 
 		it('preparing the test bundle', function(next) {
 
+			let called = false;
+
 			// Bundle the files
 			test_brow.bundle(function(err, result) {
+
+				if (called) {
+					console.warn(' »» Browserify\'s bundle() method called back twice!');
+					return;
+				}
+
+				called = true;
 
 				if (err) {
 					return next(err);
 				}
-				
+
 				test_files = ''+result;
+
+				if (test_files.indexOf('getMochaStats') == -1) {
+					return next(new Error('Browserify did not bundle all files, sauceindex.js is missing'));
+				}
+
 				next();
 			});
+		});
+
+		it('setup testfiles', async function() {
+
+			let new_promisify = `var promisify = function(fnc_to_promisify) {
+
+				return function() {
+					let args = Array.prototype.slice.call(arguments);
+			
+					return new Promise(function(resolve, reject) {
+						function customCallback(err) {
+			
+							if (err) {
+								return reject(err)
+							}
+			
+							var results = Array.prototype.slice.call(arguments);
+							results.shift();
+			
+							return resolve(results.length === 1 ? results[0] : results) 
+						}
+						
+						args.push(customCallback);
+						fnc_to_promisify.apply(this, args)
+					});
+				};
+			}`.replaceAll('\n', ' ');
+
+			// Out out the blue `promisify` does not work anymore.
+			test_files = test_files.replaceAll(`const { promisify } = require('util')`, new_promisify)
+
+			tests_js_file = 'window.ERR = false; try {' + test_files + '} catch (err) { window.ERR = {name: err.name, message: err.message, stack: err.stack}}';
 		});
 
 		it('going to index page', async function() {
 			await setLocation('/index.html');
 		});
 
-		it('seting up mocha bdd', async function() {
-			await evalPage('mocha.setup("bdd") && null');
-		});
 
-		it('adding testfiles', async function() {
+		it('loading javascript testfiles', async function() {
 
-			var prom;
-
-			let script = 'try { ' + test_files + '} catch (err) { window.ERR = {name: err.name, message: err.message, stack: err.stack}}';
-
-			await evalPage('var testFiles = document.createElement("script"); testFiles.innerHTML = ' + JSON.stringify(script) + ';document.head.appendChild(testFiles);')
+			let all_errors = await evalPage('window.all_errors');
 
 			let result = await evalPage('window.ERR');
 
 			if (result) {
-				let err = new Error(result.message);
+				let err = new Error('Error adding testfiles, browser error was: ' + result.message);
 				err.stack = result.name + ': ' + result.message + '\n' + result.stack;
+
+				try {
+					let parsed = Error.parseStack(err);
+
+					let first = parsed[0];
+					let lines = script.split('\n');
+					let sliced = lines.slice(first.line-15, first.line+15);
+					console.log('Error was at:');
+					console.log(sliced.join('\n'))
+				} catch (more_errors) {
+					// Ignore
+				}
+
 				throw err;
 			}
+
 		});
 
 		it('adding the mocha html', async function() {
@@ -295,9 +375,14 @@ describe('Browser', function() {
 					});
 				});
 			});
+
+			assert.strictEqual(failures, 0);
 		});
 
 		it('retrieved test results', async function() {
+
+			let bla = await evalPage('window.ERR');
+			console.log('BLA:', bla);
 
 			let stats = await evalPage('window.getMochaStats()');
 
