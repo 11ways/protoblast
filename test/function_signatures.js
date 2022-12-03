@@ -1,3 +1,5 @@
+const { errors } = require('puppeteer');
+
 var assert = require('assert'),
     Signatureless,
     Blast;
@@ -99,6 +101,51 @@ describe('Signatures', function() {
 			let result = instance.test(e_instance);
 
 			assert.strictEqual(result, true);
+		});
+
+		it('should throw an error when a signature is not found', function() {
+
+			const ClassF = Function.inherits(function SignatureClassF() {});
+
+			ClassF.setTypedMethod([String, Boolean], function test(str, bool) {
+				return true;
+			});
+
+			let instance = new ClassF();
+			let error;
+
+			try {
+				instance.test('', '');
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(!!error, true, 'An error was expected');
+			assert.strictEqual(error.message, 'Failed to find a "test" method matching signature `String,String`');
+		});
+	});
+
+	describe('.setTypedMethod(argument_types, return_type, method)', function() {
+		it('should throw an error when the return type is wrong', function() {
+
+			const ClassG = Function.inherits(function SignatureClassG() {});
+
+			ClassG.setTypedMethod([String, String], [Number], function addNumberStrings(a, b) {
+				return a+b;
+			});
+
+			let instance = new ClassG();
+			let error;
+
+			try {
+				instance.addNumberStrings('1', '2');
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(!!error, true, 'An error was expected');
+			assert.strictEqual(error.message, 'Method "addNumberStrings" should return type `Number`, but tried to return `String`');
+
 		});
 	});
 
