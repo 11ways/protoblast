@@ -1,13 +1,16 @@
+const { Classes } = require('json-dry');
 const { errors } = require('puppeteer');
 
 var assert = require('assert'),
     Signatureless,
-    Blast;
+    Blast,
+	Types;
 
 describe('Signatures', function() {
 
 	before(function() {
 		Blast  = require('../index.js')();
+		Types = Blast.Types;
 
 		Signatureless = Function.inherits(function Signatureless() {});
 
@@ -156,6 +159,70 @@ describe('Signatures', function() {
 
 			result = instance.add(1, 1);
 			assert.strictEqual(result, 2);
+		});
+
+		it('should support OR groups', function() {
+
+			const ClassOrA = Function.inherits(function SignatureClassOrA() {});
+
+			ClassOrA.setTypedMethod([Types.Number.or(String), Types.Number], function multiply(a, b) {
+				return a * b;
+			});
+
+			let instance = new ClassOrA();
+			let result;
+
+			result = instance.multiply(2, 2);
+			assert.strictEqual(result, 4);
+
+			result = instance.multiply('2', 2);
+			assert.strictEqual(result, 4);
+
+			assert.throws(() => instance.multiply(2, '2'));
+		});
+
+		it('should support OR groups for types that do not exist yet', function() {
+
+			const ClassOrB = Function.inherits(function SignatureClassOrB() {});
+
+			ClassOrB.setTypedMethod([Types.Number.or(Types.SignatureClassOrC.or(Types.SignatureClassOrD)), Types.Number], function test(a, b) {
+				return a.constructor.name + '-' + b;
+			});
+
+			let instance = new ClassOrB();
+			let result = instance.test(1, 1);
+
+			assert.strictEqual(result, 'Number-1');
+
+			const ClassOrC = Function.inherits(function SignatureClassOrC() {});
+			result = instance.test(new ClassOrC(), 2);
+
+			assert.strictEqual(result, 'SignatureClassOrC-2');
+
+			assert.throws(() => instance.test('', 1));
+
+			const ClassOrD = Function.inherits(function SignatureClassOrD() {});
+			result = instance.test(new ClassOrD(), 3);
+			assert.strictEqual(result, 'SignatureClassOrD-3');
+		});
+
+		it('should support AND groups', function() {
+
+			const ClassAndA = Function.inherits('Signatureless', function SignatureClassAndA() {});
+			const ClassAndB = Function.inherits('Signatureless', function SignatureClassAndB() {});
+
+			ClassAndA.setTypedMethod([Types.Signatureless.and(Types.SignatureClassAndB), Types.Number], function test(a, b) {
+				return a.constructor.name + '-' + b;
+			});
+
+			let signatureless = new Signatureless();
+			let instance_a = new ClassAndA();
+			let instance_b = new ClassAndB();
+
+			let result = instance_a.test(instance_b, 1);
+			assert.strictEqual(result, 'SignatureClassAndB-1');
+
+			assert.throws(() => instance_a.test(signatureless, 1));
 		});
 	});
 
