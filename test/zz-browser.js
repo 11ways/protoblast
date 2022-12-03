@@ -242,6 +242,11 @@ describe('Browser', function() {
 
 			// Bundle the files
 			test_brow.bundle(function(err, result) {
+
+				if (err) {
+					return next(err);
+				}
+				
 				test_files = ''+result;
 				next();
 			});
