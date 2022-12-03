@@ -121,7 +121,41 @@ describe('Signatures', function() {
 			}
 
 			assert.strictEqual(!!error, true, 'An error was expected');
-			assert.strictEqual(error.message, 'Failed to find a "test" method matching signature `String,String`');
+			assert.strictEqual(error.message, 'Failed to find "test" method matching signature `String,String`');
+		});
+
+		it('should correctly handle null values', function() {
+
+			const ClassH = Function.inherits(function SignatureClassH() {});
+
+			ClassH.setTypedMethod([Number, Number], function add(a, b) {
+				return a + b;
+			});
+
+			let instance = new ClassH();
+			let result;
+			let error;
+
+			try {
+				instance.add(1, null);
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(!!error, true);
+			assert.strictEqual(error.message, 'Failed to find "add" method matching signature `Number,null`');
+			
+			try {
+				instance.add(1, undefined);
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(!!error, true);
+			assert.strictEqual(error.message, 'Failed to find "add" method matching signature `Number,undefined`');
+
+			result = instance.add(1, 1);
+			assert.strictEqual(result, 2);
 		});
 	});
 
