@@ -1,3 +1,7 @@
+## 0.7.26 (WIP)
+
+* Fix `RURL` instances parsing single-word hostnames wrong
+
 ## 0.7.25 (2022-12-03)
 
 * Make `Request` not use the cache when the `get_stream` option is enabled

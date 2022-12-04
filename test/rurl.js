@@ -858,6 +858,17 @@ describe('RURL', function() {
 			assert.equal(data.host, 'google.lol');
 			assert.equal(data.href, 'http://google.lol/?foo=bar');
 		});
+
+		it('should allow single-word domain names', function() {
+
+			let url = RURL.parse('http://blabla.com/test');
+
+			url.host = 'localhost';
+			url.protocol = 'http';
+			url.port = 3470;
+
+			assert.strictEqual(''+url, 'http://localhost:3470/test');
+		});
 	});
 
 	describe('#hostname', function() {
