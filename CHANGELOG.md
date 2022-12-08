@@ -2,6 +2,7 @@
 
 * Fix `RURL` instances parsing single-word hostnames wrong
 * Rewrite `String#camelize()` to make it 65x as fast
+* Add `String#decamelize(separator)` method
 
 ## 0.7.25 (2022-12-03)
 

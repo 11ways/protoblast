@@ -73,6 +73,15 @@ describe('String Inflections', function() {
 		it('should return the camelized representation of the string', function() {
 			assert.strictEqual('this_is_a_test'.camelize(), 'ThisIsATest');
 			assert.strictEqual('this_is_a_test'.camelize(true), 'thisIsATest');
+			assert.strictEqual('this-is-a-test'.camelize(), 'ThisIsATest');
+			assert.strictEqual('this-is-a-test'.camelize(true), 'thisIsATest');
+		});
+	});
+
+	describe('#decamelize(separator)', function() {
+		it('should decamelize a camelized string', function() {
+			assert.strictEqual('thisIsATest'.decamelize(), 'this_is_a_test');
+			assert.strictEqual('thisIsATest'.decamelize('-'), 'this-is-a-test');
 		});
 	});
 
