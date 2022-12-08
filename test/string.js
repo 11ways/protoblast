@@ -909,7 +909,7 @@ describe('String', function() {
 			var original = "\nThis is the internally set main\n",
 			    encoded = original.encodeHTML();
 
-			assert.strictEqual(original, encoded);
+			assert.strictEqual(encoded, original);
 		});
 
 		it('should not encode numbers or ascii values', function() {
