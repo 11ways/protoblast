@@ -1,4 +1,4 @@
-## 0.7.26 (WIP)
+## 0.7.26 (2022-12-09)
 
 * Fix `RURL` instances parsing single-word hostnames wrong
 * Rewrite `String#camelize()` to make it 65x as fast
