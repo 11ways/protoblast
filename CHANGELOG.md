@@ -4,6 +4,7 @@
 * Rewrite `String#camelize()` to make it 65x as fast
 * Add `String#decamelize(separator)` method
 * Rewrite `String#encodeHTML()` to not use regexes
+* Add `getDescendants()`, `getDescendantsDict()` and `getDescendant(name)` class methods
 
 ## 0.7.25 (2022-12-03)
 
