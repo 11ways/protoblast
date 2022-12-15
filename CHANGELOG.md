@@ -1,3 +1,7 @@
+## 0.7.27 (WIP)
+
+* Add `Deck#clear()` method
+
 ## 0.7.26 (2022-12-09)
 
 * Fix `RURL` instances parsing single-word hostnames wrong
