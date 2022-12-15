@@ -1,6 +1,7 @@
 ## 0.7.27 (WIP)
 
 * Add `Deck#clear()` method
+* Fix returned `Function.parallel()` pledge never resolving in synchronous mode
 
 ## 0.7.26 (2022-12-09)
 

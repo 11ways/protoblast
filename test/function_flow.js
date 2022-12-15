@@ -530,7 +530,7 @@ describe('Function Flow', function() {
 
 			var counter = 0;
 
-			Function.parallel(false, function one(next) {
+			let pledge = Function.parallel(false, function one(next) {
 				counter++;
 				next();
 			}, function two(next) {
@@ -540,13 +540,15 @@ describe('Function Flow', function() {
 				assert.equal(2, counter);
 				assert.equal(false, !!err, err);
 			});
+
+			return pledge;
 		});
 
 		it('should not fire functions twice when full synchronous', function() {
 
 			var counter = 0;
 
-			Function.parallel(false, function one(next) {
+			let pledge = Function.parallel(false, function one(next) {
 				counter++;
 				next();
 			}, function two(next) {
@@ -559,13 +561,15 @@ describe('Function Flow', function() {
 				assert.equal(3, counter);
 				assert.equal(false, !!err, err);
 			});
+
+			return pledge;
 		});
 
 		it('should not fire functions twice when mixed a/synchronous', function() {
 
 			var counter = 0;
 
-			Function.parallel(false, function one(next) {
+			let pledge = Function.parallel(false, function one(next) {
 				counter++;
 				next();
 			}, function two(next) {
@@ -579,6 +583,8 @@ describe('Function Flow', function() {
 				assert.equal(3, counter);
 				assert.equal(false, !!err, err);
 			});
+
+			return pledge;
 		});
 	});
 
