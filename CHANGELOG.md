@@ -2,6 +2,7 @@
 
 * Add `Deck#clear()` method
 * Fix returned `Function.parallel()` pledge never resolving in synchronous mode
+* Add `Blast.stringNeedsHtmlEscaping(str)` method to the server-side
 
 ## 0.7.26 (2022-12-09)
 
