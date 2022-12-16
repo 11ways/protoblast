@@ -77,7 +77,7 @@ suite('Array#insert', function() {
 
 	var ins, one;
 
-	beforeEach(function() {
+	set('setup', function() {
 		ins = [0,1,2,3,4,5];
 		one = [0];
 	});
