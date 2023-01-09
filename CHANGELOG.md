@@ -1,3 +1,7 @@
+## 0.8.0 (WIP)
+
+* Add ability to programmatically inject code into the client-side script
+
 ## 0.7.27 (2022-12-23)
 
 * Add `Deck#clear()` method
