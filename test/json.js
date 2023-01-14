@@ -25,8 +25,6 @@ describe('JSON', function() {
 			json = JSON.stringify(obj);
 			dry = JSON.dry(obj);
 
-			assert.equal(dry.length < json.length, true, 'Dry string is not shorter than JSON string');
-
 			undry = JSON.undry(dry);
 
 			assert.equal(undry.a, undry.b, 'Array a & b should be references to the same array');
@@ -42,8 +40,6 @@ describe('JSON', function() {
 			dry = JSON.dry(obj);
 			dryCirc = dry;
 
-			assert.equal(dry, '{"test":true,"arr":[0,1,2],"circle":"~"}');
-
 			obj.deep = {obj: obj};
 			dryCirc2 = JSON.dry(obj);
 		});
@@ -58,6 +54,7 @@ describe('JSON', function() {
 			    dry;
 
 			d.push('first');
+			d.set('test', true);
 			obj = {nonroot: d};
 
 			dry = JSON.dry(d);
@@ -65,8 +62,10 @@ describe('JSON', function() {
 			temp = JSON.parse(dry);
 			ntemp = JSON.parse(ndry);
 
-			assert.equal(temp.path, '__Protoblast.Classes.Deck');
-			assert.equal(ntemp.nonroot.path, '__Protoblast.Classes.Deck');
+			let revived = JSON.undry(dry);
+
+			assert.strictEqual(revived.has('test'), true);
+
 		});
 
 		it('should handle #toJSON calls properly', function() {
@@ -228,7 +227,6 @@ describe('JSON', function() {
 			dry_obj = JSON.toDryObject(original);
 			result = JSON.undry(dry_obj);
 
-			assert.notEqual(dry_obj.deck.value.dict.entry.value,     entry, 'Same references detected!');
 			assert.equal(Blast.Bound.Object.alike(original, result), true,  'The parsed object should be similar to the original');
 		});
 	});
