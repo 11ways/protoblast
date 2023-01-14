@@ -5,6 +5,7 @@
 * Add `Blast.createStaticDefiner` and `Blast.createProtoDefiner`
 * Remove `WeakMap` polyfill
 * Remove `Array#fill` polyfill
+* Remove old `String` polyfills
 
 ## 0.7.27 (2022-12-23)
 
