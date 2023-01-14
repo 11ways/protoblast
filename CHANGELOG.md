@@ -14,6 +14,7 @@
 * Remove `String.randomMac()`
 * Remove `String#escapeUnicode()`
 * Remove `Function#listenTo` and `Function#unlisten`
+* Remove `Object.values()` and `Object.entries()` polyfills
 
 ## 0.7.27 (2022-12-23)
 

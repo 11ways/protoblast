@@ -551,36 +551,6 @@ describe('Object', function() {
 		});
 	});
 
-	if (typeof window == 'undefined') {
-		describe('.values(obj)', function() {
-			it('should return all the values of an object in an array', function() {
-				var object1 = {
-					a: 'somestring',
-					b: 42,
-					c: false
-				};
-
-				var arr = Blast.Shims['Object.values'](object1);
-
-				assert.deepEqual(arr, ['somestring', 42, false]);
-			});
-		});
-
-		describe('.entries(obj)', function() {
-			it('should return all the key & values of an object in an array', function() {
-				var object1 = {
-					a: 'somestring',
-					b: 42,
-					c: false
-				};
-
-				var arr = Blast.Shims['Object.entries'](object1);
-
-				assert.deepEqual(arr, [['a', 'somestring'], ['b', 42], ['c', false]]);
-			});
-		});
-	}
-
 	describe('.unzip(obj)', function() {
 		it('should return an object with the keys & values as separate arrays', function() {
 			var obj = {
