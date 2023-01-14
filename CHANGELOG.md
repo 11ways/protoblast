@@ -18,7 +18,7 @@
 * Remove `Object.zip()` and `Object.unzip()`
 * Remove `Object.assign()` polyfill
 * Remove `Array#move()`
-* Remove `JSONPath`
+* Remove `JSONPath` and `Object.extract()`
 * Remove `String#truncateHTML()` and `String#fixHTML()`
 
 ## 0.7.27 (2022-12-23)

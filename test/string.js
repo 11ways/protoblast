@@ -980,34 +980,6 @@ describe('String', function() {
 		});
 	});
 
-	describe('#truncateHTML(length, word, ellipsis)', function() {
-		it('should truncate html strings', function() {
-
-			var html = '<i>1</i><b>2</b><span>3</span><a>4</a>',
-			    trunc = html.truncateHTML(3);
-			assert.strictEqual(trunc, '<i>1</i><b>2</b><span>3</span><a>…</a>');
-
-			html = '<i>1</i><b>2</b><span>3</span><a>4</a>';
-			trunc = html.truncateHTML(4);
-
-			assert.strictEqual(trunc, '<i>1</i><b>2</b><span>3</span><a>4</a>');
-
-			html = '<i>alpha</i><b>beta</b><span>gamma</span><a>delta</a>';
-			trunc = html.truncateHTML(11);
-
-			assert.strictEqual(trunc, '<i>alpha</i><b>beta</b><span>ga…</span>');
-		});
-	});
-
-	describe('#fixHTML()', function() {
-		it('should close open tags', function() {
-			var html = '<span>This is an <b>open</b> span',
-			    fixed = html.fixHTML();
-
-			assert.strictEqual(fixed, '<span>This is an <b>open</b> span</span>');
-		});
-	});
-
 	describe('#replaceAll(needle, replacement) - Shim', function() {
 
 		it('should be able to replace with a replacement containing the needle', function() {
