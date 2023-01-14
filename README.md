@@ -17,11 +17,6 @@
   <a href="https://snyk.io/test/github/11ways/protoblast?targetFile=package.json">
     <img src="https://snyk.io/test/github/11ways/protoblast/badge.svg?targetFile=package.json" alt="Known Vulnerabilities" />
   </a>
-
-  <!-- DM - David -->
-  <a href="https://david-dm.org/11ways/protoblast">
-    <img src="https://david-dm.org/11ways/protoblast/status.svg" alt="Dependency Status" />
-  </a>
 </div>
 
 <div align="center">
