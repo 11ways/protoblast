@@ -13,6 +13,7 @@
 * Remove `String#serializeAttributes()`
 * Remove `String.randomMac()`
 * Remove `String#escapeUnicode()`
+* Remove `Function#listenTo` and `Function#unlisten`
 
 ## 0.7.27 (2022-12-23)
 
