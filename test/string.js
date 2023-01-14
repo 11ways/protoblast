@@ -7,23 +7,6 @@ describe('String', function() {
 		Blast  = require('../index.js')();
 	});
 
-	describe('.serializeAttributes(obj)', function() {
-		it('should return serialized attributes as a string', function() {
-
-			var output,
-			    obj;
-
-			obj = {
-				a : 1,
-				b : 2
-			};
-
-			output = String.serializeAttributes(obj);
-
-			assert.equal(output, 'a="1" b="2"');
-		});
-	});
-
 	describe('.decodeAttributes(value, separator)', function() {
 		it('should decode tag attributes by default', function() {
 

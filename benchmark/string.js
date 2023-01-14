@@ -12,10 +12,6 @@ suite('String', function() {
 	    vals = {placeholders: 'tests', values: 'vals'},
 	    b = 'This isn\'t a regular ztring, is it?';
 
-	bench('.serializeAttributes(obj)', function() {
-		String.serializeAttributes(att);
-	});
-
 	bench('#after(needle)', function() {
 		str.after('is');
 	});

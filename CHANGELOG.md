@@ -10,6 +10,7 @@
 * Clean up string-entities code
 * Remove `Blast.uneval` function
 * Remove the `Function#name` getter polyfill
+* Remove `String#serializeAttributes()`
 
 ## 0.7.27 (2022-12-23)
 
