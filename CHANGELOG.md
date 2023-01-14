@@ -20,6 +20,7 @@
 * Remove `Array#move()`
 * Remove `JSONPath` and `Object.extract()`
 * Remove `String#truncateHTML()` and `String#fixHTML()`
+* Remove `String#replaceAll()` polyfill
 
 ## 0.7.27 (2022-12-23)
 
