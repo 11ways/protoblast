@@ -4,6 +4,7 @@
 * Upgrade `json-dry` dependency to v2.0.0
 * Add `Blast.createStaticDefiner` and `Blast.createProtoDefiner`
 * Remove `WeakMap` polyfill
+* Remove `Array#fill` polyfill
 
 ## 0.7.27 (2022-12-23)
 
