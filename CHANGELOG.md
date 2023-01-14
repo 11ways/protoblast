@@ -9,6 +9,7 @@
 * Remove `Symbol` polyfill
 * Clean up string-entities code
 * Remove `Blast.uneval` function
+* Remove the `Function#name` getter polyfill
 
 ## 0.7.27 (2022-12-23)
 
