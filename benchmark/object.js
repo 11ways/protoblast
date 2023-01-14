@@ -90,10 +90,6 @@ suite('Object', function() {
 		Object.getValueKey(obj, 3);
 	});
 
-	bench('.extract(data, "$..Wallpaper.name")', function() {
-		Object.extract(data, "$..Wallpaper.name");
-	});
-
 	bench('.hasProperty(target, property)', function() {
 		Object.hasProperty(obj, 'test');
 	});
