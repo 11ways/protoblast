@@ -1,4 +1,4 @@
-## 0.8.0 (WIP)
+## 0.8.0 (2023-01-14)
 
 * Add ability to programmatically inject code into the client-side script
 * Upgrade `json-dry` dependency to v2.0.0
