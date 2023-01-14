@@ -11,6 +11,7 @@
 * Remove `Blast.uneval` function
 * Remove the `Function#name` getter polyfill
 * Remove `String#serializeAttributes()`
+* Remove `String.randomMac()`
 
 ## 0.7.27 (2022-12-23)
 
