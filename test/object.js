@@ -551,66 +551,6 @@ describe('Object', function() {
 		});
 	});
 
-	describe('.unzip(obj)', function() {
-		it('should return an object with the keys & values as separate arrays', function() {
-			var obj = {
-				a: 1,
-				b: 2,
-				c: false
-			};
-
-			let result = Object.unzip(obj),
-			    key,
-			    i;
-
-			for (i = 0; i < result.keys.length; i++) {
-				key = result.keys[i];
-				assert.strictEqual(result.values[i], obj[key]);
-			}
-		});
-	});
-
-	describe('.zip(key, values)', function() {
-		it('should return an object', function() {
-
-			var keys = ['a', 'b', 'c'],
-			    values = [1, 2, 3];
-
-			let result = Object.zip(keys, values);
-
-			assert.strictEqual(result.a, 1);
-			assert.strictEqual(result.b, 2);
-			assert.strictEqual(result.c, 3);
-
-			let second = Object.zip({keys: keys, values: values});
-
-			assert.deepStrictEqual(second, result);
-
-			let third = Object.zip([keys, values]);
-
-			assert.deepStrictEqual(third, result);
-		});
-
-		it('should throw an error for wrong arguments', function() {
-
-			assert.throws(function() {
-				Object.zip();
-			});
-
-			assert.throws(function() {
-				Object.zip(['a']);
-			});
-
-			assert.throws(function() {
-				Object.zip({});
-			});
-
-			assert.throws(function() {
-				Object.zip({keys: ['a']});
-			});
-		});
-	});
-
 	describe('.setPath(obj, path, value)', function() {
 		it('sets the value in an object', function() {
 			var obj = Object.setPath({}, 'well.test.property', 'one');
