@@ -6,6 +6,7 @@
 * Remove `WeakMap` polyfill
 * Remove `Array#fill` polyfill
 * Remove old `String` polyfills
+* Remove `Symbol` polyfill
 
 ## 0.7.27 (2022-12-23)
 
