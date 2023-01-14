@@ -12,6 +12,7 @@
 * Remove the `Function#name` getter polyfill
 * Remove `String#serializeAttributes()`
 * Remove `String.randomMac()`
+* Remove `String#escapeUnicode()`
 
 ## 0.7.27 (2022-12-23)
 
