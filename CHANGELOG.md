@@ -7,6 +7,7 @@
 * Remove `Array#fill` polyfill
 * Remove old `String` polyfills
 * Remove `Symbol` polyfill
+* Clean up string-entities code
 
 ## 0.7.27 (2022-12-23)
 
