@@ -21,6 +21,7 @@
 * Remove `JSONPath` and `Object.extract()`
 * Remove `String#truncateHTML()` and `String#fixHTML()`
 * Remove `String#replaceAll()` polyfill
+* Remove `String#normalizeAcronyms()`
 
 ## 0.7.27 (2022-12-23)
 
