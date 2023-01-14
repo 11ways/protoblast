@@ -326,48 +326,6 @@ describe('Array', function() {
 		});
 	});
 
-	describe('#move(oldIndex, newIndex)', function() {
-		it('should move elements', function() {
-			var arr = [0, 1, 2, 3, 4];
-			arr.move(0, 3);
-
-			assert.equal(arr.join(','), '1,2,3,0,4');
-		});
-
-		it('should find elements first', function() {
-
-			var arr = ['a', 'b', 'c', 'd'];
-			arr.move('a', 'c');
-
-			assert.equal(arr.join(','), 'b,c,a,d');
-		});
-
-		it('should do nothing if it can\'t find the value', function() {
-
-			var arr = ['a', 'b', 'c'];
-			arr.move('a', 'x');
-
-			assert.equal(arr.join(','), 'a,b,c');
-		});
-
-		it('should enlarge arrays if needed', function() {
-
-			var arr = ['a', 'b', 'c'];
-			arr.move(-1, 5);
-
-			assert.equal(arr.join(','), 'a,b,,,,c');
-		});
-
-		it('should allow negative new indexes', function() {
-
-			var arr = [0, 1, 2, 3];
-			arr.move(1, -1);
-
-			assert.equal(arr.join(','), '0,2,3,1');
-
-		});
-	});
-
 	describe('#first(nr, page)', function() {
 		it('should return the first value in the array', function() {
 			assert.equal([6,4,7,3,47].first(), 6);

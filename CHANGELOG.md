@@ -17,6 +17,7 @@
 * Remove `Object.values()` and `Object.entries()` polyfills
 * Remove `Object.zip()` and `Object.unzip()`
 * Remove `Object.assign()` polyfill
+* Remove `Array#move()`
 
 ## 0.7.27 (2022-12-23)
 
