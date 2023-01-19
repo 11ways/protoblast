@@ -249,6 +249,25 @@ describe('Signatures', function() {
 			assert.throws(() => instance.anyNonNull(undefined));
 			assert.throws(() => instance.anyNullable(undefined));
 		});
+
+		it('should support the many specifier', function() {
+
+			const ClassManyA = Function.inherits('Signatureless', function SignatureClassManyA() {});
+
+			ClassManyA.setTypedMethod([Types.String.array()], function manyString(strings) {
+				return strings.join(',');
+			});
+
+			let instance = new ClassManyA();
+
+			assert.strictEqual(instance.manyString(['a', 'b']), 'a,b');
+			assert.strictEqual(instance.manyString('a'), 'a');
+
+			assert.throws(() => instance.manyString(['a', 1]));
+			assert.throws(() => instance.manyString(['a', null]));
+			assert.throws(() => instance.manyString(['a', undefined]));
+			assert.throws(() => instance.manyString([]));
+		});
 	});
 
 	describe('.setTypedMethod(argument_types, return_type, method)', function() {
