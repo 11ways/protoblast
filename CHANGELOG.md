@@ -2,6 +2,7 @@
 
 * Add the `array()` specifier to signature types
 * Optimize `String#decodeHTML()`
+* Optimize `RURL.encodePathSegment()`
 
 ## 0.8.0 (2023-01-14)
 
