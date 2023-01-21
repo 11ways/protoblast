@@ -1,6 +1,7 @@
 ## 0.8.1 (WIP)
 
 * Add the `array()` specifier to signature types
+* Optimize `String#decodeHTML()`
 
 ## 0.8.0 (2023-01-14)
 
