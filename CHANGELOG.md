@@ -4,6 +4,7 @@
 * Optimize `String#decodeHTML()`
 * Optimize `RURL.encodePathSegment()`
 * Add `size` getter to `LRUCache`
+* Limit the maximum length a string can be for its checksum to be cached
 
 ## 0.8.0 (2023-01-14)
 
