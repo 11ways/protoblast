@@ -3,6 +3,7 @@
 * Add the `array()` specifier to signature types
 * Optimize `String#decodeHTML()`
 * Optimize `RURL.encodePathSegment()`
+* Add `size` getter to `LRUCache`
 
 ## 0.8.0 (2023-01-14)
 
