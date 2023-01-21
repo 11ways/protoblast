@@ -5,6 +5,7 @@
 * Optimize `RURL.encodePathSegment()`
 * Add `size` getter to `LRUCache`
 * Limit the maximum length a string can be for its checksum to be cached
+* Optimize function flow implementations
 
 ## 0.8.0 (2023-01-14)
 
