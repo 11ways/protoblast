@@ -6,6 +6,7 @@
 * Add `size` getter to `LRUCache`
 * Limit the maximum length a string can be for its checksum to be cached
 * Optimize function flow implementations
+* Allow pledges to remain silent about uncaught exceptions
 
 ## 0.8.0 (2023-01-14)
 
