@@ -1,4 +1,4 @@
-## 0.8.1 (WIP)
+## 0.8.1 (2023-01-23)
 
 * Add the `array()` specifier to signature types
 * Optimize `String#decodeHTML()`
