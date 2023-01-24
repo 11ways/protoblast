@@ -1,4 +1,4 @@
-## 0.8.2 (WIP)
+## 0.8.2 (2023-01-24)
 
 * Throw an error when the value passed to `Date.parseStringToTime()` is not a string or a number
 * Add `HttpAgent`, `HttpsAgent` and `AgentPool` class and use them for making keep-alive requests
