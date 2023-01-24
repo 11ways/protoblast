@@ -1,3 +1,6 @@
+## 0.8.2 (WIP)
+
+* Throw an error when the value passed to `Date.parseStringToTime()` is not a string or a number
 ## 0.8.1 (2023-01-23)
 
 * Add the `array()` specifier to signature types
