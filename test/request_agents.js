@@ -152,10 +152,10 @@ describe('HttpAgent', function() {
 		const name = 'localhost:' + port + ':';
 		const agentkeepalive = new HttpAgent({
 			freeSocketTimeout: '1s',
-			timeout: '500ms',
+			timeout: '200ms',
 		});
 		assert.strictEqual(agentkeepalive.options.freeSocketTimeout, 1000);
-		assert.strictEqual(agentkeepalive.options.timeout, 500);
+		assert.strictEqual(agentkeepalive.options.timeout, 200);
 		assert(!agentkeepalive.sockets[name]);
 		assert(!agentkeepalive.freeSockets[name]);
 		http.get({
@@ -203,11 +203,11 @@ describe('HttpAgent', function() {
 		const name = 'localhost:' + port + ':';
 		const agentkeepalive = new HttpAgent({
 			freeSocketTimeout: '1s',
-			timeout: '150ms',
+			timeout: '80ms',
 		});
 
 		assert.strictEqual(agentkeepalive.options.freeSocketTimeout, 1000);
-		assert.strictEqual(agentkeepalive.options.timeout, 150);
+		assert.strictEqual(agentkeepalive.options.timeout, 80);
 		assert(!agentkeepalive.sockets[name]);
 		assert(!agentkeepalive.freeSockets[name]);
 
@@ -594,9 +594,9 @@ describe('HttpAgent', function() {
 		}).on('error', done);
 	});
 
-	it('should use new socket when hit the max keepalive time: 1000ms', done => {
+	it('should use new socket when hit the max keepalive time: 500ms', done => {
 		const agentkeepalive = new HttpAgent({
-			freeSocketTimeout: 1000,
+			freeSocketTimeout: 500,
 			maxSockets: 5,
 			maxFreeSockets: 5,
 		});
@@ -636,7 +636,7 @@ describe('HttpAgent', function() {
 						});
 						res.on('end', done);
 					});
-				}, 2000);
+				}, 900);
 			});
 		});
 	});
@@ -1327,7 +1327,7 @@ describe('HttpAgent', function() {
 		const agent = new HttpAgent({
 			maxSockets: 1,
 			maxFreeSockets: 1,
-			freeSocketTimeout: 1000,
+			freeSocketTimeout: 300,
 		});
 
 		const options = {
@@ -1442,7 +1442,7 @@ describe('HttpAgent', function() {
 		const name = 'localhost:' + port + ':';
 		const agentkeepalive = new HttpAgent({
 			keepAlive: true,
-			timeout: 1000,
+			timeout: 200,
 			maxSockets: 1,
 			maxFreeSockets: 1,
 		});
@@ -1784,6 +1784,217 @@ describe('HttpAgent', function() {
 			});
 		});
 	});
+
+	// ECONNRESET tests
+	describe('ECONNRESET handling', () => {
+
+		let port;
+		let server;
+		let timer;
+
+		before(done => {
+			server = http.createServer((req, res) => {
+				res.end('Hello World');
+			});
+			server.keepAliveTimeout = 30;
+			server.listen(0, err => {
+				port = server.address().port;
+				done(err);
+			});
+		});
+	  
+		after(() => {
+			clearInterval(timer);
+		});
+	  
+		it('should close sockets before an ECONNRESET can happen when we know the server-side timeout', done => {
+			const keepaliveAgent = new HttpAgent({
+				keepAlive: true,
+				freeSocketTimeout: 20,
+			});
+	  
+			function request() {
+				return new Promise((resolve, reject) => {
+					const req = http.request({
+						method: 'GET',
+						port,
+						path: '/',
+						agent: keepaliveAgent,
+					}, res => {
+						const chunks = [];
+						res.on('data', data => {
+							chunks.push(data);
+						});
+						res.on('end', () => {
+							const text = Buffer.concat(chunks).toString();
+							resolve(text);
+						});
+					});
+
+					req.on('error', err => {
+						reject(err);
+					});
+
+					req.end();
+				});
+			}
+	  
+			async function startSendingRequests() {
+				let successes = 0;
+				const failures = {};
+
+				for (let i = 0; i < 10; i++) {
+					await Pledge.after(22);
+
+					try {
+						await request();
+						successes++;
+					} catch (e) {
+						failures[e.message] = (failures[e.message] || 0) + 1;
+					}
+				}
+				
+				return { successes, failures };
+			}
+
+			startSendingRequests().then(({ successes, failures }) => {
+				assert.strictEqual(Object.keys(failures).length, 0);
+				assert.strictEqual(successes, 10);
+				done();
+			});
+		});
+
+		it('should report an ECONNRESET error when the server closes the socket', done => {
+
+			// Free socket timeout is higher than the one on the server
+			const keepaliveAgent = new HttpAgent({
+				keepAlive: true,
+				freeSocketTimeout: 50,
+			});
+	  
+			function request() {
+				return new Promise((resolve, reject) => {
+					const req = http.request({
+						method: 'GET',
+						port,
+						path: '/',
+						agent: keepaliveAgent,
+					}, res => {
+						const chunks = [];
+						res.on('data', data => {
+							chunks.push(data);
+						});
+						res.on('end', () => {
+							const text = Buffer.concat(chunks).toString();
+							resolve(text);
+						});
+					});
+
+					req.on('error', err => {
+						reject(err);
+					});
+
+					req.end();
+				});
+			}
+	  
+			async function startSendingRequests() {
+				let successes = 0;
+				const failures = {};
+
+				for (let i = 0; i < 10; i++) {
+					await Pledge.after(30);
+
+					try {
+						await request();
+						successes++;
+					} catch (e) {
+						failures[e.message] = (failures[e.message] || 0) + 1;
+					}
+				}
+				
+				return { successes, failures };
+			}
+
+			startSendingRequests().then(({ successes, failures }) => {
+
+				assert(failures['socket hang up'] >= 2, 'At least 2 hang-ups should have occurred, but found ' + failures['socket hang up']);
+				assert(successes >= 4, 'At least 4 successed should have happened, but found ' + successes);
+
+				done();
+			});
+
+		});
+
+		it('should be handled by Request automatically', done => {
+
+			// Free socket timeout is higher than the one on the server
+			const keepaliveAgent = new HttpAgent({
+				keepAlive: true,
+				freeSocketTimeout: 1000,
+			});
+
+			function request() {
+
+
+				let pledge = new Pledge();
+
+				Blast.fetch({
+					url   : 'http://localhost:' + port + '/',
+					agent : keepaliveAgent,
+					cache : false,
+				}, (err, response, output) => {
+
+					if (err) {
+						return pledge.reject(err);
+					}
+
+					let request = response.request;
+
+					assert.strictEqual(request.from_cache, false);
+
+					pledge.resolve(response);
+				});
+
+				return pledge;
+			}
+
+			async function startSendingRequests() {
+				let successes = 0;
+				const failures = {};
+				let retries = 0;
+
+				// This is a bit hard to test because we need to perform a request
+				// at the exact same time as the servr closes the socket
+				for (let i = 0; i < 10; i++) {
+					await Pledge.after(29);
+
+					try {
+						let res = await request();
+
+						if (res.request?.retries) {
+							retries += res.request?.retries;
+						}
+						successes++;
+					} catch (e) {
+						console.log(e)
+						failures[e.message] = (failures[e.message] || 0) + 1;
+					}
+				}
+				
+				return { successes, failures, retries };
+			}
+
+			startSendingRequests().then(({ successes, failures, retries }) => {
+
+				assert(retries > 3, 'At least 3 retries should have occurred, but found ' + retries);
+				assert.strictEqual(successes, 10, 'All 10 requests should have succeeded');
+
+				done();
+			});
+
+		});
+	});
 });
 
 let HttpsAgent;
@@ -1992,6 +2203,7 @@ describe('HttpsAgent', function() {
 		Blast.fetch({
 			url : 'https://localhost:' + port + '/',
 			rejectUnauthorized: false,
+			cache: false,
 		}, (err, response, output) => {
 
 			let res = response.request.incoming_res;
@@ -2008,7 +2220,8 @@ describe('HttpsAgent', function() {
 
 				Blast.fetch({
 					url : 'https://localhost:' + port + '/foo',
-					rejectUnauthorized : false
+					rejectUnauthorized : false,
+					cache: false,
 				}, (err, response, output) => {
 
 					let res = response.request.incoming_res;
