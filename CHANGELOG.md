@@ -1,3 +1,7 @@
+## 0.8.3 (WIP)
+
+* Automatically handle `ECONNRESET` errors because of keep-alive requests
+
 ## 0.8.2 (2023-01-24)
 
 * Throw an error when the value passed to `Date.parseStringToTime()` is not a string or a number
