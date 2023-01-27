@@ -2,6 +2,7 @@
 
 * Automatically handle `ECONNRESET` errors because of keep-alive requests
 * Add `Blast.listToTree()` method
+* Add the `force` argument to `Blast.createStaticDefiner(target, force)`
 
 ## 0.8.2 (2023-01-24)
 
