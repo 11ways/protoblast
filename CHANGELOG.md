@@ -1,4 +1,4 @@
-## 0.8.3 (WIP)
+## 0.8.3 (2023-01-30)
 
 * Automatically handle `ECONNRESET` errors because of keep-alive requests
 * Add `Blast.listToTree()` method
