@@ -42,17 +42,21 @@ function pedding(n, fn) {
 	};
 }
 
+function recreateAgentKeepAlive() {
+	agentkeepalive = new HttpAgent({
+		keepAliveTimeout: 1000,
+		maxSockets: 5,
+		maxFreeSockets: 5,
+	});
+}
+
 describe('HttpAgent', function() {
 	before(function(done) {
 		Blast  = require('../index.js')();
 
 		HttpAgent = Blast.Classes.Develry.HttpAgent;
 
-		agentkeepalive = new HttpAgent({
-			keepAliveTimeout: 1000,
-			maxSockets: 5,
-			maxFreeSockets: 5,
-		});
+		recreateAgentKeepAlive();
 
 		app = http.createServer((req, res) => {
 			if (req.url === '/error') {
@@ -1994,6 +1998,92 @@ describe('HttpAgent', function() {
 			});
 
 		});
+	});
+
+	it('should not timeout when creating a new request that is almost timing out', async () => {
+		const name = 'localhost:' + port + ':';
+		const agentkeepalive = new HttpAgent({
+			freeSocketTimeout: '2s',
+			timeout: '20ms',
+		});
+
+		assert.strictEqual(agentkeepalive.options.freeSocketTimeout, 2000);
+		assert.strictEqual(agentkeepalive.options.timeout, 20);
+		assert(!agentkeepalive.sockets[name]);
+		assert(!agentkeepalive.freeSockets[name]);
+
+		function makeRequests() {
+
+			let pledge = new Blast.Classes.Pledge();
+
+			const finished = function(err) {
+				if (err) {
+					pledge.reject(err);
+				} else {
+					pledge.resolve();
+				}
+			};
+
+			http.get({
+				agent: agentkeepalive,
+				port,
+				path: '/',
+			}, res => {
+				assert.strictEqual(res.statusCode, 200);
+
+				const chunks = [];
+				res.resume();
+				res.on('data', data => {
+					chunks.push(data);
+				});
+
+				res.on('end', () => {
+					const buf = Buffer.concat(chunks);
+
+					const data = JSON.parse(buf);
+					remotePort = data.socket.port;
+					assert.strictEqual(data.headers.connection, 'keep-alive');
+
+					assert(agentkeepalive.sockets[name]);
+					assert(!agentkeepalive.freeSockets[name]);
+
+					setTimeout(() => {
+						assert(!agentkeepalive.sockets[name]);
+						assert(agentkeepalive.freeSockets[name]);
+						assert.strictEqual(agentkeepalive.freeSockets[name].length, 1);
+
+						const req = http.get({
+							agent: agentkeepalive,
+							port,
+							path: '/?timeout=15',
+						}, (res) => {
+
+							res.resume();
+
+							// This DOES fire!
+							res.on('end', () => {
+								finished();
+							})
+
+						}).on('error', err => {
+							finished(err);
+						});
+						req.on('timeout', () => {
+							// This still happens!
+							finished(new Error('Request timed out'));
+						});
+					}, 18);
+				});
+			});
+
+			return pledge;
+		};
+
+		await makeRequests();
+		await makeRequests();
+		await makeRequests();
+		await makeRequests();
+		await makeRequests();
 	});
 });
 
