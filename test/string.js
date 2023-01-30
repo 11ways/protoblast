@@ -234,6 +234,23 @@ describe('String', function() {
 			]);
 		});
 
+		it('should handle self-closing elements', function() {
+
+			let tokens = String.tokenizeHTML('<br /><br/>');
+
+			deepAlike(tokens, [
+				{ type: 'open_bracket', line_start: 0, line_end: 0, value: '<' },
+				{ type: 'tag_name', line_start: 0, line_end: 0, value: 'br' },
+				{ type: 'whitespace', line_start: 0, line_end: 0, value: ' ' },
+				{ type: 'forward_slash', line_start: 0, line_end: 0, value: '/' },
+				{ type: 'close_bracket', line_start: 0, line_end: 0, value: '>' },
+				{ type: 'open_bracket', line_start: 0, line_end: 0, value: '<' },
+				{ type: 'tag_name', line_start: 0, line_end: 0, value: 'br' },
+				{ type: 'forward_slash', line_start: 0, line_end: 0, value: '/' },
+				{ type: 'close_bracket', line_start: 0, line_end: 0, value: '>' }
+			]);
+		});
+
 		it('should handle small mistakes', function() {
 
 			var html = `<strong>Bold</strong

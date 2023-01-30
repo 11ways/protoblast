@@ -4,6 +4,7 @@
 * Add `Blast.listToTree()` method
 * Add the `force` argument to `Blast.createStaticDefiner(target, force)`
 * Fix loading invalid extra files causing an error on the client side
+* Fix self-closing HTML tags without whitespace not being parsed properly nu `String.tokenizeHTML()`
 
 ## 0.8.2 (2023-01-24)
 
