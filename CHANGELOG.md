@@ -3,6 +3,7 @@
 * Automatically handle `ECONNRESET` errors because of keep-alive requests
 * Add `Blast.listToTree()` method
 * Add the `force` argument to `Blast.createStaticDefiner(target, force)`
+* Fix loading invalid extra files causing an error on the client side
 
 ## 0.8.2 (2023-01-24)
 
