@@ -1,3 +1,7 @@
+## 0.8.4 (WIP)
+
+* Fix the `Stream` namespace
+
 ## 0.8.3 (2023-01-30)
 
 * Automatically handle `ECONNRESET` errors because of keep-alive requests
