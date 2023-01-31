@@ -1,6 +1,7 @@
 ## 0.8.4 (WIP)
 
 * Fix the `Stream` namespace
+* Make sure `FormData#append(field, value, options)` turns certain values into strings
 
 ## 0.8.3 (2023-01-30)
 
