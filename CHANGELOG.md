@@ -1,6 +1,7 @@
 ## 0.8.5 (WIP)
 
 * Don't add descendants to the dictionary that don't have a `type_name`
+* Add the `Develry.BackedMap` class
 
 ## 0.8.4 (2023-01-31)
 
