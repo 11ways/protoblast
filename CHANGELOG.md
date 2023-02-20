@@ -3,6 +3,7 @@
 * Don't add descendants to the dictionary that don't have a `type_name`
 * Add the `Develry.BackedMap` class
 * Add `Class#getLiveDescendantsMap()`, which returns a live `BackedMap` that always has the current descendants
+* Add `BackedMap#getKey(value)` method
 
 ## 0.8.4 (2023-01-31)
 
