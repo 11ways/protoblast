@@ -1,3 +1,7 @@
+## 0.8.6 (WIP)
+
+* Make `RURL.isUrl()` return true when given a `Location` instance
+
 ## 0.8.5 (2023-02-20)
 
 * Don't add descendants to the dictionary that don't have a `type_name`
