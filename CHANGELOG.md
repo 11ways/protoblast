@@ -1,4 +1,4 @@
-## 0.8.6 (WIP)
+## 0.8.6 (2023-02-25)
 
 * Make `RURL.isUrl()` return true when given a `Location` instance
 
