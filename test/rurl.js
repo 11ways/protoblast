@@ -502,6 +502,25 @@ describe('RURL', function() {
 			assert.equal(data.host, 'sub.example.com');
 			assert.equal(data.href, 'http://sub.example.com/foo');
 		});
+
+		it('should handle protocols correctly', function() {
+
+			let url = RURL.parse('tel:+32472948672');
+
+			assert.strictEqual(url.protocol, 'tel:');
+
+			url = RURL.parse('tel:+32472948672', 'http://blabla.com');
+
+			assert.strictEqual(url.protocol, 'tel:');
+
+			let mailto = RURL.parse('mailto:jelle@elevenways.be');
+
+			assert.strictEqual(mailto.protocol, 'mailto:');
+
+			mailto = RURL.parse('mailto:jelle@elevenways.be', 'http://blabla.com');
+
+			assert.strictEqual(mailto.protocol, 'mailto:');
+		});
 	});
 
 	describe('.isUrl(value)', function() {

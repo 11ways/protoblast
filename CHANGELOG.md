@@ -1,3 +1,7 @@
+## 0.8.7 (WIP)
+
+* Fix `tel:` not being recognized as a valid protocol in `RURL`
+
 ## 0.8.6 (2023-02-25)
 
 * Make `RURL.isUrl()` return true when given a `Location` instance
