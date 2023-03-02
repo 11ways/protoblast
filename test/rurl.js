@@ -521,6 +521,23 @@ describe('RURL', function() {
 
 			assert.strictEqual(mailto.protocol, 'mailto:');
 		});
+
+		it('should inherit protocol for relative protocols', function () {
+
+			let data = RURL.parse('//foo.com/foo', RURL.parse('http://sub.example.com:808/'));
+
+			assert.equal(data.port, '');
+			assert.equal(data.host, 'foo.com');
+			assert.equal(data.protocol, 'http:');
+			assert.equal(data.href, 'http://foo.com/foo');
+
+			data = RURL.parse('//foo.com/foo', RURL.parse('https://sub.example.com:808/'));
+
+			assert.equal(data.port, '');
+			assert.equal(data.host, 'foo.com');
+			assert.equal(data.protocol, 'https:');
+			assert.equal(data.href, 'https://foo.com/foo');
+		});
 	});
 
 	describe('.isUrl(value)', function() {
