@@ -1639,4 +1639,30 @@ describe('RURL', function() {
 		});
 	});
 
+	describe('#matchesPath(other_url)', function() {
+
+		it('should match string paths', function() {
+
+			let main = RURL.parse('https://www.elevenways.be/test/this');
+
+			assert.strictEqual(main.matchesPath('/test/this'), true);
+			assert.strictEqual(main.matchesPath('/test//this'), true);
+			assert.strictEqual(main.matchesPath('/test//this/'), true);
+
+			assert.strictEqual(main.matchesPath('/test/ /this/'), false);
+			assert.strictEqual(main.matchesPath('/test/-/this/'), false);
+		});
+
+		it('should match paths of other url instances', function() {
+
+			let main = RURL.parse('https://www.elevenways.be/test/this');
+			let other = RURL.parse('http://www.elevenways.be/test/this');
+
+			assert.strictEqual(main.matchesPath(other), true);
+			
+			other.param('bla', 'bliep');
+			assert.strictEqual(main.matchesPath(other), true);
+		});
+		
+	});
 });

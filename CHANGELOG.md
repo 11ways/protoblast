@@ -1,6 +1,7 @@
 ## 0.8.7 (WIP)
 
 * Fix `tel:` not being recognized as a valid protocol in `RURL`
+* Add `RURL#matchesPath()` method
 
 ## 0.8.6 (2023-02-25)
 
