@@ -1,3 +1,7 @@
+## 0.8.8 (WIP)
+
+* Add `WeakValueMap` class
+
 ## 0.8.7 (2023-03-02)
 
 * Fix `tel:` not being recognized as a valid protocol in `RURL`
