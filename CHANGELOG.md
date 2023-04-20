@@ -1,6 +1,7 @@
 ## 0.8.8 (WIP)
 
 * Add `WeakValueMap` class
+* Allow `String#tokenizeHTML()` custom blocks to replace `TAG_NAME` states
 
 ## 0.8.7 (2023-03-02)
 
