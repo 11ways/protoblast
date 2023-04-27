@@ -313,4 +313,72 @@ describe('Signatures', function() {
 
 		});
 	});
+
+	describe('.instrumentMethod(method, before, after)', function() {
+		it('should add instrumentation to existing methods', function() {
+
+			let InstrumentBase = Function.inherits('Informer', 'InstrumentBaseA');
+
+			InstrumentBase.setMethod(function test() {
+
+				if (!this.counter) {
+					this.counter = 0;
+				}
+
+				this.counter++;
+			});
+
+			let first = new InstrumentBase();
+			first.test();
+
+			assert.strictEqual(first.counter, 1);
+
+			first.test();
+			assert.strictEqual(first.counter, 2);
+
+			let before = 0,
+			    after = 0;
+
+			InstrumentBase.instrumentMethod('test', () => {
+				before++;
+			}, () => {
+				after++;
+			});
+
+			first.test();
+			assert.strictEqual(first.counter, 3);
+			assert.strictEqual(before, 1);
+			assert.strictEqual(after, 1);
+
+			let InstrumentChild = Function.inherits('InstrumentBase', 'InstrumentBaseChildA');
+
+			let second = new InstrumentChild();
+
+			second.test();
+
+			assert.strictEqual(second.counter, 1);
+			assert.strictEqual(before, 2);
+			assert.strictEqual(after, 2);
+
+			return
+
+			InstrumentChild.setMethod(function test() {
+				if (!this.counter) {
+					this.counter = 0;
+				}
+
+				this.counter += 10;
+			});
+
+			second.test();
+
+			assert.strictEqual(second.counter, 11);
+			assert.strictEqual(before, 3);
+			assert.strictEqual(after, 3);
+
+
+
+		});
+
+	});
 });

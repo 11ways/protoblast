@@ -1,3 +1,7 @@
+## 0.8.9 (WIP)
+
+* Add `Function#instrumentMethod()` to add instrumentation to existing methods
+
 ## 0.8.8 (2023-04-20)
 
 * Add `WeakValueMap` class
