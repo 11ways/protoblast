@@ -350,7 +350,7 @@ describe('Signatures', function() {
 			assert.strictEqual(before, 1);
 			assert.strictEqual(after, 1);
 
-			let InstrumentChild = Function.inherits('InstrumentBase', 'InstrumentBaseChildA');
+			let InstrumentChild = Function.inherits('InstrumentBaseA', 'InstrumentBaseChildA');
 
 			let second = new InstrumentChild();
 
@@ -360,25 +360,227 @@ describe('Signatures', function() {
 			assert.strictEqual(before, 2);
 			assert.strictEqual(after, 2);
 
-			return
-
-			InstrumentChild.setMethod(function test() {
+			InstrumentChild.setMethod(function test(do_parent = false) {
 				if (!this.counter) {
 					this.counter = 0;
 				}
 
 				this.counter += 10;
+
+				if (do_parent) {
+					test.super.call(this);
+				}
 			});
+
+			assert.strictEqual(Blast.hasSignatureWrapperMethod(InstrumentChild.prototype, 'test'), true, 'The test method should have a signature wrapper');
+
+			before = 0;
+			after = 0;
 
 			second.test();
 
 			assert.strictEqual(second.counter, 11);
-			assert.strictEqual(before, 3);
-			assert.strictEqual(after, 3);
+			assert.strictEqual(before, 1, 'Before should be 1, but it was ' + before);
+			assert.strictEqual(after, 1);
 
+			// Now test it with a super call
+			second.test(true);
 
-
+			assert.strictEqual(second.counter, 22);
+			assert.strictEqual(before, 2);
+			assert.strictEqual(after, 2);
 		});
 
+		it('should handle instrumentation among ancestors', () => {
+
+			let Instrumented1 = Function.inherits('Informer', 'Instrumented1');
+			let Instrumented2 = Function.inherits('Instrumented1', 'Instrumented2');
+			let Instrumented3 = Function.inherits('Instrumented2', 'Instrumented3');
+			let Instrumented4 = Function.inherits('Instrumented3', 'Instrumented4');
+
+			let test_1 = 0;
+			let test_1_before = 0;
+			let test_1_before_3 = 0;
+			let test_1_before_4 = 0;
+
+			Instrumented1.setMethod(function test1() {
+				test_1++;
+			});
+
+			let i_one = new Instrumented1();
+			let i_two = new Instrumented2();
+			let i_three = new Instrumented3();
+			let i_four = new Instrumented4();
+
+			i_one.test1();
+			i_two.test1();
+			i_three.test1();
+			i_four.test1();
+
+			assert.strictEqual(test_1, 4);
+			assert.strictEqual(test_1_before, 0);
+
+			Instrumented1.instrumentMethod('test1', function i1_test1() {
+				test_1_before++;
+			});
+
+			i_one.test1();
+			i_two.test1();
+			i_three.test1();
+			i_four.test1();
+
+			assert.strictEqual(test_1, 8);
+			assert.strictEqual(test_1_before, 4);
+
+			Instrumented3.instrumentMethod('test1', function i3_test1() {
+				test_1_before_3++;
+			});
+
+			i_one.test1();
+
+			assert.strictEqual(test_1, 9);
+			assert.strictEqual(test_1_before, 5);
+			assert.strictEqual(test_1_before_3, 0);
+
+			i_two.test1();
+
+			assert.strictEqual(test_1, 10);
+			assert.strictEqual(test_1_before, 6);
+			assert.strictEqual(test_1_before_3, 0);
+
+			i_three.test1();
+
+			assert.strictEqual(test_1, 11);
+			assert.strictEqual(test_1_before, 7);
+			assert.strictEqual(test_1_before_3, 1);
+
+			i_four.test1();
+
+			assert.strictEqual(test_1, 12);
+			assert.strictEqual(test_1_before, 8);
+			assert.strictEqual(test_1_before_3, 2);
+
+			Instrumented4.instrumentMethod('test1', function i4_test1() {
+				test_1_before_4++;
+			});
+
+			i_one.test1();
+
+			assert.strictEqual(test_1, 13);
+			assert.strictEqual(test_1_before, 9);
+			assert.strictEqual(test_1_before_3, 2);
+
+			i_two.test1();
+
+			assert.strictEqual(test_1, 14);
+			assert.strictEqual(test_1_before, 10);
+			assert.strictEqual(test_1_before_3, 2);
+
+			i_three.test1();
+
+			assert.strictEqual(test_1, 15);
+			assert.strictEqual(test_1_before, 11);
+			assert.strictEqual(test_1_before_3, 3);
+			assert.strictEqual(test_1_before_4, 0);
+
+			i_four.test1();
+
+			assert.strictEqual(test_1, 16);
+			assert.strictEqual(test_1_before, 12);
+			assert.strictEqual(test_1_before_3, 4);
+			assert.strictEqual(test_1_before_4, 1);
+
+			let typed_3 = 0;
+
+			Instrumented3.setTypedMethod([Types.Number], function test1(num) {
+				typed_3 += num;
+			});
+
+			i_one.test1(10);
+
+			assert.strictEqual(test_1, 17);
+			assert.strictEqual(test_1_before, 13);
+			assert.strictEqual(test_1_before_3, 4);
+			assert.strictEqual(typed_3, 0);
+
+			i_two.test1(10);
+
+			assert.strictEqual(test_1, 18);
+			assert.strictEqual(test_1_before, 14);
+			assert.strictEqual(test_1_before_3, 4);
+			assert.strictEqual(typed_3, 0);
+
+			i_three.test1(10);
+
+			assert.strictEqual(typed_3, 10);
+			assert.strictEqual(test_1, 18);
+			assert.strictEqual(test_1_before, 15);
+			assert.strictEqual(test_1_before_3, 5);
+			assert.strictEqual(test_1_before_4, 1);
+
+			i_four.test1(10);
+
+			assert.strictEqual(typed_3, 20);
+			assert.strictEqual(test_1, 18);
+			assert.strictEqual(test_1_before, 16);
+			assert.strictEqual(test_1_before_3, 6);
+			assert.strictEqual(test_1_before_4, 2);
+
+			let typed_4 = 0;
+
+			Instrumented4.setTypedMethod([Types.Number, Types.Boolean.optional()], function test1(num, do_super) {
+
+				typed_4 += num;
+
+				if (do_super) {
+					test1.super.call(this, num);
+				}
+			});
+
+			i_one.test1(10);
+
+			assert.strictEqual(test_1, 19);
+			assert.strictEqual(test_1_before, 17);
+			assert.strictEqual(test_1_before_3, 6);
+			assert.strictEqual(typed_3, 20);
+			assert.strictEqual(typed_4, 0);
+			assert.strictEqual(test_1_before_4, 2);
+
+			i_two.test1(10);
+
+			assert.strictEqual(test_1, 20);
+			assert.strictEqual(test_1_before, 18);
+			assert.strictEqual(test_1_before_3, 6);
+			assert.strictEqual(typed_3, 20);
+			assert.strictEqual(typed_4, 0);
+			assert.strictEqual(test_1_before_4, 2);
+
+			i_three.test1(10);
+
+			assert.strictEqual(typed_3, 30);
+			assert.strictEqual(test_1, 20);
+			assert.strictEqual(test_1_before, 19);
+			assert.strictEqual(test_1_before_3, 7);
+			assert.strictEqual(test_1_before_4, 2);
+			assert.strictEqual(typed_4, 0);
+
+			i_four.test1(10);
+
+			assert.strictEqual(typed_3, 30);
+			assert.strictEqual(test_1, 20);
+			assert.strictEqual(test_1_before, 20);
+			assert.strictEqual(test_1_before_3, 8);
+			assert.strictEqual(test_1_before_4, 3);
+			assert.strictEqual(typed_4, 10);
+
+			i_four.test1(5, true);
+
+			assert.strictEqual(typed_3, 35);
+			assert.strictEqual(test_1, 20);
+			assert.strictEqual(test_1_before, 21);
+			assert.strictEqual(test_1_before_3, 9);
+			assert.strictEqual(test_1_before_4, 4);
+			assert.strictEqual(typed_4, 15);
+		});
 	});
 });
