@@ -1,3 +1,7 @@
+## 0.8.10 (WIP)
+
+* Add `String.isLetter(character)` method
+
 ## 0.8.9 (2023-05-09)
 
 * Add `Function#instrumentMethod()` to add instrumentation to existing methods
