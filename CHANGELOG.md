@@ -1,4 +1,4 @@
-## 0.8.10 (WIP)
+## 0.8.10 (2023-05-29)
 
 * Add `String.isLetter(character)` method
 
