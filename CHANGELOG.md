@@ -1,6 +1,8 @@
 ## 0.8.11 (WIP)
 
 * Add `reset()` method to timebombs
+* Add `progress_upload` event to `Request` instances made on the browser
+* Don't let a browser `Request` be considered timed-out while its receiving/sending information
 
 ## 0.8.10 (2023-05-29)
 
