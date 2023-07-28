@@ -1,4 +1,4 @@
-## 0.8.11 (WIP)
+## 0.8.11 (2023-07-28)
 
 * Add `reset()` method to timebombs
 * Add `progress_upload` event to `Request` instances made on the browser
