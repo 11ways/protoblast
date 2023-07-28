@@ -1,3 +1,7 @@
+## 0.8.11 (WIP)
+
+* Add `reset()` method to timebombs
+
 ## 0.8.10 (2023-05-29)
 
 * Add `String.isLetter(character)` method
