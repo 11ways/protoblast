@@ -32,6 +32,8 @@ describe('Deck', function() {
 			d.set('mykey', 47);
 
 			assert.equal(d.get('mykey'), 47);
+
+			assert.strictEqual(d.size, 1);
 		});
 	});
 
@@ -45,6 +47,8 @@ describe('Deck', function() {
 			assert.equal(d.has('mykey'), true);
 			assert.equal(d.has('undef'), true);
 			assert.equal(d.has('madeup'), false);
+
+			assert.strictEqual(d.size, 2);
 		});
 	});
 
@@ -102,6 +106,7 @@ describe('Deck', function() {
 			});
 
 			assert.strictEqual(c, 3);
+			assert.strictEqual(d.size, 3);
 
 			d.remove('b');
 
@@ -114,6 +119,33 @@ describe('Deck', function() {
 			assert.strictEqual(c, 2);
 
 			assert.strictEqual(d.has('b'), false);
+
+			assert.strictEqual(d.size, 2);
+		});
+	});
+
+	describe('#clear()', function() {
+		it('should remove all entries', () => {
+
+			let d = new Deck();
+			d.set('a', 1);
+			d.set('b', 2);
+
+			assert.strictEqual(d.size, 2);
+
+			d.set('c', 3);
+			assert.strictEqual(d.size, 3);
+
+			d.remove('a');
+			assert.strictEqual(d.size, 2);
+
+			d.clear();
+			assert.strictEqual(d.size, 0);
+
+			let value = d.get('a');
+
+			assert.strictEqual(value, undefined);
+
 		});
 	});
 
@@ -128,6 +160,8 @@ describe('Deck', function() {
 			d.push('d');
 
 			assert.equal(d.getSorted().join(','), 'a,b,c,d');
+
+			assert.strictEqual(d.size, 4);
 		});
 
 		it('should return the sorted values by weight', function() {
@@ -140,6 +174,7 @@ describe('Deck', function() {
 			d.set('a', 'a', 400);
 
 			assert.equal(d.getSorted().join(','), 'a,b,c,d');
+			assert.strictEqual(d.size, 4);
 		});
 	});
 
@@ -159,6 +194,7 @@ describe('Deck', function() {
 			});
 
 			assert.equal(result, 'abcd');
+			assert.strictEqual(d.size, 4);
 		});
 	});
 

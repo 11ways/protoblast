@@ -1,6 +1,7 @@
 ## 0.8.12 (WIP)
 
 * Fix server-side `String#encodeHTML()` stripping out newline & tab characters
+* Add `Deck#size` property getter
 
 ## 0.8.11 (2023-07-28)
 
