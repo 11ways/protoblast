@@ -898,6 +898,12 @@ describe('String', function() {
 
 			var original = '<b>👷</b>';
 			assert.strictEqual(original.encodeHTML(), '&lt;b&gt;&#x1f477;&lt;/b&gt;');
+
+			original = '<b>\n👷\t</b>';
+			assert.strictEqual(original.encodeHTML(), '&lt;b&gt;\n&#x1f477;\t&lt;/b&gt;');
+
+			original = '<i>Ĭ</i>';
+			assert.strictEqual(original.encodeHTML(), '&lt;i&gt;Ĭ&lt;/i&gt;');
 		});
 
 		it('should not encode newlines', function() {
@@ -906,10 +912,20 @@ describe('String', function() {
 				return;
 			}
 
-			var original = "\nThis is the internally set main\n",
+			let original = "\nThis is the internally set main\n",
 			    encoded = original.encodeHTML();
 
 			assert.strictEqual(encoded, original);
+
+			original = 'Dit is een test <strong>met html</strong>\n<script>alert("bla")</script>';
+			encoded = original.encodeHTML();
+
+			assert.strictEqual(encoded, 'Dit is een test &lt;strong&gt;met html&lt;/strong&gt;\n&lt;script&gt;alert("bla")&lt;/script&gt;');
+
+			original = 'A<i>\t<i>\n';
+			encoded = original.encodeHTML();
+
+			assert.strictEqual(encoded, 'A&lt;i&gt;\t&lt;i&gt;\n');
 		});
 
 		it('should not encode numbers or ascii values', function() {

@@ -1,3 +1,7 @@
+## 0.8.12 (WIP)
+
+* Fix server-side `String#encodeHTML()` stripping out newline & tab characters
+
 ## 0.8.11 (2023-07-28)
 
 * Add `reset()` method to timebombs
