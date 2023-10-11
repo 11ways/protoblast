@@ -588,6 +588,11 @@ describe('Date', function() {
 			date.subtract(1000, 'seconds')
 
 			assert.strictEqual(date.timeAgo(), '16 minutes ago');
+
+			date = new Date();
+			date.subtract(379, 'days');
+
+			assert.strictEqual(date.timeAgo(), 'a year ago');
 		});
 	});
 });
