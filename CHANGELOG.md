@@ -1,6 +1,7 @@
 ## 0.8.13 (WIP)
 
 * Fix certain dates being turned into `a year and ago` with the `#timeAgo()` method
+* Add `values()` and `toArray()` method to the `BackedMap` class
 
 ## 0.8.12 (2023-10-04)
 
