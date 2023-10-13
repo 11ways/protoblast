@@ -3,6 +3,7 @@
 * Fix certain dates being turned into `a year and ago` with the `#timeAgo()` method
 * Add `values()` and `toArray()` method to the `BackedMap` class
 * Prefer existing `type_path` property of classes when creating a descendants dictionary
+* Make `Date#add(amount, unit)` handle days, weeks, months & years differently
 
 ## 0.8.12 (2023-10-04)
 

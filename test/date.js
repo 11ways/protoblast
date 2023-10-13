@@ -423,6 +423,20 @@ describe('Date', function() {
 			assert.equal(a.clone().add(3, 'days').toJSON(), '2014-11-18T12:49:29.382Z');
 		});
 
+		it('should handle days, months & years differently', () => {
+
+			let base = new Date('2023-10-12 15:41:31');
+
+			// This should skip the DST change!
+			assertDate(base.clone().add(19, 'days'), '2023-10-31 15:41:31');
+
+			// It should simply change the month, never the hour
+			assertDate(base.clone().add(19, 'days').add(1, 'month'), '2023-12-01 15:41:31');
+			assertDate(base.clone().add(1, 'month'), '2023-11-12 15:41:31');
+			assertDate(base.clone().add(2, 'month'), '2023-12-12 15:41:31');
+			assertDate(base.clone().add(8, 'month'), '2024-06-12 15:41:31');
+		});
+
 		it('should accept adding duration strings', function() {
 			assert.equal(a.clone().add('1 second').toJSON(), '2014-11-15T12:49:30.382Z');
 			assert.equal(a.clone().add('1 minute').toJSON(), '2014-11-15T12:50:29.382Z');
@@ -457,6 +471,22 @@ describe('Date', function() {
 			assert.equal(a.clone().subtract('1 second').toJSON(), '2014-11-15T12:49:28.382Z');
 			assert.equal(a.clone().subtract('1 minute').toJSON(), '2014-11-15T12:48:29.382Z');
 			assert.equal(a.clone().subtract('1 minute 5 seconds').toJSON(), '2014-11-15T12:48:24.382Z');
+		});
+
+		it('should handle days, months & years differently', () => {
+
+			let base = new Date('2023-10-12 15:41:31');
+
+			// This should skip the DST change!
+			assertDate(base.clone().subtract(19, 'days'), '2023-09-23 15:41:31');
+
+			// It should simply change the month, never the hour
+			assertDate(base.clone().subtract(19, 'days').subtract(1, 'month'), '2023-08-23 15:41:31');
+			assertDate(base.clone().subtract(1, 'month'), '2023-09-12 15:41:31');
+			assertDate(base.clone().subtract(2, 'month'), '2023-08-12 15:41:31');
+			assertDate(base.clone().subtract(9, 'month'), '2023-01-12 15:41:31');
+
+			assertDate(base.clone().subtract(10, 'month'), '2022-12-12 15:41:31');
 		});
 	});
 
@@ -581,7 +611,7 @@ describe('Date', function() {
 			assert.strictEqual(date.timeAgo(), 'a month and a day ago');
 
 			date = new Date(now);
-			date.subtract(6, 'months');
+			date.subtract(6*30, 'days');
 			assert.strictEqual(date.timeAgo(), '6 months ago');
 
 			date = new Date();
@@ -596,3 +626,7 @@ describe('Date', function() {
 		});
 	});
 });
+
+function assertDate(actual, expected) {
+	assert.strictEqual(actual.format('Y-m-d H:i:s'), expected);
+}
