@@ -4,6 +4,7 @@
 * Add `values()` and `toArray()` method to the `BackedMap` class
 * Prefer existing `type_path` property of classes when creating a descendants dictionary
 * Make `Date#add(amount, unit)` handle days, weeks, months & years differently
+* Set the `x-protoblast-webview` request header when running in a webview
 
 ## 0.8.12 (2023-10-04)
 
