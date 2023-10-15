@@ -5,6 +5,7 @@
 * Prefer existing `type_path` property of classes when creating a descendants dictionary
 * Make `Date#add(amount, unit)` handle days, weeks, months & years differently
 * Set the `x-protoblast-webview` request header when running in a webview
+* Improve Bun v1.x compatibility
 
 ## 0.8.12 (2023-10-04)
 

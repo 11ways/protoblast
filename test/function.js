@@ -1,10 +1,41 @@
 var assert = require('assert'),
     Blast;
 
+let TAB_SRC;
+
+function tabs(nr) {
+	let result = '';
+
+	if (Blast.isBun) {
+		nr *= 2;
+		nr += 2;
+	}
+
+	while (nr--) {
+		result += TAB_SRC;
+	}
+
+	return result;
+}
+
+function spaceAfterAnonymousFunction() {
+	if (Blast.isBun) {
+		return '';
+	} else {
+		return ' ';
+	}
+}
+
 describe('Function', function() {
 
 	before(function() {
 		Blast  = require('../index.js')();
+
+		if (Blast.isBun) {
+			TAB_SRC = ' ';
+		} else {
+			TAB_SRC = '\t';
+		}
 	});
 
 	describe('.create(name, fnc)', function() {
@@ -116,7 +147,7 @@ describe('Function', function() {
 			};
 
 			var tokens = fnc.tokenize();
-			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', ')', ' ', '{', EOL + '\t\t\t\t', 'var', ' ', 'bla', ' ', '=', ' ', 'await', ' ', 'Pledge', '.', 'resolve', '(', ')', ';', EOL + '\t\t\t\t', 'return', ' ', 'bla', ';', EOL + '\t\t\t', '}'];
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', ')', ' ', '{', EOL + tabs(4), 'var', ' ', 'bla', ' ', '=', ' ', 'await', ' ', 'Pledge', '.', 'resolve', '(', ')', ';', EOL + tabs(4), 'return', ' ', 'bla', ';', EOL + tabs(3), '}'];
 
 			assert.deepEqual(tokens, expected);
 
@@ -132,7 +163,7 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(4) },
 				{ type: 'keyword', name: 'var', value: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'bla' },
@@ -147,12 +178,12 @@ describe('Function', function() {
 				{ type: 'parens', value: '(' },
 				{ type: 'parens', value: ')' },
 				{ type: 'punct', name: 'semicolon', value: ';' },
-				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(4) },
 				{ type: 'keyword', name: 'return', value: 'return' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'bla' },
 				{ type: 'punct', name: 'semicolon', value: ';' },
-				{ type: 'whitespace', value: EOL + '\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(3) },
 				{ line_start: 3, line_end: 3, type: 'curly', value: '}' }
 			];
 
@@ -166,7 +197,7 @@ describe('Function', function() {
 			};
 
 			var tokens = fnc.tokenize();
-			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', 'first', ',', ' ', '...', 'args', ')', ' ', '{', EOL + '\t\t\t\t', 'var', ' ', 'a', ' ', '=', ' ', '[', '...', 'first', ']', ';', EOL + '\t\t\t', '}'];
+			var expected = [ 'async', ' ', 'function', ' ', 'myAsyncFunction', '(', 'first', ',', ' ', '...', 'args', ')', ' ', '{', EOL + tabs(4), 'var', ' ', 'a', ' ', '=', ' ', '[', '...', 'first', ']', ';', EOL + tabs(3), '}'];
 
 			assert.deepEqual(tokens, expected);
 
@@ -186,7 +217,7 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(4) },
 				{ type: 'keyword', value: 'var', name: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'a' },
@@ -198,7 +229,7 @@ describe('Function', function() {
 				{ type: 'name', value: 'first' },
 				{ type: 'square', value: ']' },
 				{ type: 'punct', value: ';', name: 'semicolon' },
-				{ type: 'whitespace', value: EOL + '\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(3) },
 				{ type: 'curly', value: '}' }
 			];
 
@@ -212,11 +243,17 @@ describe('Function', function() {
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', '(', 'a', '=', '1', ')', '{', '}' ]);
+			let expected = [ 'function', ' ', '(', 'a', '=', '1', ')', '{', '}' ];
+
+			if (Blast.isBun) {
+				expected = [ 'function', '(', 'a', ' ', '=', ' ', '1', ')', ' ', '{', '\n        ', '}' ];
+			}
+
+			assert.deepEqual(tokens, expected);
 
 			tokens = fnc.tokenize(true);
 
-			deepAlike(tokens, [
+			expected = [
 				{ type: 'keyword', value: 'function', name: 'function' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'parens', value: '(' },
@@ -225,8 +262,23 @@ describe('Function', function() {
 				{ type: 'number', value: '1' },
 				{ type: 'parens', value: ')' },
 				{ type: 'curly', value: '{' },
-				{ type: 'curly', value: '}' } ]
-			)
+				{ type: 'curly', value: '}' } 
+			];
+
+			if (Blast.isBun) {
+				expected = [
+					{ type: 'keyword', value: 'function', name: 'function' },
+					{ type: 'parens', value: '(' },
+					{ type: 'name', value: 'a' },
+					{ type: 'punct', value: '=', name: 'assign' },
+					{ type: 'number', value: '1' },
+					{ type: 'parens', value: ')' },
+					{ type: 'curly', value: '{' },
+					{ type: 'curly', value: '}' } 
+				];
+			}
+
+			deepAlike(tokens, expected)
 		});
 
 		it('should handle different EOL the same', function() {
@@ -263,7 +315,7 @@ describe('Function', function() {
 
 			var tokens = fnc.tokenize();
 
-			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', EOL + '\t\t\t\t', '//linecomment', EOL + '\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', ' ', '/*namecomment*/', ' ', 'fncname', '(', 'a', ' ', '/*whatever*/', ')', ' ', '{', EOL + tabs(4), '//linecomment', EOL + tabs(3), '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -280,9 +332,9 @@ describe('Function', function() {
 				{ type: 'parens', value: ')' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(4) },
 				{ type: 'comment', value: '//linecomment' },
-				{ type: 'whitespace', value: EOL + '\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(3) },
 				{ type: 'curly', value: '}' } ]
 			);
 		});
@@ -304,7 +356,7 @@ string` + `another
 				return;
 			}
 
-			assert.deepEqual(tokens, [ 'function', '(', ')', '{', EOL + '\t\t\t\t', 'var', ' ', 'a', '=', '`this' + EOL + 'is' + EOL + 'a' + EOL + 'backtick' + EOL + 'string`', ' ', '+', ' ', '`another' + EOL + '`', ';', EOL + '\t\t\t', '}' ]);
+			assert.deepEqual(tokens, [ 'function', '(', ')', '{', EOL + tabs(4), 'var', ' ', 'a', '=', '`this' + EOL + 'is' + EOL + 'a' + EOL + 'backtick' + EOL + 'string`', ' ', '+', ' ', '`another' + EOL + '`', ';', EOL + tabs(3), '}' ]);
 
 			tokens = fnc.tokenize(true);
 
@@ -313,7 +365,7 @@ string` + `another
 				{ type: 'parens', value: '(' },
 				{ type: 'parens', value: ')' },
 				{ type: 'curly', value: '{' },
-				{ type: 'whitespace', value: EOL + '\t\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(4) },
 				{ type: 'keyword', value: 'var', name: 'var' },
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'name', value: 'a' },
@@ -324,7 +376,7 @@ string` + `another
 				{ type: 'whitespace', value: ' ' },
 				{ type: 'string', value: '`another' + EOL + '`' },
 				{ type: 'punct', value: ';', name: 'semicolon' },
-				{ type: 'whitespace', value: EOL + '\t\t\t' },
+				{ type: 'whitespace', value: EOL + tabs(3) },
 				{ type: 'curly', value: '}' }
 			];
 
@@ -514,6 +566,11 @@ string` + `another
 
 	describe('#getBodySource()', function() {
 		it('should return the source code of the body', function() {
+
+			// Bun somehow turns this into "return 2;"??
+			if (Blast.isBun) {
+				return;
+			}
 
 			var body;
 
