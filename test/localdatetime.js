@@ -190,6 +190,194 @@ describe('LocalDateTime', function() {
 		});
 	});
 
+	describe('#startOf(unit)', () => {
+		it('should set the time to the start of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalDateTime('2014-11-15 12:49:29');
+
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15 00:00:00');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01 00:00:00');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01 00:00:00');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15 00:00:00');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01 00:00:00');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01 00:00:00');
+
+			a = new LocalDateTime('2014-11-15 12:49:29');
+
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15 00:00:00');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01 00:00:00');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01 00:00:00');
+		});
+	});
+
+	describe('#endOf(unit)', () => {
+		it('should set the time to the end of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalDateTime('2014-11-15 12:49:29');
+
+			assert.equal(a.clone().endOf('day').toString(), '2014-11-15 23:59:59');
+			assert.equal(a.clone().endOf('month').toString(), '2014-11-30 23:59:59');
+			assert.equal(a.clone().endOf('year').toString(), '2014-12-31 23:59:59');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().endOf('day').toString(), '2014-11-15 23:59:59');
+			assert.equal(a.clone().endOf('month').toString(), '2014-11-30 23:59:59');
+			assert.equal(a.clone().endOf('year').toString(), '2014-12-31 23:59:59');
+		});
+	});
+
+	describe('#withTime(time)', () => {
+
+		it('should accept time as string', () => {
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withTime('12:34:56');
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+
+			new_date = local_date.withTime('12:34');
+			assertDateTime(new_date, '2023-10-21 12:34:00');
+		});
+
+		it('should accept time as a LocalTime', () => {
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withTime(LocalTime.create('12:34:56'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+
+		it('should accept native Date objects', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withTime(new Date('2023-10-01 12:34:56'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+
+		it('should accept other LocalDateTime object', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withTime(new LocalDateTime('2023-10-01 12:34:56'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+	});
+
+	describe('#withDate(date)', () => {
+
+		it('should accept date as string', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withDate('2023-10-01');
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept date as a LocalDate', () => {
+			
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withDate(LocalDate.create('2023-10-01'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept date as another LocalDateTime', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withDate(new LocalDateTime('2023-10-01 12:34:56'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept native Date objects', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let new_date = local_date.withDate(new Date('2023-10-01 12:34:56'));
+
+			assertDateTime(local_date, '2023-10-21 17:12:52');
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+	});
+
+	describe('#getTime()', () => {
+		it('should get the time', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			let time = local_date.getTime();
+
+			assert.strictEqual(time.constructor.name, 'LocalTime');
+			assert.strictEqual(time.toString(), '17:12:52');
+
+			local_date = new LocalDateTime('2023-10-21');
+			time = local_date.getTime();
+			assert.strictEqual(time.toString(), '00:00:00');
+		});
+	});
+
+	describe('#setTime(time)', () => {
+		it('should set the time in-place', () => {
+
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+
+			local_date.setTime('12:34:56');
+
+			assertDateTime(local_date, '2023-10-21 12:34:56');
+
+			local_date.setTime(new Date('2023-10-01 10:00:14'));
+			assertDateTime(local_date, '2023-10-21 10:00:14');
+
+			local_date.setTime(new LocalDateTime('2023-10-01 07:11:14'));
+			assertDateTime(local_date, '2023-10-21 07:11:14');
+		});
+	});
+
+	describe('#getDayOfWeek()', () => {
+		it('get the current day of the week', () => {
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+			assert.strictEqual(local_date.getDayOfWeek(), 6);
+
+			local_date = new LocalDateTime('2023-10-22 17:12:52');
+			assert.strictEqual(local_date.getDayOfWeek(), 7);
+		});
+	});
+
+	describe('#getDate()', () => {
+		it('should get the local date portion', () => {
+
+			let initial = new LocalDateTime('2023-10-21 17:12:52');
+			let local_date = initial.getDate();
+
+			assert.strictEqual(local_date.constructor.name, 'LocalDate');
+			assert.strictEqual(local_date.toString(), '2023-10-21');
+		});
+	});
+
+	describe('#setDate(date)', () => {
+		it('should set the date in-place', () => {
+			let local_date = new LocalDateTime('2023-10-21 17:12:52');
+
+			local_date.setDate('2023-10-01');
+
+			assertDateTime(local_date, '2023-10-01 17:12:52');
+
+			local_date.setDate(new Date('2023-10-05 10:00:14'));
+			assertDateTime(local_date, '2023-10-05 17:12:52');
+
+			local_date.setDate(new LocalDateTime('2023-10-02 07:11:14'));
+			assertDateTime(local_date, '2023-10-02 17:12:52');
+		});
+	});
+
 	describe('#getWeekDay()', () => {
 		it('should return the day of the week', () => {
 			let local_date = new LocalDateTime('2023-10-21 17:12:52');
@@ -213,6 +401,135 @@ describe('LocalDateTime', function() {
 
 			local_date.setWeekDay(7);
 			assertDateTime(local_date, '2023-10-22 17:12:52');
+		});
+	});
+
+	describe('#getCurrentDayOfYear()', () => {
+		it('should return the number of this day in the year', () => {
+			let local_date = new LocalDateTime('2024-01-01 17:12:52');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 1);
+
+			local_date = new LocalDateTime('2024-01-01 00:00:00');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 1);
+
+			local_date = new LocalDateTime('2024-01-31 17:12:52');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 31);
+
+			local_date = new LocalDateTime('2024-02-29 17:12:52');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 60);
+
+			local_date = new LocalDateTime('2024-03-01 17:12:52');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 61);
+
+			local_date = new LocalDateTime('2023-03-01 17:12:52');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 60);
+
+			local_date = new LocalDateTime('2023-03-01 23:59:59');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 60);
+
+			local_date = new LocalDateTime('2023-12-31 00:00:00');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 365);
+
+			local_date = new LocalDateTime('2024-12-31 00:00:00');
+			assert.strictEqual(local_date.getCurrentDayOfYear(), 366);
+		});
+	});
+
+	describe('#getWeekOfYear()', () => {
+		it('should return the week number of the current year', () => {
+			let local_date = new LocalDateTime('2023-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 0);
+
+			local_date = new LocalDateTime('2023-01-02 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+
+			local_date = new LocalDateTime('2023-01-03 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+
+			local_date = new LocalDateTime('2023-01-07 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+
+			local_date = new LocalDateTime('2023-01-08 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+
+			local_date = new LocalDateTime('2023-01-09 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 2);
+
+			local_date = new LocalDateTime('2023-10-22 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 42);
+
+			local_date = new LocalDateTime('2024-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+
+			local_date = new LocalDateTime('2023-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 52);
+
+			local_date = new LocalDateTime('2024-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 53);
+
+			local_date = new LocalDateTime('2032-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 53);
+
+			local_date = new LocalDateTime('2033-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 0);
+
+			local_date = new LocalDateTime('2033-01-02 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 0);
+
+			local_date = new LocalDateTime('2033-01-03 00:00:00');
+			assert.strictEqual(local_date.getWeekOfYear(), 1);
+		});
+	});
+
+	describe('#getWeek()', () => {
+		it('should return the current ISO week number', () => {
+			let local_date = new LocalDateTime('2023-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 52);
+
+			local_date = new LocalDateTime('2023-01-02 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2023-01-03 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2023-01-07 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2023-01-08 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2023-01-09 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 2);
+
+			local_date = new LocalDateTime('2023-10-22 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 42);
+
+			local_date = new LocalDateTime('2024-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2023-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 52);
+
+			local_date = new LocalDateTime('2024-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
+
+			local_date = new LocalDateTime('2026-12-31 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 53);
+
+			local_date = new LocalDateTime('2027-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 53);
+
+			local_date = new LocalDateTime('2032-12-30 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 53);
+
+			local_date = new LocalDateTime('2033-01-01 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 53);
+
+			local_date = new LocalDateTime('2033-01-02 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 53);
+
+			local_date = new LocalDateTime('2033-01-03 00:00:00');
+			assert.strictEqual(local_date.getWeek(), 1);
 		});
 	});
 
@@ -498,6 +815,139 @@ describe('LocalDate', function() {
 		});
 	});
 
+	describe('#startOf(unit)', () => {
+		it('should set the time to the start of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalDate('2014-11-15');
+
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01');
+
+			a = new LocalDate('2014-11-15 12:49:29');
+
+			assert.equal(a.clone().startOf('day').toString(), '2014-11-15');
+			assert.equal(a.clone().startOf('month').toString(), '2014-11-01');
+			assert.equal(a.clone().startOf('year').toString(), '2014-01-01');
+		});
+	});
+
+	describe('#endOf(unit)', () => {
+		it('should set the time to the end of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalDate('2014-11-15');
+
+			assert.equal(a.clone().endOf('day').toString(), '2014-11-15');
+			assert.equal(a.clone().endOf('month').toString(), '2014-11-30');
+			assert.equal(a.clone().endOf('year').toString(), '2014-12-31');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().endOf('day').toString(), '2014-11-15');
+			assert.equal(a.clone().endOf('month').toString(), '2014-11-30');
+			assert.equal(a.clone().endOf('year').toString(), '2014-12-31');
+		});
+	});
+
+	describe('#withTime(time)', () => {
+
+		it('should accept time as string', () => {
+			let local_date = new LocalDate('2023-10-21');
+			let new_date = local_date.withTime('12:34:56');
+
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+
+			new_date = local_date.withTime('12:34');
+			assertDateTime(new_date, '2023-10-21 12:34:00');
+		});
+
+		it('should accept time as a LocalTime', () => {
+			let local_date = new LocalDate('2023-10-21');
+			let new_date = local_date.withTime(LocalTime.create('12:34:56'));
+
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+
+		it('should accept native Date objects', () => {
+
+			let local_date = new LocalDate('2023-10-21');
+			let new_date = local_date.withTime(new Date('2023-10-01 12:34:56'));
+
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+
+		it('should accept other LocalDateTime object', () => {
+
+			let local_date = new LocalDate('2023-10-21');
+			let new_date = local_date.withTime(new LocalDateTime('2023-10-01 12:34:56'));
+
+			assertDateTime(new_date, '2023-10-21 12:34:56');
+		});
+	});
+
+	describe('#withDate(date)', () => {
+
+		it('should accept date as string', () => {
+
+			let local_date = new LocalDate('2023-10-21 17:12:52');
+			let new_date = local_date.withDate('2023-10-01');
+
+			assertDate(local_date, '2023-10-21');
+			assertDate(new_date, '2023-10-01');
+			assert.strictEqual(new_date.constructor.name, 'LocalDate');
+		});
+	});
+
+	describe('#getTime(time)', () => {
+		it('should get the time', () => {
+
+			let local_date = new LocalDate('2023-10-21 17:12:52');
+			let time = local_date.getTime();
+
+			assert.strictEqual(time.constructor.name, 'LocalTime');
+			assert.strictEqual(time.toString(), '00:00:00');
+
+			local_date = new LocalDate('2023-10-21');
+			time = local_date.getTime();
+			assert.strictEqual(time.toString(), '00:00:00');
+		});
+	});
+
+	describe('#getDate()', () => {
+		it('should get the local date portion', () => {
+
+			let initial = new LocalDate('2023-10-21');
+			let local_date = initial.getDate();
+
+			assert.strictEqual(local_date.constructor.name, 'LocalDate');
+			assert.strictEqual(local_date.toString(), '2023-10-21');
+
+			assert.notStrictEqual(local_date, initial);
+		});
+	});
+
+	describe('#setDate(date)', () => {
+		it('should set the date in-place', () => {
+			let local_date = new LocalDate('2023-10-21');
+
+			local_date.setDate('2023-10-01');
+
+			assertDate(local_date, '2023-10-01');
+
+			local_date.setDate(new Date('2023-10-05 10:00:14'));
+			assertDate(local_date, '2023-10-05');
+
+			local_date.setDate(new LocalDateTime('2023-10-02 07:11:14'));
+			assertDate(local_date, '2023-10-02');
+		});
+	});
+
 	describe('#toNumericRepresentation()', () => {
 		it('should return a custom integer representation of the local datetime', () => {
 			setBrusselsTimezone();
@@ -689,6 +1139,112 @@ describe('LocalTime', function() {
 			roll.add(1, 'second');
 
 			assert.strictEqual(roll.valueOf(), 0);
+		});
+	});
+
+	describe('#startOf(unit)', () => {
+		it('should set the time to the start of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalTime('11:12:23');
+
+			assert.equal(a.clone().startOf('day').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('month').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('year').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('hour').toString(), '11:00:00');
+			assert.equal(a.clone().startOf('minute').toString(), '11:12:00');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().startOf('day').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('month').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('year').toString(), '00:00:00');
+			assert.equal(a.clone().startOf('hour').toString(), '11:00:00');
+			assert.equal(a.clone().startOf('minute').toString(), '11:12:00');
+
+		});
+	});
+
+	describe('#endOf(unit)', () => {
+		it('should set the time to the end of the unit', function() {
+
+			setBrusselsTimezone();
+			let a = new LocalTime('11:12:23');
+
+			assert.equal(a.clone().endOf('day').toString(), '23:59:59');
+			assert.equal(a.clone().endOf('month').toString(), '23:59:59');
+			assert.equal(a.clone().endOf('year').toString(), '23:59:59');
+			assert.equal(a.clone().endOf('hour').toString(), '11:59:59');
+			assert.equal(a.clone().endOf('minute').toString(), '11:12:59');
+
+			setNewYorkTimezone();
+			assert.equal(a.clone().endOf('day').toString(), '23:59:59');
+			assert.equal(a.clone().endOf('month').toString(), '23:59:59');
+			assert.equal(a.clone().endOf('year').toString(), '23:59:59');
+		});
+	});
+
+	describe('#withDate(date)', () => {
+
+		it('should accept date as string', () => {
+
+			let local_time = new LocalTime('17:12:52');
+			let new_date = local_time.withDate('2023-10-01');
+
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept date as a LocalDate', () => {
+			
+			let local_time = new LocalTime('17:12:52');
+			let new_date = local_time.withDate(LocalDate.create('2023-10-01'));
+
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept date as a LocalDateTime', () => {
+
+			let local_time = new LocalTime('17:12:52');
+			let new_date = local_time.withDate(LocalDateTime.create('2023-10-01 02:22:31'));
+
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+
+		it('should accept native Date objects', () => {
+
+			let local_time = new LocalTime('17:12:52');
+			let new_date = local_time.withDate(new Date('2023-10-01 11:14:58'));
+
+			assertDateTime(new_date, '2023-10-01 17:12:52');
+		});
+	});
+
+	describe('#setTime(time)', () => {
+		it('should set the time in-place', () => {
+
+			let local_date = new LocalTime('17:12:52');
+
+			local_date.setTime('12:34:56');
+
+			assertTime(local_date, '12:34:56');
+
+			local_date.setTime(new Date('2023-01-06 10:00:14'));
+			assertTime(local_date, '10:00:14');
+
+			local_date.setTime(new LocalDateTime('2023-10-01 07:11:14'));
+			assertTime(local_date, '07:11:14');
+		});
+	});
+
+	describe('#getTime(time)', () => {
+		it('should get the time', () => {
+
+			let local_date = new LocalTime('2023-10-21 17:12:52');
+			let time = local_date.getTime();
+
+			assert.strictEqual(time.constructor.name, 'LocalTime');
+			assert.strictEqual(time.toString(), '17:12:52');
+
+			assert.notStrictEqual(time, local_date);
 		});
 	});
 
