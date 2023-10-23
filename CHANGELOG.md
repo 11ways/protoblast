@@ -1,6 +1,7 @@
 ## 0.8.14 (WIP)
 
 * Add `LocalDateTime`, `LocalDate` and `LocalTime` classes
+* Improve `Object.checksum()` handling of class instances
 
 ## 0.8.13 (2023-10-15)
 

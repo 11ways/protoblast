@@ -939,6 +939,86 @@ describe('Object', function() {
 			assert.strictEqual(checksum_two, 'O1-S31-1uok79j1xv7hho');
 		});
 
+		it('should checksum class instances', () => {
+
+			let local_date = Blast.Classes.Develry.LocalDate.create('2023-10-01');
+			let checksum_local_date = Object.checksum(local_date);
+			
+			assert.notStrictEqual(Object.checksum(Blast.Classes.Develry.LocalDate.create('2023-10-02')), checksum_local_date);
+			assert.strictEqual(Object.checksum(Blast.Classes.Develry.LocalDate.create('2023-10-01')), checksum_local_date);
+
+			assert.notStrictEqual(
+				Object.checksum(Blast.Classes.Develry.LocalDate.create('2023-10-02')),
+				Object.checksum(Blast.Classes.Develry.LocalDateTime.create('2023-10-02'))
+			);
+
+			let ChecksumTestA = Function.inherits(null, function ChecksumTestA() {});
+			let ChecksumTestB = Function.inherits(null, function ChecksumTestB() {});
+
+			let a = new ChecksumTestA();
+			let b = new ChecksumTestB();
+			let a2 = new ChecksumTestA();
+
+			let checksum_a = Object.checksum(a);
+			let checksum_b = Object.checksum(b);
+
+			assert.notStrictEqual(checksum_a, checksum_b);
+
+			a.test = 1;
+
+			let property_checksum = Object.checksum(a);
+
+			// The checksum should be different BECAUSE the class has no
+			// `valueOf` or `toDry` or `toJSON` method.
+			assert.notStrictEqual(property_checksum, checksum_a);
+			assert.notStrictEqual(Object.checksum(a2), property_checksum);
+
+			ChecksumTestA.setMethod(function toJSON() {
+				return {};
+			});
+
+			let json_checksum = Object.checksum(a);
+
+			assert.notStrictEqual(json_checksum, property_checksum);
+			assert.notStrictEqual(json_checksum, checksum_a);
+
+			// Even though the 2 instances have different properties,
+			// they have the same checksum because the toJSON method
+			// ignores extra attached properties.
+			assert.strictEqual(Object.checksum(a), Object.checksum(a2));
+
+			let url_1 = RURL.parse('/'),
+			    url_2 = RURL.parse('/?test=1');
+
+			assert.notStrictEqual(Object.checksum(url_1), Object.checksum(url_2));
+
+			let set_1 = new Set(),
+			    set_2 = new Set();
+
+			assert.strictEqual(Object.checksum(set_1), Object.checksum(set_2));
+
+			set_1.add(1);
+
+			assert.notStrictEqual(Object.checksum(set_1), Object.checksum(set_2));
+
+			set_2.add(1);
+
+			assert.strictEqual(Object.checksum(set_1), Object.checksum(set_2));
+
+			let map_1 = new Map(),
+			    map_2 = new Map();
+
+			assert.strictEqual(Object.checksum(map_1), Object.checksum(map_2));
+
+			map_1.set('a', 1);
+
+			assert.notStrictEqual(Object.checksum(map_1), Object.checksum(map_2));
+
+			map_2.set('a', 1);
+
+			assert.strictEqual(Object.checksum(map_1), Object.checksum(map_2));
+		});
+
 		if (typeof window == 'undefined') {
 			it('should checksum Buffers', function() {
 
