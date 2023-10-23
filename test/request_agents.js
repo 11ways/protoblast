@@ -125,7 +125,7 @@ describe('HttpAgent', function() {
 			});
 			res.on('end', () => {
 				const data = JSON.parse(Buffer.concat(chunks));
-				assert(data.headers.connection === 'keep-alive');
+				assert.strictEqual(data.headers.connection, 'keep-alive');
 				done();
 			});
 		});
@@ -133,10 +133,15 @@ describe('HttpAgent', function() {
 	});
 
 	it('should request with connection: close with http.Agent()', done => {
+		const agent = new http.Agent({
+			keepAlive: false,
+		});
+
 		const req = http.request({
 			method: 'GET',
 			port,
 			path: '/',
+			agent,
 		}, res => {
 			assert(res.statusCode === 200);
 			const chunks = [];
@@ -145,7 +150,9 @@ describe('HttpAgent', function() {
 			});
 			res.on('end', () => {
 				const data = JSON.parse(Buffer.concat(chunks));
-				assert(data.headers.connection === 'close');
+
+				assert.strictEqual(data.headers.connection, 'close');
+
 				done();
 			});
 		});
