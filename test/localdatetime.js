@@ -2,7 +2,8 @@ let assert = require('assert'),
     Blast,
     LocalDateTime,
     LocalDate,
-    LocalTime;
+    LocalTime,
+    original_tz = process.env.TZ;
 
 function setBrusselsTimezone() {
 	// Set the timezone to Brussels
@@ -12,6 +13,10 @@ function setBrusselsTimezone() {
 function setNewYorkTimezone() {
 	// Set the timezone to Brussels
 	process.env.TZ = 'America/New_York';
+}
+
+function restoreOriginalTimezone() {
+	process.env.TZ = original_tz;
 }
 
 describe('LocalDateTime', function() {
@@ -1313,6 +1318,8 @@ describe('LocalTime', function() {
 			assert.strictEqual(local_time.toString(), '17:12:52');
 		});
 	});
+
+	after(() => restoreOriginalTimezone());
 });
 
 function assertDate(actual, expected) {
