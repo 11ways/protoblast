@@ -442,6 +442,14 @@ describe('Decimal', function() {
 
 			a.setRoundingMode(Decimal.ROUND_CEIL);
 			decimalEquals(a.divide(b), '0');
+
+			a = Decimal('1')
+			b = Decimal('27')
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(10);
+
+			decimalEquals(a.divide(b), '0.037037037');
 		});
 
 		it('should respect rounding modes for negative numbers', () => {
@@ -656,11 +664,108 @@ describe('Decimal', function() {
 			decimalEquals(a.divide(b), '0');
 		});
 	});
+
+	describe('#pow(value)', () => {
+
+		it('should handle simple powers', () => {
+
+			pow('0', '0', '1');
+			pow('0', '1', '0');
+			pow('0', '2', '0');
+			pow('0', '3', '0');
+
+			pow('1', '0', '1');
+			pow('1', '1', '1');
+			pow('1', '2', '1');
+			pow('1', '3', '1');
+
+			pow('2', '0', '1');
+			pow('2', '1', '2');
+			pow('2', '2', '4');
+			pow('-2', '2', '4');
+			pow('2', '3', '8');
+			pow('-2', '3', '-8');
+
+			pow('3', '0', '1');
+			pow('3', '1', '3');
+			pow('3', '2', '9');
+			pow('3', '3', '27');
+
+			pow('4', '0', '1');
+			pow('4', '1', '4');
+			pow('4', '2', '16');
+			pow('4', '3', '64');
+
+			pow('5', '0', '1');
+			pow('5', '1', '5');
+			pow('5', '2', '25');
+			pow('5', '3', '125');
+
+			pow('6', '0', '1');
+			pow('6', '1', '6');
+			pow('6', '2', '36');
+			pow('6', '3', '216');
+
+			pow('7', '0', '1');
+			pow('7', '1', '7');
+			pow('7', '2', '49');
+			pow('7', '3', '343');
+
+			pow('8', '0', '1');
+			pow('8', '1', '8');
+			pow('8', '2', '64');
+			pow('8', '3', '512');
+
+			pow('9', '0', '1');
+		});
+
+		it('should handle negative powers', () => {
+
+			pow('2', '-1', '0.5');
+			pow('2', '-2', '0.25');
+			pow('2', '-3', '0.125');
+
+			pow('3', '-1', '0.3333333333');
+			pow('3', '-2', '0.1111111111');
+			pow('3', '-3', '0.037037037');
+
+			pow('4', '-1', '0.25');
+			pow('4', '-2', '0.0625');
+			pow('4', '-3', '0.015625');
+
+			pow('5', '-1', '0.2');
+			pow('5', '-2', '0.04');
+			pow('5', '-3', '0.008');
+
+			pow('6', '-1', '0.1666666667');
+			pow('6', '-2', '0.0277777778');
+			pow('6', '-3', '0.0046296296');
+
+			pow('7', '-1', '0.1428571429');
+			pow('7', '-2', '0.0204081633');
+			pow('7', '-3', '0.0029154519');
+
+			pow('8', '-1', '0.125');
+			pow('8', '-2', '0.015625');
+			pow('8', '-3', '0.001953125');
+
+			pow('9', '-1', '0.1111111111');
+			pow('9', '-2', '0.012345679');
+			pow('9', '-3', '0.0013717421');
+
+			pow('-9', '-2', '0.012345679');
+			pow('-9', '-3', '-0.0013717421');
+		});
+
+	});
 });
 
 function pow(first_string, second_string, result_string) {
 	let first = Decimal(first_string),
 	    second = Decimal(second_string);
+
+	first.setArithmeticScale(10);
+	second.setArithmeticScale(10);
 
 	let sum = first.pow(second);
 
