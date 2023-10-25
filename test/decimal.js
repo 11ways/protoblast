@@ -56,7 +56,7 @@ describe('Decimal', function() {
 			decimalEquals(result, '-0.08');
 
 			result = Decimal('-0.09').add('0.09');
-			decimalEquals(result, '0.00');
+			decimalEquals(result, '0');
 
 			result = Decimal('-0.09').add('0.001');
 			decimalEquals(result, '-0.089');
@@ -86,25 +86,25 @@ describe('Decimal', function() {
 			decimalEquals(result, '-0.1');
 
 			result = Decimal('-0.0').add('-0.0');
-			decimalEquals(result, '0.0');
+			decimalEquals(result, '0');
 
 			result = Decimal('-0.0').add('-0.0').add('1');
-			decimalEquals(result, '1.0');
+			decimalEquals(result, '1');
 
 			result = Decimal('0.1').add('0.9');
-			decimalEquals(result, '1.0');
+			decimalEquals(result, '1');
 
 			result = Decimal('-0.1').add('-0.9');
-			decimalEquals(result, '-1.0');
+			decimalEquals(result, '-1');
 
 			result = Decimal('0.1').add('0.2').add('0.3').add('0.4');
-			decimalEquals(result, '1.0');
+			decimalEquals(result, '1');
 
 			result = Decimal('9999999999999999').add('0.0000000000000001');
 			decimalEquals(result, '9999999999999999.0000000000000001');
 
 			result = Decimal('-0.1').add('0.1');
-			decimalEquals(result, '0.0');
+			decimalEquals(result, '0');
 		});
 	});
 
