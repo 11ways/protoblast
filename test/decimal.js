@@ -9,6 +9,20 @@ describe('Decimal', function() {
 		Decimal = Blast.Classes.Develry.Decimal;
 	});
 
+	describe('new Decimal(input)', () => {
+
+		it('should handle scientific notation', () => {
+
+			decimalEquals(Decimal('1e14'), '100000000000000');
+			decimalEquals(Decimal('1e-14'), '0.00000000000001');
+			decimalEquals(Decimal('1e-15'), '0.000000000000001');
+			decimalEquals(Decimal('1e-16'), '0.0000000000000001');
+			decimalEquals(Decimal('1e-17'), '0.00000000000000001');
+			decimalEquals(Decimal('-345.43e+4'), '-3454300');
+			decimalEquals(Decimal('3.345E-9'), '0.000000003345');
+		});
+	});
+
 	describe('#add(value)', () => {
 
 		it('should return a new instance', () => {
@@ -20,6 +34,26 @@ describe('Decimal', function() {
 			decimalEquals(one, '1');
 			decimalEquals(two, '2');
 			decimalEquals(three, '3');
+		});
+
+		it('should do additions', () => {
+
+			addition(1, '6.1915', '7.1915');
+			addition(1, '-1.02', '-0.02');
+			addition(1, '0.09', '1.09');
+			addition(1, '-0.0001', '0.9999');
+			addition(1, '8e5', '800001');
+			addition(1, '9E12', '9000000000001');
+			addition(1, '1e-14', '1.00000000000001');
+			addition(1, '3.345E-9', '1.000000003345');
+			addition(1, '-345.43e+4', '-3454299');
+			addition(1, '-94.12E+0', '-93.12');
+			addition('0', 0, '0');
+			addition('0', '0', '0');
+			addition(3, -0, '3');
+			addition(9.654, 0, '9.654');
+			addition(0, '0.001', '0.001');
+			addition(0, '111.1111111110000', '111.111111111');
 		});
 
 		it('should be precise', () => {
@@ -106,6 +140,29 @@ describe('Decimal', function() {
 			result = Decimal('-0.1').add('0.1');
 			decimalEquals(result, '0');
 		});
+
+		it('should do rounding', () => {
+
+			let a = Decimal('482415314400600371304757933326735596247.502'),
+			    b = Decimal('64121617419177033485421455407.5858664539051557486457828966476314714');
+
+			let result_str = '482415314464721988723934966812157051655.0878664539051557486457828966476314714';
+
+			a.setArithmeticScale(37);
+			b.setArithmeticScale(37);
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+
+			decimalEquals(a.add(b), result_str);
+
+			a = Decimal('4961172832120828815580484602760756.2012712908');
+			b = Decimal('672041039664151754962281595761407065569.95071013621060637157419754');
+
+			a.setArithmeticScale(2);
+			b.setArithmeticScale(2);
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+
+			decimalEquals(a.add(b), '672046000836983875791097176246009826326.15');
+		});
 	});
 
 	describe('#subtract(value)', () => {
@@ -125,7 +182,6 @@ describe('Decimal', function() {
 
 			result = Decimal('10').subtract('-1');
 			decimalEquals(result, '11');
-
 		});
 	});
 
