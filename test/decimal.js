@@ -161,11 +161,501 @@ describe('Decimal', function() {
 				[   '23',  '-42',  '-966'],
 			]);
 		});
-
 	});
 
-	
+	describe('#divide(value)', () => {
 
+		it('should divide whole numbers', () => {
+			divide('1', '1', '1');
+			divide('2', '2', '1');
+			divide('10', '2', '5');
+			divide('100', '10', '10');
+
+			divide('20', '2', '10');
+			divide('20', '4', '5');
+		});
+
+		it('should divide into terminating decimals', () => {
+
+			divide('1', '2', '0.5');
+			divide('1', '4', '0.25');
+			divide('1', '5', '0.2');
+			divide('1', '8', '0.125');
+			divide('1', '10', '0.1');
+			divide('1', '20', '0.05');
+			divide('1', '25', '0.04');
+			divide('20', '16', '1.25');
+		});
+
+		it('should divide into repeating decimals', () => {
+			divide('1',    '3', '0.33333333333333333333');
+			divide('1',    '6', '0.16666666666666666667');
+			divide('1',    '7', '0.14285714285714285714');
+			divide('1', '9967', '0.00010033109260559847')
+		});
+
+		it('should divide into irrational decimals', () => {
+			divide('1', '3.1415926535', '0.31830988619288862874');
+		});
+
+		it('should divide some more', () => {
+
+			divide('1.15',            '9967', '0.00011538075649643825');
+			divide('1.15',         '9967.12', '0.00011537936735987928');
+			divide('1.123456789',      '2.1', '0.53497942333333333333');
+		});
+
+		it('should respect the arithmetic precision', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('3');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(10);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(5);
+			decimalEquals(a.divide(b), '0.33333');
+
+			b = Decimal('6');
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(10);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a = Decimal('1.15');
+			b = Decimal('9967');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(10);
+
+			decimalEquals(a.divide(b), '0.0001153808');
+		});
+
+		it('should respect rounding modes', () => {
+
+			let a = Decimal('2'),
+			    b = Decimal('7');
+
+			// This decimal is repeating:
+			// 0.285714 285714 285714
+
+			a.setArithmeticScale(4);
+			b.setArithmeticScale(6);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0.2858');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0.2858');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0.2857');
+
+			a = Decimal('1');
+			b = Decimal('6');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0.1666666666');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0.1666666666');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0.1666666666');
+
+			a = Decimal('1');
+			b = Decimal('3');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0.3333333334');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0.3333333334');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0.3333333333');
+
+			a = Decimal('5');
+			b = Decimal('9');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0.5555555555');
+
+			a = Decimal('5');
+			b = Decimal('7');
+
+			// 0.714285 714285 714285
+
+			a.setArithmeticScale(5);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0.71428');
+
+			a = Decimal('1');
+			b = Decimal('3');
+
+			a.setArithmeticScale(0);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '1');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '1');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0');
+
+			// When both arithmetic scales are 0, the result should be 0
+			a.setArithmeticScale(0);
+			b.setArithmeticScale(0);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0');
+		});
+
+		it('should respect rounding modes for negative numbers', () => {
+
+			let a = Decimal('2'),
+			    b = Decimal('-7');
+
+			// This decimal is repeating:
+			// -0.285714 285714 285714
+
+			a.setArithmeticScale(4);
+			b.setArithmeticScale(6);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-0.2858');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-0.2858');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '-0.2857');
+
+			a = Decimal('1');
+			b = Decimal('-6');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '-0.1666666666');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '-0.1666666666');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '-0.1666666666');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '-0.1666666667');
+
+			a = Decimal('1');
+			b = Decimal('-3');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-0.3333333334');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-0.3333333334');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '-0.3333333333');
+
+			a = Decimal('5');
+			b = Decimal('-9');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '-0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '-0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '-0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '-0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '-0.5555555556');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '-0.5555555555');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '-0.5555555556');
+
+			a = Decimal('5');
+			b = Decimal('-7');
+
+			// -0.714285 714285 714285
+
+			a.setArithmeticScale(5);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '-0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '-0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '-0.71429');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '-0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '-0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '-0.71428');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '-0.71429');
+
+			a = Decimal('1');
+			b = Decimal('-3');
+
+			a.setArithmeticScale(0);
+			b.setArithmeticScale(12);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '-1');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_FLOOR);
+			decimalEquals(a.divide(b), '-1');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_UP);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_EVEN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_CEIL);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_HALF_FLOOR);
+			decimalEquals(a.divide(b), '0');
+
+			// When both arithmetic scales are 0, the result should be 0
+			a.setArithmeticScale(0);
+			b.setArithmeticScale(0);
+			a.setRoundingMode(Decimal.ROUND_UP);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_DOWN);
+			decimalEquals(a.divide(b), '0');
+
+			a.setRoundingMode(Decimal.ROUND_CEIL);
+			decimalEquals(a.divide(b), '0');
+		});
+	});
 });
 
 function pow(first_string, second_string, result_string) {
@@ -190,6 +680,15 @@ function multiplications(arr) {
 
 		decimalEquals(c, string_result, msg);
 	}
+}
+
+function divide(first_string, second_string, result_string) {
+	let first = Decimal(first_string),
+	    second = Decimal(second_string);
+
+	let sum = first.divide(second);
+
+	decimalEquals(sum, result_string, `Decimal('${first_string}').divide('${second_string}') should equal Decimal('${result_string}')`);
 }
 
 function addition(first_string, second_string, result_string) {

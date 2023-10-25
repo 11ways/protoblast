@@ -3,6 +3,7 @@
 * Add `LocalDateTime`, `LocalDate` and `LocalTime` classes
 * Improve `Object.checksum()` handling of class instances
 * Add default `Symbol.toStringTag` implementation for classes
+* Add `Decimal` class
 
 ## 0.8.13 (2023-10-15)
 
