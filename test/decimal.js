@@ -164,6 +164,21 @@ describe('Decimal', function() {
 
 			decimalEquals(a.add(b), '672046000836983875791097176246009826326.15');
 		});
+
+		it('should handle scale changes', () => {
+
+			let a = Decimal('1.000000000100000000020000000003'),
+			    b = Decimal('1.15');
+
+			decimalEquals(a.add(b), '2.150000000100000000020000000003');
+			decimalEquals(b.add(a), '2.150000000100000000020000000003');
+
+			a.setArithmeticScale(10);
+			b.setArithmeticScale(10);
+
+			decimalEquals(a.add(b), '2.1500000001');
+			decimalEquals(b.add(a), '2.1500000001');
+		});
 	});
 
 	describe('#subtract(value)', () => {
@@ -875,6 +890,12 @@ describe('MutableDecimal', () => {
 
 			result.add('3');
 			decimalEquals(result, '9');
+
+			result.add('0.12345');
+			decimalEquals(result, '9.12345');
+
+			result.multiply('2');
+			decimalEquals(result, '18.2469');
 		});
 	});
 
