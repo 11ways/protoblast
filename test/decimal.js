@@ -1,4 +1,5 @@
 let assert = require('assert'),
+    MutableDecimal,
     Decimal,
     Blast;
 
@@ -918,6 +919,32 @@ describe('MutableDecimal', () => {
 			decimalEquals(result, '0.06666666666666666667');
 
 			decimalEquals(Decimal('0.2').divide('3'), result.toString());
+		});
+	});
+
+	describe('#toImmutable()', () => {
+		it('should return an immutable decimal', () => {
+
+			let original = MutableDecimal('1');
+			let immutable = original.toImmutable();
+
+			decimalEquals(immutable, '1');
+			decimalEquals(original, '1');
+			assert.strictEqual(immutable.constructor.name, 'Decimal');
+
+			original.add('5');
+
+			decimalEquals(original, '6');
+			decimalEquals(immutable, '1');
+
+			let mutable = immutable.toMutable();
+			assert.strictEqual(mutable.constructor.name, 'MutableDecimal');
+
+			mutable.add('4');
+
+			decimalEquals(original, '6');
+			decimalEquals(immutable, '1');
+			decimalEquals(mutable, '5');
 		});
 	});
 });
