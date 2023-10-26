@@ -813,6 +813,13 @@ describe('Decimal', function() {
 			pow('-9', '-3', '-0.0013717421');
 		});
 
+		it('should handle decimals', () => {
+			pow('2.5', '2', '6.25');
+			pow('2.5', '3', '15.625');
+			pow('2.5', '4', '39.0625');
+			pow('2.5', '-3', '0.064');
+			pow('12.536', '2', '157.151296');
+		});
 	});
 });
 
@@ -823,9 +830,9 @@ function pow(first_string, second_string, result_string) {
 	first.setArithmeticScale(10);
 	second.setArithmeticScale(10);
 
-	let sum = first.pow(second);
+	let sum = first.power(second);
 
-	decimalEquals(sum, result_string, `Decimal('${first_string}').pow('${second_string}') should equal Decimal('${result_string}')`);
+	decimalEquals(sum, result_string, `Decimal('${first_string}').power('${second_string}') should equal Decimal('${result_string}')`);
 }
 
 function multiplications(arr) {
