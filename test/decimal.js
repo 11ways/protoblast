@@ -721,6 +721,38 @@ describe('Decimal', function() {
 		});
 	});
 
+	describe('#factorial()', () => {
+		it('should calculate the factorial of an integer value', () => {
+
+			let result = Decimal('0').factorial();
+			decimalEquals(result, '1');
+
+			result = Decimal('1').factorial();
+			decimalEquals(result, '1');
+
+			result = Decimal('2').factorial();
+			decimalEquals(result, '2');
+
+			result = Decimal('8').factorial();
+			decimalEquals(result, '40320');
+
+			result = Decimal('9').factorial();
+			decimalEquals(result, '362880');
+
+			result = Decimal('10').factorial();
+			decimalEquals(result, '3628800');
+
+			result = Decimal('11').factorial();
+			decimalEquals(result, '39916800');
+
+			result = Decimal('15').factorial();
+			decimalEquals(result, '1307674368000');
+
+			result = Decimal('50').factorial();
+			decimalEquals(result, '30414093201713378043612608166064768844377641568960512000000000000');
+		});
+	});
+
 	describe('#pow(value)', () => {
 
 		it('should handle simple powers', () => {
