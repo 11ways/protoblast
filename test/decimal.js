@@ -855,6 +855,73 @@ describe('Decimal', function() {
 	});
 });
 
+describe('MutableDecimal', () => {
+
+	before(() => {
+		Blast = require('../index.js')();
+		Decimal = Blast.Classes.Develry.Decimal;
+		MutableDecimal = Blast.Classes.Develry.MutableDecimal;
+	});
+
+	describe('#add(value)', () => {
+		it('should add numbers in place', () => {
+
+			let original = MutableDecimal('1');
+			let result = original.add('5');
+
+			decimalEquals(result, '6');
+			assert.strictEqual(result, original);
+
+			result.add('3');
+			decimalEquals(result, '9');
+		});
+	});
+
+	describe('#subtract(value)', () => {
+		it('should subtract numbers in place', () => {
+
+			let original = MutableDecimal('1');
+			let result = original.subtract('5');
+
+			decimalEquals(result, '-4');
+			assert.strictEqual(result, original);
+
+			result.subtract('3');
+			decimalEquals(result, '-7');
+		});
+	});
+
+	describe('#multiply(value)', () => {
+		it('should multiply numbers in place', () => {
+
+			let original = MutableDecimal('1');
+			let result = original.multiply('5');
+
+			decimalEquals(result, '5');
+			assert.strictEqual(result, original);
+
+			result.multiply('3');
+			decimalEquals(result, '15');
+		});
+	});
+
+	describe('#divide(value)', () => {
+		it('should divide numbers in place', () => {
+
+			let original = MutableDecimal('1');
+			let result = original.divide('5');
+
+			decimalEquals(result, '0.2');
+			assert.strictEqual(result, original);
+
+			result.divide('3');
+			decimalEquals(result, '0.06666666666666666667');
+
+			decimalEquals(Decimal('0.2').divide('3'), result.toString());
+		});
+	});
+});
+
 function pow(first_string, second_string, result_string) {
 	let first = Decimal(first_string),
 	    second = Decimal(second_string);
