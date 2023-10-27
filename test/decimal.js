@@ -769,6 +769,25 @@ describe('Decimal', function() {
 		});
 	});
 
+	describe('#naturalExponentiation()', () => {
+		it('should calculate the natural exponentiation of a value', () => {
+
+			let result = Decimal('5').naturalExponentiation();
+			decimalEquals(result, '148.41315910257660342112');
+
+			result = Decimal('6').naturalExponentiation();
+			decimalEquals(result, '403.42879349273512260839');
+
+			let six = Decimal('6');
+			six.setArithmeticScale(10);
+			decimalEquals(six.naturalExponentiation(), '403.4287934927');
+
+			six.setArithmeticScale(30);
+			decimalEquals(six.naturalExponentiation(), '403.428793492735122608387180543388');
+
+		});
+	});
+
 	describe('#pow(value)', () => {
 
 		it('should handle simple powers', () => {
