@@ -522,7 +522,7 @@ describe('Decimal', function() {
 
 			a.setArithmeticScale(10);
 			b.setArithmeticScale(5);
-			decimalEquals(a.divide(b), '0.33333');
+			decimalEquals(a.divide(b), '0.3333333333');
 
 			b = Decimal('6');
 			a.setArithmeticScale(10);
@@ -536,6 +536,13 @@ describe('Decimal', function() {
 			b.setArithmeticScale(10);
 
 			decimalEquals(a.divide(b), '0.0001153808');
+
+			// This should now have a precision of 30
+			let ones = Decimal('0.111111111111111111111111111111');
+			decimalEquals(ones, '0.111111111111111111111111111111');
+
+			let div = ones.divide(2);
+			decimalEquals(div, '0.055555555555555555555555555556');
 		});
 
 		it('should respect rounding modes', () => {
@@ -1022,7 +1029,34 @@ describe('Decimal', function() {
 		});
 	});
 
-	describe('#pow(value)', () => {
+	describe('#logarithm()', () => {
+
+		it('should calculate the Base10 logarithm of a value', () => {
+
+			let result = Decimal('5').logarithm();
+			decimalEquals(result, '0.69897000433601880479');
+
+			result = Decimal('6').logarithm();
+			decimalEquals(result, '0.77815125038364363251');
+
+			result = Decimal('16').logarithm();
+			decimalEquals(result, '1.20411998265592478085');
+
+			result = Decimal('10').logarithm();
+			decimalEquals(result, '1');
+
+			result = Decimal('100').logarithm();
+			decimalEquals(result, '2');
+		});
+
+		it('should throw an error for negative values', () => {
+			assert.throws(() => {
+				Decimal('-5').logarithm();
+			});
+		});
+	});
+
+	describe('#power(value)', () => {
 
 		it('should handle simple powers', () => {
 
@@ -1120,6 +1154,16 @@ describe('Decimal', function() {
 			pow('2.5', '4', '39.0625');
 			pow('2.5', '-3', '0.064');
 			pow('12.536', '2', '157.151296');
+
+
+			let neg_one_third = Decimal('-0.333333333333333333333333333333');
+			neg_one_third.setArithmeticScale(30);
+			let powered = neg_one_third.power(2);
+
+			decimalEquals(powered, '0.111111111111111111111111111111');
+
+			let div = powered.divide(2);
+			decimalEquals(div, '0.055555555555555555555555555556');
 		});
 	});
 });
