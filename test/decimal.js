@@ -24,6 +24,240 @@ describe('Decimal', function() {
 		});
 	});
 
+	describe('isGreaterThan(value)', () => {
+
+		it('should return true when the value is greater', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), true);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), true);
+		});
+
+		it('should return false when the value is smaller', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), true);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), true);
+		});
+
+		it('should return false when the value is equal', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('1');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), false);
+		});
+
+		it('should handle negative values', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('-1');
+
+			assert.strictEqual(a.isGreaterThan(b), true);
+			assert.strictEqual(b.isGreaterThan(a), false);
+
+			a = Decimal('-1');
+			b = Decimal('1');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), true);
+
+			a = Decimal('-1');
+			b = Decimal('-1');
+
+			assert.strictEqual(a.isGreaterThan(b), false);
+			assert.strictEqual(b.isGreaterThan(a), false);
+
+			a = Decimal('-1.1');
+			b = Decimal('-1.2');
+
+			assert.strictEqual(a.isGreaterThan(b), true);
+			assert.strictEqual(b.isGreaterThan(a), false);
+		});
+	});
+
+	describe('isGreaterThanOrEqual(value)', () => {
+
+		it('should return true when the value is greater', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), false);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), false);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+		});
+
+		it('should return false when the value is smaller', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), false);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), false);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+		});
+
+		it('should return true when the value is equal', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('1');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), true);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+
+			a = Decimal('1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), true);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+		});
+
+		it('should handle negative values', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('-1');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), true);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), false);
+
+			a = Decimal('-1');
+			b = Decimal('1');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), false);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+
+			a = Decimal('-1');
+			b = Decimal('-1');
+
+			assert.strictEqual(a.isGreaterThanOrEqual(b), true);
+			assert.strictEqual(b.isGreaterThanOrEqual(a), true);
+		});
+	});
+
+	describe('isLowerThan(value)', () => {
+
+		it('should return true when the value is greater', () => {
+			
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isLowerThan(b), true);
+			assert.strictEqual(b.isLowerThan(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isLowerThan(b), true);
+			assert.strictEqual(b.isLowerThan(a), false);
+		});
+
+		it('should return false when the value is smaller', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isLowerThan(b), true);
+			assert.strictEqual(b.isLowerThan(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isLowerThan(b), true);
+			assert.strictEqual(b.isLowerThan(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isLowerThan(b), false);
+			assert.strictEqual(b.isLowerThan(a), false);
+
+			a = Decimal('-1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isLowerThan(b), true);
+			assert.strictEqual(b.isLowerThan(a), false);
+		});
+	});
+
+	describe('isLowerThanOrEqual(value)', () => {
+
+		it('should return true when the value is greater', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+		});
+
+		it('should return false when the value is smaller', () => {
+
+			let a = Decimal('1'),
+			    b = Decimal('2');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.2');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+
+			a = Decimal('1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), true);
+
+			a = Decimal('-1.1');
+			b = Decimal('1.1');
+
+			assert.strictEqual(a.isLowerThanOrEqual(b), true);
+			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+		});
+	});
+
 	describe('#add(value)', () => {
 
 		it('should return a new instance', () => {
