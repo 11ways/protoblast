@@ -1097,6 +1097,27 @@ describe('Decimal', function() {
 		});
 	});
 
+	describe('#naturalLogarithm()', () => {
+
+		it('should calculate the natural logarithm of a value', () => {
+
+			let result = Decimal('5').naturalLogarithm();
+			decimalEquals(result, '1.6094379124341003746');
+
+			result = Decimal('6').naturalLogarithm();
+			decimalEquals(result, '1.79175946922805500081');
+
+			result = Decimal('16').naturalLogarithm();
+			decimalEquals(result, '2.77258872223978123767');
+		});
+
+		it('should throw an error for negative values', () => {
+			assert.throws(() => {
+				Decimal('-5').naturalLogarithm();
+			});
+		});
+	});
+
 	describe('#power(value)', () => {
 
 		it('should handle simple powers', () => {
