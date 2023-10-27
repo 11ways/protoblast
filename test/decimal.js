@@ -24,7 +24,7 @@ describe('Decimal', function() {
 		});
 	});
 
-	describe('isGreaterThan(value)', () => {
+	describe('#isGreaterThan(value)', () => {
 
 		it('should return true when the value is greater', () => {
 
@@ -99,7 +99,7 @@ describe('Decimal', function() {
 		});
 	});
 
-	describe('isGreaterThanOrEqual(value)', () => {
+	describe('#isGreaterThanOrEqual(value)', () => {
 
 		it('should return true when the value is greater', () => {
 
@@ -168,7 +168,7 @@ describe('Decimal', function() {
 		});
 	});
 
-	describe('isLowerThan(value)', () => {
+	describe('#isLowerThan(value)', () => {
 
 		it('should return true when the value is greater', () => {
 			
@@ -213,7 +213,7 @@ describe('Decimal', function() {
 		});
 	});
 
-	describe('isLowerThanOrEqual(value)', () => {
+	describe('#isLowerThanOrEqual(value)', () => {
 
 		it('should return true when the value is greater', () => {
 
@@ -255,6 +255,30 @@ describe('Decimal', function() {
 
 			assert.strictEqual(a.isLowerThanOrEqual(b), true);
 			assert.strictEqual(b.isLowerThanOrEqual(a), false);
+		});
+	});
+
+	describe('#toScale(scale)', () => {
+
+		it('should return a new instance', () => {
+
+			let a = Decimal('1.11'),
+			    b = a.toScale(1);
+
+			decimalEquals(a, '1.11');
+			decimalEquals(b, '1.1');
+		});
+
+		it('should return a new instance with the correct scale', () => {
+
+			let a = Decimal('1.15'),
+			    b = a.toScale(1);
+
+			decimalEquals(a, '1.15');
+			decimalEquals(b, '1.2');
+
+			decimalEquals(Decimal('1.123456').toScale(2), '1.12');
+			decimalEquals(Decimal('1.123456').toScale(5), '1.12346');
 		});
 	});
 
@@ -1263,6 +1287,21 @@ describe('MutableDecimal', () => {
 			decimalEquals(original, '6');
 			decimalEquals(immutable, '1');
 			decimalEquals(mutable, '5');
+		});
+	});
+
+	describe('#toScale(scale)', () => {
+
+		it('should modify the instance', () => {
+
+			let a = MutableDecimal('1.15'),
+			    b = a.toScale(1);
+
+			decimalEquals(a, '1.2');
+			decimalEquals(b, '1.2');
+
+			decimalEquals(MutableDecimal('1.123456').toScale(2), '1.12');
+			decimalEquals(MutableDecimal('1.123456').toScale(5), '1.12346');
 		});
 	});
 });
