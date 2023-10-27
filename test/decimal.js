@@ -1060,10 +1060,12 @@ describe('Decimal', function() {
 			decimalEquals(six.naturalExponentiation(), '403.428793492735122608387180543388');
 		});
 
-		it.skip('should support decimal values', () => {
+		it('should support decimal values', () => {
 
-			let result = Decimal('5.5').naturalExponentiation();
-			decimalEquals(result, '102.92347606008850872973');
+			let result = Decimal('5.5');
+			result.setArithmeticScale(20);
+			result = result.naturalExponentiation();
+			decimalEquals(result, '244.69193226422038791519');
 
 		});
 	});
@@ -1207,8 +1209,18 @@ describe('Decimal', function() {
 			pow('12.536', '10', '95849496223.2257405224');
 		});
 
-		it.skip('should handle decimal exponents', () => {
-			pow('2', '1.5', '2.82842712474619');
+		it('should handle decimal exponents', () => {
+			pow('2', '1.5', '2.8284271247461900976', 20);
+			pow('2', '1.5', '2.8284271247461900976', 19);
+			pow('2', '1.5', '2.828427124746190098', 18);
+			pow('4', '0.5', '2');
+			pow('4', '0.25', '1.4142135624');
+			pow('5', '-0.5', '0.4472135955');
+			pow('5', '-0.1', '0.8513399225');
+			pow('47', '3.3', '329551.2256522242');
+
+			pow('47', '3.3', '329551.225652224185906737597704672962', 30);
+			pow('47', '3.3', '329551.2256522241859067375977046729623', 31);
 		});
 	});
 
@@ -1360,12 +1372,12 @@ function sqrt(first_string, result_string) {
 	decimalEquals(sum, result_string, `Decimal('${first_string}').squareRoot() should equal Decimal('${result_string}')`);
 };
 
-function pow(first_string, second_string, result_string) {
+function pow(first_string, second_string, result_string, scale = 10) {
 	let first = Decimal(first_string),
 	    second = Decimal(second_string);
 
-	first.setArithmeticScale(10);
-	second.setArithmeticScale(10);
+	first.setArithmeticScale(scale);
+	second.setArithmeticScale(scale);
 
 	let sum = first.power(second);
 
