@@ -280,6 +280,15 @@ describe('Decimal', function() {
 			decimalEquals(Decimal('1.123456').toScale(2), '1.12');
 			decimalEquals(Decimal('1.123456').toScale(5), '1.12346');
 		});
+
+
+		it('should not break on larger scales', () => {
+
+			let a = Decimal('999.5');
+			let result = a.toScale(20);
+
+			decimalEquals(result, '999.5');
+		});
 	});
 
 	describe('#add(value)', () => {
@@ -1049,6 +1058,12 @@ describe('Decimal', function() {
 
 			six.setArithmeticScale(30);
 			decimalEquals(six.naturalExponentiation(), '403.428793492735122608387180543388');
+		});
+
+		it.skip('should support decimal values', () => {
+
+			let result = Decimal('5.5').naturalExponentiation();
+			decimalEquals(result, '102.92347606008850872973');
 
 		});
 	});
@@ -1188,6 +1203,37 @@ describe('Decimal', function() {
 
 			let div = powered.divide(2);
 			decimalEquals(div, '0.055555555555555555555555555556');
+
+			pow('12.536', '10', '95849496223.2257405224');
+		});
+
+		it.skip('should handle decimal exponents', () => {
+			pow('2', '1.5', '2.82842712474619');
+		});
+	});
+
+	describe('#squareRoot()', () => {
+
+		it('should calculate the square root of an integer', () => {
+
+			sqrt('4', '2');
+			sqrt('9', '3');
+			sqrt('16', '4');
+			sqrt('81', '9');
+			sqrt('21609', '147');
+			sqrt('225930053041', '475321');
+			sqrt('999998000001', '999999');
+			sqrt('47369', '217.64420506873138431431');
+		});
+
+		it('should calculate the square root of a decimal', () => {
+
+			sqrt('9.5', '3.08220700148448822513');
+			sqrt('147.123', '12.12942702686322277542');
+			sqrt('999000.25', '999.5');
+
+			// This will automatically set the arithmetic scale to 30
+			sqrt('446348.594999999999999999999999999999', '668.093253221434649745644636746559');
 		});
 	});
 });
@@ -1305,6 +1351,14 @@ describe('MutableDecimal', () => {
 		});
 	});
 });
+
+function sqrt(first_string, result_string) {
+	let first = Decimal(first_string);
+
+	let sum = first.squareRoot();
+
+	decimalEquals(sum, result_string, `Decimal('${first_string}').squareRoot() should equal Decimal('${result_string}')`);
+};
 
 function pow(first_string, second_string, result_string) {
 	let first = Decimal(first_string),
