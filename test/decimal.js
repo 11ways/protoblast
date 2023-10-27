@@ -1269,6 +1269,36 @@ describe('Decimal', function() {
 			sqrt('446348.594999999999999999999999999999', '668.093253221434649745644636746559');
 		});
 	});
+
+	describe('#modulo(value)', () => {
+
+		it('should calculate the modulo of two numbers', () => {
+
+			modulo('0', '1', '0');
+			modulo('4', '3', '1');
+			modulo('4', '2', '0');
+			modulo('4', '1', '0');
+			modulo('5', '3', '2');
+
+			modulo('64462', '90.840', '56.44');
+			modulo('46', '433563.55477', '46');
+			modulo('47852501568', '-147426331397', '47852501568');
+			modulo('0', '3812504.1', '0');
+			modulo('-1534', '-293318.339', '-1534');
+
+			modulo('-1261.3', '39.0', '-13.3');
+			modulo('1.017', '-153', '1.017');
+			modulo('27.690', '-21507592', '27.69');
+			modulo('-2623.072516', '3.06', '-0.652516');
+
+			modulo('2318237922853539360.167157597022570', '-9702015238687.680494235371626139504030926823802574', '9295675788919.833075194557918488338251940141560718');
+			modulo('39.99', '-196.666', '39.99');
+  			modulo('198328732837738155510399443.82996', '0.049415792708', '0.034407057628');
+
+			modulo('9.0188012787220251521914339e+21', '7.34972521506799782052e+20', '199131020640427767567.4339');
+		});
+
+	});
 });
 
 describe('MutableDecimal', () => {
@@ -1384,6 +1414,19 @@ describe('MutableDecimal', () => {
 		});
 	});
 });
+
+function modulo(first_string, second_string, result_string, scale = 10) {
+
+	let first = Decimal(first_string),
+	    second = Decimal(second_string);
+
+	first.setArithmeticScale(scale);
+	second.setArithmeticScale(scale);
+
+	let sum = first.modulo(second);
+
+	decimalEquals(sum, result_string, `Decimal('${first_string}').modulo('${second_string}') should equal Decimal('${result_string}')`);
+}
 
 function sqrt(first_string, result_string) {
 	let first = Decimal(first_string);
