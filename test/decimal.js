@@ -1,4 +1,6 @@
 let assert = require('assert'),
+    FixedDecimal,
+    MutableFixedDecimal,
     MutableDecimal,
     Decimal,
     Blast;
@@ -1413,6 +1415,164 @@ describe('MutableDecimal', () => {
 			decimalEquals(MutableDecimal('1.123456').toScale(5), '1.12346');
 		});
 	});
+});
+
+describe('FixedDecimal', () => {
+
+	before(() => {
+		Blast = require('../index.js')();
+		Decimal = Blast.Classes.Develry.Decimal;
+		MutableDecimal = Blast.Classes.Develry.MutableDecimal;
+		FixedDecimal = Blast.Classes.Develry.FixedDecimal;
+	});
+
+	describe('#add(value)', () => {
+
+		it('should keep the original scale', () => {
+
+			let original = FixedDecimal('1');
+			let result = original.add('5');
+
+			decimalEquals(result, '6');
+
+			result = original.add('0.15');
+			decimalEquals(result, '1');
+
+			result = original.add('0.99');
+			decimalEquals(result, '2');
+
+			original = FixedDecimal('1', 2);
+			result = original.add('0.15');
+			decimalEquals(result, '1.15');
+
+			result = original.add('0.99');
+			decimalEquals(result, '1.99');
+
+			original = FixedDecimal('1.20');
+			result = original.add('0.15');
+			decimalEquals(result, '1.35');
+		});
+	});
+
+	describe('#multiply(value)', () => {
+		it('should keep the original scale', () => {
+
+			let original = FixedDecimal('1');
+			let result = original.multiply('5');
+
+			decimalEquals(result, '5');
+
+			result = original.multiply('0.15');
+			decimalEquals(result, '0');
+
+			result = original.multiply('0.99');
+			decimalEquals(result, '1');
+
+			original = FixedDecimal('1', 2);
+			result = original.multiply('0.15');
+			decimalEquals(result, '0.15');
+
+			result = original.multiply('0.99');
+			decimalEquals(result, '0.99');
+
+			original = FixedDecimal('1.20');
+			result = original.multiply('0.15');
+			decimalEquals(result, '0.18');
+
+			original = FixedDecimal('1.33');
+			result = original.multiply('2');
+			decimalEquals(result, '2.66');
+
+			original = FixedDecimal('0.66');
+			result = original.multiply('0.2');
+			decimalEquals(result, '0.13');
+		});
+	});
+
+	describe('#divide(value)', () => {
+
+		it('should keep the original scale', () => {
+
+			let original = FixedDecimal('1');
+			let result = original.divide('5');
+
+			decimalEquals(result, '0');
+
+			// @TODO: this will divide by zero & cause an error
+			// result = original.divide('0.15');
+			// decimalEquals(result, '6');
+
+			result = original.divide('0.99');
+			decimalEquals(result, '1');
+
+			original = FixedDecimal('1', 2);
+			result = original.divide('0.15');
+			decimalEquals(result, '6.67');
+
+			result = original.divide('0.99');
+			decimalEquals(result, '1.01');
+
+			original = FixedDecimal('1.20');
+			result = original.divide('0.15');
+			decimalEquals(result, '8.00');
+
+			original = FixedDecimal('1.33');
+			result = original.divide('2');
+			decimalEquals(result, '0.67');
+
+			original = FixedDecimal('0.66');
+			result = original.divide('0.2');
+			decimalEquals(result, '3.30');
+
+			original = FixedDecimal('10.10');
+			result = original.divide('3');
+			decimalEquals(result, '3.37');
+		});
+	});
+});
+
+describe('MutableFixedDecimal', () => {
+
+	before(() => {
+		Blast = require('../index.js')();
+		Decimal = Blast.Classes.Develry.Decimal;
+		MutableDecimal = Blast.Classes.Develry.MutableDecimal;
+		FixedDecimal = Blast.Classes.Develry.FixedDecimal;
+		MutableFixedDecimal = Blast.Classes.Develry.MutableFixedDecimal;
+	});
+
+	describe('#add(value)', () => {
+
+		it('should keep the original scale', () => {
+
+			let original = MutableFixedDecimal('1');
+
+			assert.strictEqual(original.constructor.name, 'MutableFixedDecimal');
+
+			let result = original.add('5');
+
+			decimalEquals(result, '6');
+
+			assert.strictEqual(original, result);
+
+			original.add(1);
+			decimalEquals(original, '7');
+			assert.strictEqual(original, result);
+
+			original = MutableFixedDecimal('1.15');
+			decimalEquals(original, '1.15');
+			result = original.add('0.15');
+			assert.strictEqual(original, result);
+			
+			decimalEquals(original, '1.30');
+			
+
+			result = original.add('1');
+			decimalEquals(original, '2.30');
+			assert.strictEqual(original, result);
+		});
+	});
+
 });
 
 function modulo(first_string, second_string, result_string, scale = 10) {
