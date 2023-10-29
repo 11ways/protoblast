@@ -26,6 +26,28 @@ describe('Decimal', function() {
 		});
 	});
 
+	describe('#toDry()', () => {
+		it('should be able to be serialized', () => {
+
+			let a = Decimal('1.1'),
+			    b = Decimal('1.2');
+
+			a.setArithmeticScale(1);
+			b.setArithmeticScale(1);
+
+			let result = a.add(b);
+
+			let dry = result.toDry();
+
+			assert.strictEqual(dry.value.string, '2.3');
+
+			let revived = JSON.undry(JSON.dry(result));
+
+			assert.strictEqual(revived.toString(), '2.3');
+			assert.strictEqual(revived.constructor.name, 'Decimal');
+		});
+	});
+
 	describe('#isGreaterThan(value)', () => {
 
 		it('should return true when the value is greater', () => {
@@ -1311,6 +1333,32 @@ describe('MutableDecimal', () => {
 		MutableDecimal = Blast.Classes.Develry.MutableDecimal;
 	});
 
+	describe('#clone()', () => {
+
+		it('should clone the instance', () => {
+
+			let a = MutableDecimal('1.1'),
+			    b = MutableDecimal('1.2');
+
+			a.add(b);
+
+			decimalEquals(a, '2.3');
+			decimalEquals(b, '1.2');
+
+			let clone = a.clone();
+
+			decimalEquals(clone, '2.3');
+			assert.strictEqual(clone.constructor.name, 'MutableDecimal');
+			assert.notStrictEqual(clone, a);
+
+			a.add('0.1');
+			clone.add('0.2');
+
+			decimalEquals(a, '2.4');
+			decimalEquals(clone, '2.5');
+		});
+	});
+
 	describe('#add(value)', () => {
 		it('should add numbers in place', () => {
 
@@ -1424,6 +1472,52 @@ describe('FixedDecimal', () => {
 		Decimal = Blast.Classes.Develry.Decimal;
 		MutableDecimal = Blast.Classes.Develry.MutableDecimal;
 		FixedDecimal = Blast.Classes.Develry.FixedDecimal;
+	});
+
+	describe('#toDry()', () => {
+		it('should be able to be serialized', () => {
+
+			let a = FixedDecimal('1.1'),
+			    b = FixedDecimal('1.2');
+
+			a.setArithmeticScale(1);
+			b.setArithmeticScale(1);
+
+			let result = a.add(b);
+
+			let dry = result.toDry();
+
+			assert.strictEqual(dry.value.string, '2.3');
+
+			let revived = JSON.undry(JSON.dry(result));
+
+			assert.strictEqual(revived.toString(), '2.3');
+			assert.strictEqual(revived.constructor.name, 'FixedDecimal');
+
+			let new_result = revived.add('1.123');
+			assert.strictEqual(new_result.toString(), '3.4');
+			assert.strictEqual(new_result.constructor.name, 'FixedDecimal');
+		});
+	});
+
+	describe('#clone()', () => {
+
+		it('should clone the instance', () => {
+
+			let a = FixedDecimal('1.1'),
+			    b = FixedDecimal('1.2');
+
+			a.setArithmeticScale(1);
+			b.setArithmeticScale(1);
+
+			let result = a.add(b);
+
+			let clone = result.clone();
+
+			assert.strictEqual(clone.toString(), '2.3');
+			assert.strictEqual(clone.constructor.name, 'FixedDecimal');
+			assert.notStrictEqual(clone, result);
+		});
 	});
 
 	describe('#add(value)', () => {
