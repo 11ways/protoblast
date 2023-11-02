@@ -591,27 +591,22 @@ describe('Date', function() {
 
 			assert.strictEqual(date.timeAgo(), 'a day ago');
 
-			date.subtract(6, 'day');
+			date = subtractedDays(date, 6);
 			assert.strictEqual(date.timeAgo(), '7 days ago');
 
-			date = new Date(now);
-			date.subtract(14, 'days');
+			date = subtractedDays(now, 14);
 			assert.strictEqual(date.timeAgo(), '14 days ago');
 
-			date = new Date(now);
-			date.subtract(21, 'days');
+			date = subtractedDays(now, 21);
 			assert.strictEqual(date.timeAgo(), '21 days ago');
 
-			date = new Date(now);
-			date.subtract(30, 'days');
+			date = subtractedDays(now, 30);
 			assert.strictEqual(date.timeAgo(), 'a month ago');
 
-			date = new Date(now);
-			date.subtract(31, 'days');
+			date = subtractedDays(now, 31);
 			assert.strictEqual(date.timeAgo(), 'a month and a day ago');
 
-			date = new Date(now);
-			date.subtract(6*30, 'days');
+			date = subtractedDays(now, 6*30);
 			assert.strictEqual(date.timeAgo(), '6 months ago');
 
 			date = new Date();
@@ -626,6 +621,18 @@ describe('Date', function() {
 		});
 	});
 });
+
+function subtractedDays(now, days_to_subtract) {
+
+	now = new Date(now);
+	let result = now.clone();
+
+	let hours = days_to_subtract * 24;
+
+	result.subtract(hours, 'hours');
+
+	return result;
+}
 
 function assertDate(actual, expected) {
 	assert.strictEqual(actual.format('Y-m-d H:i:s'), expected);
