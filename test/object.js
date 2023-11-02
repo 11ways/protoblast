@@ -51,29 +51,29 @@ describe('Object', function() {
 
 	describe('.isObject(obj)', function() {
 		it('should return true for regular objects', function() {
-			assert.equal(true, Object.isObject({}));
-			assert.equal(true, Object.isObject(new Object()));
+			expectEqual(true, Object.isObject({}));
+			expectEqual(true, Object.isObject(new Object()));
 		});
 
 		it('should return true for arrays', function() {
-			assert.equal(true, Object.isObject([]));
-			assert.equal(true, Object.isObject(new Array()));
+			expectEqual(true, Object.isObject([]));
+			expectEqual(true, Object.isObject(new Array()));
 		});
 
 		it('should return true for the object form of primitives', function() {
-			assert.equal(true, Object.isObject(new String()));
-			assert.equal(true, Object.isObject(new Number()));
-			assert.equal(true, Object.isObject(new Boolean()));
+			expectEqual(true, Object.isObject(new String()));
+			expectEqual(true, Object.isObject(new Number()));
+			expectEqual(true, Object.isObject(new Boolean()));
 		});
 
 		it('should return false for null', function() {
-			assert.equal(false, Object.isObject(null));
+			expectEqual(false, Object.isObject(null));
 		});
 
 		it('should return false for primitives', function() {
-			assert.equal(false, Object.isObject(''));
-			assert.equal(false, Object.isObject(1));
-			assert.equal(false, Object.isObject(true));
+			expectEqual(false, Object.isObject(''));
+			expectEqual(false, Object.isObject(1));
+			expectEqual(false, Object.isObject(true));
 		});
 	});
 
@@ -87,8 +87,8 @@ describe('Object', function() {
 				three: 3
 			};
 
-			assert.equal(true, Object.isPlainObject(obj));
-			assert.equal(true, Object.isPlainObject(obj2));
+			expectEqual(true, Object.isPlainObject(obj));
+			expectEqual(true, Object.isPlainObject(obj2));
 		});
 
 		it('should return false for other objects', function() {
@@ -111,52 +111,56 @@ describe('Object', function() {
 		});
 
 		it('should return false for primitives', function() {
-			assert.equal(false, Object.isPlainObject(1));
-			assert.equal(false, Object.isPlainObject('a'));
-			assert.equal(false, Object.isPlainObject(true));
-			assert.equal(false, Object.isPlainObject(undefined));
-			assert.equal(false, Object.isPlainObject(null));
-			assert.equal(false, Object.isPlainObject(NaN));
+			expectEqual(false, Object.isPlainObject(1));
+			expectEqual(false, Object.isPlainObject('a'));
+			expectEqual(false, Object.isPlainObject(true));
+			expectEqual(false, Object.isPlainObject(undefined));
+			expectEqual(false, Object.isPlainObject(null));
+			expectEqual(false, Object.isPlainObject(NaN));
 		});
 	});
 
 	describe('.isPrimitiveObject(obj)', function() {
 		it('should return true for the object form of primitives', function() {
-			assert.equal(true, Object.isPrimitiveObject(new String()));
-			assert.equal(true, Object.isPrimitiveObject(new Number()));
-			assert.equal(true, Object.isPrimitiveObject(new Boolean()));
+			expectEqual(true, Object.isPrimitiveObject(new String()));
+			expectEqual(true, Object.isPrimitiveObject(new Number()));
+			expectEqual(true, Object.isPrimitiveObject(new Boolean()));
 		});
 
 		it('should return false for other objects', function() {
-			assert.equal(false, Object.isPrimitiveObject([]));
-			assert.equal(false, Object.isPrimitiveObject({}));
+			expectEqual(false, Object.isPrimitiveObject([]));
+			expectEqual(false, Object.isPrimitiveObject({}));
 		});
 
 		it('should return false for regular primitives', function() {
 
-			assert.equal(false, Object.isPrimitiveObject(0));
-			assert.equal(false, Object.isPrimitiveObject(''));
-			assert.equal(false, Object.isPrimitiveObject(false));
+			expectEqual(false, Object.isPrimitiveObject(0));
+			expectEqual(false, Object.isPrimitiveObject(''));
+			expectEqual(false, Object.isPrimitiveObject(false));
 
-			assert.equal(false, Object.isPrimitiveObject(1));
-			assert.equal(false, Object.isPrimitiveObject('a'));
-			assert.equal(false, Object.isPrimitiveObject(true));
+			expectEqual(false, Object.isPrimitiveObject(1));
+			expectEqual(false, Object.isPrimitiveObject('a'));
+			expectEqual(false, Object.isPrimitiveObject(true));
 		});
 	});
 
 	describe('.isPrimitive(value)', function() {
 		it('should return true for primitive values', function() {
-			assert.equal(true, Object.isPrimitive('test'));
-			assert.equal(true, Object.isPrimitive(true));
-			assert.equal(true, Object.isPrimitive(1));
+			assert.equal(Object.isPrimitive('test'), true);
+			assert.equal(Object.isPrimitive(true), true);
+			assert.equal(Object.isPrimitive(1), true);
+			assert.equal(Object.isPrimitive(null), true);
+			assert.equal(Object.isPrimitive(undefined), true);
+			assert.equal(Object.isPrimitive(Symbol('bla')), true);
+			assert.equal(Object.isPrimitive(1n), true);
 		});
 
 		it('should return false for other objects', function() {
-			assert.equal(false, Object.isPrimitive([]));
-			assert.equal(false, Object.isPrimitive({}));
-			assert.equal(false, Object.isPrimitive(new String()));
-			assert.equal(false, Object.isPrimitive(new Number()));
-			assert.equal(false, Object.isPrimitive(new Boolean()));
+			assert.equal(Object.isPrimitive([]), false);
+			assert.equal(Object.isPrimitive({}), false);
+			assert.equal(Object.isPrimitive(new String()), false);
+			assert.equal(Object.isPrimitive(new Number()), false);
+			assert.equal(Object.isPrimitive(new Boolean()), false);
 		});
 	});
 
@@ -168,47 +172,47 @@ describe('Object', function() {
 		    nr = 22;
 
 		it('should return an array\'s length', function() {
-			assert.equal(5, Object.size(arr));
+			expectEqual(5, Object.size(arr));
 		});
 
 		it('should count the keys inside an object', function() {
-			assert.equal(5, Object.size(obj));
+			expectEqual(5, Object.size(obj));
 		});
 
 		it('should return the length of a string', function() {
-			assert.equal(4, Object.size(str));
-			assert.equal(4, Object.size(new String(str)));
+			expectEqual(4, Object.size(str));
+			expectEqual(4, Object.size(new String(str)));
 		});
 
 		it('should return the value of a number', function() {
-			assert.equal(22, Object.size(nr), 'Primitive numbers should return their value');
-			assert.equal(22, Object.size(new Number(nr)), 'Number objects should return their value');
+			expectEqual(22, Object.size(nr), 'Primitive numbers should return their value');
+			expectEqual(22, Object.size(new Number(nr)), 'Number objects should return their value');
 		});
 
 		it('should return the value of a boolean', function() {
-			assert.equal(0, Object.size(false));
-			assert.equal(1, Object.size(true));
+			expectEqual(0, Object.size(false));
+			expectEqual(1, Object.size(true));
 
-			assert.equal(0, Object.size(new Boolean(false)));
-			assert.equal(1, Object.size(new Boolean(true)));
+			expectEqual(0, Object.size(new Boolean(false)));
+			expectEqual(1, Object.size(new Boolean(true)));
 		});
 
 		it('should return 0 for falsy values', function() {
-			assert.equal(0, Object.size());
-			assert.equal(0, Object.size(undefined));
-			assert.equal(0, Object.size(null));
-			assert.equal(0, Object.size(false));
-			assert.equal(0, Object.size(''));
+			expectEqual(0, Object.size());
+			expectEqual(0, Object.size(undefined));
+			expectEqual(0, Object.size(null));
+			expectEqual(0, Object.size(false));
+			expectEqual(0, Object.size(''));
 		});
 
 		it('should return the numeric value of a date', function() {
 			var date = new Date(1000);
-			assert.equal(1000, Object.size(date));
+			expectEqual(1000, Object.size(date));
 		});
 
 		it('should return the length of a RegExp\'s string representation', function() {
 			var regex = /myregex/i;
-			assert.equal(10, Object.size(regex));
+			expectEqual(10, Object.size(regex));
 		});
 	});
 
@@ -299,34 +303,34 @@ describe('Object', function() {
 		    ab = {a: 1, ref: b};
 
 		it('should return true when both objects are the same reference', function() {
-			assert.equal(true, Object.alike(a, a));
+			expectEqual(true, Object.alike(a, a));
 		});
 
 		it('should return true when both object are identical', function() {
-			assert.equal(true, Object.alike(a, b));
-			assert.equal(true, Object.alike(b, a));
-			assert.equal(true, Object.alike(aa, ab));
-			assert.equal(true, Object.alike(ab, aa));
+			expectEqual(true, Object.alike(a, b));
+			expectEqual(true, Object.alike(b, a));
+			expectEqual(true, Object.alike(aa, ab));
+			expectEqual(true, Object.alike(ab, aa));
 		});
 
 		it('should return true when identical objects have different order', function() {
-			assert.equal(true, Object.alike(a, f));
-			assert.equal(true, Object.alike(f, a));
+			expectEqual(true, Object.alike(a, f));
+			expectEqual(true, Object.alike(f, a));
 		});
 
 		it('should return false when objects have different amount of entries', function() {
-			assert.equal(false, Object.alike(a, c));
-			assert.equal(false, Object.alike(c, a));
+			expectEqual(false, Object.alike(a, c));
+			expectEqual(false, Object.alike(c, a));
 		});
 
 		it('should return false when the values are not the same', function() {
-			assert.equal(false, Object.alike(a, d));
-			assert.equal(false, Object.alike(d, a));
+			expectEqual(false, Object.alike(a, d));
+			expectEqual(false, Object.alike(d, a));
 		});
 
 		it('should return true when the values are the same, ignoring undefined values', function() {
-			assert.equal(true, Object.alike(a, e));
-			assert.equal(true, Object.alike(e, a));
+			expectEqual(true, Object.alike(a, e));
+			expectEqual(true, Object.alike(e, a));
 		});
 
 		it('should handle recursive objects', function() {
@@ -571,24 +575,24 @@ describe('Object', function() {
 
 			var obj = {well: {test: {property: 'one'}}};
 
-			assert.equal('one', Object.path(obj, 'well.test.property'));
-			assert.equal(undefined, Object.path(obj, 'does.not.exist'));
+			expectEqual('one', Object.path(obj, 'well.test.property'));
+			expectEqual(undefined, Object.path(obj, 'does.not.exist'));
 		});
 
 		it('should get the value of the given property path (as an array)', function() {
 
 			var obj = {well: {test: {property: 'one'}}};
 
-			assert.equal('one', Object.path(obj, ['well', 'test', 'property']));
-			assert.equal(undefined, Object.path(obj, ['does'], ['not'], ['exist']));
+			expectEqual('one', Object.path(obj, ['well', 'test', 'property']));
+			expectEqual(undefined, Object.path(obj, ['does'], ['not'], ['exist']));
 		});
 
 		it('should get the value of the given property path (as arguments)', function() {
 
 			var obj = {well: {test: {property: 'one'}}};
 
-			assert.equal('one', Object.path(obj, 'well', 'test', 'property'));
-			assert.equal(undefined, Object.path(obj, 'does', 'not', 'exist'));
+			expectEqual('one', Object.path(obj, 'well', 'test', 'property'));
+			expectEqual(undefined, Object.path(obj, 'does', 'not', 'exist'));
 		});
 	});
 
@@ -629,8 +633,8 @@ describe('Object', function() {
 
 			var obj = {well: {test: {property: 'one', undef: undefined}}};
 
-			assert.equal(false, Object.isEmpty(obj));
-			assert.equal(true, Object.isEmpty({}));
+			expectEqual(false, Object.isEmpty(obj));
+			expectEqual(true, Object.isEmpty({}));
 		});
 	});
 
@@ -643,8 +647,8 @@ describe('Object', function() {
 
 			Object.assign(target, obj1, obj2);
 
-			assert.equal(1, target.one);
-			assert.equal(3, target.three);
+			expectEqual(1, target.one);
+			expectEqual(3, target.three);
 		});
 	});
 
@@ -657,22 +661,22 @@ describe('Object', function() {
 			    regexp = /test/i,
 			    date   = new Date();
 
-			assert.equal(true, Object.isSelfContained(string));
-			assert.equal(true, Object.isSelfContained(number));
-			assert.equal(true, Object.isSelfContained(bool));
-			assert.equal(true, Object.isSelfContained(regexp));
-			assert.equal(true, Object.isSelfContained(date));
+			expectEqual(true, Object.isSelfContained(string));
+			expectEqual(true, Object.isSelfContained(number));
+			expectEqual(true, Object.isSelfContained(bool));
+			expectEqual(true, Object.isSelfContained(regexp));
+			expectEqual(true, Object.isSelfContained(date));
 
 			// Primitives are also considered to be self contained
-			assert.equal(true, Object.isSelfContained('string'));
-			assert.equal(true, Object.isSelfContained(1));
-			assert.equal(true, Object.isSelfContained(true));
+			expectEqual(true, Object.isSelfContained('string'));
+			expectEqual(true, Object.isSelfContained(1));
+			expectEqual(true, Object.isSelfContained(true));
 
 			// Null is also self contained
-			assert.equal(true, Object.isSelfContained(null));
+			expectEqual(true, Object.isSelfContained(null));
 
 			// Regular objects are not self contained
-			assert.equal(false, Object.isSelfContained({}));
+			expectEqual(false, Object.isSelfContained({}));
 		});
 	});
 
@@ -685,9 +689,9 @@ describe('Object', function() {
 
 			Object.merge(target, obj1, obj2);
 
-			assert.equal(1, target.one.a);
-			assert.equal(2, target.one.b);
-			assert.equal(3, target.one.c);
+			expectEqual(1, target.one.a);
+			expectEqual(2, target.one.b);
+			expectEqual(3, target.one.c);
 		});
 
 		it('should handle RegExps correctly', function() {
@@ -697,8 +701,8 @@ describe('Object', function() {
 
 			Object.merge(target, obj1);
 
-			assert.equal(1, target.one.a);
-			assert.equal('/r/i', target.one.b.toString());
+			expectEqual(1, target.one.a);
+			expectEqual('/r/i', target.one.b.toString());
 		});
 
 		it('should handle Dates correctly', function() {
@@ -709,8 +713,8 @@ describe('Object', function() {
 
 			Object.merge(target, obj1);
 
-			assert.equal(1, target.one.a);
-			assert.equal(true, target.one.b == date);
+			expectEqual(1, target.one.a);
+			expectEqual(true, target.one.b == date);
 		});
 
 		it('should handle Dates correctly in the root', function() {
@@ -721,7 +725,7 @@ describe('Object', function() {
 
 			Object.merge(target, obj1);
 
-			assert.equal(true, target.a == date);
+			expectEqual(true, target.a == date);
 		});
 
 		it('should protect against malicious payloads', function() {
@@ -746,9 +750,9 @@ describe('Object', function() {
 			var arr = [{one: 1}, {two: 2}, {three: 3}, 'four']
 			    convert = Object.objectify(arr);
 
-			assert.equal(1, convert.one);
-			assert.equal(3, convert.three);
-			assert.equal(true, convert.four);
+			expectEqual(1, convert.one);
+			expectEqual(3, convert.three);
+			expectEqual(true, convert.four);
 		});
 	});
 
@@ -763,7 +767,7 @@ describe('Object', function() {
 				count += value;
 			});
 
-			assert.equal(6, count);
+			expectEqual(6, count);
 		});
 	});
 
@@ -778,8 +782,8 @@ describe('Object', function() {
 				return value * 2;
 			});
 
-			assert.equal(2, result.one);
-			assert.equal(6, result.three);
+			expectEqual(2, result.one);
+			expectEqual(6, result.three);
 		});
 	});
 
@@ -789,21 +793,21 @@ describe('Object', function() {
 
 			var obj = {one: 1, two: 2, three: 3};
 
-			assert.equal('two', Object.getValueKey(obj, 2));
+			expectEqual('two', Object.getValueKey(obj, 2));
 		});
 
 		it('should return strict false if the key is not in the object', function() {
 
 			var obj = {one: 1, two: 2, three: 3};
 
-			assert.strictEqual(false, Object.getValueKey(obj, 66));
+			expectEqual(false, Object.getValueKey(obj, 66));
 		});
 
 		it('should return the index of a value in an array', function() {
 
 			var arr = [47,49,2,66,33];
 
-			assert.equal(3, Object.getValueKey(arr, 66));
+			expectEqual(3, Object.getValueKey(arr, 66));
 		});
 	});
 
@@ -813,12 +817,12 @@ describe('Object', function() {
 
 			var obj = {one: 1, falsy: false, zero: 0, undef: undefined};
 
-			assert.equal(true, Object.hasProperty(obj, 'one'));
-			assert.equal(true, Object.hasProperty(obj, 'falsy', 'Falsy values should also be present'));
-			assert.equal(true, Object.hasProperty(obj, 'zero', 'Falsy values should also be present'));
-			assert.equal(true, Object.hasProperty(obj, 'undef', 'Properties with the specific "undefined" value are also true'));
+			expectEqual(true, Object.hasProperty(obj, 'one'));
+			expectEqual(true, Object.hasProperty(obj, 'falsy', 'Falsy values should also be present'));
+			expectEqual(true, Object.hasProperty(obj, 'zero', 'Falsy values should also be present'));
+			expectEqual(true, Object.hasProperty(obj, 'undef', 'Properties with the specific "undefined" value are also true'));
 
-			assert.equal(false, Object.hasProperty(obj, 'doesnotexist'));
+			expectEqual(false, Object.hasProperty(obj, 'doesnotexist'));
 		});
 	});
 
@@ -828,20 +832,20 @@ describe('Object', function() {
 
 			var obj = {one: 1, two: 2, three: 3};
 
-			assert.equal(true, Object.hasValue(obj, 2));
-			assert.equal(false, Object.hasValue(obj, 99));
+			expectEqual(true, Object.hasValue(obj, 2));
+			expectEqual(false, Object.hasValue(obj, 99));
 		});
 
 		it('should return false if the value is not inside the object', function() {
 			var obj = {one: 1, two: 2, three: 3};
-			assert.equal(false, Object.hasValue(obj, 99));
+			expectEqual(false, Object.hasValue(obj, 99));
 		});
 
 		it('should return true if the value is inside the array', function() {
 
 			var arr = [47,49,2,66,33];
 
-			assert.equal(true, Object.hasValue(arr, 33));
+			expectEqual(true, Object.hasValue(arr, 33));
 		});
 	});
 
@@ -1053,3 +1057,7 @@ describe('Object', function() {
 		});
 	});
 });
+
+function expectEqual(expect, actual) {
+	return assert.strictEqual(actual, expect);
+}
