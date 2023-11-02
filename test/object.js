@@ -164,6 +164,19 @@ describe('Object', function() {
 		});
 	});
 
+	describe('.stringifyPrimitive(value)', function() {
+		it('should return the string for useful primitives', function() {
+			assert.equal(Object.stringifyPrimitive('test'), 'test');
+			assert.equal(Object.stringifyPrimitive(1), '1');
+			assert.equal(Object.stringifyPrimitive(10n), '10');
+			assert.equal(Object.stringifyPrimitive(true), 'true');
+			assert.equal(Object.stringifyPrimitive(false), 'false');
+			assert.equal(Object.stringifyPrimitive(null), '');
+			assert.equal(Object.stringifyPrimitive(undefined), '');
+			assert.equal(Object.stringifyPrimitive({}), '');
+		});
+	});
+
 	describe('.size(variable)', function() {
 
 		var arr = [1,2,3,4,5],

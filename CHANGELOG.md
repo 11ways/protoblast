@@ -5,6 +5,7 @@
 * Add default `Symbol.toStringTag` implementation for classes
 * Add `Decimal` classes
 * Make `Object.isPrimitive(arg)` return true for all primitive types
+* Add BigInt support to `Object.stringifyPrimitive(arg)` method
 
 ## 0.8.13 (2023-10-15)
 
