@@ -687,6 +687,163 @@ describe('LocalDateTime', function() {
 		});
 	});
 
+	describe('#isBefore(other_date)', () => {
+		it('should compare with regular Date instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new Date('2023-10-30 15:00:00');
+			let after_date = new Date('2023-10-30 16:00:00');
+			let same_date = new Date('2023-10-30 15:43:00');
+
+			assert.strictEqual(local_date.isBefore(before_date), false);
+			assert.strictEqual(local_date.isBefore(after_date), true);
+			assert.strictEqual(local_date.isBefore(same_date), false);
+		});
+
+		it('should compare with other LocalDateTime instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalDateTime('2023-10-30 15:00:00');
+			let after_date = new LocalDateTime('2023-10-30 16:00:00');
+			let same_date = new LocalDateTime('2023-10-30 15:43:00');
+
+			assert.strictEqual(local_date.isBefore(before_date), false);
+			assert.strictEqual(local_date.isBefore(after_date), true);
+			assert.strictEqual(local_date.isBefore(same_date), false);
+		});
+
+		it('should parse date strings', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = '2023-10-30 15:00:00';
+			let after_date = '2023-10-30 16:00:00';
+			let same_date = '2023-10-30 15:43:00';
+
+			assert.strictEqual(local_date.isBefore(before_date), false);
+			assert.strictEqual(local_date.isBefore(after_date), true);
+			assert.strictEqual(local_date.isBefore(same_date), false);
+
+			let no_time = '2023-10-30';
+			assert.strictEqual(local_date.isBefore(no_time), false);
+		});
+
+		it('should accept LocalDate instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalDate('2023-10-30');
+			let after_date = new LocalDate('2023-10-31');
+			let same_date = new LocalDate('2023-10-30');
+
+			assert.strictEqual(local_date.isBefore(before_date), false);
+			assert.strictEqual(local_date.isBefore(after_date), true);
+			assert.strictEqual(local_date.isBefore(same_date), false);
+		});
+
+		it('should accept LocalTime instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalTime('15:00:00');
+			let after_date = new LocalTime('16:00:00');
+			let same_date = new LocalTime('15:43:00');
+
+			assert.strictEqual(local_date.isBefore(before_date), false);
+			assert.strictEqual(local_date.isBefore(after_date), true);
+			assert.strictEqual(local_date.isBefore(same_date), false);
+		});
+	});
+
+	describe('#isAfter(other_date)', () => {
+		it('should compare with regular Date instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new Date('2023-10-30 15:00:00');
+			let after_date = new Date('2023-10-30 16:00:00');
+			let same_date = new Date('2023-10-30 15:43:00');
+
+			assert.strictEqual(local_date.isAfter(before_date), true);
+			assert.strictEqual(local_date.isAfter(after_date), false);
+			assert.strictEqual(local_date.isAfter(same_date), false);
+		});
+
+		it('should compare with other LocalDateTime instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalDateTime('2023-10-30 15:00:00');
+			let after_date = new LocalDateTime('2023-10-30 16:00:00');
+			let same_date = new LocalDateTime('2023-10-30 15:43:00');
+
+			assert.strictEqual(local_date.isAfter(before_date), true);
+			assert.strictEqual(local_date.isAfter(after_date), false);
+			assert.strictEqual(local_date.isAfter(same_date), false);
+		});
+
+		it('should parse date strings', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = '2023-10-30 15:00:00';
+			let after_date = '2023-10-30 16:00:00';
+			let same_date = '2023-10-30 15:43:00';
+
+			assert.strictEqual(local_date.isAfter(before_date), true);
+			assert.strictEqual(local_date.isAfter(after_date), false);
+			assert.strictEqual(local_date.isAfter(same_date), false);
+
+			let no_time = '2023-10-30';
+			assert.strictEqual(local_date.isAfter(no_time), false);
+		});
+
+		it('should accept LocalDate instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalDate('2023-10-30');
+			let after_date = new LocalDate('2023-10-31');
+			let same_date = new LocalDate('2023-10-30');
+
+			assert.strictEqual(local_date.isAfter(before_date), false);
+			assert.strictEqual(local_date.isAfter(after_date), false);
+			assert.strictEqual(local_date.isAfter(same_date), false);
+		});
+
+		it('should accept LocalTime instances', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let before_date = new LocalTime('15:00:00');
+			let after_date = new LocalTime('16:00:00');
+			let same_date = new LocalTime('15:43:00');
+
+			assert.strictEqual(local_date.isAfter(before_date), true);
+			assert.strictEqual(local_date.isAfter(after_date), false);
+			assert.strictEqual(local_date.isAfter(same_date), false);
+		});
+	});
+
+	describe('#isOnSameDate(other_date)', () => {
+
+		it('should see if the year-month-day are the same', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+			let same_date = new LocalDateTime('2023-10-30 16:00:00');
+			let other_date = new LocalDateTime('2023-10-31 15:43:00');
+
+			assert.strictEqual(local_date.isOnSameDate(same_date), true);
+			assert.strictEqual(local_date.isOnSameDate(other_date), false);
+
+			let other_local_date = new LocalDateTime('2023-10-10');
+			assert.strictEqual(local_date.isOnSameDate(other_local_date), false);
+		});
+
+		it('should accept strings', () => {
+
+			let local_date = new LocalDateTime('2023-10-30 15:43:00');
+
+			assert.strictEqual(local_date.isOnSameDate('2023-10-30'), true);
+			assert.strictEqual(local_date.isOnSameDate('2023-10-31'), false);
+
+			assert.strictEqual(local_date.isOnSameDate('2023-10-30 15:43:00'), true);
+			assert.strictEqual(local_date.isOnSameDate('2023-10-31 15:43:00'), false);
+		});
+	});
+
 	describe('#valueOf()', () => {
 		it('should return the integer representation in the current timezone', () => {
 
