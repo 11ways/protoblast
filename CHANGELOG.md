@@ -6,6 +6,7 @@
 * Add `Decimal` classes
 * Make `Object.isPrimitive(arg)` return true for all primitive types
 * Add BigInt support to `Object.stringifyPrimitive(arg)` method
+* Implement `Symbol.toPrimitive` method for the local date classes so it'll behave like the native Date class
 
 ## 0.8.13 (2023-10-15)
 

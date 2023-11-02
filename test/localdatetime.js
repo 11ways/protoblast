@@ -95,6 +95,18 @@ describe('LocalDateTime', function() {
 		});
 	});
 
+	describe('#[Symbol.toPrimitive]', () => {
+		it('should behave like the Date class', () => {
+
+			let local_date = LocalDateTime.create('2023-10-21 17:12:52');
+
+			let number = 2 * local_date;
+
+			assert.strictEqual(number, local_date.valueOf() * 2);
+			assert.strictEqual(local_date.toString(), '' + local_date);
+		});
+	});
+
 	describe('#toNumericRepresentation()', () => {
 		it('should return a custom integer representation of the local datetime', () => {
 			setBrusselsTimezone();
