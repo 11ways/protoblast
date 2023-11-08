@@ -1,3 +1,7 @@
+## 0.8.15 (WIP)
+
+* Add `Deck#first()` and `Deck#last()` methods
+
 ## 0.8.14 (2023-11-04)
 
 * Add `LocalDateTime`, `LocalDate` and `LocalTime` classes
