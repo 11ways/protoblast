@@ -416,6 +416,44 @@ describe('Object', function() {
 
 			assert.strictEqual(Object.alike(a, b), true);
 		});
+
+		it('should use `equals` method', function() {
+
+			let a = {
+				value: 'a',
+			};
+
+			let b = {
+				value: 'b',
+			};
+
+			assert.notStrictEqual(a, b);
+
+			assert.strictEqual(Object.alike(a, b), false);
+
+			let a_clone = {value: 'a'};
+			let b_clone = {value: 'b'};
+
+			function bEquals(other) {
+				return other?.value == 'b';
+			}
+
+			assert.strictEqual(Object.alike(a, a_clone), true);
+			a.equals = bEquals;
+			assert.strictEqual(Object.alike(a, a_clone), false);
+
+			let a_string = 'a';
+
+			function stringEquals(other) {
+				return other == 'a';
+			}
+
+			assert.strictEqual(Object.alike(a_string, 'a'), true);
+			a_clone.equals = stringEquals;
+			assert.strictEqual(Object.alike(a_clone, 'a'), true);
+			assert.strictEqual(Object.alike('a', a_clone), true);
+
+		});
 	});
 
 	describe('.flatten(obj, divider)', function() {
