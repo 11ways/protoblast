@@ -4,6 +4,7 @@
 * Refined `Object.alike` comparison logic to support custom equality methods and optimized type checking
 * Make `AbstractNumeric` classes jsonify to a string
 * Make sure child `Error` classes not created via Protoblast can be unserialized
+* Make `Function#setProperty` use `Reflect.ownNames` when given an object, so it'll also work with Symbols
 
 ## 0.8.14 (2023-11-04)
 
