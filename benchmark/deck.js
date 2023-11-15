@@ -78,11 +78,12 @@ suite('Deck#push', function() {
 
 	var deck;
 
-	beforeEach(function() {
-		deck = new Deck();
-	});
+	// beforeEach(function() {
+	// 	deck = new Deck();
+	// });
 
 	bench('#push(value, weight)', function() {
+		deck = new Deck();
 		deck.push('value', 15);
 	});
 });
