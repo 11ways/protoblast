@@ -197,6 +197,21 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('.done(mixed, callback)', function() {
+		it('should callback with the mixed value', function(done) {
+
+			Pledge.done(47, function _done(err, result) {
+
+				if (err) {
+					return done(err);
+				}
+
+				assert.strictEqual(result, 47);
+				done();
+			});
+		});
+	});
+
 	describe('.cast(variable)', function() {
 		it('should cast the given promise to a pledge', function(done) {
 
