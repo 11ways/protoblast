@@ -9,6 +9,7 @@
 * Make `Function#setProperty` accept functions as values when wrapped in an object
 * Callbacks passed to `Informer#emit` will now be called synchronously when no listeners are found
 * Add `SwiftPledge` class, which tries to remain synchronous when possible
+* Use `SwiftPledge` in function flow methods when trying to remain synchronous
 
 ## 0.8.14 (2023-11-04)
 
