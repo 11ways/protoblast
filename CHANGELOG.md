@@ -11,6 +11,7 @@
 * Add `SwiftPledge` class, which tries to remain synchronous when possible
 * Use `SwiftPledge` in function flow methods when trying to remain synchronous
 * Allow caching `POST` requests on the browser if explicitly requested
+* Use `SwiftPledge` in `Request` class for better cache performance
 
 ## 0.8.14 (2023-11-04)
 
