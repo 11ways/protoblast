@@ -7,6 +7,7 @@
 * Make `Function#setProperty` use `Reflect.ownNames` when given an object, so it'll also work with Symbols
 * Refactor Pledge classes
 * Make `Function#setProperty` accept functions as values when wrapped in an object
+* Callbacks passed to `Informer#emit` will now be called synchronously when no listeners are found
 
 ## 0.8.14 (2023-11-04)
 
