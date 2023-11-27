@@ -1,4 +1,4 @@
-## 0.8.15 (WIP)
+## 0.8.15 (2023-11-27)
 
 * Add `Deck#first()` and `Deck#last()` methods
 * Refined `Object.alike` comparison logic to support custom equality methods and optimized type checking
