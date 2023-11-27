@@ -13,6 +13,7 @@
 * Allow caching `POST` requests on the browser if explicitly requested
 * Use `SwiftPledge` in `Request` class for better cache performance
 * Add `toJSON` method to `AbstractDateTime` class
+* Add `Function.waterfall` and `Pledge.Swift.waterfall` methods
 
 ## 0.8.14 (2023-11-04)
 
