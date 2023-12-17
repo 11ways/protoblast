@@ -726,6 +726,20 @@ describe('String', function() {
 		});
 	});
 
+	describe('#splitOnce(separator)', function() {
+		it('should split the string only once', function() {
+			let result = 'this is a test'.splitOnce(' ');
+			assert.strictEqual(result[0], 'this');
+			assert.strictEqual(result[1], 'is a test');
+		});
+
+		it('should return an array with the original string if the separator is not found', function() {
+			let result = 'this is a test'.splitOnce('x');
+			assert.strictEqual(result[0], 'this is a test');
+			assert.strictEqual(result.length, 1);
+		});
+	});
+
 	describe('#stripTags()', function() {
 		it('should remove HTML tags from the string and replace breaks with newlines', function() {
 			var original = '<b>This is a <br/>bold string</b>';

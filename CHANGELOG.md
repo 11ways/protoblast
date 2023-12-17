@@ -1,3 +1,7 @@
+## 0.8.16 (WIP)
+
+* Fix `String#splitOnce(separator)` breaking when the separator is not found
+
 ## 0.8.15 (2023-11-27)
 
 * Add `Deck#first()` and `Deck#last()` methods
