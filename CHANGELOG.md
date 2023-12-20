@@ -1,6 +1,7 @@
 ## 0.8.16 (WIP)
 
 * Fix `String#splitOnce(separator)` breaking when the separator is not found
+* Add `SeededRng#between(min, max)` method
 
 ## 0.8.15 (2023-11-27)
 
