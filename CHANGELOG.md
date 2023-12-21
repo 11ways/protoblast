@@ -5,6 +5,7 @@
 * Add `emit_chunks` option to server-side `Request` class
 * Add `LinkedList` and `LinkedMap` classes
 * Allow `Function.timebomb()` to be made with an infinite timeout
+* Add `RequestEvents` class, which is similar to `EventSource` but supports `POST` requests
 
 ## 0.8.15 (2023-11-27)
 
