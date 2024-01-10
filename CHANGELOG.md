@@ -1,4 +1,4 @@
-## 0.8.17 (WIP)
+## 0.8.17 (2024-01-10)
 
 * Add `Request#getResponse()` method
 
