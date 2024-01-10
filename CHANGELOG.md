@@ -1,3 +1,7 @@
+## 0.8.17 (WIP)
+
+* Add `Request#getResponse()` method
+
 ## 0.8.16 (2023-12-21)
 
 * Fix `String#splitOnce(separator)` breaking when the separator is not found
