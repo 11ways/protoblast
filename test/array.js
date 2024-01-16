@@ -721,6 +721,105 @@ describe('Array', function() {
 		});
 	});
 
+	describe('#sortTopological(id_path, dependencies_path)', () => {
+
+		it('should sort based on dependencies', () => {
+
+			let arr = [
+				{
+					id: 'a.b',
+					depends_on: null
+				},
+				{
+					id: 'x',
+					depends_on: 'z',
+				},
+				{
+					id: 'z',
+					depends_on: null,
+				},
+				{
+					id: 'c',
+					depends_on: ['a.b', 'x']
+				},
+				{
+					id: 'blabla'
+				}
+			];
+
+			arr.sortTopological('id', 'depends_on');
+
+			assert.deepStrictEqual(arr, [
+				{
+					id: 'a.b',
+					depends_on: null
+				},
+				{
+					id: 'z',
+					depends_on: null,
+				},
+				{
+					id: 'x',
+					depends_on: 'z',
+				},
+				{
+					id: 'c',
+					depends_on: ['a.b', 'x']
+				},
+				{
+					id: 'blabla'
+				}
+			]);
+
+			arr = [
+				{id: 0, depends_on: 6},
+				{id: 1, depends_on: [2, 3]},
+				{id: 2, depends_on: [3]},
+				{id: 3, depends_on: []},
+				{id: 4, depends_on: [1]},
+				{id: 5, depends_on: [4]},
+				{id: 6, depends_on: [5]},
+			];
+		
+			arr.sortTopological('id', 'depends_on');
+
+			assert.deepStrictEqual(arr, [
+				{id: 3, depends_on: []},
+				{id: 2, depends_on: [3]},
+				{id: 1, depends_on: [2, 3]},
+				{id: 4, depends_on: [1]},
+				{id: 5, depends_on: [4]},
+				{id: 6, depends_on: [5]},
+				{id: 0, depends_on: 6},
+			]);
+		});
+
+		it('should ignore circular errors by default', () => {
+
+			let arr = [
+				{id: 0, depends_on: 6},
+				{id: 1, depends_on: [2, 3]},
+				{id: 2, depends_on: null},
+				{id: 3, depends_on: [4]},
+				{id: 4, depends_on: [3]},
+				{id: 5, depends_on: [4]},
+				{id: 6, depends_on: [5]},
+			];
+
+			arr.sortTopological('id', 'depends_on');
+
+			assert.deepStrictEqual(arr, [
+				{ id: 2, depends_on: null },
+				{ id: 0, depends_on: 6 },
+				{ id: 3, depends_on: [ 4 ] },
+				{ id: 4, depends_on: [ 3 ] },
+				{ id: 5, depends_on: [ 4 ] },
+				{ id: 6, depends_on: [ 5 ] },
+				{ id: 1, depends_on: [ 2, 3 ] },
+			]);
+		});
+	});
+
 	describe('#sortByPath', function() {
 
 		it('should sort the given path', function() {

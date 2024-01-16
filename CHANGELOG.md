@@ -3,6 +3,7 @@
 * Fix `Magic` class not passing constructor arguments properly
 * Remove original child class form `children` property when creating a new child class in the same namespace
 * Fix class constitutors not being propagated to already existing children
+* Add `Array#sortTopological(id_path, dependencies_path)`
 
 ## 0.8.17 (2024-01-10)
 
