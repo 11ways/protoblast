@@ -4,6 +4,7 @@
 * Remove original child class form `children` property when creating a new child class in the same namespace
 * Fix class constitutors not being propagated to already existing children
 * Add `Array#sortTopological(id_path, dependencies_path)`
+* Add `Blast.executeAfterLoadingCycle(task)` which will put Protoblast in an unloaded state if needed and execute the task after the library becomes loaded again.
 
 ## 0.8.17 (2024-01-10)
 
