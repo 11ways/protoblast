@@ -1,4 +1,4 @@
-## 0.8.18 (WIP)
+## 0.8.18 (2024-01-19)
 
 * Fix `Magic` class not passing constructor arguments properly
 * Remove original child class form `children` property when creating a new child class in the same namespace
