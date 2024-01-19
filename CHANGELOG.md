@@ -1,3 +1,7 @@
+## 0.9.0 (WIP)
+
+* Make sure `String` methods don't return object versions of the string
+
 ## 0.8.18 (2024-01-19)
 
 * Fix `Magic` class not passing constructor arguments properly
