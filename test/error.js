@@ -27,6 +27,8 @@ describe('Develry.Error', function() {
 	describe('Inheritance', function() {
 		it('should be able to be inherited', function(done) {
 
+			done = Blast.Bound.Function.regulate(done, 1);
+
 			CustomError = Function.inherits('Develry.Error', function CustomError(message) {
 				CustomError.super.call(this, message);
 			});

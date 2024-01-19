@@ -641,31 +641,25 @@ describe('Inheritance', function() {
 			    tasks = [],
 			    i = 0;
 
-			var _originalLoaded = Blast.loaded;
-
-			Blast.loaded = function(fnc) {
-				tasks.push(fnc);
-			};
-
 			// This is the main class
 			DTOne = Blast.Bound.Function.inherits(function DTOne() {});
 			DTOne.constitute(function doFirst() {
 				this.first_time = i++;
-				checker();
+				checker('DTOne', this);
 			});
 
 			// This will inherit a class that doesn't exist yet
 			DTThree = Blast.Bound.Function.inherits('DTTwo', function DTThree() {});
 			DTThree.constitute(function doThird() {
 				this.third_time = i++;
-				checker();
+				checker('DTThree', this);
 			});
 
 			// This is the non-existing class
 			DTTwo = Blast.Bound.Function.inherits('DTOne', function DTTwo() {});
 			DTTwo.constitute(function doSecond() {
 				this.second_time = i++;
-				checker();
+				checker('DTTwo', this);
 			});
 
 			// This is another, non-related class
@@ -673,10 +667,8 @@ describe('Inheritance', function() {
 			DTOther = Blast.Bound.Function.inherits(function DTOther() {});
 			DTOther.constitute(function doAfterThree() {
 				this.fourth_time = i++;
-				checker();
+				checker('DTOther', this);
 			});
-
-			Blast.loaded = _originalLoaded;
 
 			// Simulate the 'loaded' event
 			Blast.setImmediate(function forcingLoaded() {
@@ -685,51 +677,62 @@ describe('Inheritance', function() {
 				}
 			});
 
+			let current_source,
+			    current_class;
+
 			// This will check if everything is happening in the correct order
-			function checker() {
+			function checker(source, _current_class) {
+
+				current_source = source;
+				current_class = _current_class;
 
 				// This should always be checked
-				assert.equal(DTOne.first_time,  0);
-				assert.equal(DTOne.second_time, undefined);
-				assert.equal(DTOne.third_time,  undefined);
-				assert.equal(DTOne.fourth_time, undefined);
+				assertProperty(DTOne, 'DTOne', 'first_time',  0);
+				assertProperty(DTOne, 'DTOne', 'second_time', undefined);
+				assertProperty(DTOne, 'DTOne', 'third_time',  undefined);
+				assertProperty(DTOne, 'DTOne', 'fourth_time', undefined);
 
 				if (i == 1) {
 					// Already checked
 				} else if (i == 2) {
-					assert.equal(DTTwo.first_time, 1);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
 				} else if (i == 3) {
-					assert.equal(DTTwo.first_time, 1);
-					assert.equal(DTTwo.second_time, 2);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
+					assertProperty(DTTwo, 'DTTwo', 'second_time', 2);
 				} else if (i == 4) {
-					assert.equal(DTTwo.first_time, 1);
-					assert.equal(DTTwo.second_time, 2);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
+					assertProperty(DTTwo, 'DTTwo', 'second_time', 2);
 
-					assert.equal(DTThree.first_time, 3);
+					assertProperty(DTThree, 'DTThree', 'first_time', 3);
 				} else if (i == 5) {
-					assert.equal(DTTwo.first_time, 1);
-					assert.equal(DTTwo.second_time, 2);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
+					assertProperty(DTTwo, 'DTTwo', 'second_time', 2);
 
-					assert.equal(DTThree.first_time, 3);
-					assert.equal(DTThree.second_time, 4);
+					assertProperty(DTThree, 'DTThree', 'first_time', 3);
+					assertProperty(DTThree, 'DTThree', 'second_time', 4);
 				} else if (i == 6) {
-					assert.equal(DTTwo.first_time, 1);
-					assert.equal(DTTwo.second_time, 2);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
+					assertProperty(DTTwo, 'DTTwo', 'second_time', 2);
 
-					assert.equal(DTThree.first_time, 3);
-					assert.equal(DTThree.second_time, 4);
-					assert.equal(DTThree.third_time, 5);
+					assertProperty(DTThree, 'DTThree', 'first_time', 3);
+					assertProperty(DTThree, 'DTThree', 'second_time', 4);
+					assertProperty(DTThree, 'DTThree', 'third_time', 5);
 				} else if (i == 7) {
-					assert.equal(DTTwo.first_time, 1);
-					assert.equal(DTTwo.second_time, 2);
+					assertProperty(DTTwo, 'DTTwo', 'first_time', 1);
+					assertProperty(DTTwo, 'DTTwo', 'second_time', 2);
 
-					assert.equal(DTThree.first_time, 3);
-					assert.equal(DTThree.second_time, 4);
-					assert.equal(DTThree.third_time, 5);
+					assertProperty(DTThree, 'DTThree', 'first_time', 3);
+					assertProperty(DTThree, 'DTThree', 'second_time', 4);
+					assertProperty(DTThree, 'DTThree', 'third_time', 5);
 
-					assert.equal(DTOther.fourth_time, 6);
+					assertProperty(DTOther, 'DTOther', 'fourth_time', 6);
 					done();
 				}
+			}
+
+			function assertProperty(context, name, property, amount) {
+				let error = name + '.' + property + ' should be ' + amount + ', but it is ' + context[property] + '. Called by ' + current_class.name;
+				assert.equal(context[property], amount, error);
 			}
 		});
 
