@@ -3,6 +3,7 @@
 * Make sure `String` methods don't return object versions of the string
 * Fix `Pledge.done()` resolving with object versions of primitives
 * Make `Blast.require(path)` use `vm` module instead of monkey-patching `require`
+* Add `Cache#clear()` method
 
 ## 0.8.18 (2024-01-19)
 
