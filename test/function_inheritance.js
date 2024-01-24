@@ -812,6 +812,201 @@ describe('Inheritance', function() {
 		});
 	});
 
+	describe('.postInherit(task)', () => {
+
+		it('should execute the task immediately after inheriting', () => {
+
+			let PostInheritBase = Blast.Bound.Function.inherits(function PostInheritBase() {});
+
+			let done_count = 0;
+			let i = 0;
+
+			PostInheritBase.postInherit(function doFirst() {
+
+				if (!this.first_count) {
+					this.first_count = 0;
+				}
+
+				// This should remain 1, we'll test that later
+				this.first_count++;
+
+				this.first_time = i++;
+				done_count++;
+			});
+
+			assert.strictEqual(done_count, 1);
+			assert.strictEqual(PostInheritBase.first_count, 1);
+
+			PostInheritBase.postInherit(function doSecond() {
+
+				if (!this.second_count) {
+					this.second_count = 0;
+				}
+
+				// This should remain 1, we'll test that later
+				this.second_count++;
+
+				this.second_time = i++;
+				done_count++;
+			});
+
+			assert.strictEqual(done_count, 2);
+			assert.strictEqual(PostInheritBase.first_count, 1);
+			assert.strictEqual(PostInheritBase.second_count, 1);
+
+			let PostInheritChild = Blast.Bound.Function.inherits('PostInheritBase', function PostInheritChild() {});
+
+			assert.strictEqual(done_count, 4);
+			assert.strictEqual(PostInheritChild.first_count, 1);
+			assert.strictEqual(PostInheritChild.second_count, 1);
+		});
+
+		it('should not postInherit before a non-existing parent class', function(done) {
+
+			var CTOne,
+			    CTTwo,
+			    i = 0;
+
+			// This will inherit a class that doesn't exist yet
+			CTTwo = Blast.Bound.Function.inherits('PICTOne', function CTTwo() {});
+			CTTwo.constitute(function doThird() {
+				this.third_time = i++;
+				checker();
+			});
+
+			// This is the main class
+			setTimeout(function() {
+				CTOne = Blast.Bound.Function.inherits(function PICTOne() {});
+				CTOne.constitute(function doFirst() {
+					this.first_time = i++;
+					checker();
+				});
+
+				CTOne.constitute(function doSecond() {
+					this.second_time = i++;
+					checker();
+				});
+			}, 10);
+
+			// This will check if everything is happening in the correct order
+			function checker() {
+
+				if (i == 1) {
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, undefined);
+					assert.equal(CTOne.third_time, undefined);
+				} else if (i == 2) {
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+				} else if (i == 3) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, undefined);
+					assert.equal(CTTwo.third_time, undefined);
+				} else if (i == 4) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, 3);
+					assert.equal(CTTwo.third_time, undefined);
+				} else if (i == 5) {
+
+					assert.equal(CTOne.first_time, 0);
+					assert.equal(CTOne.second_time, 1);
+					assert.equal(CTOne.third_time, undefined);
+
+					assert.equal(CTTwo.first_time, 2);
+					assert.equal(CTTwo.second_time, 3);
+					assert.equal(CTTwo.third_time, 4);
+					done();
+				}
+			}
+		});
+
+		it('should exectute postInheritors added during postInheriting', function(done) {
+
+			var CTM = Blast.Bound.Function.inherits(function PITestMore() {}),
+			    count = 0;
+
+			CTM.postInherit(function first() {
+				count++;
+
+				this.postInherit(function second() {
+					count++;
+					assert.equal(count, 2);
+					setTimeout(moreConstitutors, 5);
+				});
+			});
+
+			function moreConstitutors() {
+				CTM.postInherit(function third() {
+					count++;
+					assert.equal(count, 3);
+					done();
+				});
+			}
+		});
+
+		it('should execute postInheritors added before parent was available', function(done) {
+
+			var GrandParent,
+			    Parent,
+			    Child,
+			    last,
+			    count = 0;
+
+			GrandParent = Function.inherits(null, 'UnitTesting.GammaPI', function GammaPI() {});
+
+			GrandParent.postInherit(function() {
+				last = 'GrandParent';
+				count++;
+				checker(last);
+			});
+
+			Child = Function.inherits('UnitTesting.GammaPI.Parent', function Child() {});
+
+			Child.postInherit(function() {
+				last = 'Child';
+				count++;
+				checker(last);
+			});
+
+			Parent = Function.inherits('UnitTesting.GammaPI', function Parent() {});
+
+			Parent.postInherit(function() {
+				last = 'Parent';
+				count++;
+				checker(last);
+			});
+
+			function checker(last) {
+
+				if (count == 1) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 2) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 3) {
+					assert.equal(last, 'Parent');
+				} else if (count == 4) {
+					assert.equal(last, 'GrandParent');
+				} else if (count == 5) {
+					assert.equal(last, 'Parent');
+				} else if (count == 6) {
+					assert.equal(last, 'Child');
+					done();
+				}
+			}
+		});
+	});
+
 	describe('.prepareProperty(target, key, getter, enumerable)', function() {
 
 		it('should define a property that gets a value on first get', function() {
