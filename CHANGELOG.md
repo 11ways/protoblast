@@ -7,6 +7,7 @@
 * Add `Function.postInherit(task)`, which will execute the task after the class has been inherited
 * Add `Blast.parseClassPath(path)` method
 * Add `WeakValueSet` class
+* Add `WeakValueSetMap` class
 
 ## 0.8.18 (2024-01-19)
 
