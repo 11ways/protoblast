@@ -5,6 +5,7 @@
 * Make `Blast.require(path)` use `vm` module instead of monkey-patching `require`
 * Add `Cache#clear()` method
 * Add `Function.postInherit(task)`, which will execute the task after the class has been inherited
+* Add `Blast.parseClassPath(path)` method
 
 ## 0.8.18 (2024-01-19)
 
