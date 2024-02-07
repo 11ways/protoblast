@@ -9,6 +9,7 @@
 * Add `WeakValueSet` class
 * Add `WeakValueSetMap` class
 * Make `Blast.createObjectId()` also available on the server-side
+* Add `toISOString` method to `AbstractDateTime` classes
 
 ## 0.8.18 (2024-01-19)
 
