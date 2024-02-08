@@ -188,9 +188,11 @@ describe('Inheritance', function() {
 				// The grandchild will only have returnTwo on the next tick
 				assert.strictEqual(Grandchild.returnTwo(), 2);
 
-				assert.strictEqual(order[0], 'created-parent');
-				assert.strictEqual(order[1], 'setting-returntwo-on-parent');
-				assert.strictEqual(order[2], 'constituting-grandchild');
+				assert.deepStrictEqual(order, [
+					'created-parent',
+					'setting-returntwo-on-parent',
+					'constituting-grandchild'
+				]);
 
 				done();
 			}, 20)
@@ -572,7 +574,7 @@ describe('Inheritance', function() {
 			CTTwo = Blast.Bound.Function.inherits('CTOne', function CTTwo() {});
 			CTTwo.constitute(function doThird() {
 				this.third_time = i++;
-				checker();
+				checker(this, 'CTTwo: doThird');
 			});
 
 			// This is the main class
@@ -580,17 +582,17 @@ describe('Inheritance', function() {
 				CTOne = Blast.Bound.Function.inherits(function CTOne() {});
 				CTOne.constitute(function doFirst() {
 					this.first_time = i++;
-					checker();
+					checker(this, 'CTOne: doFirst');
 				});
 
 				CTOne.constitute(function doSecond() {
 					this.second_time = i++;
-					checker();
+					checker(this, 'CTOne: doSecond');
 				});
 			}, 10);
 
 			// This will check if everything is happening in the correct order
-			function checker() {
+			function checker(constructor, creator) {
 
 				if (i == 1) {
 					assert.equal(CTOne.first_time, 0);
@@ -641,6 +643,9 @@ describe('Inheritance', function() {
 			    tasks = [],
 			    i = 0;
 
+			let current_source,
+			    current_class;
+
 			// This is the main class
 			DTOne = Blast.Bound.Function.inherits(function DTOne() {});
 			DTOne.constitute(function doFirst() {
@@ -663,7 +668,8 @@ describe('Inheritance', function() {
 			});
 
 			// This is another, non-related class
-			// This should run AFTER DTThree
+			// This originall ran AFTER DTThree,
+			// but since 2024 it will run before it.
 			DTOther = Blast.Bound.Function.inherits(function DTOther() {});
 			DTOther.constitute(function doAfterThree() {
 				this.fourth_time = i++;
@@ -676,9 +682,6 @@ describe('Inheritance', function() {
 					if (tasks[j]) tasks[j]();
 				}
 			});
-
-			let current_source,
-			    current_class;
 
 			// This will check if everything is happening in the correct order
 			function checker(source, _current_class) {
@@ -809,6 +812,23 @@ describe('Inheritance', function() {
 					done();
 				}
 			}
+		});
+
+		it('should handle constitutors added during a loading cycle', async () => {
+
+			let Base = Function.inherits('Informer', 'Delayed', function Base() {});
+			Base.constitute(() => {});
+
+			let Alpha = Function.inherits('Delayed.Base', function Alpha() {});
+			let Beta = Function.inherits('Delayed.Base', function Beta() {});
+
+			return Function.parallel((next) => {
+				Alpha.constitute(() => {
+					Blast.executeAfterLoadingCycle(next);
+				});
+			}, (next) => {
+				Beta.constitute(() => next());
+			}, () => {});
 		});
 	});
 
