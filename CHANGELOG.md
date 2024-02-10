@@ -12,6 +12,7 @@
 * Add `toISOString` method to `AbstractDateTime` classes
 * Add `Blast.didInitialLoad()` method
 * Make `Blast.executeAfterLoadingCycle()` keep `did_initial_load` variable alone
+* Add `String.parseQuoted(input)` to parse json-like string values
 
 ## 0.8.18 (2024-01-19)
 

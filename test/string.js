@@ -149,6 +149,51 @@ describe('String', function() {
 		});
 	});
 
+	describe('.parseQuoted(input)', () => {
+		it('should parse strings containing quoted strings', () => {
+
+			const getToken = (fnc) => {
+				let source = fnc + '';
+
+				if (source.includes('{')) {
+					source = source.after('{');
+				} else {
+					source = source.after('=>');
+				}
+
+				source = source.trim();
+				let tokens = Function.tokenize(source);
+				console.log('Tokens:', tokens);
+				return tokens[0];
+			};
+
+			const parse = (input) => {
+				let token = getToken(input);
+				console.log('Parsing:', token)
+				return String.parseQuoted(token);
+			};
+
+			const test = (input) => {
+				let expected = input();
+				let result = parse(input);
+				assert.strictEqual(result, expected);
+			};
+
+			test(() => 'A\\B\\C\nD\tE\rF😍🐛');
+			test(() => "A\\B\\C\nD\tE\rF😍🐛");
+			test(() => `A\\B\\C\nD\tE\rF😍🐛`);
+			test(() => "test	Bla");
+			test(() => "test");
+			test(() => `This is a test
+				with multiple lines`);
+
+			test(() => "This is a test with a 'quoted' string");
+			test(() => "This is a test with a \"quoted\" string");
+			test(() => "This is a test with a 'quoted' string and a \"quoted\" string");
+			test(() => '"this is a test"');
+		});
+	});
+
 	describe('.tokenizeHTML(source)', function() {
 		it('should return an array with tokens', function() {
 			var html = '<a href="#">Anchor</a>',
