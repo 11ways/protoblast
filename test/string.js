@@ -163,7 +163,6 @@ describe('String', function() {
 
 				source = source.trim();
 				let tokens = Function.tokenize(source);
-				console.log('Tokens:', tokens);
 				return tokens[0];
 			};
 
