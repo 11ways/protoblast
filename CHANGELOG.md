@@ -13,6 +13,7 @@
 * Add `Blast.didInitialLoad()` method
 * Make `Blast.executeAfterLoadingCycle()` keep `did_initial_load` variable alone
 * Add `String.parseQuoted(input)` to parse json-like string values
+* Add the `Placeholder` and `Trail` class to the Develry namespace
 
 ## 0.8.18 (2024-01-19)
 
