@@ -87,10 +87,6 @@ describe('Inheritance', function() {
 			let instance = new NoConstructor('test-nc');
 
 			assert.strictEqual(instance.value, 'test-nc');
-
-			assert.throws(function() {
-				Function.inherits('NoConstructor', 'This-Is-Not-A-Valid-Class-Name');
-			});
 		});
 
 		it('should inherit from multiple parents that are children', function() {

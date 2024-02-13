@@ -15,6 +15,7 @@
 * Add `String.parseQuoted(input)` to parse json-like string values
 * Add the `Placeholder` and `Trail` class to the Develry namespace
 * The `Pledge` class is now a child of `Placeholder` and no longer an `Informer`
+* Make `Function.create(name, fnc)` rename the given function instead of creating a new one using `eval`
 
 ## 0.8.18 (2024-01-19)
 

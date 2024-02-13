@@ -51,21 +51,22 @@ describe('Function', function() {
 
 		it('should have a reference to the newly wrapped function', function() {
 
-			var fnc = Function.create('ReturnWrapperName', function med() {
+			var fnc = Function.create('ReturnWrapperName', 'a', function med() {
 				return med.wrapper.name;
 			});
 
 			assert.equal(fnc(), 'ReturnWrapperName');
 		});
 
-		it('should have the same amount of arguments', function() {
+		it('should rename the given function', function() {
 
-			var fnc = Function.create('ReturnWrapperName', function test(a, b) {
-
-			});
+			let testfnc = function test(a, b) {};
+			let fnc = Function.create('ReturnWrapperName', testfnc);
 
 			assert.equal(fnc.length, 2);
 			assert.equal(fnc.name, 'ReturnWrapperName');
+			assert.strictEqual(fnc, testfnc);
+			
 		});
 
 		it('should accept an array as argument names', function() {
