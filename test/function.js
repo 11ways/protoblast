@@ -503,6 +503,129 @@ string` + `another
 
 			deepAlike(tokens, result);
 		});
+
+		it('should handle optional syntax', () => {
+
+			let fnc = (a) => {
+				let b;
+				b &&= a;
+				return a?.b?.c ?? 'NOPE';
+			};
+
+			let tokens = Function.tokenize(fnc, true);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'parens', value: '(', line_start: 0, line_end: 0 },
+				{ type: 'name', value: 'a', line_start: 0, line_end: 0 },
+				{ type: 'parens', value: ')', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '=>',
+					line_start: 0,
+					line_end: 0,
+					name: 'arrow_function'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'curly', value: '{', line_start: 0, line_end: 0 },
+				{
+					type: 'whitespace',
+					value: '\n\t\t\t\t',
+					line_start: 0,
+					line_end: 1
+				},
+				{
+					type: 'keyword',
+					value: 'let',
+					line_start: 1,
+					line_end: 1,
+					name: 'let'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 1, line_end: 1 },
+				{ type: 'name', value: 'b', line_start: 1, line_end: 1 },
+				{
+					type: 'punct',
+					value: ';',
+					line_start: 1,
+					line_end: 1,
+					name: 'semicolon'
+				},
+				{
+					type: 'whitespace',
+					value: '\n\t\t\t\t',
+					line_start: 1,
+					line_end: 2
+				},
+				{ type: 'name', value: 'b', line_start: 2, line_end: 2 },
+				{ type: 'whitespace', value: ' ', line_start: 2, line_end: 2 },
+				{
+					type: 'punct',
+					value: '&&=',
+					line_start: 2,
+					line_end: 2,
+					name: 'assign_logical_and'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 2, line_end: 2 },
+				{ type: 'name', value: 'a', line_start: 2, line_end: 2 },
+				{
+					type: 'punct',
+					value: ';',
+					line_start: 2,
+					line_end: 2,
+					name: 'semicolon'
+				},
+				{
+					type: 'whitespace',
+					value: '\n\t\t\t\t',
+					line_start: 2,
+					line_end: 3
+				},
+				{
+					type: 'keyword',
+					value: 'return',
+					line_start: 3,
+					line_end: 3,
+					name: 'return'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 3, line_end: 3 },
+				{ type: 'name', value: 'a', line_start: 3, line_end: 3 },
+				{
+					type: 'punct',
+					value: '?.',
+					line_start: 3,
+					line_end: 3,
+					name: 'optional_chaining'
+				},
+				{ type: 'name', value: 'b', line_start: 3, line_end: 3 },
+				{
+					type: 'punct',
+					value: '?.',
+					line_start: 3,
+					line_end: 3,
+					name: 'optional_chaining'
+				},
+				{ type: 'name', value: 'c', line_start: 3, line_end: 3 },
+				{ type: 'whitespace', value: ' ', line_start: 3, line_end: 3 },
+				{
+					type: 'punct',
+					value: '??',
+					line_start: 3,
+					line_end: 3,
+					name: 'nullish_coalescing'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 3, line_end: 3 },
+				{ type: 'string', value: "'NOPE'", line_start: 3, line_end: 3 },
+				{
+					type: 'punct',
+					value: ';',
+					line_start: 3,
+					line_end: 3,
+					name: 'semicolon'
+				},
+				{ type: 'whitespace', value: '\n\t\t\t', line_start: 3, line_end: 4 },
+				{ type: 'curly', value: '}', line_start: 4, line_end: 4 }
+			]);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {
