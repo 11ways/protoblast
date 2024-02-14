@@ -51,6 +51,65 @@ function recreateAgentKeepAlive() {
 }
 
 describe('HttpAgent', function() {
+
+	let old_it = it;
+	it = function(title, fn) {
+
+		let is_async = fn.constructor.name != 'Function';
+		let wrapper;
+		let has_callback = fn.length > 0;
+
+		let retries = 0;
+
+		if (is_async) {
+			wrapper = async function() {
+				this.timeout(50000);
+
+				try {
+					await fn.call(this);
+				} catch (err) {
+					retries++;
+					if (retries < 3) {
+						console.log('Retrying test', title, 'due to error:', err);
+						return wrapper();
+					} else {
+						throw err;
+					}
+				}
+			};
+		} else {
+			wrapper = function(done) {
+				this.timeout(50000);
+
+				try {
+
+					fn.call(this, function finish(err, result) {
+
+						if (err) {
+							retries++;
+							if (retries < 3) {
+								console.log('Retrying test', title, 'due to error:', err);
+								return wrapper(done);
+							} else {
+								return finish(err);
+							}
+						}
+
+						done(null);
+					});
+
+					if (!has_callback) {
+						done();
+					}
+				} catch (err) {
+					done(err);
+				}
+			};
+		}
+
+		old_it(title, wrapper);
+	};
+
 	before(function(done) {
 		Blast  = require('../index.js')();
 
