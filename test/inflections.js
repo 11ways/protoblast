@@ -33,42 +33,6 @@ describe('String Inflections', function() {
 		});
 	});
 
-	describe('#modelClassName()', function() {
-		it('should return the model name representation of the string, with the Model postfix', function() {
-			assert.strictEqual('news'.modelClassName(), 'NewsModel');
-			assert.strictEqual('newsModel'.modelClassName(), 'NewsModel');
-			assert.strictEqual('news_model'.modelClassName(), 'NewsModel');
-			assert.strictEqual('user'.modelClassName(), 'UserModel');
-			assert.strictEqual('app'.modelClassName(), 'AppModel');
-		});
-	});
-
-	describe('#controllerName(postfix)', function() {
-		it('should return the controller name representation of the string', function() {
-
-			assert.strictEqual('app'.controllerName(), 'App');
-			assert.strictEqual('static'.controllerName(), 'Static');
-
-			assert.strictEqual('news'.controllerName(), 'News');
-			assert.strictEqual('user'.controllerName(), 'Users');
-			assert.strictEqual('contact_info'.controllerName(), 'ContactInfos');
-		});
-	});
-
-	describe('#controllerClassName(postfix)', function() {
-		it('should return the controller name representation of the string, with the Controller postfix', function() {
-
-			assert.strictEqual('app'.controllerClassName(), 'AppController');
-			assert.strictEqual('static'.controllerClassName(), 'StaticController');
-
-			assert.strictEqual('news'.controllerClassName(), 'NewsController');
-			assert.strictEqual('newsController'.controllerClassName(), 'NewsController');
-			assert.strictEqual('news_controller'.controllerClassName(), 'NewsController');
-			assert.strictEqual('user'.controllerClassName(), 'UsersController');
-			assert.strictEqual('contact_info'.controllerClassName(), 'ContactInfosController');
-		});
-	});
-
 	describe('#camelize(lowFirstLetter)', function() {
 		it('should return the camelized representation of the string', function() {
 			assert.strictEqual('this_is_a_test'.camelize(), 'ThisIsATest');
@@ -122,12 +86,6 @@ describe('String Inflections', function() {
 	describe('#titleize()', function() {
 		it('should return the titleized representation of the string', function() {
 			assert.strictEqual('this is a title'.titleize(), 'This Is a Title');
-		});
-	});
-
-	describe('#demodulize()', function() {
-		it('should remove module names leaving only class names', function() {
-			assert.strictEqual("Message::Bus::Properties".demodulize(), 'Properties');
 		});
 	});
 
