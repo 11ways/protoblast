@@ -17,7 +17,7 @@ describe('Blast(false)', function() {
 	});
 
 	it('should have returned bound functions', function() {
-		var bound = !!(blastObj.Bound.String.startsWith);
+		var bound = !!(blastObj.Bound.String.isEmptyWhitespaceHTML);
 		assert.equal(bound, true);
 	});
 });
