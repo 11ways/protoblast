@@ -17,6 +17,8 @@
 * The `Pledge` class is now a child of `Placeholder` and no longer an `Informer`
 * Make `Function.create(name, fnc)` rename the given function instead of creating a new one using `eval`
 * Remove `eval` usage from the `methodize` & `unmethode` functions
+* Add new operators to the JavaScript tokenizer
+* Replace `Object.hasOwnProperty.call` calls with `Object.hasOwn`
 
 ## 0.8.18 (2024-01-19)
 
