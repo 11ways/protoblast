@@ -16,6 +16,7 @@
 * Add the `Placeholder` and `Trail` class to the Develry namespace
 * The `Pledge` class is now a child of `Placeholder` and no longer an `Informer`
 * Make `Function.create(name, fnc)` rename the given function instead of creating a new one using `eval`
+* Remove `eval` usage from the `methodize` & `unmethode` functions
 
 ## 0.8.18 (2024-01-19)
 

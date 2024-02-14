@@ -633,12 +633,10 @@ string` + `another
 			var methodized;
 
 			function myFnc(){}
-			function m_fnc(){}
 			function toTestDelete(){}
 
 			assert.equal(myFnc.methodize('bla').name, 'bla');
-			assert.equal(m_fnc.methodize().name, '_m_fnc');
-			assert.equal(toTestDelete.methodize('delete').name, '_delete');
+			assert.equal(toTestDelete.methodize('delete').name, 'delete');
 		});
 
 		it('should set the original function as the unmethodized one', function() {
@@ -667,13 +665,11 @@ string` + `another
 
 			function myFnc(){};
 			function bla_fnc(){};
-			function u_fnc(){};
 			function toTestDelete(){};
 
 			assert.equal(myFnc.unmethodize().name, 'myFnc');
 			assert.equal(bla_fnc.unmethodize('bla').name, 'bla');
-			assert.equal(u_fnc.unmethodize('u_fnc').name, '_u_fnc');
-			assert.equal(toTestDelete.unmethodize('delete').name, '_delete');
+			assert.equal(toTestDelete.unmethodize('delete').name, 'delete');
 		});
 	});
 
