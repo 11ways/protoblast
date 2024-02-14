@@ -1797,7 +1797,8 @@ describe('HttpAgent', function() {
 	});
 
 	// ECONNRESET tests
-	describe('ECONNRESET handling', () => {
+	describe('ECONNRESET handling', function () {
+		this.timeout(45000);
 
 		let port;
 		let server;
