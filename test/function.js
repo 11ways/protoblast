@@ -514,6 +514,13 @@ string` + `another
 
 			let tokens = Function.tokenize(fnc, true);
 
+			// Windows line endings stuff
+			for (let token of tokens) {
+				if (typeof token.value == 'string') {
+					token.value = token.value.replaceAll('\r\n', '\n');
+				}
+			}
+
 			assert.deepStrictEqual(tokens, [
 				{ type: 'parens', value: '(', line_start: 0, line_end: 0 },
 				{ type: 'name', value: 'a', line_start: 0, line_end: 0 },
