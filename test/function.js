@@ -626,6 +626,28 @@ string` + `another
 				{ type: 'curly', value: '}', line_start: 4, line_end: 4 }
 			]);
 		});
+
+		it('should support underscores in numbers', () => {
+
+			let fnc = () => 1_000_000.0_1;
+
+			let tokens = Function.tokenize(fnc, true);
+
+			assert.deepStrictEqual(tokens, [
+				{ type: 'parens', value: '(', line_start: 0, line_end: 0 },
+				{ type: 'parens', value: ')', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '=>',
+					line_start: 0,
+					line_end: 0,
+					name: 'arrow_function'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'number', value: '1000000.01', line_start: 0, line_end: 0 }
+			]);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {

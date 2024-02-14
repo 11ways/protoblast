@@ -19,6 +19,7 @@
 * Remove `eval` usage from the `methodize` & `unmethode` functions
 * Add new operators to the JavaScript tokenizer
 * Replace `Object.hasOwnProperty.call` calls with `Object.hasOwn`
+* Add support for underscores in numbers to the tokenizer
 
 ## 0.8.18 (2024-01-19)
 
