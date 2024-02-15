@@ -1,4 +1,4 @@
-## 0.9.0 (WIP)
+## 0.9.0 (2024-02-15)
 
 * Make sure `String` methods don't return object versions of the string
 * Fix `Pledge.done()` resolving with object versions of primitives
