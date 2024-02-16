@@ -502,6 +502,70 @@ string` + `another
 			];
 
 			deepAlike(tokens, result);
+
+			tokens = Function.tokenize(`if (prevChar.match(/(?:[0-9A-Za-z\xAA])/)) return;`, true);
+
+			result = [
+				{ type: 'keyword', value: 'if', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'parens', value: '(', line_start: 0, line_end: 0 },
+				{ type: 'name', value: 'prevChar', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'name', value: 'match', line_start: 0, line_end: 0 },
+				{ type: 'parens', value: '(', line_start: 0, line_end: 0 },
+				{
+					type: 'regexp',
+					value: '/(?:[0-9A-Za-zª])/',
+					line_start: 0,
+					line_end: 0
+				},
+				{ type: 'parens', value: ')', line_start: 0, line_end: 0 },
+				{ type: 'parens', value: ')', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'keyword', value: 'return', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: ';',
+					line_start: 0,
+					line_end: 0,
+					name: 'semicolon'
+				}
+			];
+
+			deepAlike(tokens, result);
+
+			// This is not a regex
+			tokens = Function.tokenize(' /block', true);
+
+			result = [
+				{
+					"type": "whitespace",
+					"value": " ",
+					"line_start": 0,
+					"line_end": 0
+				},
+				{
+					"type": "punct",
+					"value": "/",
+					"line_start": 0,
+					"line_end": 0,
+					"name": "divide"
+				},
+				{
+					"type": "name",
+					"value": "block",
+					"line_start": 0,
+					"line_end": 0
+				}
+			];
+
+			deepAlike(tokens, result);
 		});
 
 		it('should handle optional syntax', () => {

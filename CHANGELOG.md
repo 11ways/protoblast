@@ -1,3 +1,7 @@
+## 0.9.0 (WIP)
+
+* Rewrite JavaScript tokenizer to no longer use regexes
+
 ## 0.9.0 (2024-02-15)
 
 * Make sure `String` methods don't return object versions of the string
