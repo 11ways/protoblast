@@ -719,6 +719,116 @@ string` + `another
 				{ type: 'number', value: '1000000.01', line_start: 0, line_end: 0 }
 			]);
 		});
+
+		it('should not detect numbers in property chains', () => {
+
+			let source = `this.0.test`;
+			let tokens = Function.tokenize(source, true);
+
+			deepAlike(tokens, [
+				{
+					type: 'keyword',
+					value: 'this',
+					line_start: 0,
+					line_end: 0,
+					name: 'this'
+				},
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'number', value: '0', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'name', value: 'test', line_start: 0, line_end: 0 }
+			]);
+
+			tokens = Function.tokenize(`b = this.0.1.test`, true);
+
+			deepAlike(tokens, [
+				{ type: 'name', value: 'b', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '=',
+					line_start: 0,
+					line_end: 0,
+					name: 'assign'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{
+					type: 'keyword',
+					value: 'this',
+					line_start: 0,
+					line_end: 0,
+					name: 'this'
+				},
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'number', value: '0', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'number', value: '1', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'name', value: 'test', line_start: 0, line_end: 0 }
+			]);
+
+			tokens = Function.tokenize(`let a  = 0.1.test`, true);
+
+			deepAlike(tokens, [
+				{
+					type: 'keyword',
+					value: 'let',
+					line_start: 0,
+					line_end: 0,
+					name: 'let'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'name', value: 'a', line_start: 0, line_end: 0 },
+				{ type: 'whitespace', value: '  ', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '=',
+					line_start: 0,
+					line_end: 0,
+					name: 'assign'
+				},
+				{ type: 'whitespace', value: ' ', line_start: 0, line_end: 0 },
+				{ type: 'number', value: '0.1', line_start: 0, line_end: 0 },
+				{
+					type: 'punct',
+					value: '.',
+					line_start: 0,
+					line_end: 0,
+					name: 'dot'
+				},
+				{ type: 'name', value: 'test', line_start: 0, line_end: 0 }
+			]);
+		});
 	});
 
 	describe('.getArgumentNames(fnc)', function() {
