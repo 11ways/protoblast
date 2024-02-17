@@ -418,6 +418,10 @@ describe('Pledge', function() {
 			let x = await Pledge.all(['hello', Pledge.resolve('world')]);
 			assert.deepEqual(x, ['hello', 'world']);
 		});
+
+		it('should do the tasks in order', async () => {
+			pledgeAllTestOne(Pledge, true);
+		});
 	});
 
 	describe('.race', function () {
@@ -668,6 +672,16 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('#cancel()', () => {
+		it('should cancel the pledge and call `finally`', async () => {
+			return pledgeCancelTestOne(Pledge);
+		});
+
+		it('should call the onCancel queued tasks first', async () => {
+			return pledgeCancelTestTwo(Pledge);
+		});
+	});
+
 	describe('#handleCallback(callback)', function() {
 
 		it('should call the callback when resolving or rejecting', function() {
@@ -876,5 +890,152 @@ describe('TimeoutPledge', function() {
 			});
 		});
 	});
+});
 
-})
+describe('Swift', function() {
+
+	describe('.all(tasks)', () => {
+		it('should do the tasks immediately', async () => {
+			pledgeAllTestOne(Pledge.Swift, false);
+		});
+	});
+
+	describe('#cancel()', () => {
+		it('should cancel the pledge and call `finally`', async () => {
+			return pledgeCancelTestOne(Pledge.Swift);
+		});
+
+		it('should call the onCancel queued tasks first', async () => {
+			return pledgeCancelTestTwo(Pledge.Swift);
+		});
+	});
+
+});
+
+async function pledgeAllTestOne(constructor, do_wait = true) {
+
+	let finished_one = false,
+	    finished_two = false,
+	    finished_three = false;
+
+	let counter = 1;
+
+	let tasks = [];
+	tasks.push((next) => {
+		finished_one = counter++;
+	});
+
+	tasks.push((next) => {
+		finished_two = counter++;
+	});
+
+	tasks.push((next) => {
+		finished_three = counter++;
+	});
+
+	constructor.all(tasks);
+
+	if (do_wait) {
+		await Pledge.after(3);
+	}
+
+	assert.strictEqual(finished_one, 1);
+	assert.strictEqual(finished_two, 2);
+	assert.strictEqual(finished_three, 3);
+}
+
+async function pledgeCancelTestOne(constructor) {
+
+	let pledge = new constructor();
+	let then_called = false,
+		catch_called = false,
+		finally_called = false;
+
+	pledge.then(() => {
+		then_called = true;
+	});
+
+	pledge.catch(() => {
+		catch_called = true;
+	});
+
+	pledge.finally(() => {
+		finally_called = true;
+	});
+
+	pledge.cancel();
+	assert.strictEqual(pledge.isCancelled(), true);
+
+	pledge.resolve(false);
+	assert.strictEqual(pledge.isCancelled(), true);
+
+	await Pledge.after(3);
+
+	assert.strictEqual(then_called, false);
+	assert.strictEqual(catch_called, false);
+	assert.strictEqual(finally_called, true);
+}
+
+async function pledgeCancelTestTwo(constructor) {
+	let pledge = new constructor();
+
+	let then_called = false,
+	    catch_called = false,
+	    finally_called = false,
+	    cancel_called = false,
+	    cancel_two_called = false,
+	    cancel_two_pledge = new Pledge.Swift(),
+	    finally_pledge = new Pledge.Swift();
+
+	let counter = 1;
+
+	pledge.then(() => {
+		then_called = counter++;
+	});
+
+	pledge.catch(() => {
+		catch_called = counter++;
+	});
+
+	pledge.finally(() => {
+		finally_called = counter++;
+		finally_pledge.resolve();
+	});
+
+	pledge.onCancelled(() => {
+		cancel_called = counter++;
+	});
+
+	pledge.onCancelled(async () => {
+		cancel_two_called = counter++;
+		cancel_two_pledge.resolve();
+	});
+
+	pledge.cancel();
+	assert.strictEqual(pledge.isCancelled(), true);
+
+	pledge.resolve(false);
+	assert.strictEqual(pledge.isCancelled(), true);
+
+	assert.strictEqual(then_called, false);
+	assert.strictEqual(catch_called, false);
+	assert.strictEqual(cancel_called, 1);
+
+	await cancel_two_pledge;
+	assert.strictEqual(cancel_two_called, 2);
+
+	await finally_pledge;
+	assert.strictEqual(finally_called, 3);
+
+	let final_finally = false,
+	    final_pledge = new Pledge.Swift();
+
+	pledge.finally(() => {
+		final_finally = counter++;
+		final_pledge.resolve();
+	});
+
+	await final_pledge;
+
+	assert.strictEqual(final_finally, 4);
+}
