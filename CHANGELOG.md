@@ -1,4 +1,4 @@
-## 0.9.0 (WIP)
+## 0.9.1 (2024-02-19)
 
 * Rewrite JavaScript tokenizer to no longer use regexes
 * Allow `Pledge` instances to be cancelled
