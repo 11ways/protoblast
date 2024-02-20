@@ -1,3 +1,7 @@
+## 0.9.2 (WIP)
+
+* Clear the entire `Develry.Request.cache` as soon as a non-GET request is made
+
 ## 0.9.1 (2024-02-19)
 
 * Rewrite JavaScript tokenizer to no longer use regexes
