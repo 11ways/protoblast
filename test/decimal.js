@@ -24,6 +24,15 @@ describe('Decimal', function() {
 			decimalEquals(Decimal('-345.43e+4'), '-3454300');
 			decimalEquals(Decimal('3.345E-9'), '0.000000003345');
 		});
+
+		it('should handle falsy values', () => {
+			decimalEquals(Decimal(''), '0');
+			decimalEquals(Decimal(0), '0');
+			decimalEquals(Decimal(false), '0');
+			decimalEquals(Decimal(), '0');
+			decimalEquals(Decimal(null), '0');
+			decimalEquals(Decimal(undefined), '0');
+		});
 	});
 
 	describe('#toDry()', () => {
