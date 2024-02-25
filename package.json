@@ -1,7 +1,7 @@
 {
 	"name": "protoblast",
 	"description": "Native object expansion library",
-	"version": "0.9.2-alpha",
+	"version": "0.9.2",
 	"author": "Jelle De Loecker <jelle@elevenways.be>",
 	"keywords": [
 		"prototype",

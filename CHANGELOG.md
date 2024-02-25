@@ -1,4 +1,4 @@
-## 0.9.2 (WIP)
+## 0.9.2 (2024-02-25)
 
 * Clear the entire `Develry.Request.cache` as soon as a non-GET request is made
 * Don't let falsy values passed to `Decimal` classes cause an error
