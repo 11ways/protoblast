@@ -2,6 +2,7 @@
 
 * Clear the entire `Develry.Request.cache` as soon as a non-GET request is made
 * Don't let falsy values passed to `Decimal` classes cause an error
+* Don't let `Object.setPath()` create arrays by default
 
 ## 0.9.1 (2024-02-19)
 
