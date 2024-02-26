@@ -1,3 +1,7 @@
+## 0.9.3 (WIP)
+
+* Add `Trail#ifNull(fallback)` method
+
 ## 0.9.2 (2024-02-25)
 
 * Clear the entire `Develry.Request.cache` as soon as a non-GET request is made
