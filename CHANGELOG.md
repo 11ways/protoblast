@@ -1,6 +1,7 @@
 ## 0.9.3 (WIP)
 
 * Add `Trail#ifNull(fallback)` method
+* Make `Function.getDescendant(name)` also try the lowercase version of the name
 
 ## 0.9.2 (2024-02-25)
 
