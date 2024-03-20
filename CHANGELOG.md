@@ -2,6 +2,7 @@
 
 * Make `Develry.HttpAgent` classes return sockets from `createConnection` (backport)
 * Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent` (backport)
+* Add some devtools functions for custom inspect formatting (backport)
 
 ## 0.8.18 (2024-01-19)
 
