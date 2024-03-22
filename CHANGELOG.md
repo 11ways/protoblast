@@ -3,6 +3,7 @@
 * Add `Trail#ifNull(fallback)` method
 * Make `Function.getDescendant(name)` also try the lowercase version of the name
 * Add some devtools functions for custom inspect formatting
+* Add `Pledge#getResolvedFunction()` method, which can be passed as an old-style callback
 
 ## 0.9.2 (2024-02-25)
 

@@ -599,6 +599,20 @@ describe('Pledge', function() {
 		});
 	});
 
+	describe('#getResolverFunction()', function() {
+		it('should return a function that will resolve the original pledge', async () => {
+
+			let pledge = new Pledge();
+			let callback = pledge.getResolverFunction();
+
+			callback(null, 22);
+
+			let result = await pledge;
+
+			assert.strictEqual(result, 22);
+		});
+	});
+
 	describe('#finally(on_finally)', function() {
 		it('should be called on success', function(done) {
 			Pledge.resolve(3).finally(function() {
