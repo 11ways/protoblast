@@ -1061,6 +1061,59 @@ describe('Inheritance', function() {
 		});
 	});
 
+	describe('#getDescendants()', () => {
+		it('should return all the descendants of a class as an array', () => {
+
+			const RootRole = Function.inherits('Informer', 'RootRole');
+
+			RootRole.postInherit(function afterInherit() {
+				// A type_name or type_path is required,
+				// and this is actually not (yet) automatically set by Protoblast
+				this.type_name = this.name.underscore();
+			});
+
+			const RootRoleChild = Function.inherits('RootRole', 'RootRoleChild');
+			const RootRoleSecondChild = Function.inherits('RootRole', 'RootRoleSecondChild');
+			const RootRoleGrandChild = Function.inherits('RootRoleChild', 'RootRoleGrandChild');
+
+			let children = RootRole.getDescendants();
+			assert.strictEqual(children.length, 3);
+		});
+
+		it('should do the same for classes in a namespace', () => {
+
+			const NsRole = Function.inherits('RootRole', 'Nested', 'NestedRole');
+			const NestedChild = Function.inherits('Nested.NestedRole', 'NestedChild');
+			const NestedGrandChild = Function.inherits('Nested.NestedChild', 'NestedGrandChild');
+
+			let children = NsRole.getDescendants();
+			assert.strictEqual(children.length, 2);
+
+			let root_children = Blast.Classes.RootRole.getDescendants();
+			assert.strictEqual(root_children.length, 6);
+		});
+	});
+
+	describe('#getDescendantsDict()', () => {
+		it('should return all the descendants in an Object dictionary', () => {
+
+			let children = Blast.Classes.RootRole.getDescendantsDict();
+
+			let keys = Object.keys(children);
+
+			assert.strictEqual(keys.length, 6);
+
+			assert.deepStrictEqual(keys, [
+				'root_role_child',
+				'root_role_grand_child',
+				'root_role_second_child',
+				'nested.nested_role',
+				'nested.nested_child',
+				'nested.nested_grand_child'
+			]);
+		});
+	});
+
 	describe('#setProperty(getter)', function() {
 
 		var Alpha,

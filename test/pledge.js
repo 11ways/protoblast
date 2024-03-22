@@ -996,6 +996,66 @@ describe('Swift', function() {
 
 			assert.strictEqual(result, 42);
 		});
+
+		it('should always return errors using a pledge', async () => {
+
+			let result = Pledge.Swift.waterfall(
+				47,
+				val => {
+					throw new Error('Sync error!');
+				}
+			);
+
+			assert.strictEqual(result instanceof Pledge, true);
+
+			let error;
+
+			try {
+				await result;
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(error.message, 'Sync error!');
+
+			result = Pledge.Swift.waterfall(
+				47,
+				val => {
+					let pledge = new Pledge.Swift();
+					pledge.reject(new Error('Sync rejection!'));
+					return pledge;
+				}
+			);
+
+			assert.strictEqual(result instanceof Pledge, true);
+
+			try {
+				await result;
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(error.message, 'Sync rejection!');
+
+			result = Pledge.Swift.waterfall(
+				47,
+				val => {
+					let pledge = new Pledge.Swift();
+					setTimeout(() => pledge.reject(new Error('Async rejection!')), 1);
+					return pledge;
+				}
+			);
+
+			assert.strictEqual(result instanceof Pledge, true);
+
+			try {
+				await result;
+			} catch (err) {
+				error = err;
+			}
+
+			assert.strictEqual(error.message, 'Async rejection!');
+		});
 	});
 
 	describe('#cancel()', () => {
