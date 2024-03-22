@@ -914,6 +914,90 @@ describe('Swift', function() {
 		});
 	});
 
+	describe('.cast(input)', () => {
+
+		it('should convert a normal Pledge to a Swift pledge', async () => {
+
+			let normal = new Pledge();
+			normal.resolve(97);
+
+			let nr = await normal;
+			assert.strictEqual(nr, 97);
+
+			let swift = Pledge.Swift.cast(normal);
+
+			assert.strictEqual(swift instanceof Pledge.Swift, true);
+
+			let sync_result;
+
+			Pledge.Swift.done(swift, (err, res) => sync_result = res);
+			assert.strictEqual(sync_result, 97);
+		});
+	});
+
+	describe('.done(pledge)', () => {
+		it('should synchronously call already resolved pledges', async () => {
+
+			let pledge = new Pledge.Swift();
+			pledge.resolve(47);
+
+			let result;
+
+			Pledge.Swift.done(pledge, (err, res) => result = res);
+
+			assert.strictEqual(result, 47);
+		});
+
+		it('should synchronously call next with non-promise values', () => {
+			let result;
+			Pledge.Swift.done(47, (err, res) => result = res);
+			assert.strictEqual(result, 47);
+		});
+	});
+
+	describe('.execute(task)', async () => {
+
+		it('should return the actual value if no async task was given', () => {
+			assert.strictEqual(Pledge.Swift.execute(1), 1);
+
+			let arr = [];
+			assert.strictEqual(Pledge.Swift.execute(arr), arr);
+		});
+
+		it('should unroll swift pledges', async () => {
+
+			let pledge = new Pledge.Swift();
+			pledge.resolve(47);
+
+			assert.strictEqual(Pledge.Swift.execute(pledge), 47);
+		});
+	});
+
+	describe('.waterfall(...tasks)', async () => {
+		it('should return the actual value if no async tasks were given', () => {
+			let result = Pledge.Swift.waterfall(1, 2, 3);
+			assert.strictEqual(result, 3);
+		});
+
+		it('should handle asynchronous tasks', async () => {
+
+			let result = await Pledge.Swift.waterfall(
+				47,
+				val => {
+					let pledge = new Pledge();
+
+					setTimeout(() => {
+						pledge.resolve(val - 5);
+					}, 1);
+
+					return pledge;
+				}
+			);
+
+			assert.strictEqual(result, 42);
+		});
+	});
+
 	describe('#cancel()', () => {
 		it('should cancel the pledge and call `finally`', async () => {
 			return pledgeCancelTestOne(Pledge.Swift);
@@ -923,7 +1007,6 @@ describe('Swift', function() {
 			return pledgeCancelTestTwo(Pledge.Swift);
 		});
 	});
-
 });
 
 async function pledgeAllTestOne(constructor, do_wait = true) {
