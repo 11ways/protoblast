@@ -6,6 +6,8 @@
 * Add `Pledge#getResolvedFunction()` method, which can be passed as an old-style callback
 * Fix some `Swift` methods not using the correct schedulers
 * Implement a custom `done` and `waterfall` static method for the `SwiftPledge` class
+* Make `Develry.HttpAgent` classes return sockets from `createConnection`
+* Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent`
 
 ## 0.9.2 (2024-02-25)
 

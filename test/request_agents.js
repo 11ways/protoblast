@@ -65,6 +65,11 @@ describe('HttpAgent', function() {
 		recreateAgentKeepAlive();
 
 		app = http.createServer((req, res) => {
+
+			const endResponse = (message) => {
+				res.end(message);
+			};
+
 			if (req.url === '/error') {
 				res.destroy();
 				return;
@@ -81,12 +86,12 @@ describe('HttpAgent', function() {
 
 			if (info.query.timeout) {
 				setTimeout(() => {
-					res.end(info.query.timeout);
+					endResponse(info.query.timeout);
 				}, parseInt(info.query.timeout));
 				return;
 			}
 
-			res.end(JSON.stringify({
+			endResponse(JSON.stringify({
 				info,
 				url: req.url,
 				headers: req.headers,
@@ -2150,6 +2155,156 @@ describe('HttpsAgent', function() {
 			port = app.address().port;
 			done();
 		});
+	});
+
+	it('should support a lot of requests', async function () {
+
+		this.timeout(30000);
+
+		let agentkeepalive = new HttpsAgent({
+			freeSocketTimeout: 100,
+			timeout: 20,
+			maxSockets: 30,
+		});
+
+		let count = 0;
+
+		const capem = fs.readFileSync(__dirname + '/assets/ca.pem');
+
+		function makeRequest(i) {
+
+			let pledge = new Blast.Classes.Pledge();
+
+			const req = https.get({
+				agent: agentkeepalive,
+				headers: {
+					'rcount' : '' + i,
+				},
+				port,
+				path: '/?timeout=5',
+				ca: capem,
+				rejectUnauthorized: false,
+			}, res => {
+
+				let data = '';
+
+				res.on('data', chunk => {
+					data += chunk;
+				});
+
+				res.on('end', () => {
+					count++;
+					pledge.resolve(data);
+				});
+			});
+
+			req.on('error', err => {
+				pledge.reject(err);
+			});
+
+			return pledge;
+		}
+
+		let promises = [];
+
+		for (let i = 0; i < 300; i++) {
+			promises.push(makeRequest(i));
+
+			if (i % 5 == 0) {
+				await Pledge.after(6);
+			}
+		}
+
+		await Pledge.all(promises);
+
+		assert.strictEqual(count, 300);
+	});
+
+	it('should perform requests in series if there is only 1 socket to reuse', async function () {
+
+		this.timeout(30000);
+
+		let agentkeepalive = new HttpsAgent({
+			freeSocketTimeout: 100,
+			timeout: 100,
+			maxSockets: 1,
+		});
+
+		let count = 0;
+
+		const capem = fs.readFileSync(__dirname + '/assets/ca.pem');
+
+		let finished_indexes = [];
+
+		function makeRequest(i, timeout) {
+
+			let pledge = new Blast.Classes.Pledge();
+
+			if (!timeout) {
+				timeout = Number.random(1, 10);
+			}
+
+			const req = https.get({
+				agent: agentkeepalive,
+				headers: {
+					'rcount' : '' + i,
+				},
+				port,
+				path: '/?timeout=' + timeout,
+				ca: capem,
+				rejectUnauthorized: false,
+			}, res => {
+
+				let data = '';
+
+				res.on('data', chunk => {
+					data += chunk;
+				});
+
+				res.on('end', () => {
+					finished_indexes.push(i);
+					count++;
+					pledge.resolve(data);
+				});
+			});
+
+			req.on('error', err => {
+				pledge.reject(err);
+			});
+
+			return pledge;
+		}
+
+		let promises = [];
+
+		for (let i = 0; i < 30; i++) {
+			promises.push(makeRequest(i));
+		}
+
+		await Pledge.all(promises);
+
+		assert.deepStrictEqual(finished_indexes, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]);
+
+		// Create an agent with more sockets
+		agentkeepalive = new HttpsAgent({
+			freeSocketTimeout: 100,
+			timeout: 100,
+			maxSockets: 10,
+		});
+
+		promises = [];
+		finished_indexes = [];
+
+		// Create requests with a fixed timeout
+		for (let i = 0; i < 30; i++) {
+			promises.push(makeRequest(i, 2));
+		}
+
+		await Pledge.all(promises);
+
+		// This time, the requests should be done in parallel,
+		// and thus the indexes should be different
+		assert.notDeepStrictEqual(finished_indexes, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]);
 	});
 
 	it('should GET / success with 200 status', done => {
