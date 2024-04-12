@@ -1,5 +1,8 @@
 ## 0.8.19 (WIP)
 
+* Make `Develry.HttpAgent` classes return sockets from `createConnection` (backport)
+* Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent` (backport)
+
 ## 0.8.18 (2024-01-19)
 
 * Fix `Magic` class not passing constructor arguments properly
