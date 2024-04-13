@@ -1,4 +1,4 @@
-## 0.8.19 (WIP)
+## 0.8.19 (2024-04-13)
 
 * Make `Develry.HttpAgent` classes return sockets from `createConnection` (backport)
 * Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent` (backport)
