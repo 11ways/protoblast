@@ -8,6 +8,7 @@
 * Implement a custom `done` and `waterfall` static method for the `SwiftPledge` class
 * Make `Develry.HttpAgent` classes return sockets from `createConnection`
 * Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent`
+* Fix registered modules not being requirable in the browser
 
 ## 0.9.2 (2024-02-25)
 
