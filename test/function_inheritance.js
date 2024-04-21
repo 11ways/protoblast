@@ -220,6 +220,60 @@ describe('Inheritance', function() {
 				done();
 			}, 20);
 		});
+
+		it('should work around crappy ES6 class constructor limitations', () => {
+
+			class Kak {
+				did_test = 0;
+		
+				constructor() {
+					this.seen_kak = true;
+				}
+		
+				test() {
+					this.did_test++;
+				}
+			}
+		
+			let kak = new Kak();
+			assert.strictEqual(kak.seen_kak, true);
+		
+			const Unkaked = Function.inherits(Kak, function Unkaked() {
+				this.seen_unkaked = true;
+			});
+		
+			let unkaked = new Unkaked();
+			assert.strictEqual(unkaked.seen_unkaked, true);
+			assert.strictEqual(unkaked.seen_kak, true);
+		
+			const DeeperUnkaked = Function.inherits(Unkaked, function DeeperUnkaked() {
+				DeeperUnkaked.super.call(this);
+				this.is_deep = true;
+			});
+		
+			let deeper = new DeeperUnkaked();
+			assert.strictEqual(deeper.seen_unkaked, true);
+			assert.strictEqual(deeper.seen_kak, true);
+			assert.strictEqual(deeper.is_deep, true);
+		
+			class DeepKak extends Kak {
+				constructor() {
+					super(...arguments);
+					this.is_still_kak = true;
+				}
+			};
+		
+			let deep_kak = new DeepKak();
+			assert.strictEqual(deep_kak.seen_kak, true);
+			assert.strictEqual(deep_kak.is_still_kak, true);
+
+			const UnkakedChildByName = Function.inherits('DeeperUnkaked', 'UnkakedChildByName');
+			let unkaked_child_by_name = new UnkakedChildByName();
+			assert.strictEqual(unkaked_child_by_name.seen_unkaked, true);
+			assert.strictEqual(unkaked_child_by_name.seen_kak, true);
+			assert.strictEqual(unkaked_child_by_name.is_deep, true);
+
+		});
 	});
 
 	describe('#setMethod(key, fnc)', function() {

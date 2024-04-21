@@ -9,6 +9,7 @@
 * Make `Develry.HttpAgent` classes return sockets from `createConnection`
 * Don't throw errors when an *unused/free* socket has an error in `Develry.HttpAgent`
 * Fix registered modules not being requirable in the browser
+* Add some basic support for inheriting from ES6 classes
 
 ## 0.9.2 (2024-02-25)
 
