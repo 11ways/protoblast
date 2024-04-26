@@ -13,6 +13,7 @@
 * Fix comments breaking the SSE request handler
 * Add `Blast.isAppleWebkit` boolean
 * Add `Blast.environment` string property and `isProduction`, `isDevelopment` and `isStaging` booleans
+* Add `Optional` value-wrapper class
 
 ## 0.9.2 (2024-02-25)
 
