@@ -234,6 +234,8 @@ describe('Inheritance', function() {
 					this.did_test++;
 				}
 			}
+
+			assert.strictEqual(Kak.children, undefined, 'A vanilla ES6 class should not have a static `children` property');
 		
 			let kak = new Kak();
 			assert.strictEqual(kak.seen_kak, true);
@@ -241,10 +243,21 @@ describe('Inheritance', function() {
 			const Unkaked = Function.inherits(Kak, function Unkaked() {
 				this.seen_unkaked = true;
 			});
+
+			let counter = 0;
+
+			Unkaked.postInherit(function test() {
+				this.counter = ++counter;
+			});
+
+			assert.strictEqual(Kak.children.length, 1, 'After inheriting, the parent should have a `children` property');
+			assert.notStrictEqual(Kak.children, Unkaked.children, 'The parent & child class are sharing the same `children` property!');
+			assert.strictEqual(Unkaked.counter, 1);
 		
 			let unkaked = new Unkaked();
 			assert.strictEqual(unkaked.seen_unkaked, true);
 			assert.strictEqual(unkaked.seen_kak, true);
+			assert.strictEqual(Unkaked.children?.length, undefined);
 		
 			const DeeperUnkaked = Function.inherits(Unkaked, function DeeperUnkaked() {
 				DeeperUnkaked.super.call(this);
@@ -255,6 +268,8 @@ describe('Inheritance', function() {
 			assert.strictEqual(deeper.seen_unkaked, true);
 			assert.strictEqual(deeper.seen_kak, true);
 			assert.strictEqual(deeper.is_deep, true);
+			assert.strictEqual(Unkaked.children?.length, 1);
+			assert.strictEqual(DeeperUnkaked.counter, 2);
 		
 			class DeepKak extends Kak {
 				constructor() {
@@ -272,6 +287,17 @@ describe('Inheritance', function() {
 			assert.strictEqual(unkaked_child_by_name.seen_unkaked, true);
 			assert.strictEqual(unkaked_child_by_name.seen_kak, true);
 			assert.strictEqual(unkaked_child_by_name.is_deep, true);
+			assert.strictEqual(UnkakedChildByName.counter, 3);
+
+			const NestedUnkaked = Function.inherits('Unkaked', 'Nested.Unkaked', 'NestedUnkaked');
+			assert.strictEqual(NestedUnkaked.namespace, 'Nested.Unkaked');
+			assert.strictEqual(DeeperUnkaked.counter, 2);
+			assert.strictEqual(UnkakedChildByName.counter, 3);
+			assert.strictEqual(NestedUnkaked.counter, 4);
+
+			const DeepNested = Function.inherits('Nested.Unkaked.NestedUnkaked', 'DeepNested');
+			assert.strictEqual(Blast.Classes.Nested.Unkaked.DeepNested, DeepNested);
+			assert.strictEqual(DeepNested.counter, 5);
 
 		});
 	});
