@@ -14,6 +14,7 @@
 * Add `Blast.isAppleWebkit` boolean
 * Add `Blast.environment` string property and `isProduction`, `isDevelopment` and `isStaging` booleans
 * Add `Optional` value-wrapper class
+* Add `Pledge#getRejectedReason()` method
 
 ## 0.9.2 (2024-02-25)
 
