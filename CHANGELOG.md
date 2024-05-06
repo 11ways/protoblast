@@ -15,6 +15,7 @@
 * Add `Blast.environment` string property and `isProduction`, `isDevelopment` and `isStaging` booleans
 * Add `Optional` value-wrapper class
 * Add `Pledge#getRejectedReason()` method
+* Add `ObservableOptional` class
 
 ## 0.9.2 (2024-02-25)
 
