@@ -1,4 +1,4 @@
-## 0.9.3 (WIP)
+## 0.9.3 (2024-08-12)
 
 * Add `Trail#ifNull(fallback)` method
 * Make `Function.getDescendant(name)` also try the lowercase version of the name
