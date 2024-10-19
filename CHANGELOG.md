@@ -1,3 +1,7 @@
+## 0.9.4 (WIP)
+
+* Fix `RequestEvents` class restarting request that is already being handled
+
 ## 0.9.3 (2024-08-12)
 
 * Add `Trail#ifNull(fallback)` method
