@@ -1,4 +1,4 @@
-## 0.9.4 (WIP)
+## 0.9.4 (2024-10-19)
 
 * Fix `RequestEvents` class restarting request that is already being handled
 * Make constructor task handling more robust
