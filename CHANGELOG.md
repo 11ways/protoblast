@@ -1,6 +1,7 @@
 ## 0.9.5 (WIP)
 
 * Add more default traps to the `Magic` class
+* Fix `Date#endOf('month')` not working properly for certain months
 
 ## 0.9.4 (2024-10-19)
 
