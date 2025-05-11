@@ -2,6 +2,7 @@
 
 * Add more default traps to the `Magic` class
 * Fix `Date#endOf('month')` not working properly for certain months
+* Use `queueMicroTask` as a polyfill for `process.nextTick` in the browser
 
 ## 0.9.4 (2024-10-19)
 
