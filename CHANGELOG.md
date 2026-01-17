@@ -1,6 +1,7 @@
 ## 0.9.6 (WIP)
 
 * Make `Cache#prune()` actually trigger removal of old values
+* Fix `Date.secondsToDuration` throwing an error when no `now` setting is passed
 
 ## 0.9.5 (2025-07-10)
 
