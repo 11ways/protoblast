@@ -1,3 +1,7 @@
+## 0.9.6 (WIP)
+
+* Make `Cache#prune()` actually trigger removal of old values
+
 ## 0.9.5 (2025-07-10)
 
 * Add more default traps to the `Magic` class
