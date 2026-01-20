@@ -4,6 +4,7 @@
 * Fix `Date.secondsToDuration` throwing an error when no `now` setting is passed
 * Add `RingBuffer` class and use it in `SampleCollector`
 * Fix `FixedDecimal#divide()` causing divide by zero when dividing by small fractions (e.g., `FixedDecimal('1').divide('0.15')`)
+* Fix `DelayedStream` silently swallowing source stream errors instead of forwarding them
 
 ## 0.9.5 (2025-07-10)
 
