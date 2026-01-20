@@ -17,6 +17,9 @@
 * Fix `Informer` filterSeen memory leak by adding max size limit (1000) with automatic cleanup of oldest entries
 * Fix `Pledge.then()` to pass result to `then_pledge.resolve(result)` instead of discarding rejection result
 * Fix `State.checkConnection` race condition by adding guard to prevent fetch callback from running after timebomb fires
+* Add `max_response_size` option to server-side `Request` (default 100MB) to prevent memory exhaustion
+* Add `max_redirects` option to server-side `Request` (default 20) to prevent redirect loops
+* Add `max_retries` option to server-side `Request` (default 3) for ECONNRESET retries
 
 ## 0.9.5 (2025-07-10)
 
