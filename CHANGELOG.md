@@ -15,6 +15,7 @@
 * Fix `Date#startOf('quarter')` crash by using `this` instead of undefined variable `a`
 * Fix duplicate case 'm' in `Date.getUnitName()` that made month unreachable (kept minute)
 * Fix `Informer` filterSeen memory leak by adding max size limit (1000) with automatic cleanup of oldest entries
+* Fix `Pledge.then()` to pass result to `then_pledge.resolve(result)` instead of discarding rejection result
 
 ## 0.9.5 (2025-07-10)
 
