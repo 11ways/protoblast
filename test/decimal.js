@@ -1601,9 +1601,8 @@ describe('FixedDecimal', () => {
 
 			decimalEquals(result, '0');
 
-			// @TODO: this will divide by zero & cause an error
-			// result = original.divide('0.15');
-			// decimalEquals(result, '6');
+			result = original.divide('0.15');
+			decimalEquals(result, '7');
 
 			result = original.divide('0.99');
 			decimalEquals(result, '1');

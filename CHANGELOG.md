@@ -3,6 +3,7 @@
 * Make `Cache#prune()` actually trigger removal of old values
 * Fix `Date.secondsToDuration` throwing an error when no `now` setting is passed
 * Add `RingBuffer` class and use it in `SampleCollector`
+* Fix `FixedDecimal#divide()` causing divide by zero when dividing by small fractions (e.g., `FixedDecimal('1').divide('0.15')`)
 
 ## 0.9.5 (2025-07-10)
 
