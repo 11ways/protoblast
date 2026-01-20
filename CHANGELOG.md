@@ -13,6 +13,7 @@
 * Fix `postInheritors(child, task)` to `child.postInherit(task)` in function_inheritance.js
 * Fix `Number.denormalize` using `input` instead of `input[i]` in the loop
 * Fix `Date#startOf('quarter')` crash by using `this` instead of undefined variable `a`
+* Fix duplicate case 'm' in `Date.getUnitName()` that made month unreachable (kept minute)
 
 ## 0.9.5 (2025-07-10)
 
