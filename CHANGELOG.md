@@ -10,6 +10,7 @@
 * Fix `Function.isNameAllowed()` to return false for non-strings instead of crashing
 * Fix function name comparison using property flag instead of `callback.name != 'throwWhenNotCaught'` (breaks after minification)
 * Fix `clearAndDoTasks()` recursive call to pass the `level` argument
+* Fix `postInheritors(child, task)` to `child.postInherit(task)` in function_inheritance.js
 
 ## 0.9.5 (2025-07-10)
 
