@@ -11,6 +11,7 @@
 * Fix function name comparison using property flag instead of `callback.name != 'throwWhenNotCaught'` (breaks after minification)
 * Fix `clearAndDoTasks()` recursive call to pass the `level` argument
 * Fix `postInheritors(child, task)` to `child.postInherit(task)` in function_inheritance.js
+* Fix `Number.denormalize` using `input` instead of `input[i]` in the loop
 
 ## 0.9.5 (2025-07-10)
 
