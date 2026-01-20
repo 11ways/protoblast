@@ -16,6 +16,7 @@
 * Fix duplicate case 'm' in `Date.getUnitName()` that made month unreachable (kept minute)
 * Fix `Informer` filterSeen memory leak by adding max size limit (1000) with automatic cleanup of oldest entries
 * Fix `Pledge.then()` to pass result to `then_pledge.resolve(result)` instead of discarding rejection result
+* Fix `State.checkConnection` race condition by adding guard to prevent fetch callback from running after timebomb fires
 
 ## 0.9.5 (2025-07-10)
 
