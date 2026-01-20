@@ -14,6 +14,7 @@
 * Fix `Number.denormalize` using `input` instead of `input[i]` in the loop
 * Fix `Date#startOf('quarter')` crash by using `this` instead of undefined variable `a`
 * Fix duplicate case 'm' in `Date.getUnitName()` that made month unreachable (kept minute)
+* Fix `Informer` filterSeen memory leak by adding max size limit (1000) with automatic cleanup of oldest entries
 
 ## 0.9.5 (2025-07-10)
 
