@@ -7,6 +7,7 @@
 * Fix `DelayedStream` silently swallowing source stream errors instead of forwarding them
 * Fix missing error handler on gunzip stream in server-side `Request`, which caused crashes on corrupted gzip data
 * Reduce DNS retry log spam in server-side `Request`: now only logs after 5+ attempts and uses `console.warn` instead of `console.log`
+* Fix `Function.isNameAllowed()` to return false for non-strings instead of crashing
 
 ## 0.9.5 (2025-07-10)
 
