@@ -1,4 +1,4 @@
-## 0.9.7 (WIP)
+## 0.9.7 (2026-01-23)
 
 * Add `getFullYear()` method to our custom Date classes
 * Add `Number#toSmartDecimal()`
