@@ -3,6 +3,7 @@
 * Add `getFullYear()` method to our custom Date classes
 * Add `Number#toSmartDecimal()`
 * Add `relativeTo()` and `relativeToCalendar()` date methods
+* Add `LocalDate.getDateRange(period, reference)` method
 
 ## 0.9.6 (2026-01-21)
 

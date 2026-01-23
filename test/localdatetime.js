@@ -1308,6 +1308,125 @@ describe('LocalDate', function() {
 		});
 	});
 
+	describe('.getDateRange(period, reference)', function() {
+
+		it('should return today range', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('today', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-23');
+			assert.strictEqual(range.to.toString(), '2026-01-23');
+		});
+
+		it('should return yesterday range', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('yesterday', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-22');
+			assert.strictEqual(range.to.toString(), '2026-01-22');
+		});
+
+		it('should return this_week range (Mon-Sun)', function() {
+			// 2026-01-23 is a Friday
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('this_week', reference);
+
+			// Monday of that week
+			assert.strictEqual(range.from.toString(), '2026-01-19');
+			// Sunday of that week
+			assert.strictEqual(range.to.toString(), '2026-01-25');
+		});
+
+		it('should return last_week range', function() {
+			// 2026-01-23 is a Friday
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('last_week', reference);
+
+			// Monday of previous week
+			assert.strictEqual(range.from.toString(), '2026-01-12');
+			// Sunday of previous week
+			assert.strictEqual(range.to.toString(), '2026-01-18');
+		});
+
+		it('should return this_month range', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('this_month', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-01');
+			assert.strictEqual(range.to.toString(), '2026-01-31');
+		});
+
+		it('should return last_month range', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let range = LocalDate.getDateRange('last_month', reference);
+
+			assert.strictEqual(range.from.toString(), '2025-12-01');
+			assert.strictEqual(range.to.toString(), '2025-12-31');
+		});
+
+		it('should return this_quarter range', function() {
+			// Q1: Jan-Mar
+			let reference = LocalDate.create('2026-02-15');
+			let range = LocalDate.getDateRange('this_quarter', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-01');
+			assert.strictEqual(range.to.toString(), '2026-03-31');
+
+			// Q2: Apr-Jun
+			reference = LocalDate.create('2026-05-10');
+			range = LocalDate.getDateRange('this_quarter', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-04-01');
+			assert.strictEqual(range.to.toString(), '2026-06-30');
+		});
+
+		it('should return last_quarter range', function() {
+			// In Q1, last quarter is Q4 of previous year
+			let reference = LocalDate.create('2026-02-15');
+			let range = LocalDate.getDateRange('last_quarter', reference);
+
+			assert.strictEqual(range.from.toString(), '2025-10-01');
+			assert.strictEqual(range.to.toString(), '2025-12-31');
+
+			// In Q2, last quarter is Q1
+			reference = LocalDate.create('2026-05-10');
+			range = LocalDate.getDateRange('last_quarter', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-01');
+			assert.strictEqual(range.to.toString(), '2026-03-31');
+		});
+
+		it('should return this_year range', function() {
+			let reference = LocalDate.create('2026-06-15');
+			let range = LocalDate.getDateRange('this_year', reference);
+
+			assert.strictEqual(range.from.toString(), '2026-01-01');
+			assert.strictEqual(range.to.toString(), '2026-12-31');
+		});
+
+		it('should return last_year range', function() {
+			let reference = LocalDate.create('2026-06-15');
+			let range = LocalDate.getDateRange('last_year', reference);
+
+			assert.strictEqual(range.from.toString(), '2025-01-01');
+			assert.strictEqual(range.to.toString(), '2025-12-31');
+		});
+
+		it('should default to today if no reference provided', function() {
+			let today = LocalDate.create();
+			let range = LocalDate.getDateRange('today');
+
+			assert.strictEqual(range.from.toString(), today.toString());
+			assert.strictEqual(range.to.toString(), today.toString());
+		});
+
+		it('should throw for unknown period', function() {
+			assert.throws(() => {
+				LocalDate.getDateRange('invalid_period');
+			}, /Unknown period/);
+		});
+	});
+
 });
 
 describe('LocalTime', function() {
