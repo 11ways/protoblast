@@ -1,3 +1,7 @@
+## 0.9.7 (WIP)
+
+* Add `getFullYear()` method to our custom Date classes
+
 ## 0.9.6 (2026-01-21)
 
 * Make `Cache#prune()` actually trigger removal of old values
