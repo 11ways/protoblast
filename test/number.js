@@ -133,4 +133,33 @@ describe('Number', function() {
 		});
 	});
 
+	describe('#toSmartDecimal(max_decimals)', function() {
+
+		it('should show decimal only if meaningful', function() {
+			assert.strictEqual((7.5).toSmartDecimal(), '7.5');
+			assert.strictEqual((8.0).toSmartDecimal(), '8');
+			assert.strictEqual((0).toSmartDecimal(), '0');
+			assert.strictEqual((10).toSmartDecimal(), '10');
+		});
+
+		it('should round to specified precision', function() {
+			assert.strictEqual((7.25).toSmartDecimal(), '7.3');
+			assert.strictEqual((7.24).toSmartDecimal(), '7.2');
+			assert.strictEqual((7.25).toSmartDecimal(2), '7.25');
+			assert.strictEqual((7.256).toSmartDecimal(2), '7.26');
+		});
+
+		it('should drop trailing zeros even with higher precision', function() {
+			assert.strictEqual((7.00).toSmartDecimal(2), '7');
+			assert.strictEqual((7.10).toSmartDecimal(2), '7.10');
+			assert.strictEqual((7.50).toSmartDecimal(2), '7.50');
+		});
+
+		it('should handle negative numbers', function() {
+			assert.strictEqual((-7.5).toSmartDecimal(), '-7.5');
+			assert.strictEqual((-8.0).toSmartDecimal(), '-8');
+			assert.strictEqual((-7.25).toSmartDecimal(), '-7.3');
+		});
+	});
+
 });
