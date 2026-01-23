@@ -881,6 +881,16 @@ describe('LocalDateTime', function() {
 
 describe('LocalDate', function() {
 
+	before(() => {
+		// Ensure Blast is loaded (in case this describe runs in isolation)
+		if (!Blast) {
+			Blast = require('../index.js')();
+			LocalDateTime = Blast.Classes.Develry.LocalDateTime;
+			LocalDate = Blast.Classes.Develry.LocalDate;
+			LocalTime = Blast.Classes.Develry.LocalTime;
+		}
+	});
+
 	describe('.create()', () => {
 		it('should return a new LocalDate object', () => {
 			assert.equal(LocalDate.create().constructor.name, 'LocalDate');
@@ -1218,6 +1228,83 @@ describe('LocalDate', function() {
 
 			local_date = new LocalDate(2023, 10, 22);
 			assert.strictEqual(local_date.toString(), '2023-10-22');
+		});
+	});
+
+	describe('#relativeTo(reference)', function() {
+		it('should return a relative time string', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let date;
+
+			// 1 day before
+			date = LocalDate.create('2026-01-22');
+			assert.strictEqual(date.relativeTo(reference), 'a day ago');
+
+			// 1 day after
+			date = LocalDate.create('2026-01-24');
+			assert.strictEqual(date.relativeTo(reference), 'a day from now');
+
+			// 7 days before
+			date = LocalDate.create('2026-01-16');
+			assert.strictEqual(date.relativeTo(reference), '7 days ago');
+		});
+
+		it('should default to now if no reference provided', function() {
+			let date = LocalDate.create();
+			date.subtract(1, 'day');
+			// Result includes time component since reference is "now" with current time
+			// Just check it contains "day" since exact wording depends on time of day
+			assert.ok(date.relativeTo().includes('day'), 'Should include "day"');
+		});
+	});
+
+	describe('#timeAgo()', function() {
+		it('should return a relative time string compared to now', function() {
+			let date = LocalDate.create();
+			date.subtract(1, 'day');
+			// Result includes time component since reference is "now" with current time
+			let result = date.timeAgo();
+			assert.ok(result.includes('ago'), 'Past date should include "ago": ' + result);
+
+			date = LocalDate.create();
+			date.add(1, 'day');
+			result = date.timeAgo();
+			assert.ok(result.includes('from now'), 'Future date should include "from now": ' + result);
+		});
+	});
+
+	describe('#relativeToCalendar(reference)', function() {
+		it('should return calendar-relative strings', function() {
+			let reference = LocalDate.create('2026-01-23');
+			let date;
+
+			// Same day
+			date = LocalDate.create('2026-01-23');
+			assert.strictEqual(date.relativeToCalendar(reference), 'today');
+
+			// Tomorrow
+			date = LocalDate.create('2026-01-24');
+			assert.strictEqual(date.relativeToCalendar(reference), 'tomorrow');
+
+			// Yesterday
+			date = LocalDate.create('2026-01-22');
+			assert.strictEqual(date.relativeToCalendar(reference), 'yesterday');
+
+			// 3 days ago (same week)
+			date = LocalDate.create('2026-01-20');
+			assert.strictEqual(date.relativeToCalendar(reference), '3 days ago');
+
+			// Sunday (crossed week boundary, 5 days ago)
+			date = LocalDate.create('2026-01-18');
+			assert.strictEqual(date.relativeToCalendar(reference), 'last week');
+		});
+
+		it('should default to now if no reference provided', function() {
+			let date = LocalDate.create();
+			assert.strictEqual(date.relativeToCalendar(), 'today');
+
+			date.subtract(1, 'day');
+			assert.strictEqual(date.relativeToCalendar(), 'yesterday');
 		});
 	});
 

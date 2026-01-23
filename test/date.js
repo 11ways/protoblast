@@ -619,6 +619,237 @@ describe('Date', function() {
 
 			assert.strictEqual(date.timeAgo(), 'a year ago');
 		});
+
+		it('should handle future dates', function() {
+			let now = Date.now();
+
+			// 40 seconds in the future
+			let date = new Date(now + 40 * 1000);
+			assert.strictEqual(date.timeAgo(), '40 seconds from now');
+
+			// 5 minutes in the future
+			date = new Date(now + 5 * 60 * 1000);
+			assert.strictEqual(date.timeAgo(), '5 minutes from now');
+
+			// 1 day in the future
+			date = new Date(now);
+			date.add(1, 'day');
+			assert.strictEqual(date.timeAgo(), 'a day from now');
+
+			// 7 days in the future
+			date = new Date(now);
+			date.add(7, 'days');
+			assert.strictEqual(date.timeAgo(), '7 days from now');
+
+			// 30 days in the future
+			date = new Date(now);
+			date.add(30, 'days');
+			assert.strictEqual(date.timeAgo(), 'a month from now');
+
+			// 1 year in the future
+			date = new Date(now);
+			date.add(379, 'days');
+			assert.strictEqual(date.timeAgo(), 'a year from now');
+		});
+	});
+
+	describe('#relativeTo(reference)', function() {
+		it('should return a relative time string compared to a reference date', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+			let date;
+
+			// Same time
+			date = new Date('2026-01-23T12:00:00');
+			assert.strictEqual(date.relativeTo(reference), 'just now');
+
+			// 5 minutes before reference
+			date = new Date('2026-01-23T11:55:00');
+			assert.strictEqual(date.relativeTo(reference), '5 minutes ago');
+
+			// 5 minutes after reference
+			date = new Date('2026-01-23T12:05:00');
+			assert.strictEqual(date.relativeTo(reference), '5 minutes from now');
+
+			// 1 day before reference
+			date = new Date('2026-01-22T12:00:00');
+			assert.strictEqual(date.relativeTo(reference), 'a day ago');
+
+			// 1 day after reference
+			date = new Date('2026-01-24T12:00:00');
+			assert.strictEqual(date.relativeTo(reference), 'a day from now');
+
+			// 7 days before reference
+			date = new Date('2026-01-16T12:00:00');
+			assert.strictEqual(date.relativeTo(reference), '7 days ago');
+
+			// 7 days after reference
+			date = new Date('2026-01-30T12:00:00');
+			assert.strictEqual(date.relativeTo(reference), '7 days from now');
+		});
+
+		it('should default to now if no reference provided', function() {
+			let date = new Date();
+			date.subtract(5, 'minutes');
+			
+			// Should behave like timeAgo()
+			assert.strictEqual(date.relativeTo(), date.timeAgo());
+		});
+
+		it('should accept settings as first argument', function() {
+			let date = new Date();
+			date.subtract(5, 'minutes');
+			
+			// Settings object as first arg should use now as reference
+			let result = date.relativeTo({ minimize: true });
+			assert.strictEqual(result, '5 minutes ago');
+		});
+	});
+
+	describe('#relativeToCalendar(reference)', function() {
+		it('should return today/tomorrow/yesterday for nearby dates', function() {
+			// Reference: Friday Jan 23, 2026
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// Same day
+			let date = new Date('2026-01-23T08:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'today');
+
+			// Tomorrow
+			date = new Date('2026-01-24T15:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'tomorrow');
+
+			// Yesterday
+			date = new Date('2026-01-22T09:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'yesterday');
+		});
+
+		it('should use "X days ago/in X days" for small differences', function() {
+			// Reference: Friday Jan 23, 2026
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// 2 days ago (still same week - Wednesday)
+			let date = new Date('2026-01-21T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), '2 days ago');
+
+			// 2 days from now (still same week - Sunday)
+			date = new Date('2026-01-25T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'in 2 days');
+		});
+
+		it('should use "last week" when crossing week boundary with enough days', function() {
+			// Reference: Friday Jan 23, 2026 (week boundary is Monday Jan 19)
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// Sunday Jan 18 = 5 days ago, crossed week boundary
+			let date = new Date('2026-01-18T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'last week');
+
+			// Saturday Jan 17 = 6 days ago, crossed week boundary
+			date = new Date('2026-01-17T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'last week');
+		});
+
+		it('should use "next week" when crossing week boundary forward', function() {
+			// Reference: Friday Jan 23, 2026 (week ends Sunday Jan 25)
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// Monday Jan 26 = 3 days ahead, crossed week boundary
+			let date = new Date('2026-01-26T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'next week');
+
+			// Tuesday Jan 27 = 4 days ahead, crossed week boundary
+			date = new Date('2026-01-27T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'next week');
+		});
+
+		it('should NOT use "last week" for small differences even if crossing boundary', function() {
+			// Reference: Monday Jan 19, 2026 (week starts Monday)
+			let reference = new Date('2026-01-19T12:00:00');
+
+			// Sunday Jan 18 = 1 day ago, crossed week boundary but only 1 day
+			let date = new Date('2026-01-18T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'yesterday');
+
+			// Saturday Jan 17 = 2 days ago, crossed week boundary but only 2 days
+			date = new Date('2026-01-17T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), '2 days ago');
+		});
+
+		it('should handle weeks for 7-13 day differences', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// 7 days ago
+			let date = new Date('2026-01-16T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'a week ago');
+
+			// 10 days ago - still "a week ago" (more precise than "last week")
+			date = new Date('2026-01-13T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'a week ago');
+
+			// 7 days ahead
+			date = new Date('2026-01-30T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'in a week');
+		});
+
+		it('should handle multiple weeks', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// 14 days ago
+			let date = new Date('2026-01-09T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), '2 weeks ago');
+
+			// 21 days ahead
+			date = new Date('2026-02-13T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'in 3 weeks');
+		});
+
+		it('should handle months', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// ~1 month ago
+			let date = new Date('2025-12-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'last month');
+
+			// ~2 months ago
+			date = new Date('2025-11-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), '2 months ago');
+
+			// ~1 month ahead
+			date = new Date('2026-02-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'next month');
+		});
+
+		it('should handle years', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+
+			// ~1 year ago
+			let date = new Date('2025-01-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'last year');
+
+			// ~2 years ago
+			date = new Date('2024-01-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), '2 years ago');
+
+			// ~1 year ahead
+			date = new Date('2027-01-23T12:00:00');
+			assert.strictEqual(date.relativeToCalendar(reference), 'next year');
+		});
+
+		it('should accept custom settings', function() {
+			let reference = new Date('2026-01-23T12:00:00');
+			let date = new Date('2026-01-23T08:00:00');
+
+			let result = date.relativeToCalendar(reference, { today: 'vandaag' });
+			assert.strictEqual(result, 'vandaag');
+		});
+
+		it('should default to now if no reference provided', function() {
+			let date = new Date();
+			assert.strictEqual(date.relativeToCalendar(), 'today');
+
+			date.subtract(1, 'day');
+			assert.strictEqual(date.relativeToCalendar(), 'yesterday');
+		});
 	});
 });
 

@@ -2,6 +2,7 @@
 
 * Add `getFullYear()` method to our custom Date classes
 * Add `Number#toSmartDecimal()`
+* Add `relativeTo()` and `relativeToCalendar()` date methods
 
 ## 0.9.6 (2026-01-21)
 
