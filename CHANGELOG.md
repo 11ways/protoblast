@@ -23,6 +23,7 @@
 * Cleanup `Informer#after()` variables
 * Fix `AbstractDateTime` isNaN check
 * Make `Decimal#nthRoot(n)` throw an error when `n` is not an integer
+* Make `RegExp#execAll(str)` always run on a global version of the regex
 
 ## 0.9.7 (2026-01-23)
 
