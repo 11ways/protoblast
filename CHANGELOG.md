@@ -7,6 +7,7 @@
 * Fix `Magic` class using `has` method instead of `__has`
 * Fix `Math.standardDeviation()` undeclared variables
 * Fix `HttpAgent.createSocketId()` using a const instead of let
+* Fix browser-side `Request` not falling back to navigation properly when there is no FileReader
 
 ## 0.9.7 (2026-01-23)
 
