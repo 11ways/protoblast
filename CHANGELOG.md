@@ -1,4 +1,4 @@
-## 0.9.8 (WIP)
+## 0.9.8 (2026-02-03)
 
 * Fix `Blast.destringifyCode()` from replacing `"use strict"`-like directives
 * Fix function_signatures.js SignatureType
