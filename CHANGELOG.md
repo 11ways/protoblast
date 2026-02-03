@@ -6,6 +6,7 @@
 * Fix `LocalDate.fromNumericRepresentation(value)` producing wrong dates due to division
 * Fix `Magic` class using `has` method instead of `__has`
 * Fix `Math.standardDeviation()` undeclared variables
+* Fix `HttpAgent.createSocketId()` using a const instead of let
 
 ## 0.9.7 (2026-01-23)
 
