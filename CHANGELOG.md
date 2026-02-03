@@ -16,6 +16,7 @@
 * Replace `String#substr()` calls with `String#slice()`
 * Make `Informer#setCacheMethod` delete method cache when an error happens
 * Added listener cleanup in `StreamCombined#_reset()` to prevent memory leaks
+* Fix `BackedMap#values()` iterator
 
 ## 0.9.7 (2026-01-23)
 
