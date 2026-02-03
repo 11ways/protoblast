@@ -5,6 +5,7 @@
 * Fix `HashSet.delete(value)` clearing everything
 * Fix `LocalDate.fromNumericRepresentation(value)` producing wrong dates due to division
 * Fix `Magic` class using `has` method instead of `__has`
+* Fix `Math.standardDeviation()` undeclared variables
 
 ## 0.9.7 (2026-01-23)
 
