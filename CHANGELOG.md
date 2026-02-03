@@ -11,6 +11,7 @@
 * Fix `WeakValueSetMap.has()` doing null-check too late
 * Fix `Date.getUnitMs()` not using correct operator precedence
 * Fix Date formatting "n" from returning previous month's days
+* Fix `FunctionQueue` always overwriting the global default options
 
 ## 0.9.7 (2026-01-23)
 
