@@ -13,6 +13,7 @@
 * Fix Date formatting "n" from returning previous month's days
 * Fix `FunctionQueue` always overwriting the global default options
 * Use `decodeURIComponent` instead of `unescape` in `RURL.parseLocation()`
+* Replace `String#substr()` calls with `String#slice()`
 
 ## 0.9.7 (2026-01-23)
 
