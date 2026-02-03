@@ -2,6 +2,7 @@
 
 * Fix `Blast.destringifyCode()` from replacing `"use strict"`-like directives
 * Fix function_signatures.js SignatureType
+* Fix `HashSet.delete(value)` clearing everything
 
 ## 0.9.7 (2026-01-23)
 
