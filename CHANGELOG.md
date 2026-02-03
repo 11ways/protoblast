@@ -22,6 +22,7 @@
 * Fix SSE implementation emitting incomplete event data
 * Cleanup `Informer#after()` variables
 * Fix `AbstractDateTime` isNaN check
+* Make `Decimal#nthRoot(n)` throw an error when `n` is not an integer
 
 ## 0.9.7 (2026-01-23)
 
