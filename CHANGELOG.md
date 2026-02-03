@@ -3,6 +3,7 @@
 * Fix `Blast.destringifyCode()` from replacing `"use strict"`-like directives
 * Fix function_signatures.js SignatureType
 * Fix `HashSet.delete(value)` clearing everything
+* Fix `LocalDate.fromNumericRepresentation(value)` producing wrong dates due to division
 
 ## 0.9.7 (2026-01-23)
 
