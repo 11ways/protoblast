@@ -21,6 +21,7 @@
 * Make `Request` on the server use buffer array collection instead of string concatenation
 * Fix SSE implementation emitting incomplete event data
 * Cleanup `Informer#after()` variables
+* Fix `AbstractDateTime` isNaN check
 
 ## 0.9.7 (2026-01-23)
 
