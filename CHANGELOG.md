@@ -19,6 +19,7 @@
 * Fix `BackedMap#values()` iterator
 * Fix `String#assign()` not working when `values` is not an object
 * Make `Request` on the server use buffer array collection instead of string concatenation
+* Fix SSE implementation emitting incomplete event data
 
 ## 0.9.7 (2026-01-23)
 
