@@ -9,6 +9,7 @@
 * Fix `HttpAgent.createSocketId()` using a const instead of let
 * Fix browser-side `Request` not falling back to navigation properly when there is no FileReader
 * Fix `WeakValueSetMap.has()` doing null-check too late
+* Fix `Date.getUnitMs()` not using correct operator precedence
 
 ## 0.9.7 (2026-01-23)
 
