@@ -17,6 +17,7 @@
 * Make `Informer#setCacheMethod` delete method cache when an error happens
 * Added listener cleanup in `StreamCombined#_reset()` to prevent memory leaks
 * Fix `BackedMap#values()` iterator
+* Fix `String#assign()` not working when `values` is not an object
 
 ## 0.9.7 (2026-01-23)
 
