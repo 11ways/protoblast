@@ -18,6 +18,7 @@
 * Added listener cleanup in `StreamCombined#_reset()` to prevent memory leaks
 * Fix `BackedMap#values()` iterator
 * Fix `String#assign()` not working when `values` is not an object
+* Make `Request` on the server use buffer array collection instead of string concatenation
 
 ## 0.9.7 (2026-01-23)
 
