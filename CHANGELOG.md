@@ -26,6 +26,7 @@
 * Make `RegExp#execAll(str)` always run on a global version of the regex
 * Fix timebomb defuse on errors in server-side `Request`
 * Fix `LinkedMap.setAt()` MAP update
+* Make `Math.mean(numbers)` return 0 if there are no numbers
 
 ## 0.9.7 (2026-01-23)
 
