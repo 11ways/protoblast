@@ -292,4 +292,237 @@ describe('Blast Server Functions', function() {
 
 		});
 	});
+
+	describe('#destringifyCode()', function() {
+
+		it('should not replace "use strict" directive prologues', function() {
+
+			// This simulates what happens in the client bundle:
+			// The //_DESTRINGIFYCODE_// marker is where variable definitions are inserted,
+			// but "use strict" appears BEFORE it and should not be replaced
+			let code = `(function() {
+	"use strict";
+
+	//_DESTRINGIFYCODE_//
+
+	function test() {
+		"use strict";
+		return "use strict";
+	}
+})();`;
+
+			let result = Blast.destringifyCode(code, {});
+
+			// The first "use strict" (directive at top) should NOT be replaced
+			// because it appears before //_DESTRINGIFYCODE_// and would cause
+			// "Cannot access variable before initialization" error
+			
+			// Check that the code doesn't have a bare variable reference before the const declaration
+			let lines = result.split('\n');
+			let destringifyIndex = -1;
+			let useStrictVarUsageBeforeDecl = false;
+
+			for (let i = 0; i < lines.length; i++) {
+				let line = lines[i].trim();
+				
+				// Find where the const declarations are inserted
+				if (line.startsWith('const Ø')) {
+					destringifyIndex = i;
+					break;
+				}
+				
+				// Check if there's a standalone Ø variable (replaced "use strict") before const
+				// A standalone directive would be just the variable name followed by ;
+				if (line.match(/^Ø[a-z0-9]+;$/i)) {
+					useStrictVarUsageBeforeDecl = true;
+				}
+			}
+
+			assert.strictEqual(
+				useStrictVarUsageBeforeDecl,
+				false,
+				'Directive "use strict" should not be replaced with a variable that is used before declaration'
+			);
+
+			// The result should still be valid JavaScript that can be evaluated
+			// If "use strict" was incorrectly replaced, this will throw:
+			// "ReferenceError: Cannot access 'Øxx' before initialization"
+			assert.doesNotThrow(() => {
+				eval(result);
+			}, 'The destringified code should be valid JavaScript');
+		});
+
+		it('should still replace "use strict" when used as a return value', function() {
+
+			let code = `(function() {
+	//_DESTRINGIFYCODE_//
+
+	function a() { return "use strict"; }
+	function b() { return "use strict"; }
+})();`;
+
+			let result = Blast.destringifyCode(code, {});
+
+			// When "use strict" is used as a value (not directive), it CAN be replaced
+			// because both usages are after the //_DESTRINGIFYCODE_// marker
+			
+			// The result should be valid JavaScript
+			assert.doesNotThrow(() => {
+				eval(result);
+			}, 'The destringified code should be valid JavaScript');
+		});
+
+		it('should not replace any standalone string statement (not just "use strict")', function() {
+
+			// Any string followed by semicolon could be a directive prologue
+			// Examples: "use asm"; for asm.js, or future directives
+			// We need multiple usages after the marker for the optimization to kick in
+			let code = `(function() {
+"use asm";
+"some directive";
+//_DESTRINGIFYCODE_//
+
+function a() { return "use asm"; }
+function b() { return "use asm"; }
+function c() { return "use asm"; }
+function d() { return "some directive"; }
+function e() { return "some directive"; }
+function f() { return "some directive"; }
+})();`;
+
+			let result = Blast.destringifyCode(code, {});
+
+			let lines = result.split('\n');
+			let varUsageBeforeDecl = false;
+
+			for (let i = 0; i < lines.length; i++) {
+				let line = lines[i].trim();
+				
+				if (line.startsWith('const Ø')) {
+					break;
+				}
+				
+				// Check for any standalone Ø variable before const declarations
+				if (line.match(/^Ø[a-z0-9]+;$/i)) {
+					varUsageBeforeDecl = true;
+				}
+			}
+
+			assert.strictEqual(
+				varUsageBeforeDecl,
+				false,
+				'Standalone string statements should not be replaced with variables used before declaration'
+			);
+
+			// The strings used as return values SHOULD still be replaced (optimized)
+			// Count occurrences of the literal strings in result
+			// Note: destringify normalizes to single quotes in const declarations
+			let useAsmDoubleQuoted = (result.match(/"use asm"/g) || []).length;
+			let someDirectiveDoubleQuoted = (result.match(/"some directive"/g) || []).length;
+
+			// The directive prologues should remain as double-quoted literal strings (1 each)
+			// The const declarations use single quotes, so only the directive remains double-quoted
+			assert.strictEqual(useAsmDoubleQuoted, 1, '"use asm" directive should remain as double-quoted string');
+			assert.strictEqual(someDirectiveDoubleQuoted, 1, '"some directive" directive should remain as double-quoted string');
+
+			// The const declarations should exist (with single quotes)
+			assert.ok(result.includes("'use asm'"), 'const declaration for use asm should exist');
+			assert.ok(result.includes("'some directive'"), 'const declaration for some directive should exist');
+
+			// The return statements should use variables, not string literals
+			assert.ok(result.includes('return Ø'), 'return statements should use variable references');
+
+			// Verify the code is still valid
+			assert.doesNotThrow(() => {
+				eval(result);
+			}, 'The destringified code should be valid JavaScript');
+		});
+
+		it('should not replace directives that come after a single-line comment', function() {
+
+			let code = `(function() {
+	// This is a comment
+	"use strict";
+	//_DESTRINGIFYCODE_//
+
+	function test() {
+		return "use strict";
+	}
+})();`;
+
+			let result = Blast.destringifyCode(code, {});
+
+			// The directive after the comment should NOT be replaced
+			let lines = result.split('\n');
+			let destringifyIndex = -1;
+			let useStrictVarUsageBeforeDecl = false;
+
+			for (let i = 0; i < lines.length; i++) {
+				let line = lines[i].trim();
+				
+				if (line.startsWith('const Ø')) {
+					destringifyIndex = i;
+					break;
+				}
+				
+				if (line.match(/^Ø[a-z0-9]+;$/i)) {
+					useStrictVarUsageBeforeDecl = true;
+				}
+			}
+
+			assert.strictEqual(
+				useStrictVarUsageBeforeDecl,
+				false,
+				'Directive "use strict" after a comment should not be replaced with a variable that is used before declaration'
+			);
+
+			assert.doesNotThrow(() => {
+				eval(result);
+			}, 'The destringified code should be valid JavaScript');
+		});
+
+		it('should not replace directives that come after a multiline comment', function() {
+
+			let code = `(function() {
+	/* This is a
+	   multiline comment */
+	"use strict";
+	//_DESTRINGIFYCODE_//
+
+	function test() {
+		return "use strict";
+	}
+})();`;
+
+			let result = Blast.destringifyCode(code, {});
+
+			// The directive after the multiline comment should NOT be replaced
+			let lines = result.split('\n');
+			let destringifyIndex = -1;
+			let useStrictVarUsageBeforeDecl = false;
+
+			for (let i = 0; i < lines.length; i++) {
+				let line = lines[i].trim();
+				
+				if (line.startsWith('const Ø')) {
+					destringifyIndex = i;
+					break;
+				}
+				
+				if (line.match(/^Ø[a-z0-9]+;$/i)) {
+					useStrictVarUsageBeforeDecl = true;
+				}
+			}
+
+			assert.strictEqual(
+				useStrictVarUsageBeforeDecl,
+				false,
+				'Directive "use strict" after a multiline comment should not be replaced with a variable that is used before declaration'
+			);
+
+			assert.doesNotThrow(() => {
+				eval(result);
+			}, 'The destringified code should be valid JavaScript');
+		});
+	});
 });

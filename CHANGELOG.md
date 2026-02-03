@@ -1,3 +1,7 @@
+## 0.9.8 (WIP)
+
+* Fix `Blast.destringifyCode()` from replacing `"use strict"`-like directives
+
 ## 0.9.7 (2026-01-23)
 
 * Add `getFullYear()` method to our custom Date classes
