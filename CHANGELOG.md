@@ -25,6 +25,7 @@
 * Make `Decimal#nthRoot(n)` throw an error when `n` is not an integer
 * Make `RegExp#execAll(str)` always run on a global version of the regex
 * Fix timebomb defuse on errors in server-side `Request`
+* Fix `LinkedMap.setAt()` MAP update
 
 ## 0.9.7 (2026-01-23)
 
