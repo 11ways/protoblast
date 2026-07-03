@@ -225,6 +225,32 @@ describe('Signatures', function() {
 			assert.throws(() => instance_a.test(signatureless, 1));
 		});
 
+		it('should support optional & nullable groups', function() {
+
+			// Regression: `GroupedSignatureType#clone()` used to double-wrap
+			// the member types, making any `.optional()`/`.nullable()` group
+			// throw on the next `.test()` call
+			let group = Types.String.or(Types.Number);
+
+			assert.strictEqual(group.optional().test('a'), true);
+			assert.strictEqual(group.optional().test(1), true);
+			assert.strictEqual(group.optional().test(undefined), true);
+			assert.strictEqual(group.optional().test(null), false);
+
+			assert.strictEqual(group.nullable().test(null), true);
+			assert.strictEqual(group.nullable().test('a'), true);
+			assert.strictEqual(group.test(null), false);
+
+			// Chained clones should keep earlier flags
+			let chained = group.nullable().optional();
+			assert.strictEqual(chained.test(null), true);
+			assert.strictEqual(chained.test(undefined), true);
+
+			// AND groups clone the same way
+			let and_group = Types.Signatureless.and(Types.SignatureClassAndB).optional();
+			assert.strictEqual(and_group.test(undefined), true);
+		});
+
 		it('should support the Any type', function() {
 
 			const ClassAnyA = Function.inherits('Signatureless', function SignatureClassAnyA() {});

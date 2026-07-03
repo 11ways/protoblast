@@ -1,6 +1,11 @@
 ## 0.9.9 (WIP)
 
 * Honor the `async` option in `requireFileViaVm`: `Blast.require({async: true})` always compiled a plain sync wrapper, so any file using a top-level `await` (like an Alchemy migration) threw a `SyntaxError` instead of running
+* Fix `GroupedSignatureType#clone()` double-wrapping the member types, making any `.or()`/`.and()` group throw on `.test()` after `.optional()`/`.nullable()`, and make it keep the `allow_null`/`is_optional` flags
+* Make `GroupedSignatureType#test()` honor `allow_null`/`is_optional` for `null`/`undefined` values
+* Defuse the server-side `Request` timeout bomb when a request finishes or is retried after an ECONNRESET, so a stale timer can no longer clobber the result or keep the event loop alive
+* Make `Array#sum()` return 0 for an empty array (and `Math.variance()`/`Math.standardDeviation()` 0 instead of NaN), matching `Math.mean()`
+* Upgrade the `mocha` devDependency to v11 so the test suite runs on modern Node again
 
 ## 0.9.8 (2026-02-03)
 

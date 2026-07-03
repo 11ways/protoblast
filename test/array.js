@@ -367,6 +367,12 @@ describe('Array', function() {
 			assert.equal(arr.sum(), 6);
 		});
 
+		it('should return 0 for an empty array', function() {
+			assert.strictEqual([].sum(), 0);
+			assert.strictEqual([].sum('nr'), 0);
+			assert.strictEqual([].sum(v => v), 0);
+		});
+
 		it('should pass the values to a given function', function() {
 
 			var arr = ['a', 'b', 'c'],

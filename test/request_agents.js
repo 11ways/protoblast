@@ -2154,7 +2154,7 @@ describe('HttpsAgent', function() {
 			const info = urlparse(req.url, true);
 			if (info.query.timeout) {
 				setTimeout(() => {
-					res.writeHeader(200, {
+					res.writeHead(200, {
 						'Content-Length': `${info.query.timeout.length}`,
 					});
 					res.end(info.query.timeout);

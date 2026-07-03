@@ -46,6 +46,12 @@ describe('Math', function() {
 		it('should use the arguments', function() {
 			assert.equal(Math.mean(1, 4, 10), 5);
 		});
+
+		it('should return 0 for an empty array', function() {
+			assert.strictEqual(Math.mean([]), 0);
+			assert.strictEqual(Math.variance([]), 0);
+			assert.strictEqual(Math.standardDeviation([]), 0);
+		});
 	});
 
 	describe('.standardize(numbers)', function() {
