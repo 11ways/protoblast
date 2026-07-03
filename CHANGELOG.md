@@ -1,3 +1,7 @@
+## 0.9.9 (WIP)
+
+* Honor the `async` option in `requireFileViaVm`: `Blast.require({async: true})` always compiled a plain sync wrapper, so any file using a top-level `await` (like an Alchemy migration) threw a `SyntaxError` instead of running
+
 ## 0.9.8 (2026-02-03)
 
 * Fix `Blast.destringifyCode()` from replacing `"use strict"`-like directives
