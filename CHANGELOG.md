@@ -1,4 +1,4 @@
-## 0.9.9 (WIP)
+## 0.9.9 (2026-07-03)
 
 * Honor the `async` option in `requireFileViaVm`: `Blast.require({async: true})` always compiled a plain sync wrapper, so any file using a top-level `await` (like an Alchemy migration) threw a `SyntaxError` instead of running
 * Fix `GroupedSignatureType#clone()` double-wrapping the member types, making any `.or()`/`.and()` group throw on `.test()` after `.optional()`/`.nullable()`, and make it keep the `allow_null`/`is_optional` flags
